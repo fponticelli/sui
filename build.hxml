@@ -2,3 +2,7 @@
 -main DemoControls
 -cp src
 -cp demo
+-lib dots
+-lib thx.core
+-lib thx.stream
+-lib thx.stream.dom
