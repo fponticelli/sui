@@ -11,6 +11,8 @@ class DemoControls {
     createControlContainer(new TextControl(null));
     createControlContainer(new FloatControl(7.7));
     createControlContainer(new IntControl(7));
+    createControlContainer(new FloatRangeControl(7, 0, 100, 0.01));
+    createControlContainer(new IntRangeControl(7, 0, 100));
   }
 
   public static function createControlContainer<T>(control : Control<T>) {

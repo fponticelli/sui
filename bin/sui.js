@@ -13,6 +13,8 @@ DemoControls.main = function() {
 	DemoControls.createControlContainer(new sui.controls.TextControl(null));
 	DemoControls.createControlContainer(new sui.controls.FloatControl(7.7));
 	DemoControls.createControlContainer(new sui.controls.IntControl(7));
+	DemoControls.createControlContainer(new sui.controls.FloatRangeControl(7,0,100,0.01));
+	DemoControls.createControlContainer(new sui.controls.IntRangeControl(7,0,100));
 };
 DemoControls.createControlContainer = function(control) {
 	var description = Type.getClassName(Type.getClass(control)).split(".").pop();
@@ -585,6 +587,28 @@ sui.controls.FloatControl.prototype = $extend(sui.controls.Control.prototype,{
 	}
 	,__class__: sui.controls.FloatControl
 });
+sui.controls.FloatRangeControl = function(value,min,max,step) {
+	sui.controls.Control.call(this,value);
+	var sstep;
+	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
+	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />"))[0];
+	this.el = input;
+	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
+	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
+		return input.valueAsNumber;
+	}).feed(this._value);
+};
+sui.controls.FloatRangeControl.__name__ = ["sui","controls","FloatRangeControl"];
+sui.controls.FloatRangeControl.__super__ = sui.controls.Control;
+sui.controls.FloatRangeControl.prototype = $extend(sui.controls.Control.prototype,{
+	set: function(value) {
+		this.el.valueAsNumber = value;
+	}
+	,focus: function() {
+		this.el.focus();
+	}
+	,__class__: sui.controls.FloatRangeControl
+});
 sui.controls.IntControl = function(value,step) {
 	if(step == null) step = 1;
 	sui.controls.Control.call(this,value);
@@ -605,6 +629,27 @@ sui.controls.IntControl.prototype = $extend(sui.controls.Control.prototype,{
 		this.el.focus();
 	}
 	,__class__: sui.controls.IntControl
+});
+sui.controls.IntRangeControl = function(value,min,max,step) {
+	if(step == null) step = 1;
+	sui.controls.Control.call(this,value);
+	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />"))[0];
+	this.el = input;
+	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
+	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
+		return input.valueAsNumber | 0;
+	}).feed(this._value);
+};
+sui.controls.IntRangeControl.__name__ = ["sui","controls","IntRangeControl"];
+sui.controls.IntRangeControl.__super__ = sui.controls.Control;
+sui.controls.IntRangeControl.prototype = $extend(sui.controls.Control.prototype,{
+	set: function(value) {
+		this.el.valueAsNumber = value;
+	}
+	,focus: function() {
+		this.el.focus();
+	}
+	,__class__: sui.controls.IntRangeControl
 });
 sui.controls.TextControl = function(value,allowEmptyString) {
 	if(allowEmptyString == null) allowEmptyString = false;
