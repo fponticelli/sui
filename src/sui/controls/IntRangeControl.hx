@@ -1,5 +1,6 @@
 package sui.controls;
 
+using thx.core.Ints;
 using thx.core.Nulls;
 using thx.stream.dom.Dom;
 import dots.Query;
@@ -29,6 +30,7 @@ class IntRangeControl extends Control<Int> {
 
     input.streamInput()
       .map(function(_) return Std.int(input.valueAsNumber))
+      .map(function(v) return v.clamp(min, max))
       .subscribe(set);
   }
 

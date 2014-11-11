@@ -10,7 +10,7 @@ var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
 	DemoControls.createControlContainer(new sui.controls.BoolControl(true));
-	DemoControls.createControlContainer(new sui.controls.TextControl(null));
+	DemoControls.createControlContainer(new sui.controls.TextControl(null,"put text here"));
 	DemoControls.createControlContainer(new sui.controls.FloatControl(7.7));
 	DemoControls.createControlContainer(new sui.controls.IntControl(7));
 	DemoControls.createControlContainer(new sui.controls.FloatRangeControl(7,0,100,0.01));
@@ -143,6 +143,9 @@ var Std = function() { };
 Std.__name__ = ["Std"];
 Std.string = function(s) {
 	return js.Boot.__string_rec(s,"");
+};
+Std.parseFloat = function(x) {
+	return parseFloat(x);
 };
 Std.random = function(x) {
 	if(x <= 0) return 0; else return Math.floor(Math.random() * x);
@@ -566,7 +569,8 @@ sui.controls.ControlStreams.__name__ = ["sui","controls","ControlStreams"];
 sui.controls.ControlStreams.prototype = {
 	__class__: sui.controls.ControlStreams
 };
-sui.controls.FloatControl = function(value,step) {
+sui.controls.FloatControl = function(value,step,allowNaN) {
+	if(allowNaN == null) allowNaN = false;
 	sui.controls.Control.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
@@ -574,7 +578,7 @@ sui.controls.FloatControl = function(value,step) {
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
-		return input.valueAsNumber;
+		if(!allowNaN && isNaN(input.valueAsNumber)) return 0.0; else return input.valueAsNumber;
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.FloatControl.__name__ = ["sui","controls","FloatControl"];
@@ -589,7 +593,8 @@ sui.controls.FloatControl.prototype = $extend(sui.controls.Control.prototype,{
 	}
 	,__class__: sui.controls.FloatControl
 });
-sui.controls.FloatRangeControl = function(value,min,max,step) {
+sui.controls.FloatRangeControl = function(value,min,max,step,allowNaN) {
+	if(allowNaN == null) allowNaN = false;
 	var _g = this;
 	sui.controls.Control.call(this,value);
 	var sstep;
@@ -602,7 +607,9 @@ sui.controls.FloatRangeControl = function(value,min,max,step) {
 		return _g.range.valueAsNumber;
 	}).subscribe($bind(this,this.set));
 	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
-		return _g.input.valueAsNumber;
+		if(!allowNaN && isNaN(_g.input.valueAsNumber)) return 0.0; else return _g.input.valueAsNumber;
+	}).map(function(v) {
+		if(v < min) return min; else if(v > max) return max; else return v;
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.FloatRangeControl.__name__ = ["sui","controls","FloatRangeControl"];
@@ -653,6 +660,8 @@ sui.controls.IntRangeControl = function(value,min,max,step) {
 	}).subscribe($bind(this,this.set));
 	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
 		return _g.input.valueAsNumber | 0;
+	}).map(function(v) {
+		if(v < min) return min; else if(v > max) return max; else return v;
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.IntRangeControl.__name__ = ["sui","controls","IntRangeControl"];
@@ -668,7 +677,7 @@ sui.controls.IntRangeControl.prototype = $extend(sui.controls.Control.prototype,
 	}
 	,__class__: sui.controls.IntRangeControl
 });
-sui.controls.TextControl = function(value,allowEmptyString) {
+sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
 	if(allowEmptyString == null) allowEmptyString = false;
 	if(allowEmptyString && null == value) value = "";
 	sui.controls.Control.call(this,value);
@@ -681,7 +690,7 @@ sui.controls.TextControl = function(value,allowEmptyString) {
 		}
 		$r = t != null?t:"";
 		return $r;
-	}(this)) + "\" />"))[0];
+	}(this)) + "\" placeholder=\"" + (null == placeholder?"":placeholder) + "\" />"))[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	var si = thx.stream.dom.Dom.streamInput(input,null);
@@ -1137,6 +1146,53 @@ thx.core.Error.prototype = $extend(Error.prototype,{
 	}
 	,__class__: thx.core.Error
 });
+thx.core.Floats = function() { };
+thx.core.Floats.__name__ = ["thx","core","Floats"];
+thx.core.Floats.canParse = function(s) {
+	return thx.core.Floats.pattern_parse.match(s);
+};
+thx.core.Floats.clamp = function(v,min,max) {
+	if(v < min) return min; else if(v > max) return max; else return v;
+};
+thx.core.Floats.clampSym = function(v,max) {
+	return thx.core.Floats.clamp(v,-max,max);
+};
+thx.core.Floats.compare = function(a,b) {
+	if(a < b) return -1; else if(b > a) return 1; else return 0;
+};
+thx.core.Floats.interpolate = function(f,a,b) {
+	return (b - a) * f + a;
+};
+thx.core.Floats.nearEquals = function(a,b) {
+	return Math.abs(a - b) <= 10e-10;
+};
+thx.core.Floats.nearZero = function(n) {
+	return Math.abs(n) <= 10e-10;
+};
+thx.core.Floats.normalize = function(v) {
+	if(v < 0) return 0; else if(v > 1) return 1; else return v;
+};
+thx.core.Floats.parse = function(s) {
+	if(s.substring(0,1) == "+") s = s.substring(1);
+	return Std.parseFloat(s);
+};
+thx.core.Floats.round = function(f,decimals) {
+	var p = Math.pow(10,decimals);
+	return Math.round(f * p) / p;
+};
+thx.core.Floats.sign = function(value) {
+	if(value < 0) return -1; else return 1;
+};
+thx.core.Floats.wrap = function(v,min,max) {
+	var range = max - min + 1;
+	if(v < min) v += range * ((min - v) / range + 1);
+	return min + (v - min) % range;
+};
+thx.core.Floats.wrapCircular = function(v,max) {
+	v = v % max;
+	if(v < 0) v += max;
+	return v;
+};
 thx.core.Functions0 = function() { };
 thx.core.Functions0.__name__ = ["thx","core","Functions0"];
 thx.core.Functions0.after = function(callback,n) {
@@ -3995,6 +4051,9 @@ if(typeof(scope.performance.now) == "undefined") {
 	scope.performance.now = now;
 }
 dots.Query.doc = document;
+thx.core.Floats.TOLERANCE = 10e-5;
+thx.core.Floats.EPSILON = 10e-10;
+thx.core.Floats.pattern_parse = new EReg("^(\\+|-)?\\d+(\\.\\d+)?(e-?\\d+)?$","");
 thx.core.Ints.pattern_parse = new EReg("^[+-]?(\\d+|0x[0-9A-F]+)$","i");
 thx.core.Ints.BASE = "0123456789abcdefghijklmnopqrstuvwxyz";
 thx.core.Strings.UCWORDS = new EReg("[^a-zA-Z]([a-z])","g");

@@ -6,3 +6,4 @@
 -lib thx.core
 -lib thx.stream
 -lib thx.stream.dom
+#-D analyzer

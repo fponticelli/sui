@@ -4,11 +4,12 @@ using thx.core.Nulls;
 using thx.stream.dom.Dom;
 import dots.Query;
 import js.html.InputElement;
+using thx.core.Floats;
 
 class FloatRangeControl extends Control<Float> {
   var input : InputElement;
   var range : InputElement;
-  public function new(value : Float, min : Float, max : Float, ?step : Float) {
+  public function new(value : Float, min : Float, max : Float, ?step : Float, ?allowNaN = false) {
     super(value);
     var sstep = null == step ? "" : 'step="$step"';
     el = dots.Html.parse('<div>
@@ -29,7 +30,8 @@ class FloatRangeControl extends Control<Float> {
       .subscribe(set);
 
     input.streamInput()
-      .map(function(_) return input.valueAsNumber)
+      .map(function(_) return !allowNaN && Math.isNaN(input.valueAsNumber) ? 0.0 : input.valueAsNumber)
+      .map(function(v) return v.clamp(min, max))
       .subscribe(set);
   }
 

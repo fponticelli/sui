@@ -5,14 +5,14 @@ using thx.stream.dom.Dom;
 import js.html.InputElement;
 
 class FloatControl extends Control<Float> {
-  public function new(value : Float, ?step : Float) {
+  public function new(value : Float, ?step : Float, ?allowNaN = false) {
     super(value);
     var sstep = null == step ? "" : 'step="$step"',
         input : InputElement = cast dots.Html.parse('<input type="number" value="$value" ${sstep} />');
     el = input;
     input.streamFocus().feed(_focus);
     input.streamInput()
-      .map(function(_) return input.valueAsNumber)
+      .map(function(_) return !allowNaN && Math.isNaN(input.valueAsNumber) ? 0.0 : input.valueAsNumber)
       .subscribe(set);
   }
 
