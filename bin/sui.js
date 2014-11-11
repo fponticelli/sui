@@ -544,13 +544,14 @@ sui.controls.BoolControl = function(value) {
 	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"checkbox\" " + (value?"checked":"") + "/>"))[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
-	thx.stream.dom.Dom.streamChecked(input,null).feed(this._value);
+	thx.stream.dom.Dom.streamChecked(input,null).subscribe($bind(this,this.set));
 };
 sui.controls.BoolControl.__name__ = ["sui","controls","BoolControl"];
 sui.controls.BoolControl.__super__ = sui.controls.Control;
 sui.controls.BoolControl.prototype = $extend(sui.controls.Control.prototype,{
 	set: function(value) {
 		this.el.checked = value;
+		this._value.set(value);
 	}
 	,focus: function() {
 		this.el.focus();
@@ -574,13 +575,14 @@ sui.controls.FloatControl = function(value,step) {
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
 		return input.valueAsNumber;
-	}).feed(this._value);
+	}).subscribe($bind(this,this.set));
 };
 sui.controls.FloatControl.__name__ = ["sui","controls","FloatControl"];
 sui.controls.FloatControl.__super__ = sui.controls.Control;
 sui.controls.FloatControl.prototype = $extend(sui.controls.Control.prototype,{
 	set: function(value) {
 		this.el.valueAsNumber = value;
+		this._value.set(value);
 	}
 	,focus: function() {
 		this.el.focus();
@@ -588,24 +590,31 @@ sui.controls.FloatControl.prototype = $extend(sui.controls.Control.prototype,{
 	,__class__: sui.controls.FloatControl
 });
 sui.controls.FloatRangeControl = function(value,min,max,step) {
+	var _g = this;
 	sui.controls.Control.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
-	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />"))[0];
-	this.el = input;
-	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
-	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
-		return input.valueAsNumber;
-	}).feed(this._value);
+	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n<input type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
+	this.range = dots.Query.first("[type=\"range\"]",this.el);
+	this.input = dots.Query.first("[type=\"number\"]",this.el);
+	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
+	thx.stream.dom.Dom.streamInput(this.range,null).map(function(_) {
+		return _g.range.valueAsNumber;
+	}).subscribe($bind(this,this.set));
+	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
+		return _g.input.valueAsNumber;
+	}).subscribe($bind(this,this.set));
 };
 sui.controls.FloatRangeControl.__name__ = ["sui","controls","FloatRangeControl"];
 sui.controls.FloatRangeControl.__super__ = sui.controls.Control;
 sui.controls.FloatRangeControl.prototype = $extend(sui.controls.Control.prototype,{
 	set: function(value) {
-		this.el.valueAsNumber = value;
+		this.range.valueAsNumber = value;
+		this.input.valueAsNumber = value;
+		this._value.set(value);
 	}
 	,focus: function() {
-		this.el.focus();
+		this.input.focus();
 	}
 	,__class__: sui.controls.FloatRangeControl
 });
@@ -617,13 +626,14 @@ sui.controls.IntControl = function(value,step) {
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
 		return input.valueAsNumber | 0;
-	}).feed(this._value);
+	}).subscribe($bind(this,this.set));
 };
 sui.controls.IntControl.__name__ = ["sui","controls","IntControl"];
 sui.controls.IntControl.__super__ = sui.controls.Control;
 sui.controls.IntControl.prototype = $extend(sui.controls.Control.prototype,{
 	set: function(value) {
 		this.el.valueAsNumber = value;
+		this._value.set(value);
 	}
 	,focus: function() {
 		this.el.focus();
@@ -632,22 +642,29 @@ sui.controls.IntControl.prototype = $extend(sui.controls.Control.prototype,{
 });
 sui.controls.IntRangeControl = function(value,min,max,step) {
 	if(step == null) step = 1;
+	var _g = this;
 	sui.controls.Control.call(this,value);
-	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />"))[0];
-	this.el = input;
-	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
-	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
-		return input.valueAsNumber | 0;
-	}).feed(this._value);
+	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
+	this.range = dots.Query.first("[type=\"range\"]",this.el);
+	this.input = dots.Query.first("[type=\"number\"]",this.el);
+	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
+	thx.stream.dom.Dom.streamInput(this.range,null).map(function(_) {
+		return _g.range.valueAsNumber | 0;
+	}).subscribe($bind(this,this.set));
+	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
+		return _g.input.valueAsNumber | 0;
+	}).subscribe($bind(this,this.set));
 };
 sui.controls.IntRangeControl.__name__ = ["sui","controls","IntRangeControl"];
 sui.controls.IntRangeControl.__super__ = sui.controls.Control;
 sui.controls.IntRangeControl.prototype = $extend(sui.controls.Control.prototype,{
 	set: function(value) {
-		this.el.valueAsNumber = value;
+		this.range.valueAsNumber = value;
+		this.input.valueAsNumber = value;
+		this._value.set(value);
 	}
 	,focus: function() {
-		this.el.focus();
+		this.input.focus();
 	}
 	,__class__: sui.controls.IntRangeControl
 });
@@ -671,13 +688,14 @@ sui.controls.TextControl = function(value,allowEmptyString) {
 	if(!allowEmptyString) si = si.map(function(v) {
 		if(v == "") return null; else return v;
 	});
-	si.feed(this._value);
+	si.subscribe($bind(this,this.set));
 };
 sui.controls.TextControl.__name__ = ["sui","controls","TextControl"];
 sui.controls.TextControl.__super__ = sui.controls.Control;
 sui.controls.TextControl.prototype = $extend(sui.controls.Control.prototype,{
 	set: function(value) {
 		this.el.value = value;
+		this._value.set(value);
 	}
 	,focus: function() {
 		this.el.focus();

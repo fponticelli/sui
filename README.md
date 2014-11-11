@@ -7,13 +7,13 @@
 ## TODO
 
 ### Controls
-  * text box
+  - text box
   * label (readonly control)
   * action
-  * bool
+  - bool
   * color
-  * constrained number (range)
-  * number
+  - constrained number (range)
+  - number
   * select string (options)
   * select number
   * folders
