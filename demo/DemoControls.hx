@@ -8,7 +8,7 @@ import js.Browser;
 class DemoControls {
   public static function main() {
     createControlContainer(new BoolControl(true));
-    createControlContainer(new TextControl(null));
+    createControlContainer(new TextControl(null, "put text here"));
     createControlContainer(new FloatControl(7.7));
     createControlContainer(new IntControl(7));
     createControlContainer(new FloatRangeControl(7, 0, 100, 0.01));
