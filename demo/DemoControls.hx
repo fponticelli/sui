@@ -9,6 +9,8 @@ class DemoControls {
   public static function main() {
     createControlContainer(new BoolControl(true));
     createControlContainer(new TextControl(null));
+    createControlContainer(new FloatControl(7.7));
+    createControlContainer(new IntControl(7));
   }
 
   public static function createControlContainer<T>(control : Control<T>) {
