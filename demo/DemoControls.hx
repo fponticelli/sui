@@ -7,11 +7,13 @@ import js.Browser;
 
 class DemoControls {
   public static function main() {
-    createControlContainer("Boolean Control", new BoolControl(true));
+    createControlContainer(new BoolControl(true));
+    createControlContainer(new TextControl(null));
   }
 
-  public static function createControlContainer<T>(description : String, control : Control<T>) {
-    var el = Html.parse('<div class="sample">
+  public static function createControlContainer<T>(control : Control<T>) {
+    var description = Type.getClassName(Type.getClass(control)).split(".").pop(),
+        el = Html.parse('<div class="sample">
   <h2>$description</h2>
   <div class="container"></div>
   <div class="focus"></div>
