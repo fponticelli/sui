@@ -9,11 +9,13 @@ class BoolControl extends Control<Bool> {
     var input : InputElement = cast dots.Html.parse('<input type="checkbox" ${value ? "checked" : ""}/>');
     el = input;
     input.streamFocus().feed(_focus);
-    input.streamChecked().feed(_value);
+    input.streamChecked().subscribe(set);
   }
 
-  override public function set(value : Bool)
+  override public function set(value : Bool) {
     (cast el : InputElement).checked = value;
+    _value.set(value);
+  }
 
   override public function focus()
     (cast el : InputElement).focus();

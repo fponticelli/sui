@@ -15,11 +15,13 @@ class TextControl extends Control<String> {
     var si = input.streamInput();
     if(!allowEmptyString)
       si = si.map(function(v) return v == "" ? null : v);
-    si.feed(_value);
+    si.subscribe(set);
   }
 
-  override public function set(value : String)
+  override public function set(value : String) {
     (cast el : InputElement).value = value;
+    _value.set(value);
+  }
 
   override public function focus()
     (cast el : InputElement).focus();

@@ -12,11 +12,13 @@ class IntControl extends Control<Int> {
     input.streamFocus().feed(_focus);
     input.streamInput()
       .map(function(_) return Std.int(input.valueAsNumber))
-      .feed(_value);
+      .subscribe(set);
   }
 
-  override public function set(value : Int)
+  override public function set(value : Int) {
     (cast el : InputElement).valueAsNumber = value;
+    _value.set(value);
+  }
 
   override public function focus()
     (cast el : InputElement).focus();

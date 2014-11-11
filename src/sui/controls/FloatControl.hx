@@ -13,11 +13,13 @@ class FloatControl extends Control<Float> {
     input.streamFocus().feed(_focus);
     input.streamInput()
       .map(function(_) return input.valueAsNumber)
-      .feed(_value);
+      .subscribe(set);
   }
 
-  override public function set(value : Float)
+  override public function set(value : Float) {
     (cast el : InputElement).valueAsNumber = value;
+    _value.set(value);
+  }
 
   override public function focus()
     (cast el : InputElement).focus();
