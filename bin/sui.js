@@ -9,6 +9,7 @@ function $extend(from, fields) {
 var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
+	DemoControls.createControlContainer(new sui.controls.TriggerControl("click me"));
 	DemoControls.createControlContainer(new sui.controls.ColorControl("#ff0000"));
 	DemoControls.createControlContainer(new sui.controls.BoolControl(true));
 	DemoControls.createControlContainer(new sui.controls.TextControl(null,"put text here"));
@@ -585,28 +586,51 @@ js.Browser = function() { };
 js.Browser.__name__ = ["js","Browser"];
 var sui = {};
 sui.controls = {};
-sui.controls.Control = function(defaultValue) {
-	this.defaultValue = defaultValue;
-	this._value = new thx.stream.Value(defaultValue);
+sui.controls.BaseControl = function(valueEmitter) {
 	this._focus = new thx.stream.Value(false);
-	this.streams = new sui.controls.ControlStreams(this._value,this._focus);
+	this.streams = new sui.controls.ControlStreams(valueEmitter,this._focus);
 };
-sui.controls.Control.__name__ = ["sui","controls","Control"];
-sui.controls.Control.prototype = {
+sui.controls.BaseControl.__name__ = ["sui","controls","BaseControl"];
+sui.controls.BaseControl.prototype = {
 	get: function() {
-		return this._value.get();
+		throw new thx.core.error.NotImplemented({ fileName : "BaseControl.hx", lineNumber : 22, className : "sui.controls.BaseControl", methodName : "get"});
 	}
 	,set: function(v) {
-		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 30, className : "sui.controls.Control", methodName : "set"});
+		throw new thx.core.error.NotImplemented({ fileName : "BaseControl.hx", lineNumber : 25, className : "sui.controls.BaseControl", methodName : "set"});
 	}
 	,focus: function() {
-		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 34, className : "sui.controls.Control", methodName : "focus"});
+		throw new thx.core.error.NotImplemented({ fileName : "BaseControl.hx", lineNumber : 28, className : "sui.controls.BaseControl", methodName : "focus"});
+	}
+	,reset: function() {
+		throw new thx.core.error.NotImplemented({ fileName : "BaseControl.hx", lineNumber : 31, className : "sui.controls.BaseControl", methodName : "reset"});
+	}
+	,__class__: sui.controls.BaseControl
+};
+sui.controls.ControlStreams = function(value,focus) {
+	this.value = value;
+	this.focus = focus;
+};
+sui.controls.ControlStreams.__name__ = ["sui","controls","ControlStreams"];
+sui.controls.ControlStreams.prototype = {
+	__class__: sui.controls.ControlStreams
+};
+sui.controls.Control = function(defaultValue,equals) {
+	if(null == equals) equals = thx.core.Functions.equality;
+	this.defaultValue = defaultValue;
+	this._value = new thx.stream.Value(defaultValue,equals);
+	sui.controls.BaseControl.call(this,this._value);
+};
+sui.controls.Control.__name__ = ["sui","controls","Control"];
+sui.controls.Control.__super__ = sui.controls.BaseControl;
+sui.controls.Control.prototype = $extend(sui.controls.BaseControl.prototype,{
+	get: function() {
+		return this._value.get();
 	}
 	,reset: function() {
 		this.set(this.defaultValue);
 	}
 	,__class__: sui.controls.Control
-};
+});
 sui.controls.BoolControl = function(value) {
 	sui.controls.Control.call(this,value);
 	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"checkbox\" " + (value?"checked":"") + "/>"))[0];
@@ -654,14 +678,6 @@ sui.controls.ColorControl.prototype = $extend(sui.controls.Control.prototype,{
 	}
 	,__class__: sui.controls.ColorControl
 });
-sui.controls.ControlStreams = function(value,focus) {
-	this.value = value;
-	this.focus = focus;
-};
-sui.controls.ControlStreams.__name__ = ["sui","controls","ControlStreams"];
-sui.controls.ControlStreams.prototype = {
-	__class__: sui.controls.ControlStreams
-};
 sui.controls.FloatControl = function(value,step,allowNaN) {
 	if(allowNaN == null) allowNaN = false;
 	sui.controls.Control.call(this,value);
@@ -803,6 +819,30 @@ sui.controls.TextControl.prototype = $extend(sui.controls.Control.prototype,{
 		this.el.focus();
 	}
 	,__class__: sui.controls.TextControl
+});
+sui.controls.TriggerControl = function(label) {
+	var button = dots.Html.parseNodes(StringTools.ltrim("<button>" + label + "</button>"))[0];
+	this.el = button;
+	var emitter = thx.stream.dom.Dom.streamEvent(button,"click",false).toNil();
+	sui.controls.BaseControl.call(this,emitter);
+	thx.stream.dom.Dom.streamFocus(button).feed(this._focus);
+};
+sui.controls.TriggerControl.__name__ = ["sui","controls","TriggerControl"];
+sui.controls.TriggerControl.__super__ = sui.controls.BaseControl;
+sui.controls.TriggerControl.prototype = $extend(sui.controls.BaseControl.prototype,{
+	get: function() {
+		return thx.core.Nil.nil;
+	}
+	,set: function(value) {
+		this.el.click();
+	}
+	,reset: function() {
+		this.set(thx.core.Nil.nil);
+	}
+	,focus: function() {
+		this.el.focus();
+	}
+	,__class__: sui.controls.TriggerControl
 });
 var thx = {};
 thx.core = {};
@@ -3859,9 +3899,7 @@ thx.stream.StreamValue.Pulse = function(value) { var $x = ["Pulse",0,value]; $x.
 thx.stream.StreamValue.End = function(cancel) { var $x = ["End",1,cancel]; $x.__enum__ = thx.stream.StreamValue; return $x; };
 thx.stream.Value = function(value,equals) {
 	var _g = this;
-	if(null == equals) this.equals = function(a,b) {
-		return a == b;
-	}; else this.equals = equals;
+	if(null == equals) this.equals = thx.core.Functions.equality; else this.equals = equals;
 	this.value = value;
 	this.downStreams = [];
 	this.upStreams = [];

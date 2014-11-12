@@ -7,6 +7,7 @@ import js.Browser;
 
 class DemoControls {
   public static function main() {
+    createControlContainer(new TriggerControl("click me"));
     createControlContainer(new ColorControl("#ff0000"));
     createControlContainer(new BoolControl(true));
     createControlContainer(new TextControl(null, "put text here"));
@@ -16,7 +17,7 @@ class DemoControls {
     createControlContainer(new IntRangeControl(7, 0, 100));
   }
 
-  public static function createControlContainer<T>(control : Control<T>) {
+  public static function createControlContainer<T>(control : BaseControl<T>) {
     var description = Type.getClassName(Type.getClass(control)).split(".").pop(),
         el = Html.parse('<div class="sample">
   <h2>$description</h2>

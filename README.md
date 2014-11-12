@@ -9,9 +9,9 @@
 ### Controls
   - text box
   * label (readonly control)
-  * action
+  - action
   - bool
-  * color
+  - color
   - constrained number (range)
   - number
   * select string (options)
