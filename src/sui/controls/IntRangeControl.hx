@@ -25,12 +25,12 @@ class IntRangeControl extends Control<Int> {
       .feed(_focus);
 
     range.streamInput()
-      .map(function(_) return Std.int(range.valueAsNumber))
+      .pluck(Std.int(range.valueAsNumber))
       .subscribe(set);
 
     input.streamInput()
-      .map(function(_) return Std.int(input.valueAsNumber))
-      .map(function(v) return v.clamp(min, max))
+      .pluck(Std.int(input.valueAsNumber))
+      .pluck(_.clamp(min, max))
       .subscribe(set);
   }
 

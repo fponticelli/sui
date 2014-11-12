@@ -608,8 +608,8 @@ sui.controls.FloatRangeControl = function(value,min,max,step,allowNaN) {
 	}).subscribe($bind(this,this.set));
 	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
 		if(!allowNaN && isNaN(_g.input.valueAsNumber)) return 0.0; else return _g.input.valueAsNumber;
-	}).map(function(v) {
-		if(v < min) return min; else if(v > max) return max; else return v;
+	}).map(function(_2) {
+		if(_2 < min) return min; else if(_2 > max) return max; else return _2;
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.FloatRangeControl.__name__ = ["sui","controls","FloatRangeControl"];
@@ -660,8 +660,8 @@ sui.controls.IntRangeControl = function(value,min,max,step) {
 	}).subscribe($bind(this,this.set));
 	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
 		return _g.input.valueAsNumber | 0;
-	}).map(function(v) {
-		if(v < min) return min; else if(v > max) return max; else return v;
+	}).map(function(_2) {
+		if(_2 < min) return min; else if(_2 > max) return max; else return _2;
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.IntRangeControl.__name__ = ["sui","controls","IntRangeControl"];
@@ -694,8 +694,8 @@ sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	var si = thx.stream.dom.Dom.streamInput(input,null);
-	if(!allowEmptyString) si = si.map(function(v) {
-		if(v == "") return null; else return v;
+	if(!allowEmptyString) si = si.map(function(_) {
+		if(_ == "") return null; else return _;
 	});
 	si.subscribe($bind(this,this.set));
 };

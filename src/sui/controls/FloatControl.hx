@@ -12,7 +12,7 @@ class FloatControl extends Control<Float> {
     el = input;
     input.streamFocus().feed(_focus);
     input.streamInput()
-      .map(function(_) return !allowNaN && Math.isNaN(input.valueAsNumber) ? 0.0 : input.valueAsNumber)
+      .pluck(!allowNaN && Math.isNaN(input.valueAsNumber) ? 0.0 : input.valueAsNumber)
       .subscribe(set);
   }
 

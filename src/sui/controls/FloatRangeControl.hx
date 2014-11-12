@@ -26,12 +26,12 @@ class FloatRangeControl extends Control<Float> {
       .feed(_focus);
 
     range.streamInput()
-      .map(function(_) return range.valueAsNumber)
+      .pluck(range.valueAsNumber)
       .subscribe(set);
 
     input.streamInput()
-      .map(function(_) return !allowNaN && Math.isNaN(input.valueAsNumber) ? 0.0 : input.valueAsNumber)
-      .map(function(v) return v.clamp(min, max))
+      .pluck(!allowNaN && Math.isNaN(input.valueAsNumber) ? 0.0 : input.valueAsNumber)
+      .pluck(_.clamp(min, max))
       .subscribe(set);
   }
 

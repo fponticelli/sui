@@ -14,7 +14,7 @@ class TextControl extends Control<String> {
     input.streamFocus().feed(_focus);
     var si = input.streamInput();
     if(!allowEmptyString)
-      si = si.map(function(v) return v == "" ? null : v);
+      si = si.pluck(_ == "" ? null : _);
     si.subscribe(set);
   }
 

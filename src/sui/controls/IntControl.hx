@@ -11,7 +11,7 @@ class IntControl extends Control<Int> {
     el = input;
     input.streamFocus().feed(_focus);
     input.streamInput()
-      .map(function(_) return Std.int(input.valueAsNumber))
+      .pluck(Std.int(input.valueAsNumber))
       .subscribe(set);
   }
 
