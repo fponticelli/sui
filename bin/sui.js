@@ -140,6 +140,11 @@ HxOverrides.iter = function(a) {
 var IMap = function() { };
 IMap.__name__ = ["IMap"];
 Math.__name__ = ["Math"];
+var Reflect = function() { };
+Reflect.__name__ = ["Reflect"];
+Reflect.hasField = function(o,field) {
+	return Object.prototype.hasOwnProperty.call(o,field);
+};
 var Std = function() { };
 Std.__name__ = ["Std"];
 Std.string = function(s) {
@@ -204,6 +209,65 @@ Type.getClassName = function(c) {
 	return a.join(".");
 };
 var dots = {};
+dots.Detect = function() { };
+dots.Detect.__name__ = ["dots","Detect"];
+dots.Detect.supportsInput = function(type) {
+	var i;
+	var _this = window.document;
+	i = _this.createElement("input");
+	i.setAttribute("type",type);
+	return i.type == type;
+};
+dots.Detect.supportsInputPlaceholder = function() {
+	var i;
+	var _this = window.document;
+	i = _this.createElement("input");
+	return Object.prototype.hasOwnProperty.call(i,"placeholder");
+};
+dots.Detect.supportsInputAutofocus = function() {
+	var i;
+	var _this = window.document;
+	i = _this.createElement("input");
+	return Object.prototype.hasOwnProperty.call(i,"autofocus");
+};
+dots.Detect.supportsCanvas = function() {
+	return null != ($_=((function($this) {
+		var $r;
+		var _this = window.document;
+		$r = _this.createElement("canvas");
+		return $r;
+	}(this))),$bind($_,$_.getContext));
+};
+dots.Detect.supportsVideo = function() {
+	return null != ($_=((function($this) {
+		var $r;
+		var _this = window.document;
+		$r = _this.createElement("video");
+		return $r;
+	}(this))),$bind($_,$_.canPlayType));
+};
+dots.Detect.supportsLocalStorage = function() {
+	try {
+		return 'localStorage' in window && window['localStorage'] !== null;
+	} catch( e ) {
+		return false;
+	}
+};
+dots.Detect.supportsWebWorkers = function() {
+	return !(!window.Worker);
+};
+dots.Detect.supportsOffline = function() {
+	return null != window.applicationCache;
+};
+dots.Detect.supportsGeolocation = function() {
+	return Reflect.hasField(window.navigator,"geolocation");
+};
+dots.Detect.supportsMicrodata = function() {
+	return Reflect.hasField(window.document,"getItems");
+};
+dots.Detect.supportsHistory = function() {
+	return !!(window.history && history.pushState);
+};
 dots.Html = function() { };
 dots.Html.__name__ = ["dots","Html"];
 dots.Html.parseNodes = function(html) {
@@ -565,17 +629,16 @@ sui.controls.BoolControl.prototype = $extend(sui.controls.Control.prototype,{
 sui.controls.ColorControl = function(value) {
 	var _g = this;
 	sui.controls.Control.call(this,value);
-	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input type=\"color\" value=\"" + value + "\" />\n<input type=\"text\" value=\"" + value + "\" />\n</div>"))[0];
-	this.picker = dots.Query.first("[type=\"color\"]",this.el);
-	this.input = dots.Query.first("[type=\"text\"]",this.el);
+	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"color\" type=\"color\" value=\"" + value + "\" />\n<input class=\"text\" type=\"text\" value=\"" + value + "\" />\n</div>"))[0];
+	this.picker = dots.Query.first(".color",this.el);
+	this.input = dots.Query.first(".text",this.el);
+	if(!dots.Detect.supportsInput("color")) this.picker.style.display = "none";
 	thx.stream.dom.Dom.streamFocus(this.picker).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
 	thx.stream.dom.Dom.streamInput(this.picker,null).map(function(_) {
 		return _g.picker.value;
 	}).subscribe($bind(this,this.set));
 	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
 		return _g.input.value;
-	}).filter(function(_2) {
-		return sui.controls.ColorControl.PATTERN.match(_2);
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.ColorControl.__name__ = ["sui","controls","ColorControl"];
@@ -629,9 +692,9 @@ sui.controls.FloatRangeControl = function(value,min,max,step,allowNaN) {
 	sui.controls.Control.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
-	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n<input type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
-	this.range = dots.Query.first("[type=\"range\"]",this.el);
-	this.input = dots.Query.first("[type=\"number\"]",this.el);
+	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
+	this.range = dots.Query.first(".range",this.el);
+	this.input = dots.Query.first(".number",this.el);
 	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
 	thx.stream.dom.Dom.streamInput(this.range,null).map(function(_) {
 		return _g.range.valueAsNumber;
@@ -681,9 +744,9 @@ sui.controls.IntRangeControl = function(value,min,max,step) {
 	if(step == null) step = 1;
 	var _g = this;
 	sui.controls.Control.call(this,value);
-	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
-	this.range = dots.Query.first("[type=\"range\"]",this.el);
-	this.input = dots.Query.first("[type=\"number\"]",this.el);
+	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
+	this.range = dots.Query.first(".range",this.el);
+	this.input = dots.Query.first(".number",this.el);
 	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
 	thx.stream.dom.Dom.streamInput(this.range,null).map(function(_) {
 		return _g.range.valueAsNumber | 0;

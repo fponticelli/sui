@@ -13,11 +13,11 @@ class FloatRangeControl extends Control<Float> {
     super(value);
     var sstep = null == step ? "" : 'step="$step"';
     el = dots.Html.parse('<div>
-<input type="range" value="$value" $sstep min="$min" max="$max" />
-<input type="number" value="$value" $sstep min="$min" max="$max" />
+<input class="range" type="range" value="$value" $sstep min="$min" max="$max" />
+<input class="number" type="number" value="$value" $sstep min="$min" max="$max" />
 </div>');
-    range = cast Query.first('[type="range"]', el);
-    input = cast Query.first('[type="number"]', el);
+    range = cast Query.first('.range', el);
+    input = cast Query.first('.number', el);
 
     range.streamFocus()
       .merge(input.streamFocus())
