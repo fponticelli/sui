@@ -9,6 +9,7 @@ function $extend(from, fields) {
 var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
+	DemoControls.createControlContainer(new sui.controls.ColorControl("#ff0000"));
 	DemoControls.createControlContainer(new sui.controls.BoolControl(true));
 	DemoControls.createControlContainer(new sui.controls.TextControl(null,"put text here"));
 	DemoControls.createControlContainer(new sui.controls.FloatControl(7.7));
@@ -560,6 +561,35 @@ sui.controls.BoolControl.prototype = $extend(sui.controls.Control.prototype,{
 		this.el.focus();
 	}
 	,__class__: sui.controls.BoolControl
+});
+sui.controls.ColorControl = function(value) {
+	var _g = this;
+	sui.controls.Control.call(this,value);
+	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input type=\"color\" value=\"" + value + "\" />\n<input type=\"text\" value=\"" + value + "\" />\n</div>"))[0];
+	this.picker = dots.Query.first("[type=\"color\"]",this.el);
+	this.input = dots.Query.first("[type=\"text\"]",this.el);
+	thx.stream.dom.Dom.streamFocus(this.picker).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
+	thx.stream.dom.Dom.streamInput(this.picker,null).map(function(_) {
+		return _g.picker.value;
+	}).subscribe($bind(this,this.set));
+	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
+		return _g.input.value;
+	}).filter(function(_2) {
+		return sui.controls.ColorControl.PATTERN.match(_2);
+	}).subscribe($bind(this,this.set));
+};
+sui.controls.ColorControl.__name__ = ["sui","controls","ColorControl"];
+sui.controls.ColorControl.__super__ = sui.controls.Control;
+sui.controls.ColorControl.prototype = $extend(sui.controls.Control.prototype,{
+	set: function(value) {
+		this.picker.value = value;
+		this.input.value = value;
+		this._value.set(value);
+	}
+	,focus: function() {
+		this.input.focus();
+	}
+	,__class__: sui.controls.ColorControl
 });
 sui.controls.ControlStreams = function(value,focus) {
 	this.value = value;
@@ -4051,6 +4081,7 @@ if(typeof(scope.performance.now) == "undefined") {
 	scope.performance.now = now;
 }
 dots.Query.doc = document;
+sui.controls.ColorControl.PATTERN = new EReg("^[#][0-9a-f]{6}$","i");
 thx.core.Floats.TOLERANCE = 10e-5;
 thx.core.Floats.EPSILON = 10e-10;
 thx.core.Floats.pattern_parse = new EReg("^(\\+|-)?\\d+(\\.\\d+)?(e-?\\d+)?$","");

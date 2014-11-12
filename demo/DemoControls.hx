@@ -7,6 +7,7 @@ import js.Browser;
 
 class DemoControls {
   public static function main() {
+    createControlContainer(new ColorControl("#ff0000"));
     createControlContainer(new BoolControl(true));
     createControlContainer(new TextControl(null, "put text here"));
     createControlContainer(new FloatControl(7.7));
