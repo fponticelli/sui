@@ -6,6 +6,10 @@
 
 ## TODO
 
+  * structure controls
+  * automap field/variable to control
+  * default style
+
 ### Controls
   - text box
   * label (readonly control)
