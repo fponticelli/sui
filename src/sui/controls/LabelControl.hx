@@ -17,5 +17,6 @@ class LabelControl extends Control<String> {
     _value.set(value);
   }
 
+  // labels do not have focus ... at least for now
   override public function focus() {}
 }
