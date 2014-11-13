@@ -7,6 +7,7 @@ import js.Browser;
 
 class DemoControls {
   public static function main() {
+    createControlContainer(new LabelControl("just a label, not interactive"));
     createControlContainer(new TriggerControl("click me"));
     createControlContainer(new ColorControl("#ff0000"));
     createControlContainer(new BoolControl(true));

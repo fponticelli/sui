@@ -9,6 +9,7 @@ function $extend(from, fields) {
 var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
+	DemoControls.createControlContainer(new sui.controls.LabelControl("just a label, not interactive"));
 	DemoControls.createControlContainer(new sui.controls.TriggerControl("click me"));
 	DemoControls.createControlContainer(new sui.controls.ColorControl("#ff0000"));
 	DemoControls.createControlContainer(new sui.controls.BoolControl(true));
@@ -785,6 +786,22 @@ sui.controls.IntRangeControl.prototype = $extend(sui.controls.Control.prototype,
 		this.input.focus();
 	}
 	,__class__: sui.controls.IntRangeControl
+});
+sui.controls.LabelControl = function(value,placeholder) {
+	if(null == value) value = "";
+	sui.controls.Control.call(this,value);
+	this.el = dots.Html.parseNodes(StringTools.ltrim("<output>" + value + "</output>"))[0];
+};
+sui.controls.LabelControl.__name__ = ["sui","controls","LabelControl"];
+sui.controls.LabelControl.__super__ = sui.controls.Control;
+sui.controls.LabelControl.prototype = $extend(sui.controls.Control.prototype,{
+	set: function(value) {
+		this.el.textContent = value;
+		this._value.set(value);
+	}
+	,focus: function() {
+	}
+	,__class__: sui.controls.LabelControl
 });
 sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
 	if(allowEmptyString == null) allowEmptyString = false;
