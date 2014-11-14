@@ -16,9 +16,6 @@ class Grid {
   public function add(cell : CellContent) switch cell {
     case Single(control):
       var container = Html.parse('<tr class="single"><td colspan="2"></td></tr>');
-      trace(container);
-//      trace(container[0]);
-      trace(Query.first("td", container));
       Query.first("td", container).appendChild(control.el);
       el.appendChild(container);
     case HorizontalPair(left, right):

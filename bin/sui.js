@@ -9,6 +9,14 @@ function $extend(from, fields) {
 var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
+	var ui = new sui.Sui();
+	window.document.body.appendChild(ui.el);
+	ui.bind("name",new sui.controls.TextControl("","type it good"),function(s) {
+		haxe.Log.trace(s,{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
+	});
+	ui.bind(null,new sui.controls.TriggerControl("click me"),function(_) {
+		haxe.Log.trace("clicked",{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
+	});
 	var grid = new sui.components.Grid();
 	window.document.body.appendChild(grid.el);
 	grid.add(sui.components.CellContent.Single(new sui.controls.LabelControl("I act like a title")));
@@ -606,6 +614,18 @@ js.Boot.__instanceof = function(o,cl) {
 js.Browser = function() { };
 js.Browser.__name__ = ["js","Browser"];
 var sui = {};
+sui.Sui = function() {
+	this.grid = new sui.components.Grid();
+	this.el = this.grid.el;
+};
+sui.Sui.__name__ = ["sui","Sui"];
+sui.Sui.prototype = {
+	bind: function(label,control,callback) {
+		if(null == label) this.grid.add(sui.components.CellContent.Single(control)); else this.grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		control.streams.value.subscribe(callback);
+	}
+	,__class__: sui.Sui
+};
 sui.components = {};
 sui.components.Grid = function() {
 	this.el = dots.Html.parseNodes("<table class=\"sui-grid\"></table>")[0];
@@ -618,8 +638,6 @@ sui.components.Grid.prototype = {
 		case 0:
 			var control = cell[2];
 			var container = dots.Html.parseNodes("<tr class=\"single\"><td colspan=\"2\"></td></tr>")[0];
-			haxe.Log.trace(container,{ fileName : "Grid.hx", lineNumber : 19, className : "sui.components.Grid", methodName : "add"});
-			haxe.Log.trace(dots.Query.first("td",container),{ fileName : "Grid.hx", lineNumber : 21, className : "sui.components.Grid", methodName : "add"});
 			dots.Query.first("td",container).appendChild(control.el);
 			this.el.appendChild(container);
 			break;

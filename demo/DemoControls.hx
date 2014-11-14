@@ -8,6 +8,11 @@ import js.Browser;
 
 class DemoControls {
   public static function main() {
+    var ui = new sui.Sui();
+    Browser.document.body.appendChild(ui.el);
+    ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
+    ui.bind(new TriggerControl("click me"), function(_) trace("clicked"));
+
     var grid = new Grid();
     Browser.document.body.appendChild(grid.el);
     grid.add(Single(new LabelControl("I act like a title")));
