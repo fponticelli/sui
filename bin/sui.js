@@ -9,6 +9,11 @@ function $extend(from, fields) {
 var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
+	var grid = new sui.components.Grid();
+	window.document.body.appendChild(grid.el);
+	grid.add(sui.components.CellContent.Single(new sui.controls.LabelControl("I act like a title")));
+	grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl("got it?"),new sui.controls.BoolControl(true)));
+	grid.add(sui.components.CellContent.VerticalPair(new sui.controls.LabelControl("name"),new sui.controls.TextControl("sui")));
 	DemoControls.createControlContainer(new sui.controls.LabelControl("just a label, not interactive"));
 	DemoControls.createControlContainer(new sui.controls.TriggerControl("click me"));
 	DemoControls.createControlContainer(new sui.controls.ColorControl("#ff0000"));
@@ -21,7 +26,7 @@ DemoControls.main = function() {
 };
 DemoControls.createControlContainer = function(control) {
 	var description = Type.getClassName(Type.getClass(control)).split(".").pop();
-	var el = dots.Html.parseNodes(StringTools.ltrim("<div class=\"sample\">\n  <h2>" + description + "</h2>\n  <div class=\"container\"></div>\n  <div class=\"focus\"></div>\n  <div class=\"value\"></div>\n</div>"))[0];
+	var el = dots.Html.parseNodes("<div class=\"sample\">\n  <h2>" + description + "</h2>\n  <div class=\"container\"></div>\n  <div class=\"focus\"></div>\n  <div class=\"value\"></div>\n</div>")[0];
 	window.document.body.appendChild(el);
 	var container = dots.Query.first(".container",el);
 	var focus = dots.Query.first(".focus",el);
@@ -273,15 +278,30 @@ dots.Detect.supportsHistory = function() {
 dots.Html = function() { };
 dots.Html.__name__ = ["dots","Html"];
 dots.Html.parseNodes = function(html) {
-	var el = window.document.createElement("div");
+	if(!dots.Html.pattern.match(html)) throw "Invalid pattern \"" + html + "\"";
+	var el;
+	var _g = dots.Html.pattern.matched(1).toLowerCase();
+	switch(_g) {
+	case "tbody":case "thead":
+		el = window.document.createElement("table");
+		break;
+	case "td":case "th":
+		el = window.document.createElement("tr");
+		break;
+	case "tr":
+		el = window.document.createElement("tbody");
+		break;
+	default:
+		el = window.document.createElement("div");
+	}
 	el.innerHTML = html;
 	return el.childNodes;
 };
 dots.Html.parseArray = function(html) {
-	return dots.Html.nodeListToArray(dots.Html.parseNodes(StringTools.trim(html)));
+	return dots.Html.nodeListToArray(dots.Html.parseNodes(html));
 };
 dots.Html.parse = function(html) {
-	return dots.Html.parseNodes(StringTools.ltrim(html))[0];
+	return dots.Html.parseNodes(html)[0];
 };
 dots.Html.nodeListToArray = function(list) {
 	return Array.prototype.slice.call(list,0);
@@ -586,6 +606,49 @@ js.Boot.__instanceof = function(o,cl) {
 js.Browser = function() { };
 js.Browser.__name__ = ["js","Browser"];
 var sui = {};
+sui.components = {};
+sui.components.Grid = function() {
+	this.el = dots.Html.parseNodes("<table class=\"sui-grid\"></table>")[0];
+};
+sui.components.Grid.__name__ = ["sui","components","Grid"];
+sui.components.Grid.prototype = {
+	add: function(cell) {
+		var _g = this;
+		switch(cell[1]) {
+		case 0:
+			var control = cell[2];
+			var container = dots.Html.parseNodes("<tr class=\"single\"><td colspan=\"2\"></td></tr>")[0];
+			haxe.Log.trace(container,{ fileName : "Grid.hx", lineNumber : 19, className : "sui.components.Grid", methodName : "add"});
+			haxe.Log.trace(dots.Query.first("td",container),{ fileName : "Grid.hx", lineNumber : 21, className : "sui.components.Grid", methodName : "add"});
+			dots.Query.first("td",container).appendChild(control.el);
+			this.el.appendChild(container);
+			break;
+		case 2:
+			var right = cell[3];
+			var left = cell[2];
+			var container1 = dots.Html.parseNodes("<tr class=\"horizontal\"><td class=\"left\"></td><td class=\"right\"></td></tr>")[0];
+			dots.Query.first(".left",container1).appendChild(left.el);
+			dots.Query.first(".right",container1).appendChild(right.el);
+			this.el.appendChild(container1);
+			break;
+		case 1:
+			var bottom = cell[3];
+			var top = cell[2];
+			var containers = dots.Html.nodeListToArray(dots.Html.parseNodes("<tr class=\"vertical top\"><td colspan=\"2\"></td></tr><tr class=\"vertical bottom\"><td colspan=\"2\"></td></tr>"));
+			dots.Query.first("td",containers[0]).appendChild(top.el);
+			dots.Query.first("td",containers[1]).appendChild(bottom.el);
+			containers.map(function(_) {
+				return _g.el.appendChild(_);
+			});
+			break;
+		}
+	}
+	,__class__: sui.components.Grid
+};
+sui.components.CellContent = { __ename__ : true, __constructs__ : ["Single","VerticalPair","HorizontalPair"] };
+sui.components.CellContent.Single = function(control) { var $x = ["Single",0,control]; $x.__enum__ = sui.components.CellContent; return $x; };
+sui.components.CellContent.VerticalPair = function(top,bottom) { var $x = ["VerticalPair",1,top,bottom]; $x.__enum__ = sui.components.CellContent; return $x; };
+sui.components.CellContent.HorizontalPair = function(left,right) { var $x = ["HorizontalPair",2,left,right]; $x.__enum__ = sui.components.CellContent; return $x; };
 sui.controls = {};
 sui.controls.Control = function(valueEmitter) {
 	this._focus = new thx.stream.Value(false);
@@ -626,7 +689,7 @@ sui.controls.ValueControl.prototype = $extend(sui.controls.Control.prototype,{
 });
 sui.controls.BoolControl = function(value) {
 	sui.controls.ValueControl.call(this,value);
-	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"checkbox\" " + (value?"checked":"") + "/>"))[0];
+	var input = dots.Html.parseNodes("<input type=\"checkbox\" " + (value?"checked":"") + "/>")[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamChecked(input,null).subscribe($bind(this,this.set));
@@ -646,7 +709,7 @@ sui.controls.BoolControl.prototype = $extend(sui.controls.ValueControl.prototype
 sui.controls.ColorControl = function(value) {
 	var _g = this;
 	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"color\" type=\"color\" value=\"" + value + "\" />\n<input class=\"text\" type=\"text\" value=\"" + value + "\" />\n</div>"))[0];
+	this.el = dots.Html.parseNodes("<div>\n<input class=\"color\" type=\"color\" value=\"" + value + "\" />\n<input class=\"text\" type=\"text\" value=\"" + value + "\" />\n</div>")[0];
 	this.picker = dots.Query.first(".color",this.el);
 	this.input = dots.Query.first(".text",this.el);
 	if(!dots.Detect.supportsInput("color")) this.picker.style.display = "none";
@@ -684,7 +747,7 @@ sui.controls.FloatControl = function(value,step,allowNaN) {
 	sui.controls.ValueControl.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
-	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"number\" value=\"" + value + "\" " + sstep + " />"))[0];
+	var input = dots.Html.parseNodes("<input type=\"number\" value=\"" + value + "\" " + sstep + " />")[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
@@ -709,7 +772,7 @@ sui.controls.FloatRangeControl = function(value,min,max,step,allowNaN) {
 	sui.controls.ValueControl.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
-	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
+	this.el = dots.Html.parseNodes("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n</div>")[0];
 	this.range = dots.Query.first(".range",this.el);
 	this.input = dots.Query.first(".number",this.el);
 	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
@@ -738,7 +801,7 @@ sui.controls.FloatRangeControl.prototype = $extend(sui.controls.ValueControl.pro
 sui.controls.IntControl = function(value,step) {
 	if(step == null) step = 1;
 	sui.controls.ValueControl.call(this,value);
-	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"number\" value=\"" + value + "\" step=\"" + step + "\" />"))[0];
+	var input = dots.Html.parseNodes("<input type=\"number\" value=\"" + value + "\" step=\"" + step + "\" />")[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
@@ -761,7 +824,7 @@ sui.controls.IntRangeControl = function(value,min,max,step) {
 	if(step == null) step = 1;
 	var _g = this;
 	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
+	this.el = dots.Html.parseNodes("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>")[0];
 	this.range = dots.Query.first(".range",this.el);
 	this.input = dots.Query.first(".number",this.el);
 	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
@@ -790,7 +853,7 @@ sui.controls.IntRangeControl.prototype = $extend(sui.controls.ValueControl.proto
 sui.controls.LabelControl = function(value,placeholder) {
 	if(null == value) value = "";
 	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes(StringTools.ltrim("<output>" + value + "</output>"))[0];
+	this.el = dots.Html.parseNodes("<output>" + value + "</output>")[0];
 };
 sui.controls.LabelControl.__name__ = ["sui","controls","LabelControl"];
 sui.controls.LabelControl.__super__ = sui.controls.ValueControl;
@@ -807,7 +870,7 @@ sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
 	if(allowEmptyString == null) allowEmptyString = false;
 	if(allowEmptyString && null == value) value = "";
 	sui.controls.ValueControl.call(this,value);
-	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"text\" value=\"" + (function($this) {
+	var input = dots.Html.parseNodes("<input type=\"text\" value=\"" + (function($this) {
 		var $r;
 		var t;
 		{
@@ -816,7 +879,7 @@ sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
 		}
 		$r = t != null?t:"";
 		return $r;
-	}(this)) + "\" placeholder=\"" + (null == placeholder?"":placeholder) + "\" />"))[0];
+	}(this)) + "\" placeholder=\"" + (null == placeholder?"":placeholder) + "\" />")[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	var si = thx.stream.dom.Dom.streamInput(input,null);
@@ -838,7 +901,7 @@ sui.controls.TextControl.prototype = $extend(sui.controls.ValueControl.prototype
 	,__class__: sui.controls.TextControl
 });
 sui.controls.TriggerControl = function(label) {
-	var button = dots.Html.parseNodes(StringTools.ltrim("<button>" + label + "</button>"))[0];
+	var button = dots.Html.parseNodes("<button>" + label + "</button>")[0];
 	this.el = button;
 	var emitter = thx.stream.dom.Dom.streamEvent(button,"click",false).toNil();
 	sui.controls.Control.call(this,emitter);
@@ -4198,6 +4261,7 @@ if(typeof(scope.performance.now) == "undefined") {
 	};
 	scope.performance.now = now;
 }
+dots.Html.pattern = new EReg("[<]([^> ]+)","");
 dots.Query.doc = document;
 sui.controls.ColorControl.PATTERN = new EReg("^[#][0-9a-f]{6}$","i");
 thx.core.Floats.TOLERANCE = 10e-5;

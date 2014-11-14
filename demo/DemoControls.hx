@@ -1,12 +1,19 @@
 using dots.Html;
 using dots.Query;
 
+import sui.components.*;
 import sui.controls.*;
 
 import js.Browser;
 
 class DemoControls {
   public static function main() {
+    var grid = new Grid();
+    Browser.document.body.appendChild(grid.el);
+    grid.add(Single(new LabelControl("I act like a title")));
+    grid.add(HorizontalPair(new LabelControl("got it?"), new BoolControl(true)));
+    grid.add(VerticalPair(new LabelControl("name"), new TextControl("sui")));
+
     createControlContainer(new LabelControl("just a label, not interactive"));
     createControlContainer(new TriggerControl("click me"));
     createControlContainer(new ColorControl("#ff0000"));
