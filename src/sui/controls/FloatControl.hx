@@ -4,7 +4,7 @@ using thx.core.Nulls;
 using thx.stream.dom.Dom;
 import js.html.InputElement;
 
-class FloatControl extends Control<Float> {
+class FloatControl extends ValueControl<Float> {
   public function new(value : Float, ?step : Float, ?allowNaN = false) {
     super(value);
     var sstep = null == step ? "" : 'step="$step"',

@@ -587,61 +587,53 @@ js.Browser = function() { };
 js.Browser.__name__ = ["js","Browser"];
 var sui = {};
 sui.controls = {};
-sui.controls.BaseControl = function(valueEmitter) {
+sui.controls.Control = function(valueEmitter) {
 	this._focus = new thx.stream.Value(false);
 	this.streams = new sui.controls.ControlStreams(valueEmitter,this._focus);
 };
-sui.controls.BaseControl.__name__ = ["sui","controls","BaseControl"];
-sui.controls.BaseControl.prototype = {
+sui.controls.Control.__name__ = ["sui","controls","Control"];
+sui.controls.Control.prototype = {
 	get: function() {
-		throw new thx.core.error.NotImplemented({ fileName : "BaseControl.hx", lineNumber : 22, className : "sui.controls.BaseControl", methodName : "get"});
+		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 22, className : "sui.controls.Control", methodName : "get"});
 	}
 	,set: function(v) {
-		throw new thx.core.error.NotImplemented({ fileName : "BaseControl.hx", lineNumber : 25, className : "sui.controls.BaseControl", methodName : "set"});
+		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 25, className : "sui.controls.Control", methodName : "set"});
 	}
 	,focus: function() {
-		throw new thx.core.error.NotImplemented({ fileName : "BaseControl.hx", lineNumber : 28, className : "sui.controls.BaseControl", methodName : "focus"});
+		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 28, className : "sui.controls.Control", methodName : "focus"});
 	}
 	,reset: function() {
-		throw new thx.core.error.NotImplemented({ fileName : "BaseControl.hx", lineNumber : 31, className : "sui.controls.BaseControl", methodName : "reset"});
+		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 31, className : "sui.controls.Control", methodName : "reset"});
 	}
-	,__class__: sui.controls.BaseControl
+	,__class__: sui.controls.Control
 };
-sui.controls.ControlStreams = function(value,focus) {
-	this.value = value;
-	this.focus = focus;
-};
-sui.controls.ControlStreams.__name__ = ["sui","controls","ControlStreams"];
-sui.controls.ControlStreams.prototype = {
-	__class__: sui.controls.ControlStreams
-};
-sui.controls.Control = function(defaultValue,equals) {
+sui.controls.ValueControl = function(defaultValue,equals) {
 	if(null == equals) equals = thx.core.Functions.equality;
 	this.defaultValue = defaultValue;
 	this._value = new thx.stream.Value(defaultValue,equals);
-	sui.controls.BaseControl.call(this,this._value);
+	sui.controls.Control.call(this,this._value);
 };
-sui.controls.Control.__name__ = ["sui","controls","Control"];
-sui.controls.Control.__super__ = sui.controls.BaseControl;
-sui.controls.Control.prototype = $extend(sui.controls.BaseControl.prototype,{
+sui.controls.ValueControl.__name__ = ["sui","controls","ValueControl"];
+sui.controls.ValueControl.__super__ = sui.controls.Control;
+sui.controls.ValueControl.prototype = $extend(sui.controls.Control.prototype,{
 	get: function() {
 		return this._value.get();
 	}
 	,reset: function() {
 		this.set(this.defaultValue);
 	}
-	,__class__: sui.controls.Control
+	,__class__: sui.controls.ValueControl
 });
 sui.controls.BoolControl = function(value) {
-	sui.controls.Control.call(this,value);
+	sui.controls.ValueControl.call(this,value);
 	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"checkbox\" " + (value?"checked":"") + "/>"))[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamChecked(input,null).subscribe($bind(this,this.set));
 };
 sui.controls.BoolControl.__name__ = ["sui","controls","BoolControl"];
-sui.controls.BoolControl.__super__ = sui.controls.Control;
-sui.controls.BoolControl.prototype = $extend(sui.controls.Control.prototype,{
+sui.controls.BoolControl.__super__ = sui.controls.ValueControl;
+sui.controls.BoolControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
 		this.el.checked = value;
 		this._value.set(value);
@@ -653,7 +645,7 @@ sui.controls.BoolControl.prototype = $extend(sui.controls.Control.prototype,{
 });
 sui.controls.ColorControl = function(value) {
 	var _g = this;
-	sui.controls.Control.call(this,value);
+	sui.controls.ValueControl.call(this,value);
 	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"color\" type=\"color\" value=\"" + value + "\" />\n<input class=\"text\" type=\"text\" value=\"" + value + "\" />\n</div>"))[0];
 	this.picker = dots.Query.first(".color",this.el);
 	this.input = dots.Query.first(".text",this.el);
@@ -667,8 +659,8 @@ sui.controls.ColorControl = function(value) {
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.ColorControl.__name__ = ["sui","controls","ColorControl"];
-sui.controls.ColorControl.__super__ = sui.controls.Control;
-sui.controls.ColorControl.prototype = $extend(sui.controls.Control.prototype,{
+sui.controls.ColorControl.__super__ = sui.controls.ValueControl;
+sui.controls.ColorControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
 		this.picker.value = value;
 		this.input.value = value;
@@ -679,9 +671,17 @@ sui.controls.ColorControl.prototype = $extend(sui.controls.Control.prototype,{
 	}
 	,__class__: sui.controls.ColorControl
 });
+sui.controls.ControlStreams = function(value,focus) {
+	this.value = value;
+	this.focus = focus;
+};
+sui.controls.ControlStreams.__name__ = ["sui","controls","ControlStreams"];
+sui.controls.ControlStreams.prototype = {
+	__class__: sui.controls.ControlStreams
+};
 sui.controls.FloatControl = function(value,step,allowNaN) {
 	if(allowNaN == null) allowNaN = false;
-	sui.controls.Control.call(this,value);
+	sui.controls.ValueControl.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
 	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"number\" value=\"" + value + "\" " + sstep + " />"))[0];
@@ -692,8 +692,8 @@ sui.controls.FloatControl = function(value,step,allowNaN) {
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.FloatControl.__name__ = ["sui","controls","FloatControl"];
-sui.controls.FloatControl.__super__ = sui.controls.Control;
-sui.controls.FloatControl.prototype = $extend(sui.controls.Control.prototype,{
+sui.controls.FloatControl.__super__ = sui.controls.ValueControl;
+sui.controls.FloatControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
 		this.el.valueAsNumber = value;
 		this._value.set(value);
@@ -706,7 +706,7 @@ sui.controls.FloatControl.prototype = $extend(sui.controls.Control.prototype,{
 sui.controls.FloatRangeControl = function(value,min,max,step,allowNaN) {
 	if(allowNaN == null) allowNaN = false;
 	var _g = this;
-	sui.controls.Control.call(this,value);
+	sui.controls.ValueControl.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
 	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
@@ -723,8 +723,8 @@ sui.controls.FloatRangeControl = function(value,min,max,step,allowNaN) {
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.FloatRangeControl.__name__ = ["sui","controls","FloatRangeControl"];
-sui.controls.FloatRangeControl.__super__ = sui.controls.Control;
-sui.controls.FloatRangeControl.prototype = $extend(sui.controls.Control.prototype,{
+sui.controls.FloatRangeControl.__super__ = sui.controls.ValueControl;
+sui.controls.FloatRangeControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
 		this.range.valueAsNumber = value;
 		this.input.valueAsNumber = value;
@@ -737,7 +737,7 @@ sui.controls.FloatRangeControl.prototype = $extend(sui.controls.Control.prototyp
 });
 sui.controls.IntControl = function(value,step) {
 	if(step == null) step = 1;
-	sui.controls.Control.call(this,value);
+	sui.controls.ValueControl.call(this,value);
 	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"number\" value=\"" + value + "\" step=\"" + step + "\" />"))[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
@@ -746,8 +746,8 @@ sui.controls.IntControl = function(value,step) {
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.IntControl.__name__ = ["sui","controls","IntControl"];
-sui.controls.IntControl.__super__ = sui.controls.Control;
-sui.controls.IntControl.prototype = $extend(sui.controls.Control.prototype,{
+sui.controls.IntControl.__super__ = sui.controls.ValueControl;
+sui.controls.IntControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
 		this.el.valueAsNumber = value;
 		this._value.set(value);
@@ -760,7 +760,7 @@ sui.controls.IntControl.prototype = $extend(sui.controls.Control.prototype,{
 sui.controls.IntRangeControl = function(value,min,max,step) {
 	if(step == null) step = 1;
 	var _g = this;
-	sui.controls.Control.call(this,value);
+	sui.controls.ValueControl.call(this,value);
 	this.el = dots.Html.parseNodes(StringTools.ltrim("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>"))[0];
 	this.range = dots.Query.first(".range",this.el);
 	this.input = dots.Query.first(".number",this.el);
@@ -775,8 +775,8 @@ sui.controls.IntRangeControl = function(value,min,max,step) {
 	}).subscribe($bind(this,this.set));
 };
 sui.controls.IntRangeControl.__name__ = ["sui","controls","IntRangeControl"];
-sui.controls.IntRangeControl.__super__ = sui.controls.Control;
-sui.controls.IntRangeControl.prototype = $extend(sui.controls.Control.prototype,{
+sui.controls.IntRangeControl.__super__ = sui.controls.ValueControl;
+sui.controls.IntRangeControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
 		this.range.valueAsNumber = value;
 		this.input.valueAsNumber = value;
@@ -789,12 +789,12 @@ sui.controls.IntRangeControl.prototype = $extend(sui.controls.Control.prototype,
 });
 sui.controls.LabelControl = function(value,placeholder) {
 	if(null == value) value = "";
-	sui.controls.Control.call(this,value);
+	sui.controls.ValueControl.call(this,value);
 	this.el = dots.Html.parseNodes(StringTools.ltrim("<output>" + value + "</output>"))[0];
 };
 sui.controls.LabelControl.__name__ = ["sui","controls","LabelControl"];
-sui.controls.LabelControl.__super__ = sui.controls.Control;
-sui.controls.LabelControl.prototype = $extend(sui.controls.Control.prototype,{
+sui.controls.LabelControl.__super__ = sui.controls.ValueControl;
+sui.controls.LabelControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
 		this.el.textContent = value;
 		this._value.set(value);
@@ -806,7 +806,7 @@ sui.controls.LabelControl.prototype = $extend(sui.controls.Control.prototype,{
 sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
 	if(allowEmptyString == null) allowEmptyString = false;
 	if(allowEmptyString && null == value) value = "";
-	sui.controls.Control.call(this,value);
+	sui.controls.ValueControl.call(this,value);
 	var input = dots.Html.parseNodes(StringTools.ltrim("<input type=\"text\" value=\"" + (function($this) {
 		var $r;
 		var t;
@@ -826,8 +826,8 @@ sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
 	si.subscribe($bind(this,this.set));
 };
 sui.controls.TextControl.__name__ = ["sui","controls","TextControl"];
-sui.controls.TextControl.__super__ = sui.controls.Control;
-sui.controls.TextControl.prototype = $extend(sui.controls.Control.prototype,{
+sui.controls.TextControl.__super__ = sui.controls.ValueControl;
+sui.controls.TextControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
 		this.el.value = value;
 		this._value.set(value);
@@ -841,12 +841,12 @@ sui.controls.TriggerControl = function(label) {
 	var button = dots.Html.parseNodes(StringTools.ltrim("<button>" + label + "</button>"))[0];
 	this.el = button;
 	var emitter = thx.stream.dom.Dom.streamEvent(button,"click",false).toNil();
-	sui.controls.BaseControl.call(this,emitter);
+	sui.controls.Control.call(this,emitter);
 	thx.stream.dom.Dom.streamFocus(button).feed(this._focus);
 };
 sui.controls.TriggerControl.__name__ = ["sui","controls","TriggerControl"];
-sui.controls.TriggerControl.__super__ = sui.controls.BaseControl;
-sui.controls.TriggerControl.prototype = $extend(sui.controls.BaseControl.prototype,{
+sui.controls.TriggerControl.__super__ = sui.controls.Control;
+sui.controls.TriggerControl.prototype = $extend(sui.controls.Control.prototype,{
 	get: function() {
 		return thx.core.Nil.nil;
 	}
@@ -3038,6 +3038,11 @@ thx.stream.Emitter.prototype = {
 			}));
 		});
 	}
+	,map: function(f) {
+		return this.mapFuture(function(v) {
+			return thx.promise.Future.value(f(v));
+		});
+	}
 	,mapFuture: function(f) {
 		var _g = this;
 		return new thx.stream.Emitter(function(stream) {
@@ -3059,11 +3064,6 @@ thx.stream.Emitter.prototype = {
 					break;
 				}
 			}));
-		});
-	}
-	,map: function(f) {
-		return this.mapFuture(function(v) {
-			return thx.promise.Future.value(f(v));
 		});
 	}
 	,toOption: function() {
@@ -3091,6 +3091,11 @@ thx.stream.Emitter.prototype = {
 			return value;
 		});
 	}
+	,filter: function(f) {
+		return this.filterFuture(function(v) {
+			return thx.promise.Future.value(f(v));
+		});
+	}
 	,filterFuture: function(f) {
 		var _g = this;
 		return new thx.stream.Emitter(function(stream) {
@@ -3114,11 +3119,6 @@ thx.stream.Emitter.prototype = {
 					break;
 				}
 			}));
-		});
-	}
-	,filter: function(f) {
-		return this.filterFuture(function(v) {
-			return thx.promise.Future.value(f(v));
 		});
 	}
 	,first: function() {
@@ -3235,68 +3235,6 @@ thx.stream.Emitter.prototype = {
 	,withValue: function(expected) {
 		return this.filter(function(v) {
 			return v == expected;
-		});
-	}
-	,split: function() {
-		var _g = this;
-		var inited = false;
-		var streams = [];
-		var init = function(stream) {
-			streams.push(stream);
-			if(!inited) {
-				inited = true;
-				thx.core.Timer.immediate(function() {
-					_g.init(new thx.stream.Stream(function(r) {
-						switch(r[1]) {
-						case 0:
-							var v = r[2];
-							var _g1 = 0;
-							while(_g1 < streams.length) {
-								var s = streams[_g1];
-								++_g1;
-								s.pulse(v);
-							}
-							break;
-						case 1:
-							switch(r[2]) {
-							case true:
-								var _g11 = 0;
-								while(_g11 < streams.length) {
-									var s1 = streams[_g11];
-									++_g11;
-									s1.cancel();
-								}
-								break;
-							case false:
-								var _g12 = 0;
-								while(_g12 < streams.length) {
-									var s2 = streams[_g12];
-									++_g12;
-									s2.end();
-								}
-								break;
-							}
-							break;
-						}
-					}));
-				});
-			}
-		};
-		var _0 = new thx.stream.Emitter(init);
-		var _1 = new thx.stream.Emitter(init);
-		return { _0 : _0, _1 : _1};
-	}
-	,audit: function(handler) {
-		return this.map(function(v) {
-			handler(v);
-			return v;
-		});
-	}
-	,log: function(prefix,posInfo) {
-		if(prefix == null) prefix = ""; else prefix = "" + prefix + ": ";
-		return this.map(function(v) {
-			haxe.Log.trace("" + prefix + Std.string(v),posInfo);
-			return v;
 		});
 	}
 	,pair: function(other) {
@@ -3468,6 +3406,68 @@ thx.stream.Emitter.prototype = {
 			}));
 		});
 	}
+	,audit: function(handler) {
+		return this.map(function(v) {
+			handler(v);
+			return v;
+		});
+	}
+	,log: function(prefix,posInfo) {
+		if(prefix == null) prefix = ""; else prefix = "" + prefix + ": ";
+		return this.map(function(v) {
+			haxe.Log.trace("" + prefix + Std.string(v),posInfo);
+			return v;
+		});
+	}
+	,split: function() {
+		var _g = this;
+		var inited = false;
+		var streams = [];
+		var init = function(stream) {
+			streams.push(stream);
+			if(!inited) {
+				inited = true;
+				thx.core.Timer.immediate(function() {
+					_g.init(new thx.stream.Stream(function(r) {
+						switch(r[1]) {
+						case 0:
+							var v = r[2];
+							var _g1 = 0;
+							while(_g1 < streams.length) {
+								var s = streams[_g1];
+								++_g1;
+								s.pulse(v);
+							}
+							break;
+						case 1:
+							switch(r[2]) {
+							case true:
+								var _g11 = 0;
+								while(_g11 < streams.length) {
+									var s1 = streams[_g11];
+									++_g11;
+									s1.cancel();
+								}
+								break;
+							case false:
+								var _g12 = 0;
+								while(_g12 < streams.length) {
+									var s2 = streams[_g12];
+									++_g12;
+									s2.end();
+								}
+								break;
+							}
+							break;
+						}
+					}));
+				});
+			}
+		};
+		var _0 = new thx.stream.Emitter(init);
+		var _1 = new thx.stream.Emitter(init);
+		return { _0 : _0, _1 : _1};
+	}
 	,__class__: thx.stream.Emitter
 };
 thx.stream.Bus = function(distinctValuesOnly,equal) {
@@ -3492,6 +3492,10 @@ thx.stream.Bus.prototype = $extend(thx.stream.Emitter.prototype,{
 	cancel: function() {
 		this.emit(thx.stream.StreamValue.End(true));
 	}
+	,clear: function() {
+		this.clearEmitters();
+		this.clearStreams();
+	}
 	,clearStreams: function() {
 		var _g = 0;
 		var _g1 = this.downStreams.slice();
@@ -3509,10 +3513,6 @@ thx.stream.Bus.prototype = $extend(thx.stream.Emitter.prototype,{
 			++_g;
 			stream.cancel();
 		}
-	}
-	,clear: function() {
-		this.clearEmitters();
-		this.clearStreams();
 	}
 	,emit: function(value) {
 		switch(value[1]) {
@@ -3941,10 +3941,9 @@ thx.stream.Value.prototype = $extend(thx.stream.Emitter.prototype,{
 	get: function() {
 		return this.value;
 	}
-	,set: function(value) {
-		if(this.equals(this.value,value)) return;
-		this.value = value;
-		this.update();
+	,clear: function() {
+		this.clearEmitters();
+		this.clearStreams();
 	}
 	,clearStreams: function() {
 		var _g = 0;
@@ -3964,9 +3963,10 @@ thx.stream.Value.prototype = $extend(thx.stream.Emitter.prototype,{
 			stream.cancel();
 		}
 	}
-	,clear: function() {
-		this.clearEmitters();
-		this.clearStreams();
+	,set: function(value) {
+		if(this.equals(this.value,value)) return;
+		this.value = value;
+		this.update();
 	}
 	,update: function() {
 		var _g = 0;

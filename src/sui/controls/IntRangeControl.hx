@@ -6,7 +6,7 @@ using thx.stream.dom.Dom;
 import dots.Query;
 import js.html.InputElement;
 
-class IntRangeControl extends Control<Int> {
+class IntRangeControl extends ValueControl<Int> {
   var input : InputElement;
   var range : InputElement;
   public function new(value : Int, min : Int, max : Int, step : Int = 1) {

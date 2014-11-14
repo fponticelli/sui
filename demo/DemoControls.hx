@@ -18,7 +18,7 @@ class DemoControls {
     createControlContainer(new IntRangeControl(7, 0, 100));
   }
 
-  public static function createControlContainer<T>(control : BaseControl<T>) {
+  public static function createControlContainer<T>(control : Control<T>) {
     var description = Type.getClassName(Type.getClass(control)).split(".").pop(),
         el = Html.parse('<div class="sample">
   <h2>$description</h2>

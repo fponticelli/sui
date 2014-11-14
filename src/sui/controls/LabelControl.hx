@@ -4,7 +4,7 @@ using thx.core.Nulls;
 using thx.stream.dom.Dom;
 import js.html.OutputElement;
 
-class LabelControl extends Control<String> {
+class LabelControl extends ValueControl<String> {
   public function new(value : String, ?placeholder : String) {
     if(null == value)
       value = "";

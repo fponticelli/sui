@@ -4,7 +4,7 @@ using thx.core.Nulls;
 using thx.stream.dom.Dom;
 import js.html.InputElement;
 
-class TextControl extends Control<String> {
+class TextControl extends ValueControl<String> {
   public function new(value : String, ?placeholder : String, allowEmptyString = false) {
     if(allowEmptyString && null == value)
       value = "";

@@ -7,7 +7,7 @@ import dots.Detect;
 import dots.Query;
 import js.html.InputElement;
 
-class ColorControl extends Control<String> {
+class ColorControl extends ValueControl<String> {
   static var PATTERN = ~/^[#][0-9a-f]{6}$/i;
   var input : InputElement;
   var picker : InputElement;

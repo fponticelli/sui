@@ -4,7 +4,7 @@ using thx.core.Nulls;
 using thx.stream.dom.Dom;
 import js.html.InputElement;
 
-class IntControl extends Control<Int> {
+class IntControl extends ValueControl<Int> {
   public function new(value : Int, step : Int = 1) {
     super(value);
     var input : InputElement = cast dots.Html.parse('<input type="number" value="$value" step="$step" />');

@@ -3,7 +3,7 @@ package sui.controls;
 using thx.stream.dom.Dom;
 import js.html.InputElement;
 
-class BoolControl extends Control<Bool> {
+class BoolControl extends ValueControl<Bool> {
   public function new(value : Bool) {
     super(value);
     var input : InputElement = cast dots.Html.parse('<input type="checkbox" ${value ? "checked" : ""}/>');

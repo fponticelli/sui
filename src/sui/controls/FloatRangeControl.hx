@@ -6,7 +6,7 @@ import dots.Query;
 import js.html.InputElement;
 using thx.core.Floats;
 
-class FloatRangeControl extends Control<Float> {
+class FloatRangeControl extends ValueControl<Float> {
   var input : InputElement;
   var range : InputElement;
   public function new(value : Float, min : Float, max : Float, ?step : Float, ?allowNaN = false) {

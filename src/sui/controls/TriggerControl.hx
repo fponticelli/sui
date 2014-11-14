@@ -8,7 +8,7 @@ using thx.stream.dom.Dom;
 import dots.Html;
 import js.html.ButtonElement;
 
-class TriggerControl extends BaseControl<Nil> {
+class TriggerControl extends Control<Nil> {
   public function new(label : String) {
     var button : ButtonElement = cast Html.parse('<button>$label</button>');
     el = button;
