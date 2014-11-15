@@ -12,6 +12,57 @@ class Sui {
     el = grid.el;
   }
 
+  public function bool(?label : String, ?defaultValue = false, callback : Bool -> Void) {
+    var control = new BoolControl(defaultValue);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
+  public function color(?label : String, ?defaultValue = "#AA0000", callback : String -> Void) {
+    var control = new ColorControl(defaultValue);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
+  public function float(?label : String, ?defaultValue = 0.0, ?step : Float, ?min : Float, ?max : Float, ?allowNaN = false, callback : Float -> Void) {
+    var control = (min != null && max != null) ? new FloatRangeControl(defaultValue, min, max, step) : new FloatControl(defaultValue, allowNaN);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
+  public function int(?label : String, ?defaultValue = 0, ?step : Int, ?min : Int, ?max : Int, callback : Int -> Void) {
+    var control = (min != null && max != null) ? new IntRangeControl(defaultValue, min, max, step) : new IntControl(defaultValue);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
+  public function label(?defaultValue = "", ?label : String, ?callback : String -> Void) {
+    var control = new LabelControl(defaultValue);
+    if(null != callback)
+      control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
+  public function text(?label : String, ?defaultValue = "", ?placeholder : String, ?allowEmptyText = true, callback : String -> Void) {
+    var control = new TextControl(defaultValue, placeholder, allowEmptyText);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
+  public function trigger(actionLabel : String, ?label : String, callback : Void -> Void) {
+    var control = new TriggerControl(actionLabel);
+    control.streams.value.subscribe(function(_) callback());
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
+  // general binding
   public function bind<T>(?label : String, control : Control<T>, callback : T -> Void) {
     if(null == label) {
       grid.add(Single(control));

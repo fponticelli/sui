@@ -10,8 +10,17 @@ class DemoControls {
   public static function main() {
     var ui = new sui.Sui();
     Browser.document.body.appendChild(ui.el);
-    ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
-    ui.bind(new TriggerControl("click me"), function(_) trace("clicked"));
+    //ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
+    ui.bool("boolean", function(v) trace('bool: $v'));
+    ui.color("color",  function(v) trace('color: $v'));
+    ui.float("float",  function(v) trace('float: $v'));
+    ui.float("float", 0.5, 0.01, 0.0, 1.0, function(v) trace('float: $v'));
+    ui.int("int",  function(v) trace('int: $v'));
+    ui.int("int", 20, 5, 10, 30, function(v) trace('int: $v'));
+    ui.label("temp").set("hello there");
+    //?label, ?defaultValue, ?placeholder, ?allowEmptyText = true, callback : String -> Void
+    ui.text(null, "", "placeholder", function(v) trace('string: $v'));
+    ui.trigger("trigger", function() trace("triggered"));
 
     var grid = new Grid();
     Browser.document.body.appendChild(grid.el);

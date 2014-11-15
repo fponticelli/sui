@@ -5,7 +5,7 @@ using thx.stream.dom.Dom;
 import js.html.OutputElement;
 
 class LabelControl extends ValueControl<String> {
-  public function new(value : String, ?placeholder : String) {
+  public function new(value : String) {
     if(null == value)
       value = "";
     super(value);
