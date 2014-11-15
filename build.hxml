@@ -7,3 +7,4 @@
 -lib thx.stream
 -lib thx.stream.dom
 #-D analyzer
+-cmd stylus --compress < style/sui.styl > bin/sui.css
