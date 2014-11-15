@@ -12,12 +12,11 @@ class FloatRangeControl extends ValueControl<Float> {
   public function new(value : Float, min : Float, max : Float, ?step : Float, ?allowNaN = false) {
     super(value);
     var sstep = null == step ? "" : 'step="$step"';
-    el = dots.Html.parse('<div class="sui-float-range">
-<input class="sui-input range" type="range" value="$value" $sstep min="$min" max="$max" />
-<input class="sui-input range-input float" type="number" value="$value" $sstep min="$min" max="$max" />
-</div>');
-    range = cast Query.first('.range', el);
-    input = cast Query.first('.float', el);
+    el = dots.Html.parse('<div class="sui-range-float">
+<input class="sui-input sui-range-slider-float" type="range" value="$value" $sstep min="$min" max="$max"/>
+<input class="sui-input sui-range-input-float" type="number" value="$value" $sstep min="$min" max="$max"/>');
+    range = cast Query.first('.sui-range-slider-float', el);
+    input = cast Query.first('.sui-range-input-float', el);
 
     range.streamFocus()
       .merge(input.streamFocus())

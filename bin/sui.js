@@ -710,22 +710,22 @@ sui.components.Grid.prototype = {
 		switch(cell[1]) {
 		case 0:
 			var control = cell[2];
-			var container = dots.Html.parseNodes("<tr class=\"single\"><td colspan=\"2\"></td></tr>")[0];
+			var container = dots.Html.parseNodes("<tr class=\"sui-single\"><td colspan=\"2\"></td></tr>")[0];
 			dots.Query.first("td",container).appendChild(control.el);
 			this.el.appendChild(container);
 			break;
 		case 2:
 			var right = cell[3];
 			var left = cell[2];
-			var container1 = dots.Html.parseNodes("<tr class=\"horizontal\"><td class=\"left\"></td><td class=\"right\"></td></tr>")[0];
-			dots.Query.first(".left",container1).appendChild(left.el);
-			dots.Query.first(".right",container1).appendChild(right.el);
+			var container1 = dots.Html.parseNodes("<tr class=\"sui-horizontal\"><td class=\"sui-left\"></td><td class=\"sui-right\"></td></tr>")[0];
+			dots.Query.first(".sui-left",container1).appendChild(left.el);
+			dots.Query.first(".sui-right",container1).appendChild(right.el);
 			this.el.appendChild(container1);
 			break;
 		case 1:
 			var bottom = cell[3];
 			var top = cell[2];
-			var containers = dots.Html.nodeListToArray(dots.Html.parseNodes("<tr class=\"vertical top\"><td colspan=\"2\"></td></tr><tr class=\"vertical bottom\"><td colspan=\"2\"></td></tr>"));
+			var containers = dots.Html.nodeListToArray(dots.Html.parseNodes("<tr class=\"sui-vertical sui-top\"><td colspan=\"2\"></td></tr><tr class=\"sui-vertical sui-bottom\"><td colspan=\"2\"></td></tr>"));
 			dots.Query.first("td",containers[0]).appendChild(top.el);
 			dots.Query.first("td",containers[1]).appendChild(bottom.el);
 			containers.map(function(_) {
@@ -780,29 +780,29 @@ sui.controls.ValueControl.prototype = $extend(sui.controls.Control.prototype,{
 });
 sui.controls.BoolControl = function(value) {
 	sui.controls.ValueControl.call(this,value);
-	var input = dots.Html.parseNodes("<input type=\"checkbox\" " + (value?"checked":"") + "/>")[0];
-	this.el = input;
-	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
-	thx.stream.dom.Dom.streamChecked(input,null).subscribe($bind(this,this.set));
+	this.el = dots.Html.parseNodes("<div class=\"sui-single sui-input sui-bool\"><input type=\"checkbox\" " + (value?"checked":"") + "/></div>")[0];
+	this.input = dots.Query.first("input",this.el);
+	thx.stream.dom.Dom.streamFocus(this.input).feed(this._focus);
+	thx.stream.dom.Dom.streamChecked(this.input,null).subscribe($bind(this,this.set));
 };
 sui.controls.BoolControl.__name__ = ["sui","controls","BoolControl"];
 sui.controls.BoolControl.__super__ = sui.controls.ValueControl;
 sui.controls.BoolControl.prototype = $extend(sui.controls.ValueControl.prototype,{
 	set: function(value) {
-		this.el.checked = value;
+		this.input.checked = value;
 		this._value.set(value);
 	}
 	,focus: function() {
-		this.el.focus();
+		this.input.focus();
 	}
 	,__class__: sui.controls.BoolControl
 });
 sui.controls.ColorControl = function(value) {
 	var _g = this;
 	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes("<div>\n<input class=\"color\" type=\"color\" value=\"" + value + "\" />\n<input class=\"text\" type=\"text\" value=\"" + value + "\" />\n</div>")[0];
-	this.picker = dots.Query.first(".color",this.el);
-	this.input = dots.Query.first(".text",this.el);
+	this.el = dots.Html.parseNodes("<div class=\"sui-color\">\n<input class=\"sui-input sui-color-control\" type=\"color\" value=\"" + value + "\" />\n<input class=\"sui-input sui-color-text\" type=\"text\" value=\"" + value + "\" />\n</div>")[0];
+	this.picker = dots.Query.first(".sui-color-control",this.el);
+	this.input = dots.Query.first(".sui-color-text",this.el);
 	if(!dots.Detect.supportsInput("color")) this.picker.style.display = "none";
 	thx.stream.dom.Dom.streamFocus(this.picker).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
 	thx.stream.dom.Dom.streamInput(this.picker,null).map(function(_) {
@@ -838,7 +838,7 @@ sui.controls.FloatControl = function(value,step,allowNaN) {
 	sui.controls.ValueControl.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
-	var input = dots.Html.parseNodes("<input type=\"number\" value=\"" + value + "\" " + sstep + " />")[0];
+	var input = dots.Html.parseNodes("<input class=\"sui-input sui-float\" type=\"number\" value=\"" + value + "\" " + sstep + " />")[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
@@ -863,9 +863,9 @@ sui.controls.FloatRangeControl = function(value,min,max,step,allowNaN) {
 	sui.controls.ValueControl.call(this,value);
 	var sstep;
 	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
-	this.el = dots.Html.parseNodes("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\" />\n</div>")[0];
-	this.range = dots.Query.first(".range",this.el);
-	this.input = dots.Query.first(".number",this.el);
+	this.el = dots.Html.parseNodes("<div class=\"sui-range-float\">\n<input class=\"sui-input sui-range-slider-float\" type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\"/>\n<input class=\"sui-input sui-range-input-float\" type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\"/>")[0];
+	this.range = dots.Query.first(".sui-range-slider-float",this.el);
+	this.input = dots.Query.first(".sui-range-input-float",this.el);
 	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
 	thx.stream.dom.Dom.streamInput(this.range,null).map(function(_) {
 		return _g.range.valueAsNumber;
@@ -892,7 +892,7 @@ sui.controls.FloatRangeControl.prototype = $extend(sui.controls.ValueControl.pro
 sui.controls.IntControl = function(value,step) {
 	if(step == null) step = 1;
 	sui.controls.ValueControl.call(this,value);
-	var input = dots.Html.parseNodes("<input type=\"number\" value=\"" + value + "\" step=\"" + step + "\" />")[0];
+	var input = dots.Html.parseNodes("<input class=\"sui-input sui-int\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" />")[0];
 	this.el = input;
 	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
 	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
@@ -915,9 +915,9 @@ sui.controls.IntRangeControl = function(value,min,max,step) {
 	if(step == null) step = 1;
 	var _g = this;
 	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes("<div>\n<input class=\"range\" type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"number\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>")[0];
-	this.range = dots.Query.first(".range",this.el);
-	this.input = dots.Query.first(".number",this.el);
+	this.el = dots.Html.parseNodes("<div class=\"sui-range-int\">\n<input class=\"sui-input sui-range-slider-int\" type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"sui-input sui-range-input-int\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>")[0];
+	this.range = dots.Query.first(".sui-range-slider-int",this.el);
+	this.input = dots.Query.first(".sui-range-input-int",this.el);
 	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
 	thx.stream.dom.Dom.streamInput(this.range,null).map(function(_) {
 		return _g.range.valueAsNumber | 0;
@@ -944,7 +944,7 @@ sui.controls.IntRangeControl.prototype = $extend(sui.controls.ValueControl.proto
 sui.controls.LabelControl = function(value) {
 	if(null == value) value = "";
 	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes("<output>" + value + "</output>")[0];
+	this.el = dots.Html.parseNodes("<output class=\"sui-output\">" + value + "</output>")[0];
 };
 sui.controls.LabelControl.__name__ = ["sui","controls","LabelControl"];
 sui.controls.LabelControl.__super__ = sui.controls.ValueControl;
@@ -961,7 +961,7 @@ sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
 	if(allowEmptyString == null) allowEmptyString = false;
 	if(allowEmptyString && null == value) value = "";
 	sui.controls.ValueControl.call(this,value);
-	var input = dots.Html.parseNodes("<input type=\"text\" value=\"" + (function($this) {
+	var input = dots.Html.parseNodes("<input class=\"sui-input sui-text\" type=\"text\" value=\"" + (function($this) {
 		var $r;
 		var t;
 		{
@@ -992,7 +992,7 @@ sui.controls.TextControl.prototype = $extend(sui.controls.ValueControl.prototype
 	,__class__: sui.controls.TextControl
 });
 sui.controls.TriggerControl = function(label) {
-	var button = dots.Html.parseNodes("<button>" + label + "</button>")[0];
+	var button = dots.Html.parseNodes("<button class=\"sui-button\">" + label + "</button>")[0];
 	this.el = button;
 	var emitter = thx.stream.dom.Dom.streamEvent(button,"click",false).toNil();
 	sui.controls.Control.call(this,emitter);

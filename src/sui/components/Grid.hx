@@ -15,16 +15,16 @@ class Grid {
 
   public function add(cell : CellContent) switch cell {
     case Single(control):
-      var container = Html.parse('<tr class="single"><td colspan="2"></td></tr>');
+      var container = Html.parse('<tr class="sui-single"><td colspan="2"></td></tr>');
       Query.first("td", container).appendChild(control.el);
       el.appendChild(container);
     case HorizontalPair(left, right):
-      var container = Html.parse('<tr class="horizontal"><td class="left"></td><td class="right"></td></tr>');
-      Query.first(".left", container).appendChild(left.el);
-      Query.first(".right", container).appendChild(right.el);
+      var container = Html.parse('<tr class="sui-horizontal"><td class="sui-left"></td><td class="sui-right"></td></tr>');
+      Query.first(".sui-left", container).appendChild(left.el);
+      Query.first(".sui-right", container).appendChild(right.el);
       el.appendChild(container);
     case VerticalPair(top, bottom):
-      var containers = Html.parseArray('<tr class="vertical top"><td colspan="2"></td></tr><tr class="vertical bottom"><td colspan="2"></td></tr>');
+      var containers = Html.parseArray('<tr class="sui-vertical sui-top"><td colspan="2"></td></tr><tr class="sui-vertical sui-bottom"><td colspan="2"></td></tr>');
       Query.first("td", containers[0]).appendChild(top.el);
       Query.first("td", containers[1]).appendChild(bottom.el);
       containers.pluck(el.appendChild(_));

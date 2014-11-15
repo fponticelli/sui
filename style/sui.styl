@@ -1,0 +1,118 @@
+light-border = #ddd
+light-background = #f6f6f6
+font-default = Helvetica, "Nimbus Sans L", "Liberation Sans", Arial, sans-serif
+font-mono = monospace
+
+// components
+table.sui-grid
+  box-sizing border-box
+  *
+    box-sizing border-box
+  border-collapse collapse
+  td
+    border-bottom 1px solid light-border
+    margin 0
+    padding 0
+  tr:first-child
+    td
+      border-top 1px solid light-border
+  td:first-child
+    border-left 1px solid light-border
+  td:last-child
+    border-right 1px solid light-border
+//  .sui-horizontal
+//    .sui-left
+//    .sui-right
+//  .sui-vertical.sui-top
+//  .sui-vertical.sui-bottom
+//
+
+// controls
+.sui-input
+.sui-output
+.sui-button
+  box-sizing border-box
+  *
+    box-sizing border-box
+  font-size 11px
+  font-family font-default
+  margin 0
+  padding 0
+  display inline-block
+  //height 18px
+  line-height 23px
+  vertical-align middle
+  padding 0 6px
+.sui-input
+  border none
+  background-color light-background
+.sui-bool
+  text-align center
+.sui-color
+  background-color light-background
+  .sui-color-control
+    padding 0 4px
+    margin 0
+  .sui-color-text
+    font-family font-mono
+    text-align right
+
+.sui-float
+.sui-int
+.sui-range-input-int
+.sui-range-input-float
+  text-align right
+  font-family font-mono
+
+.sui-grid
+  .sui-color
+    width 100%
+    .sui-color-control
+      width calc(100% - 4px - 6em)
+    .sui-color-text
+      width 6em
+  .sui-float
+  .sui-int
+  .sui-text
+    width 100%
+  .sui-range-int
+    .sui-range-slider-int
+      width calc(100% - 8px - 6em)
+      margin-left 4px
+    .sui-range-input-int
+      width 6em
+  .sui-range-float
+    .sui-range-slider-float
+      width calc(100% - 8px - 6em)
+      margin-left 4px
+    .sui-range-input-float
+      width 6em
+  .sui-bool
+    width 100%
+
+.sui-single
+  td[colspan="2"]
+    .sui-input
+    .sui-output
+    .sui-button
+      width 100%
+
+.sui-range-int
+.sui-range-float
+  background-color light-background
+    
+//    
+//.sui-float
+//  
+//    
+//.sui-int
+//  
+//.sui-range-int
+//  .sui-range-slider-int
+//  .sui-range-input-int
+//    
+//.sui-output
+//  
+//.sui-text
+//  
+//.sui-button

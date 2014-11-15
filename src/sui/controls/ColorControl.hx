@@ -9,16 +9,16 @@ import js.html.InputElement;
 
 class ColorControl extends ValueControl<String> {
   static var PATTERN = ~/^[#][0-9a-f]{6}$/i;
-  var input : InputElement;
   var picker : InputElement;
+  var input : InputElement;
   public function new(value : String) {
     super(value);
     el = dots.Html.parse('<div class="sui-color">
-<input class="sui-input color" type="color" value="$value" />
-<input class="sui-input text" type="text" value="$value" />
+<input class="sui-input sui-color-control" type="color" value="$value" />
+<input class="sui-input sui-color-text" type="text" value="$value" />
 </div>');
-    picker = cast Query.first('.color', el);
-    input = cast Query.first('.text', el);
+    picker = cast Query.first('.sui-color-control', el);
+    input  = cast Query.first('.sui-color-text', el);
 
     if(!Detect.supportsInput("color"))
       picker.style.display = "none";
