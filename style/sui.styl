@@ -3,6 +3,11 @@ light-background = #f6f6f6
 font-default = Helvetica, "Nimbus Sans L", "Liberation Sans", Arial, sans-serif
 font-mono = monospace
 
+ box-shadow(args...)
+   -webkit-box-shadow args
+   -moz-box-shadow args
+   box-shadow args
+
 // components
 table.sui-grid
   box-sizing border-box
@@ -26,6 +31,18 @@ table.sui-grid
 //  .sui-vertical.sui-top
 //  .sui-vertical.sui-bottom
 //
+
+.sui-top-right
+  position absolute
+  top 0
+  right 0
+  box-shadow(-1px 1px 6px rgba(0,0,0,0.1))
+  &.sui-grid
+    tr:first-child
+      td
+        border-top none
+    td:last-child
+      border-right none
 
 // controls
 .sui-input

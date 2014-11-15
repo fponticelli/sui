@@ -19,6 +19,20 @@ table.sui-grid td:first-child {
 table.sui-grid td:last-child {
   border-right: 1px solid #ddd;
 }
+.sui-top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  -webkit-box-shadow: -1px 1px 6px rgba(0,0,0,0.1);
+  -moz-box-shadow: -1px 1px 6px rgba(0,0,0,0.1);
+  box-shadow: -1px 1px 6px rgba(0,0,0,0.1);
+}
+.sui-top-right.sui-grid tr:first-child td {
+  border-top: none;
+}
+.sui-top-right.sui-grid td:last-child {
+  border-right: none;
+}
 .sui-input,
 .sui-output,
 .sui-button {

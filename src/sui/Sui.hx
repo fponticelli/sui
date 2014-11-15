@@ -63,12 +63,15 @@ class Sui {
   }
 
   // general binding
-  public function bind<T>(?label : String, control : Control<T>, callback : T -> Void) {
-    if(null == label) {
-      grid.add(Single(control));
-    } else {
-      grid.add(HorizontalPair(new LabelControl(label), control));
-    }
+  public function control<T>(?label : String, control : Control<T>, callback : T -> Void) {
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     control.streams.value.subscribe(callback);
+  }
+
+  public function attach(?el : Element) {
+    if(null == el)
+      el = js.Browser.document.body;
+    this.el.classList.add("sui-top-right");
+    el.appendChild(this.el);
   }
 }

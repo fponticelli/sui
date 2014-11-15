@@ -9,7 +9,6 @@ import js.Browser;
 class DemoControls {
   public static function main() {
     var ui = new sui.Sui();
-    Browser.document.body.appendChild(ui.el);
     //ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
     ui.bool("boolean", function(v) trace('bool: $v'));
     ui.color("color",  function(v) trace('color: $v'));
@@ -21,6 +20,8 @@ class DemoControls {
     //?label, ?defaultValue, ?placeholder, ?allowEmptyText = true, callback : String -> Void
     ui.text(null, "", "placeholder", function(v) trace('string: $v'));
     ui.trigger("trigger", function() trace("triggered"));
+
+    ui.attach();
 
     var grid = new Grid();
     Browser.document.body.appendChild(grid.el);

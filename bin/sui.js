@@ -10,32 +10,32 @@ var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
 	var ui = new sui.Sui();
-	window.document.body.appendChild(ui.el);
 	ui.bool("boolean",null,function(v) {
-		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
 	});
 	ui.color("color",null,function(v1) {
-		haxe.Log.trace("color: " + v1,{ fileName : "DemoControls.hx", lineNumber : 15, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("color: " + v1,{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("float",null,null,null,null,null,function(v2) {
-		haxe.Log.trace("float: " + v2,{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("float: " + v2,{ fileName : "DemoControls.hx", lineNumber : 15, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("float",0.5,0.01,0.0,1.0,null,function(v3) {
-		haxe.Log.trace("float: " + v3,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("float: " + v3,{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int",null,null,null,null,function(v4) {
-		haxe.Log.trace("int: " + v4,{ fileName : "DemoControls.hx", lineNumber : 18, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int: " + v4,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int",20,5,10,30,function(v5) {
-		haxe.Log.trace("int: " + v5,{ fileName : "DemoControls.hx", lineNumber : 19, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int: " + v5,{ fileName : "DemoControls.hx", lineNumber : 18, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
 	ui.text(null,"","placeholder",null,function(v6) {
-		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 21, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 23, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
 	});
+	ui.attach();
 	var grid = new sui.components.Grid();
 	window.document.body.appendChild(grid.el);
 	grid.add(sui.components.CellContent.Single(new sui.controls.LabelControl("I act like a title")));
@@ -693,9 +693,14 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
-	,bind: function(label,control,callback) {
-		if(null == label) this.grid.add(sui.components.CellContent.Single(control)); else this.grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+	,control: function(label,control,callback) {
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		control.streams.value.subscribe(callback);
+	}
+	,attach: function(el) {
+		if(null == el) el = window.document.body;
+		this.el.classList.add("sui-top-right");
+		el.appendChild(this.el);
 	}
 	,__class__: sui.Sui
 };
