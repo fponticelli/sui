@@ -13,9 +13,9 @@ class DemoControls {
     ui.bool("boolean", function(v) trace('bool: $v'));
     ui.color("color",  function(v) trace('color: $v'));
     ui.float("float",  function(v) trace('float: $v'));
-    ui.float("float", 0.5, 0.01, 0.0, 1.0, function(v) trace('float: $v'));
+    ui.float("float", 0.5, 0.0, 1.0, function(v) trace('float: $v'));
     ui.int("int",  function(v) trace('int: $v'));
-    ui.int("int", 20, 5, 10, 30, function(v) trace('int: $v'));
+    ui.int("int", 20, 10, 30, function(v) trace('int: $v'));
     ui.label("temp").set("hello there");
     //?label, ?defaultValue, ?placeholder, ?allowEmptyText = true, callback : String -> Void
     ui.text(null, "", "placeholder", function(v) trace('string: $v'));

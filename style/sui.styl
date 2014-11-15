@@ -3,10 +3,10 @@ light-background = #f6f6f6
 font-default = Helvetica, "Nimbus Sans L", "Liberation Sans", Arial, sans-serif
 font-mono = monospace
 
- box-shadow(args...)
-   -webkit-box-shadow args
-   -moz-box-shadow args
-   box-shadow args
+box-shadow(args...)
+  -webkit-box-shadow args
+  -moz-box-shadow args
+  box-shadow args
 
 // components
 table.sui-grid
@@ -36,6 +36,7 @@ table.sui-grid
   position absolute
   top 0
   right 0
+  background-color #fff
   box-shadow(-1px 1px 6px rgba(0,0,0,0.1))
   &.sui-grid
     tr:first-child

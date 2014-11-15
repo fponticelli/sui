@@ -19,13 +19,13 @@ DemoControls.main = function() {
 	ui["float"]("float",null,null,null,null,null,function(v2) {
 		haxe.Log.trace("float: " + v2,{ fileName : "DemoControls.hx", lineNumber : 15, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float",0.5,0.01,0.0,1.0,null,function(v3) {
+	ui["float"]("float",0.5,0.0,1.0,null,null,function(v3) {
 		haxe.Log.trace("float: " + v3,{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int",null,null,null,null,function(v4) {
 		haxe.Log.trace("int: " + v4,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
 	});
-	ui["int"]("int",20,5,10,30,function(v5) {
+	ui["int"]("int",20,10,30,null,function(v5) {
 		haxe.Log.trace("int: " + v5,{ fileName : "DemoControls.hx", lineNumber : 18, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
@@ -653,8 +653,9 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
-	,'float': function(label,defaultValue,step,min,max,allowNaN,callback) {
+	,'float': function(label,defaultValue,min,max,step,allowNaN,callback) {
 		if(allowNaN == null) allowNaN = false;
+		if(step == null) step = 0.01;
 		if(defaultValue == null) defaultValue = 0.0;
 		var control;
 		if(min != null && max != null) control = new sui.controls.FloatRangeControl(defaultValue,min,max,step); else control = new sui.controls.FloatControl(defaultValue,null,allowNaN);
@@ -662,7 +663,8 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
-	,'int': function(label,defaultValue,step,min,max,callback) {
+	,'int': function(label,defaultValue,min,max,step,callback) {
+		if(step == null) step = 1;
 		if(defaultValue == null) defaultValue = 0;
 		var control;
 		if(min != null && max != null) control = new sui.controls.IntRangeControl(defaultValue,min,max,step); else control = new sui.controls.IntControl(defaultValue);

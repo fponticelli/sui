@@ -26,14 +26,14 @@ class Sui {
     return control;
   }
 
-  public function float(?label : String, ?defaultValue = 0.0, ?step : Float, ?min : Float, ?max : Float, ?allowNaN = false, callback : Float -> Void) {
+  public function float(?label : String, ?defaultValue = 0.0, ?min : Float, ?max : Float, ?step : Float = 0.01, ?allowNaN = false, callback : Float -> Void) {
     var control = (min != null && max != null) ? new FloatRangeControl(defaultValue, min, max, step) : new FloatControl(defaultValue, allowNaN);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
 
-  public function int(?label : String, ?defaultValue = 0, ?step : Int, ?min : Int, ?max : Int, callback : Int -> Void) {
+  public function int(?label : String, ?defaultValue = 0, ?min : Int, ?max : Int, ?step : Int = 1, callback : Int -> Void) {
     var control = (min != null && max != null) ? new IntRangeControl(defaultValue, min, max, step) : new IntControl(defaultValue);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
