@@ -10,7 +10,7 @@ import js.html.ButtonElement;
 
 class TriggerControl extends Control<Nil> {
   public function new(label : String) {
-    var button : ButtonElement = cast Html.parse('<button>$label</button>');
+    var button : ButtonElement = cast Html.parse('<button class="sui-button">$label</button>');
     el = button;
     var emitter = button.streamClick().toNil();
     super(emitter);

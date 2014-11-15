@@ -8,7 +8,7 @@ class FloatControl extends ValueControl<Float> {
   public function new(value : Float, ?step : Float, ?allowNaN = false) {
     super(value);
     var sstep = null == step ? "" : 'step="$step"',
-        input : InputElement = cast dots.Html.parse('<input type="number" value="$value" ${sstep} />');
+        input : InputElement = cast dots.Html.parse('<input class="sui-input sui-float" type="number" value="$value" ${sstep} />');
     el = input;
     input.streamFocus().feed(_focus);
     input.streamInput()

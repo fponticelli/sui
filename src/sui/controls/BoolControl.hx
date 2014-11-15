@@ -6,7 +6,7 @@ import js.html.InputElement;
 class BoolControl extends ValueControl<Bool> {
   public function new(value : Bool) {
     super(value);
-    var input : InputElement = cast dots.Html.parse('<input type="checkbox" ${value ? "checked" : ""}/>');
+    var input : InputElement = cast dots.Html.parse('<input class="sui-input sui-bool" type="checkbox" ${value ? "checked" : ""}/>');
     el = input;
     input.streamFocus().feed(_focus);
     input.streamChecked().subscribe(set);

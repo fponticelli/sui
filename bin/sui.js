@@ -11,11 +11,30 @@ DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
 	var ui = new sui.Sui();
 	window.document.body.appendChild(ui.el);
-	ui.bind("name",new sui.controls.TextControl("","type it good"),function(s) {
-		haxe.Log.trace(s,{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
+	ui.bool("boolean",null,function(v) {
+		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
 	});
-	ui.bind(null,new sui.controls.TriggerControl("click me"),function(_) {
-		haxe.Log.trace("clicked",{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
+	ui.color("color",null,function(v1) {
+		haxe.Log.trace("color: " + v1,{ fileName : "DemoControls.hx", lineNumber : 15, className : "DemoControls", methodName : "main"});
+	});
+	ui["float"]("float",null,null,null,null,null,function(v2) {
+		haxe.Log.trace("float: " + v2,{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
+	});
+	ui["float"]("float",0.5,0.01,0.0,1.0,null,function(v3) {
+		haxe.Log.trace("float: " + v3,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
+	});
+	ui["int"]("int",null,null,null,null,function(v4) {
+		haxe.Log.trace("int: " + v4,{ fileName : "DemoControls.hx", lineNumber : 18, className : "DemoControls", methodName : "main"});
+	});
+	ui["int"]("int",20,5,10,30,function(v5) {
+		haxe.Log.trace("int: " + v5,{ fileName : "DemoControls.hx", lineNumber : 19, className : "DemoControls", methodName : "main"});
+	});
+	ui.label("temp").set("hello there");
+	ui.text(null,"","placeholder",null,function(v6) {
+		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
+	});
+	ui.trigger("trigger",null,function() {
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 23, className : "DemoControls", methodName : "main"});
 	});
 	var grid = new sui.components.Grid();
 	window.document.body.appendChild(grid.el);
@@ -620,7 +639,61 @@ sui.Sui = function() {
 };
 sui.Sui.__name__ = ["sui","Sui"];
 sui.Sui.prototype = {
-	bind: function(label,control,callback) {
+	bool: function(label,defaultValue,callback) {
+		if(defaultValue == null) defaultValue = false;
+		var control = new sui.controls.BoolControl(defaultValue);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,color: function(label,defaultValue,callback) {
+		if(defaultValue == null) defaultValue = "#AA0000";
+		var control = new sui.controls.ColorControl(defaultValue);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,'float': function(label,defaultValue,step,min,max,allowNaN,callback) {
+		if(allowNaN == null) allowNaN = false;
+		if(defaultValue == null) defaultValue = 0.0;
+		var control;
+		if(min != null && max != null) control = new sui.controls.FloatRangeControl(defaultValue,min,max,step); else control = new sui.controls.FloatControl(defaultValue,null,allowNaN);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,'int': function(label,defaultValue,step,min,max,callback) {
+		if(defaultValue == null) defaultValue = 0;
+		var control;
+		if(min != null && max != null) control = new sui.controls.IntRangeControl(defaultValue,min,max,step); else control = new sui.controls.IntControl(defaultValue);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,label: function(defaultValue,label,callback) {
+		if(defaultValue == null) defaultValue = "";
+		var control = new sui.controls.LabelControl(defaultValue);
+		if(null != callback) control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,text: function(label,defaultValue,placeholder,allowEmptyText,callback) {
+		if(allowEmptyText == null) allowEmptyText = true;
+		if(defaultValue == null) defaultValue = "";
+		var control = new sui.controls.TextControl(defaultValue,placeholder,allowEmptyText);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,trigger: function(actionLabel,label,callback) {
+		var control = new sui.controls.TriggerControl(actionLabel);
+		control.streams.value.subscribe(function(_) {
+			callback();
+		});
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,bind: function(label,control,callback) {
 		if(null == label) this.grid.add(sui.components.CellContent.Single(control)); else this.grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		control.streams.value.subscribe(callback);
 	}
@@ -868,7 +941,7 @@ sui.controls.IntRangeControl.prototype = $extend(sui.controls.ValueControl.proto
 	}
 	,__class__: sui.controls.IntRangeControl
 });
-sui.controls.LabelControl = function(value,placeholder) {
+sui.controls.LabelControl = function(value) {
 	if(null == value) value = "";
 	sui.controls.ValueControl.call(this,value);
 	this.el = dots.Html.parseNodes("<output>" + value + "</output>")[0];
@@ -1861,6 +1934,9 @@ thx.core.Strings.repeat = function(s,times) {
 };
 thx.core.Strings.stripTags = function(s) {
 	return thx.core.Strings.STRIPTAGS.replace(s,"");
+};
+thx.core.Strings.surround = function(s,left,right) {
+	return "" + left + s + (null == right?left:right);
 };
 thx.core.Strings.toArray = function(s) {
 	return s.split("");

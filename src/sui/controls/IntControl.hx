@@ -7,7 +7,7 @@ import js.html.InputElement;
 class IntControl extends ValueControl<Int> {
   public function new(value : Int, step : Int = 1) {
     super(value);
-    var input : InputElement = cast dots.Html.parse('<input type="number" value="$value" step="$step" />');
+    var input : InputElement = cast dots.Html.parse('<input class="sui-input sui-int" type="number" value="$value" step="$step" />');
     el = input;
     input.streamFocus().feed(_focus);
     input.streamInput()

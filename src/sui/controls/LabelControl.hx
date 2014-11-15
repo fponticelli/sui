@@ -9,7 +9,7 @@ class LabelControl extends ValueControl<String> {
     if(null == value)
       value = "";
     super(value);
-    el = cast dots.Html.parse('<output>$value</output>');
+    el = cast dots.Html.parse('<output class="sui-output">$value</output>');
   }
 
   override public function set(value : String) {

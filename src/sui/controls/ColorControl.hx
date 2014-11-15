@@ -13,9 +13,9 @@ class ColorControl extends ValueControl<String> {
   var picker : InputElement;
   public function new(value : String) {
     super(value);
-    el = dots.Html.parse('<div>
-<input class="color" type="color" value="$value" />
-<input class="text" type="text" value="$value" />
+    el = dots.Html.parse('<div class="sui-color">
+<input class="sui-input color" type="color" value="$value" />
+<input class="sui-input text" type="text" value="$value" />
 </div>');
     picker = cast Query.first('.color', el);
     input = cast Query.first('.text', el);

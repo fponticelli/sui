@@ -11,12 +11,12 @@ class IntRangeControl extends ValueControl<Int> {
   var range : InputElement;
   public function new(value : Int, min : Int, max : Int, step : Int = 1) {
     super(value);
-    el = dots.Html.parse('<div>
-<input class="range" type="range" value="$value" step="$step" min="$min" max="$max" />
-<input class="number" type="number" value="$value" step="$step" min="$min" max="$max" />
+    el = dots.Html.parse('<div class="sui-int-range">
+<input class="sui-input range" type="range" value="$value" step="$step" min="$min" max="$max" />
+<input class="sui-input range-input int" type="number" value="$value" step="$step" min="$min" max="$max" />
 </div>');
     range = cast Query.first('.range', el);
-    input = cast Query.first('.number', el);
+    input = cast Query.first('.int', el);
 
     range.streamFocus()
       .merge(input.streamFocus())

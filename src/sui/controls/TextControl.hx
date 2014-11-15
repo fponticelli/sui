@@ -9,7 +9,7 @@ class TextControl extends ValueControl<String> {
     if(allowEmptyString && null == value)
       value = "";
     super(value);
-    var input : InputElement = cast dots.Html.parse('<input type="text" value="${value.or("")}" placeholder="${null == placeholder ? "" : placeholder}" />');
+    var input : InputElement = cast dots.Html.parse('<input class="sui-input sui-text" type="text" value="${value.or("")}" placeholder="${null == placeholder ? "" : placeholder}" />');
     el = input;
     input.streamFocus().feed(_focus);
     var si = input.streamInput();
