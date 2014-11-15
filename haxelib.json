@@ -1,0 +1,11 @@
+{
+  "name": "sui",
+  "url": "https://github.com/fponticelli/sui",
+  "license": "MIT",
+  "classPath": "src",
+  "tags": ["ui", "js"],
+  "description": "Simple User Interface - Haxe + Html",
+  "releasenote": "initial release",
+  "version": "0.0.1",
+  "contributors": ["fponticelli"]
+}
