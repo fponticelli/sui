@@ -6,31 +6,21 @@
 
 ## TODO
 
-  * structure controls
   * automap field/variable to control
-  * default style
 
 ### Controls
-  - text box
-  * label (readonly control)
-  - action
-  - bool
-  - color
-  - constrained number (range)
-  - number
-  * select string (options)
-  * select number
-  * folders
-  * objects and nested objects
-  * arrays
   * date
   * time
   * date/time
+  * select string (options)
+  * select number
+  * datalist for every control
+  * folders
+  * objects and nested objects
+  * arrays
   * unstructured objects (create field together with values)
 
 ### API
-  * Events/Streams
-  * fill container
   * append to container (with position and close controls)
 
 
