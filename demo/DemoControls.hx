@@ -11,6 +11,9 @@ class DemoControls {
     var ui = new sui.Sui();
     //ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
     ui.bool("boolean", function(v) trace('bool: $v'));
+    ui.dateTime("date time", {
+        list : [{ label : "birthday", value : Date.fromString("1972-05-02 16:01:00") }, { label : "other", value : Date.fromString("1974-06-09") }, { label : "today", value : Date.now() }]
+      }, function(v) trace('date time: $v'));
     ui.date("date", {
         list : [{ label : "birthday", value : Date.fromString("1972-05-02") }, { label : "today", value : Date.now() }]
       }, function(v) trace('date: $v'));

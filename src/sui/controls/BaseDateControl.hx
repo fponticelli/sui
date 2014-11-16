@@ -53,21 +53,28 @@ class BaseDateControl extends SingleInputControl<Date> {
   }
 
   public static function toRFCDateTime(date : Date) {
-    var d = toRFCDate(date),
+    var d  = toRFCDate(date),
         hh = '${date.getHours()}'.lpad('0', 2),
         mm = '${date.getMinutes()}'.lpad('0', 2),
         ss = '${date.getSeconds()}'.lpad('0', 2);
     return '${d}T$hh:$mm:$ss';
   }
 
+  public static function toRFCDateTimeNoSeconds(date : Date) {
+    var d  = toRFCDate(date),
+        hh = '${date.getHours()}'.lpad('0', 2),
+        mm = '${date.getMinutes()}'.lpad('0', 2);
+    return '${d}T$hh:$mm:00';
+  }
+
   public static function fromRFC(date : String) {
     var dp = date.split("T")[0],
         dt = (date.split("T")[1]).or("00:00:00"),
-        p = dp.split("-"),
-        y = Std.parseInt(p[0]),
-        m = Std.parseInt(p[1])-1,
-        d = Std.parseInt(p[2]),
-        t = dt.split(":"),
+        p  = dp.split("-"),
+        y  = Std.parseInt(p[0]),
+        m  = Std.parseInt(p[1])-1,
+        d  = Std.parseInt(p[2]),
+        t  = dt.split(":"),
         hh = Std.parseInt(t[0]),
         mm = Std.parseInt(t[1]),
         ss = Std.parseInt(t[2]);

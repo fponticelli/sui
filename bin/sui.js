@@ -13,20 +13,23 @@ DemoControls.main = function() {
 	ui.bool("boolean",null,null,function(v) {
 		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
 	});
-	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v1) {
-		haxe.Log.trace("date: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
+	ui.dateTime("date time",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02 16:01:00")},{ label : "other", value : HxOverrides.strDate("1974-06-09")},{ label : "today", value : new Date()}]},function(v1) {
+		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
 	});
-	ui.password("secret","",{ placeholder : "shhh"},function(v2) {
-		haxe.Log.trace("password: " + v2,{ fileName : "DemoControls.hx", lineNumber : 19, className : "DemoControls", methodName : "main"});
+	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v2) {
+		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 19, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("text","",{ placeholder : "placeholder"},function(v3) {
-		haxe.Log.trace("string: " + v3,{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
+	ui.password("secret","",{ placeholder : "shhh"},function(v3) {
+		haxe.Log.trace("password: " + v3,{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
 	});
-	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v4) {
-		haxe.Log.trace("string: " + v4,{ fileName : "DemoControls.hx", lineNumber : 26, className : "DemoControls", methodName : "main"});
+	ui.text("text","",{ placeholder : "placeholder"},function(v4) {
+		haxe.Log.trace("string: " + v4,{ fileName : "DemoControls.hx", lineNumber : 25, className : "DemoControls", methodName : "main"});
+	});
+	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v5) {
+		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 29, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 36, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 39, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -586,6 +589,13 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,dateTime: function(label,defaultValue,options,callback) {
+		if(null == defaultValue) defaultValue = new Date();
+		var control = new sui.controls.DateTimeControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,password: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
 		var control = new sui.controls.PasswordControl(defaultValue,options);
@@ -762,6 +772,12 @@ sui.controls.BaseDateControl.toRFCDateTime = function(date) {
 	var ss = StringTools.lpad("" + date.getSeconds(),"0",2);
 	return "" + d + "T" + hh + ":" + mm + ":" + ss;
 };
+sui.controls.BaseDateControl.toRFCDateTimeNoSeconds = function(date) {
+	var d = sui.controls.BaseDateControl.toRFCDate(date);
+	var hh = StringTools.lpad("" + date.getHours(),"0",2);
+	var mm = StringTools.lpad("" + date.getMinutes(),"0",2);
+	return "" + d + "T" + hh + ":" + mm + ":00";
+};
 sui.controls.BaseDateControl.fromRFC = function(date) {
 	var dp = date.split("T")[0];
 	var dt;
@@ -845,7 +861,7 @@ sui.controls.ControlValues.prototype = {
 };
 sui.controls.DataList = function(container,values) {
 	this.id = "sui-dl-" + ++sui.controls.DataList.nid;
-	var datalist = dots.Html.parse("<datalist id=\"" + this.id + "\" style=\"display:none\">" + Std.string(values.map(sui.controls.DataList.toOption)) + "</datalist>");
+	var datalist = dots.Html.parse("<datalist id=\"" + this.id + "\" style=\"display:none\">" + values.map(sui.controls.DataList.toOption).join("") + "</datalist>");
 	container.appendChild(datalist);
 };
 sui.controls.DataList.__name__ = true;
@@ -871,6 +887,14 @@ sui.controls.DateControl.__name__ = true;
 sui.controls.DateControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateControl
+});
+sui.controls.DateTimeControl = function(value,options) {
+	sui.controls.BaseDateControl.call(this,value,"date-time","datetime-local",sui.controls.BaseDateControl.toRFCDateTimeNoSeconds,options);
+};
+sui.controls.DateTimeControl.__name__ = true;
+sui.controls.DateTimeControl.__super__ = sui.controls.BaseDateControl;
+sui.controls.DateTimeControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
+	__class__: sui.controls.DateTimeControl
 });
 sui.controls.LabelControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"label","text",options);

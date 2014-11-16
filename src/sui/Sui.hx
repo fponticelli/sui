@@ -29,6 +29,15 @@ class Sui {
     return control;
   }
 
+  public function dateTime(?label : String, ?defaultValue : Date, ?options : OptionsDate, callback : Date -> Void) {
+    if(null == defaultValue)
+      defaultValue = Date.now();
+    var control = new DateTimeControl(defaultValue, options);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
 /*
   public function color(?label : String, ?defaultValue = "#AA0000", callback : String -> Void) {
     var control = new ColorControl(defaultValue);

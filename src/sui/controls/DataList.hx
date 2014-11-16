@@ -12,7 +12,7 @@ class DataList {
 
   public function new(container : Element, values : Array<{ label : String, value : String }>) {
     id = 'sui-dl-${++nid}';
-    var datalist = Html.parse('<datalist id="$id" style="display:none">${values.map(toOption)}</datalist>');
+    var datalist = Html.parse('<datalist id="$id" style="display:none">${values.map(toOption).join("")}</datalist>');
     container.appendChild(datalist);
   }
 
