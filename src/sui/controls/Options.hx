@@ -14,6 +14,14 @@ typedef OptionsDate = {> Options,
   ?values : Array<Date>
 }
 
+typedef OptionsTime = {> Options,
+  ?min : Float,
+  ?max : Float,
+  ?autocomplete : Bool,
+  ?list : Array<{ label : String, value : Float }>,
+  ?values : Array<Float>
+}
+
 typedef OptionsText = {> Options,
   ?maxlength : Int,
   ?autocomplete : Bool,

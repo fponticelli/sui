@@ -28,8 +28,11 @@ DemoControls.main = function() {
 	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v5) {
 		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 29, className : "DemoControls", methodName : "main"});
 	});
+	ui.time("time",82800000,{ values : [0,60000,3600000]},function(t) {
+		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 32, className : "DemoControls", methodName : "main"});
+	});
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 39, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -182,6 +185,9 @@ Std.parseInt = function(x) {
 	if(v == 0 && (HxOverrides.cca(x,1) == 120 || HxOverrides.cca(x,1) == 88)) v = parseInt(x);
 	if(isNaN(v)) return null;
 	return v;
+};
+Std.parseFloat = function(x) {
+	return parseFloat(x);
 };
 Std.random = function(x) {
 	if(x <= 0) return 0; else return Math.floor(Math.random() * x);
@@ -610,6 +616,13 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,time: function(label,defaultValue,options,callback) {
+		if(null == defaultValue) defaultValue = 0;
+		var control = new sui.controls.TimeControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,trigger: function(actionLabel,label,options,callback) {
 		var control = new sui.controls.TriggerControl(actionLabel,options);
 		control.streams.value.subscribe(function(_) {
@@ -920,6 +933,48 @@ sui.controls.TextControl.__name__ = true;
 sui.controls.TextControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.TextControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.TextControl
+});
+sui.controls.TimeControl = function(value,options) {
+	if(null == options) options = { };
+	sui.controls.SingleInputControl.call(this,value,"input","time","time",options);
+	if(null != options.autocomplete) this.input.setAttribute("autocomplete",options.autocomplete?"on":"off");
+	if(null != options.min) this.input.setAttribute("min",sui.controls.TimeControl.timeToString(options.min));
+	if(null != options.max) this.input.setAttribute("max",sui.controls.TimeControl.timeToString(options.max));
+	if(null != options.list) new sui.controls.DataList(this.el,options.list.map(function(o) {
+		return { label : o.label, value : sui.controls.TimeControl.timeToString(o.value)};
+	})).applyTo(this.input); else if(null != options.values) new sui.controls.DataList(this.el,options.values.map(function(o1) {
+		return { label : sui.controls.TimeControl.timeToString(o1), value : sui.controls.TimeControl.timeToString(o1)};
+	})).applyTo(this.input);
+};
+sui.controls.TimeControl.__name__ = true;
+sui.controls.TimeControl.timeToString = function(t) {
+	var h = Math.floor(t / 3600000);
+	t -= h * 3600000;
+	var m = Math.floor(t / 60000);
+	t -= m * 60000;
+	var s = t / 1000;
+	var hh = StringTools.lpad("" + h,"0",2);
+	var mm = StringTools.lpad("" + m,"0",2);
+	var ss;
+	ss = (s >= 10?"":"0") + s;
+	return "" + hh + ":" + mm + ":" + ss;
+};
+sui.controls.TimeControl.stringToTime = function(t) {
+	var p = t.split(":");
+	var h = Std.parseInt(p[0]);
+	var m = Std.parseInt(p[1]);
+	var s = Std.parseFloat(p[2]);
+	return s * 1000 + m * 60000 + h * 3600000;
+};
+sui.controls.TimeControl.__super__ = sui.controls.SingleInputControl;
+sui.controls.TimeControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
+	setInput: function(v) {
+		this.input.value = sui.controls.TimeControl.timeToString(v);
+	}
+	,getInput: function() {
+		return sui.controls.TimeControl.stringToTime(this.input.value);
+	}
+	,__class__: sui.controls.TimeControl
 });
 sui.controls.TriggerControl = function(label,options) {
 	var _g = this;

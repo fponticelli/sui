@@ -27,6 +27,9 @@ class DemoControls {
         placeholder : "libs",
         values : ["haxe", "thx", "sui"]
       }, function(v) trace('string: $v'));
+    ui.time("time", 3600000 * 23, {
+        values : [0, 60000, 3600000]
+      }, function(t) trace('time: $t'));
     /*
     ui.color("color",  function(v) trace('color: $v'));
     ui.float("float",  function(v) trace('float: $v'));

@@ -82,6 +82,15 @@ class Sui {
     return control;
   }
 
+  public function time(?label : String, ?defaultValue : Float, ?options : OptionsTime, callback : Float -> Void) {
+    if(null == defaultValue)
+      defaultValue = 0;
+    var control = new TimeControl(defaultValue, options);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
   public function trigger(actionLabel : String, ?label : String, ?options : Options, callback : Void -> Void) {
     var control = new TriggerControl(actionLabel, options);
     control.streams.value.subscribe(function(_) callback());
