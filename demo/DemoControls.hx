@@ -30,8 +30,8 @@ class DemoControls {
     ui.int("int", 20, 10, 30, function(v) trace('int: $v'));
     ui.label("temp").set("hello there");
     //?label, ?defaultValue, ?placeholder, ?allowEmptyText = true, callback : String -> Void
-    ui.trigger("trigger", function() trace("triggered"));
     */
+    ui.trigger("trigger", function() trace("triggered"));
     ui.attach();
 /*
     var grid = new Grid();

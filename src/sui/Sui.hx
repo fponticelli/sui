@@ -72,14 +72,14 @@ class Sui {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
-/*
-  public function trigger(actionLabel : String, ?label : String, callback : Void -> Void) {
-    var control = new TriggerControl(actionLabel);
+
+  public function trigger(actionLabel : String, ?label : String, ?options : Options, callback : Void -> Void) {
+    var control = new TriggerControl(actionLabel, options);
     control.streams.value.subscribe(function(_) callback());
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
-*/
+
   // general binding
   public function control<T>(?label : String, control : IControl<T>, callback : T -> Void) {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));

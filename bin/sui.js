@@ -22,6 +22,9 @@ DemoControls.main = function() {
 	ui.text(null,"",{ placeholder : "libs", list : ["haxe","thx","sui"]},function(v3) {
 		haxe.Log.trace("string: " + v3,{ fileName : "DemoControls.hx", lineNumber : 24, className : "DemoControls", methodName : "main"});
 	});
+	ui.trigger("trigger",null,null,function() {
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 34, className : "DemoControls", methodName : "main"});
+	});
 	ui.attach();
 };
 var EReg = function(r,opt) {
@@ -545,6 +548,14 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,trigger: function(actionLabel,label,options,callback) {
+		var control = new sui.controls.TriggerControl(actionLabel,options);
+		control.streams.value.subscribe(function(_) {
+			callback();
+		});
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,control: function(label,control,callback) {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		control.streams.value.subscribe(callback);
@@ -770,6 +781,64 @@ sui.controls.TextControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.TextControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.TextControl
 });
+sui.controls.TriggerControl = function(label,options) {
+	var _g = this;
+	var template = "<div class=\"sui-control sui-control-single sui-type-trigger\"><button>" + label + "</button></div>";
+	if(null == options) options = { };
+	this.defaultValue = thx.core.Nil.nil;
+	this.el = dots.Html.parseNodes(template)[0];
+	this.button = dots.Query.first("button",this.el);
+	this.values = new sui.controls.ControlValues(thx.core.Nil.nil);
+	var emitter = thx.stream.dom.Dom.streamEvent(this.button,"click",false).toNil();
+	this.streams = new sui.controls.ControlStreams(emitter,this.values.focused,this.values.enabled);
+	this.values.enabled.subscribe(function(v) {
+		if(v) {
+			_g.el.classList.add("sui-disabled");
+			_g.button.removeAttribute("disabled");
+		} else {
+			_g.el.classList.remove("sui-disabled");
+			_g.button.setAttribute("disabled","disabled");
+		}
+	});
+	this.values.focused.subscribe(function(v1) {
+		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
+	});
+	thx.stream.dom.Dom.streamFocus(this.button).feed(this.values.focused);
+	if(options.autofocus) this.focus();
+	if(options.disabled) this.disable();
+};
+sui.controls.TriggerControl.__name__ = true;
+sui.controls.TriggerControl.__interfaces__ = [sui.controls.IControl];
+sui.controls.TriggerControl.prototype = {
+	set: function(v) {
+		this.button.click();
+	}
+	,get: function() {
+		return thx.core.Nil.nil;
+	}
+	,isEnabled: function() {
+		return this.values.enabled.get();
+	}
+	,isFocused: function() {
+		return this.values.focused.get();
+	}
+	,disable: function() {
+		this.values.enabled.set(false);
+	}
+	,enable: function() {
+		this.values.enabled.set(true);
+	}
+	,focus: function() {
+		this.button.focus();
+	}
+	,blur: function() {
+		this.button.blur();
+	}
+	,reset: function() {
+		this.set(this.defaultValue);
+	}
+	,__class__: sui.controls.TriggerControl
+};
 var thx = {};
 thx.core = {};
 thx.core.Arrays = function() { };
