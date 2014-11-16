@@ -3,6 +3,7 @@ package sui;
 import js.html.Element;
 import sui.components.Grid;
 import sui.controls.*;
+import sui.controls.Options;
 
 class Sui {
   public var el(default, null) : Element;
@@ -12,8 +13,18 @@ class Sui {
     el = grid.el;
   }
 
-  public function bool(?label : String, ?defaultValue = false, callback : Bool -> Void) {
-    var control = new BoolControl(defaultValue);
+  public function bool(?label : String, ?defaultValue = false, ?options : Options, callback : Bool -> Void) {
+    var control = new BoolControl(defaultValue, options);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
+/*
+  public function date(?label : String, ?defaultValue : Date, callback : Date -> Void) {
+    if(null == defaultValue)
+      defaultValue = Date.now();
+    var control = new DateControl(defaultValue);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
@@ -47,23 +58,23 @@ class Sui {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
-
-  public function text(?label : String, ?defaultValue = "", ?placeholder : String, ?allowEmptyText = true, callback : String -> Void) {
-    var control = new TextControl(defaultValue, placeholder, allowEmptyText);
+*/
+  public function text(?label : String, ?defaultValue = "", ?options : OptionsText, callback : String -> Void) {
+    var control = new TextControl(defaultValue, options);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
-
+/*
   public function trigger(actionLabel : String, ?label : String, callback : Void -> Void) {
     var control = new TriggerControl(actionLabel);
     control.streams.value.subscribe(function(_) callback());
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
-
+*/
   // general binding
-  public function control<T>(?label : String, control : Control<T>, callback : T -> Void) {
+  public function control<T>(?label : String, control : IControl<T>, callback : T -> Void) {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     control.streams.value.subscribe(callback);
   }

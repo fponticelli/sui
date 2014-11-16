@@ -7,70 +7,25 @@ function $extend(from, fields) {
 	return proto;
 }
 var DemoControls = function() { };
-DemoControls.__name__ = ["DemoControls"];
+DemoControls.__name__ = true;
 DemoControls.main = function() {
 	var ui = new sui.Sui();
-	ui.bool("boolean",null,function(v) {
-		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
+	ui.bool("boolean",null,null,function(v) {
+		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
 	});
-	ui.color("color",null,function(v1) {
-		haxe.Log.trace("color: " + v1,{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
+	ui.text("text","",{ placeholder : "placeholder"},function(v1) {
+		haxe.Log.trace("string: " + v1,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float",null,null,null,null,null,function(v2) {
-		haxe.Log.trace("float: " + v2,{ fileName : "DemoControls.hx", lineNumber : 15, className : "DemoControls", methodName : "main"});
-	});
-	ui["float"]("float",0.5,0.0,1.0,null,null,function(v3) {
-		haxe.Log.trace("float: " + v3,{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
-	});
-	ui["int"]("int",null,null,null,null,function(v4) {
-		haxe.Log.trace("int: " + v4,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
-	});
-	ui["int"]("int",20,10,30,null,function(v5) {
-		haxe.Log.trace("int: " + v5,{ fileName : "DemoControls.hx", lineNumber : 18, className : "DemoControls", methodName : "main"});
-	});
-	ui.label("temp").set("hello there");
-	ui.text(null,"","placeholder",null,function(v6) {
-		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 21, className : "DemoControls", methodName : "main"});
-	});
-	ui.trigger("trigger",null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
+	ui.text(null,"",{ placeholder : "libs", list : ["haxe","thx","sui"]},function(v2) {
+		haxe.Log.trace("string: " + v2,{ fileName : "DemoControls.hx", lineNumber : 21, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
-	var grid = new sui.components.Grid();
-	window.document.body.appendChild(grid.el);
-	grid.add(sui.components.CellContent.Single(new sui.controls.LabelControl("I act like a title")));
-	grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl("got it?"),new sui.controls.BoolControl(true)));
-	grid.add(sui.components.CellContent.VerticalPair(new sui.controls.LabelControl("name"),new sui.controls.TextControl("sui")));
-	DemoControls.createControlContainer(new sui.controls.LabelControl("just a label, not interactive"));
-	DemoControls.createControlContainer(new sui.controls.TriggerControl("click me"));
-	DemoControls.createControlContainer(new sui.controls.ColorControl("#ff0000"));
-	DemoControls.createControlContainer(new sui.controls.BoolControl(true));
-	DemoControls.createControlContainer(new sui.controls.TextControl(null,"put text here"));
-	DemoControls.createControlContainer(new sui.controls.FloatControl(7.7));
-	DemoControls.createControlContainer(new sui.controls.IntControl(7));
-	DemoControls.createControlContainer(new sui.controls.FloatRangeControl(7,0,100,0.01));
-	DemoControls.createControlContainer(new sui.controls.IntRangeControl(7,0,100));
-};
-DemoControls.createControlContainer = function(control) {
-	var description = Type.getClassName(Type.getClass(control)).split(".").pop();
-	var el = dots.Html.parseNodes("<div class=\"sample\">\n  <h2>" + description + "</h2>\n  <div class=\"container\"></div>\n  <div class=\"focus\"></div>\n  <div class=\"value\"></div>\n</div>")[0];
-	window.document.body.appendChild(el);
-	var container = dots.Query.first(".container",el);
-	var focus = dots.Query.first(".focus",el);
-	var value = dots.Query.first(".value",el);
-	container.appendChild(control.el);
-	control.streams.value.subscribe(function(v) {
-		value.textContent = "value: " + Std.string(v);
-	});
-	control.streams.focus.subscribe(function(v1) {
-		focus.textContent = "focus: " + (v1 == null?"null":"" + v1);
-	});
 };
 var EReg = function(r,opt) {
 	opt = opt.split("u").join("");
 	this.r = new RegExp(r,opt);
 };
-EReg.__name__ = ["EReg"];
+EReg.__name__ = true;
 EReg.prototype = {
 	match: function(s) {
 		if(this.r.global) this.r.lastIndex = 0;
@@ -131,7 +86,7 @@ EReg.prototype = {
 	,__class__: EReg
 };
 var HxOverrides = function() { };
-HxOverrides.__name__ = ["HxOverrides"];
+HxOverrides.__name__ = true;
 HxOverrides.cca = function(s,index) {
 	var x = s.charCodeAt(index);
 	if(x != x) return undefined;
@@ -172,20 +127,12 @@ HxOverrides.iter = function(a) {
 	}};
 };
 var IMap = function() { };
-IMap.__name__ = ["IMap"];
-Math.__name__ = ["Math"];
-var Reflect = function() { };
-Reflect.__name__ = ["Reflect"];
-Reflect.hasField = function(o,field) {
-	return Object.prototype.hasOwnProperty.call(o,field);
-};
+IMap.__name__ = true;
+Math.__name__ = true;
 var Std = function() { };
-Std.__name__ = ["Std"];
+Std.__name__ = true;
 Std.string = function(s) {
 	return js.Boot.__string_rec(s,"");
-};
-Std.parseFloat = function(x) {
-	return parseFloat(x);
 };
 Std.random = function(x) {
 	if(x <= 0) return 0; else return Math.floor(Math.random() * x);
@@ -193,7 +140,7 @@ Std.random = function(x) {
 var StringBuf = function() {
 	this.b = "";
 };
-StringBuf.__name__ = ["StringBuf"];
+StringBuf.__name__ = true;
 StringBuf.prototype = {
 	add: function(x) {
 		this.b += Std.string(x);
@@ -201,7 +148,11 @@ StringBuf.prototype = {
 	,__class__: StringBuf
 };
 var StringTools = function() { };
-StringTools.__name__ = ["StringTools"];
+StringTools.__name__ = true;
+StringTools.htmlEscape = function(s,quotes) {
+	s = s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+	if(quotes) return s.split("\"").join("&quot;").split("'").join("&#039;"); else return s;
+};
 StringTools.startsWith = function(s,start) {
 	return s.length >= start.length && HxOverrides.substr(s,0,start.length) == start;
 };
@@ -232,78 +183,9 @@ StringTools.trim = function(s) {
 StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
 };
-var Type = function() { };
-Type.__name__ = ["Type"];
-Type.getClass = function(o) {
-	if(o == null) return null;
-	if((o instanceof Array) && o.__enum__ == null) return Array; else return o.__class__;
-};
-Type.getClassName = function(c) {
-	var a = c.__name__;
-	return a.join(".");
-};
 var dots = {};
-dots.Detect = function() { };
-dots.Detect.__name__ = ["dots","Detect"];
-dots.Detect.supportsInput = function(type) {
-	var i;
-	var _this = window.document;
-	i = _this.createElement("input");
-	i.setAttribute("type",type);
-	return i.type == type;
-};
-dots.Detect.supportsInputPlaceholder = function() {
-	var i;
-	var _this = window.document;
-	i = _this.createElement("input");
-	return Object.prototype.hasOwnProperty.call(i,"placeholder");
-};
-dots.Detect.supportsInputAutofocus = function() {
-	var i;
-	var _this = window.document;
-	i = _this.createElement("input");
-	return Object.prototype.hasOwnProperty.call(i,"autofocus");
-};
-dots.Detect.supportsCanvas = function() {
-	return null != ($_=((function($this) {
-		var $r;
-		var _this = window.document;
-		$r = _this.createElement("canvas");
-		return $r;
-	}(this))),$bind($_,$_.getContext));
-};
-dots.Detect.supportsVideo = function() {
-	return null != ($_=((function($this) {
-		var $r;
-		var _this = window.document;
-		$r = _this.createElement("video");
-		return $r;
-	}(this))),$bind($_,$_.canPlayType));
-};
-dots.Detect.supportsLocalStorage = function() {
-	try {
-		return 'localStorage' in window && window['localStorage'] !== null;
-	} catch( e ) {
-		return false;
-	}
-};
-dots.Detect.supportsWebWorkers = function() {
-	return !(!window.Worker);
-};
-dots.Detect.supportsOffline = function() {
-	return null != window.applicationCache;
-};
-dots.Detect.supportsGeolocation = function() {
-	return Reflect.hasField(window.navigator,"geolocation");
-};
-dots.Detect.supportsMicrodata = function() {
-	return Reflect.hasField(window.document,"getItems");
-};
-dots.Detect.supportsHistory = function() {
-	return !!(window.history && history.pushState);
-};
 dots.Html = function() { };
-dots.Html.__name__ = ["dots","Html"];
+dots.Html.__name__ = true;
 dots.Html.parseNodes = function(html) {
 	if(!dots.Html.pattern.match(html)) throw "Invalid pattern \"" + html + "\"";
 	var el;
@@ -334,7 +216,7 @@ dots.Html.nodeListToArray = function(list) {
 	return Array.prototype.slice.call(list,0);
 };
 dots.Query = function() { };
-dots.Query.__name__ = ["dots","Query"];
+dots.Query.__name__ = true;
 dots.Query.first = function(selector,ctx) {
 	return (ctx != null?ctx:dots.Query.doc).querySelector(selector);
 };
@@ -363,7 +245,7 @@ haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,li
 haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; return $x; };
 haxe.StackItem.LocalFunction = function(v) { var $x = ["LocalFunction",4,v]; $x.__enum__ = haxe.StackItem; return $x; };
 haxe.CallStack = function() { };
-haxe.CallStack.__name__ = ["haxe","CallStack"];
+haxe.CallStack.__name__ = true;
 haxe.CallStack.callStack = function() {
 	var oldValue = Error.prepareStackTrace;
 	Error.prepareStackTrace = function(error,callsites) {
@@ -456,7 +338,7 @@ haxe.CallStack.makeStack = function(s) {
 	} else return s;
 };
 haxe.Log = function() { };
-haxe.Log.__name__ = ["haxe","Log"];
+haxe.Log.__name__ = true;
 haxe.Log.trace = function(v,infos) {
 	js.Boot.__trace(v,infos);
 };
@@ -464,7 +346,7 @@ haxe.ds = {};
 haxe.ds.IntMap = function() {
 	this.h = { };
 };
-haxe.ds.IntMap.__name__ = ["haxe","ds","IntMap"];
+haxe.ds.IntMap.__name__ = true;
 haxe.ds.IntMap.__interfaces__ = [IMap];
 haxe.ds.IntMap.prototype = {
 	set: function(key,value) {
@@ -482,7 +364,7 @@ haxe.ds.Option.None.__enum__ = haxe.ds.Option;
 haxe.ds.StringMap = function() {
 	this.h = { };
 };
-haxe.ds.StringMap.__name__ = ["haxe","ds","StringMap"];
+haxe.ds.StringMap.__name__ = true;
 haxe.ds.StringMap.__interfaces__ = [IMap];
 haxe.ds.StringMap.prototype = {
 	set: function(key,value) {
@@ -498,7 +380,7 @@ haxe.ds.StringMap.prototype = {
 };
 var js = {};
 js.Boot = function() { };
-js.Boot.__name__ = ["js","Boot"];
+js.Boot.__name__ = true;
 js.Boot.__unhtml = function(s) {
 	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
 };
@@ -631,67 +513,25 @@ js.Boot.__instanceof = function(o,cl) {
 	}
 };
 js.Browser = function() { };
-js.Browser.__name__ = ["js","Browser"];
+js.Browser.__name__ = true;
 var sui = {};
 sui.Sui = function() {
 	this.grid = new sui.components.Grid();
 	this.el = this.grid.el;
 };
-sui.Sui.__name__ = ["sui","Sui"];
+sui.Sui.__name__ = true;
 sui.Sui.prototype = {
-	bool: function(label,defaultValue,callback) {
+	bool: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = false;
-		var control = new sui.controls.BoolControl(defaultValue);
+		var control = new sui.controls.BoolControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
-	,color: function(label,defaultValue,callback) {
-		if(defaultValue == null) defaultValue = "#AA0000";
-		var control = new sui.controls.ColorControl(defaultValue);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,'float': function(label,defaultValue,min,max,step,allowNaN,callback) {
-		if(allowNaN == null) allowNaN = false;
-		if(step == null) step = 0.01;
-		if(defaultValue == null) defaultValue = 0.0;
-		var control;
-		if(min != null && max != null) control = new sui.controls.FloatRangeControl(defaultValue,min,max,step); else control = new sui.controls.FloatControl(defaultValue,null,allowNaN);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,'int': function(label,defaultValue,min,max,step,callback) {
-		if(step == null) step = 1;
-		if(defaultValue == null) defaultValue = 0;
-		var control;
-		if(min != null && max != null) control = new sui.controls.IntRangeControl(defaultValue,min,max,step); else control = new sui.controls.IntControl(defaultValue);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,label: function(defaultValue,label,callback) {
+	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.LabelControl(defaultValue);
-		if(null != callback) control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,text: function(label,defaultValue,placeholder,allowEmptyText,callback) {
-		if(allowEmptyText == null) allowEmptyText = true;
-		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.TextControl(defaultValue,placeholder,allowEmptyText);
+		var control = new sui.controls.TextControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,trigger: function(actionLabel,label,callback) {
-		var control = new sui.controls.TriggerControl(actionLabel);
-		control.streams.value.subscribe(function(_) {
-			callback();
-		});
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
@@ -710,7 +550,7 @@ sui.components = {};
 sui.components.Grid = function() {
 	this.el = dots.Html.parseNodes("<table class=\"sui-grid\"></table>")[0];
 };
-sui.components.Grid.__name__ = ["sui","components","Grid"];
+sui.components.Grid.__name__ = true;
 sui.components.Grid.prototype = {
 	add: function(cell) {
 		var _g = this;
@@ -748,284 +588,172 @@ sui.components.CellContent.Single = function(control) { var $x = ["Single",0,con
 sui.components.CellContent.VerticalPair = function(top,bottom) { var $x = ["VerticalPair",1,top,bottom]; $x.__enum__ = sui.components.CellContent; return $x; };
 sui.components.CellContent.HorizontalPair = function(left,right) { var $x = ["HorizontalPair",2,left,right]; $x.__enum__ = sui.components.CellContent; return $x; };
 sui.controls = {};
-sui.controls.Control = function(valueEmitter) {
-	this._focus = new thx.stream.Value(false);
-	this.streams = new sui.controls.ControlStreams(valueEmitter,this._focus);
+sui.controls.IControl = function() { };
+sui.controls.IControl.__name__ = true;
+sui.controls.IControl.prototype = {
+	__class__: sui.controls.IControl
 };
-sui.controls.Control.__name__ = ["sui","controls","Control"];
-sui.controls.Control.prototype = {
-	get: function() {
-		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 22, className : "sui.controls.Control", methodName : "get"});
+sui.controls.SingleInputControl = function(defaultValue,event,name,type,options) {
+	var _g = this;
+	var template = "<div class=\"sui-control sui-control-single sui-type-" + name + "\"><input type=\"" + type + "\"/></div>";
+	if(null == options) options = { };
+	this.defaultValue = defaultValue;
+	this.values = new sui.controls.ControlValues(defaultValue);
+	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
+	this.el = dots.Html.parseNodes(template)[0];
+	this.input = dots.Query.first("input",this.el);
+	this.values.enabled.subscribe(function(v) {
+		if(v) {
+			_g.el.classList.add("sui-disabled");
+			_g.input.removeAttribute("disabled");
+		} else {
+			_g.el.classList.remove("sui-disabled");
+			_g.input.setAttribute("disabled","disabled");
+		}
+	});
+	this.values.focused.subscribe(function(v1) {
+		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
+	});
+	this.setInput(defaultValue);
+	thx.stream.dom.Dom.streamFocus(this.input).feed(this.values.focused);
+	thx.stream.dom.Dom.streamEvent(this.input,event).map(function(_) {
+		return _g.getInput();
+	}).feed(this.values.value);
+	if(!options.allownull) this.input.setAttribute("required","required");
+	if(options.autofocus) this.focus();
+	if(options.disabled) this.disable();
+};
+sui.controls.SingleInputControl.__name__ = true;
+sui.controls.SingleInputControl.__interfaces__ = [sui.controls.IControl];
+sui.controls.SingleInputControl.prototype = {
+	setInput: function(v) {
+		throw new thx.core.error.AbstractMethod({ fileName : "SingleInputControl.hx", lineNumber : 62, className : "sui.controls.SingleInputControl", methodName : "setInput"});
+	}
+	,getInput: function() {
+		throw new thx.core.error.AbstractMethod({ fileName : "SingleInputControl.hx", lineNumber : 65, className : "sui.controls.SingleInputControl", methodName : "getInput"});
 	}
 	,set: function(v) {
-		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 25, className : "sui.controls.Control", methodName : "set"});
+		this.setInput(v);
+		this.values.value.set(v);
+	}
+	,get: function() {
+		return this.values.value.get();
+	}
+	,isEnabled: function() {
+		return this.values.enabled.get();
+	}
+	,isFocused: function() {
+		return this.values.focused.get();
+	}
+	,disable: function() {
+		this.values.enabled.set(false);
+	}
+	,enable: function() {
+		this.values.enabled.set(true);
 	}
 	,focus: function() {
-		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 28, className : "sui.controls.Control", methodName : "focus"});
+		this.input.focus();
 	}
-	,reset: function() {
-		throw new thx.core.error.NotImplemented({ fileName : "Control.hx", lineNumber : 31, className : "sui.controls.Control", methodName : "reset"});
-	}
-	,__class__: sui.controls.Control
-};
-sui.controls.ValueControl = function(defaultValue,equals) {
-	if(null == equals) equals = thx.core.Functions.equality;
-	this.defaultValue = defaultValue;
-	this._value = new thx.stream.Value(defaultValue,equals);
-	sui.controls.Control.call(this,this._value);
-};
-sui.controls.ValueControl.__name__ = ["sui","controls","ValueControl"];
-sui.controls.ValueControl.__super__ = sui.controls.Control;
-sui.controls.ValueControl.prototype = $extend(sui.controls.Control.prototype,{
-	get: function() {
-		return this._value.get();
+	,blur: function() {
+		this.input.blur();
 	}
 	,reset: function() {
 		this.set(this.defaultValue);
 	}
-	,__class__: sui.controls.ValueControl
-});
-sui.controls.BoolControl = function(value) {
-	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes("<div class=\"sui-single sui-input sui-bool\"><input type=\"checkbox\" " + (value?"checked":"") + "/></div>")[0];
-	this.input = dots.Query.first("input",this.el);
-	thx.stream.dom.Dom.streamFocus(this.input).feed(this._focus);
-	thx.stream.dom.Dom.streamChecked(this.input,null).subscribe($bind(this,this.set));
+	,__class__: sui.controls.SingleInputControl
 };
-sui.controls.BoolControl.__name__ = ["sui","controls","BoolControl"];
-sui.controls.BoolControl.__super__ = sui.controls.ValueControl;
-sui.controls.BoolControl.prototype = $extend(sui.controls.ValueControl.prototype,{
-	set: function(value) {
-		this.input.checked = value;
-		this._value.set(value);
+sui.controls.BoolControl = function(value,options) {
+	sui.controls.SingleInputControl.call(this,value,"change","bool","checkbox",options);
+};
+sui.controls.BoolControl.__name__ = true;
+sui.controls.BoolControl.__super__ = sui.controls.SingleInputControl;
+sui.controls.BoolControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
+	setInput: function(v) {
+		this.input.checked = v;
 	}
-	,focus: function() {
-		this.input.focus();
+	,getInput: function() {
+		return this.input.checked;
 	}
 	,__class__: sui.controls.BoolControl
 });
-sui.controls.ColorControl = function(value) {
-	var _g = this;
-	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes("<div class=\"sui-color\">\n<input class=\"sui-input sui-color-control\" type=\"color\" value=\"" + value + "\" />\n<input class=\"sui-input sui-color-text\" type=\"text\" value=\"" + value + "\" />\n</div>")[0];
-	this.picker = dots.Query.first(".sui-color-control",this.el);
-	this.input = dots.Query.first(".sui-color-text",this.el);
-	if(!dots.Detect.supportsInput("color")) this.picker.style.display = "none";
-	thx.stream.dom.Dom.streamFocus(this.picker).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
-	thx.stream.dom.Dom.streamInput(this.picker,null).map(function(_) {
-		return _g.picker.value;
-	}).subscribe($bind(this,this.set));
-	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
-		return _g.input.value;
-	}).subscribe($bind(this,this.set));
-};
-sui.controls.ColorControl.__name__ = ["sui","controls","ColorControl"];
-sui.controls.ColorControl.__super__ = sui.controls.ValueControl;
-sui.controls.ColorControl.prototype = $extend(sui.controls.ValueControl.prototype,{
-	set: function(value) {
-		this.picker.value = value;
-		this.input.value = value;
-		this._value.set(value);
-	}
-	,focus: function() {
-		this.input.focus();
-	}
-	,__class__: sui.controls.ColorControl
-});
-sui.controls.ControlStreams = function(value,focus) {
+sui.controls.ControlStreams = function(value,focused,enabled) {
 	this.value = value;
-	this.focus = focus;
+	this.focused = focused;
+	this.enabled = enabled;
 };
-sui.controls.ControlStreams.__name__ = ["sui","controls","ControlStreams"];
+sui.controls.ControlStreams.__name__ = true;
 sui.controls.ControlStreams.prototype = {
 	__class__: sui.controls.ControlStreams
 };
-sui.controls.FloatControl = function(value,step,allowNaN) {
-	if(allowNaN == null) allowNaN = false;
-	sui.controls.ValueControl.call(this,value);
-	var sstep;
-	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
-	var input = dots.Html.parseNodes("<input class=\"sui-input sui-float\" type=\"number\" value=\"" + value + "\" " + sstep + " />")[0];
-	this.el = input;
-	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
-	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
-		if(!allowNaN && isNaN(input.valueAsNumber)) return 0.0; else return input.valueAsNumber;
-	}).subscribe($bind(this,this.set));
+sui.controls.ControlValues = function(defaultValue) {
+	this.value = new thx.stream.Value(defaultValue);
+	this.focused = new thx.stream.Value(false);
+	this.enabled = new thx.stream.Value(true);
 };
-sui.controls.FloatControl.__name__ = ["sui","controls","FloatControl"];
-sui.controls.FloatControl.__super__ = sui.controls.ValueControl;
-sui.controls.FloatControl.prototype = $extend(sui.controls.ValueControl.prototype,{
-	set: function(value) {
-		this.el.valueAsNumber = value;
-		this._value.set(value);
-	}
-	,focus: function() {
-		this.el.focus();
-	}
-	,__class__: sui.controls.FloatControl
-});
-sui.controls.FloatRangeControl = function(value,min,max,step,allowNaN) {
-	if(allowNaN == null) allowNaN = false;
-	var _g = this;
-	sui.controls.ValueControl.call(this,value);
-	var sstep;
-	if(null == step) sstep = ""; else sstep = "step=\"" + step + "\"";
-	this.el = dots.Html.parseNodes("<div class=\"sui-range-float\">\n<input class=\"sui-input sui-range-slider-float\" type=\"range\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\"/>\n<input class=\"sui-input sui-range-input-float\" type=\"number\" value=\"" + value + "\" " + sstep + " min=\"" + min + "\" max=\"" + max + "\"/>")[0];
-	this.range = dots.Query.first(".sui-range-slider-float",this.el);
-	this.input = dots.Query.first(".sui-range-input-float",this.el);
-	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
-	thx.stream.dom.Dom.streamInput(this.range,null).map(function(_) {
-		return _g.range.valueAsNumber;
-	}).subscribe($bind(this,this.set));
-	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
-		if(!allowNaN && isNaN(_g.input.valueAsNumber)) return 0.0; else return _g.input.valueAsNumber;
-	}).map(function(_2) {
-		if(_2 < min) return min; else if(_2 > max) return max; else return _2;
-	}).subscribe($bind(this,this.set));
+sui.controls.ControlValues.__name__ = true;
+sui.controls.ControlValues.prototype = {
+	__class__: sui.controls.ControlValues
 };
-sui.controls.FloatRangeControl.__name__ = ["sui","controls","FloatRangeControl"];
-sui.controls.FloatRangeControl.__super__ = sui.controls.ValueControl;
-sui.controls.FloatRangeControl.prototype = $extend(sui.controls.ValueControl.prototype,{
-	set: function(value) {
-		this.range.valueAsNumber = value;
-		this.input.valueAsNumber = value;
-		this._value.set(value);
-	}
-	,focus: function() {
-		this.input.focus();
-	}
-	,__class__: sui.controls.FloatRangeControl
-});
-sui.controls.IntControl = function(value,step) {
-	if(step == null) step = 1;
-	sui.controls.ValueControl.call(this,value);
-	var input = dots.Html.parseNodes("<input class=\"sui-input sui-int\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" />")[0];
-	this.el = input;
-	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
-	thx.stream.dom.Dom.streamInput(input,null).map(function(_) {
-		return input.valueAsNumber | 0;
-	}).subscribe($bind(this,this.set));
+sui.controls.DataList = function(container,values) {
+	this.id = "sui-dl-" + ++sui.controls.DataList.nid;
+	var datalist = dots.Html.parse("<datalist id=\"" + this.id + "\">" + Std.string(values.map(sui.controls.DataList.toOption)) + "</datalist>");
+	container.appendChild(datalist);
 };
-sui.controls.IntControl.__name__ = ["sui","controls","IntControl"];
-sui.controls.IntControl.__super__ = sui.controls.ValueControl;
-sui.controls.IntControl.prototype = $extend(sui.controls.ValueControl.prototype,{
-	set: function(value) {
-		this.el.valueAsNumber = value;
-		this._value.set(value);
-	}
-	,focus: function() {
-		this.el.focus();
-	}
-	,__class__: sui.controls.IntControl
-});
-sui.controls.IntRangeControl = function(value,min,max,step) {
-	if(step == null) step = 1;
-	var _g = this;
-	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes("<div class=\"sui-range-int\">\n<input class=\"sui-input sui-range-slider-int\" type=\"range\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n<input class=\"sui-input sui-range-input-int\" type=\"number\" value=\"" + value + "\" step=\"" + step + "\" min=\"" + min + "\" max=\"" + max + "\" />\n</div>")[0];
-	this.range = dots.Query.first(".sui-range-slider-int",this.el);
-	this.input = dots.Query.first(".sui-range-input-int",this.el);
-	thx.stream.dom.Dom.streamFocus(this.range).merge(thx.stream.dom.Dom.streamFocus(this.input)).debounce(0).distinct().feed(this._focus);
-	thx.stream.dom.Dom.streamInput(this.range,null).map(function(_) {
-		return _g.range.valueAsNumber | 0;
-	}).subscribe($bind(this,this.set));
-	thx.stream.dom.Dom.streamInput(this.input,null).map(function(_1) {
-		return _g.input.valueAsNumber | 0;
-	}).map(function(_2) {
-		if(_2 < min) return min; else if(_2 > max) return max; else return _2;
-	}).subscribe($bind(this,this.set));
+sui.controls.DataList.__name__ = true;
+sui.controls.DataList.fromArray = function(container,values) {
+	return new sui.controls.DataList(container,values.map(function(v) {
+		return { value : v, label : v};
+	}));
 };
-sui.controls.IntRangeControl.__name__ = ["sui","controls","IntRangeControl"];
-sui.controls.IntRangeControl.__super__ = sui.controls.ValueControl;
-sui.controls.IntRangeControl.prototype = $extend(sui.controls.ValueControl.prototype,{
-	set: function(value) {
-		this.range.valueAsNumber = value;
-		this.input.valueAsNumber = value;
-		this._value.set(value);
-	}
-	,focus: function() {
-		this.input.focus();
-	}
-	,__class__: sui.controls.IntRangeControl
-});
-sui.controls.LabelControl = function(value) {
-	if(null == value) value = "";
-	sui.controls.ValueControl.call(this,value);
-	this.el = dots.Html.parseNodes("<output class=\"sui-output\">" + value + "</output>")[0];
+sui.controls.DataList.toOption = function(o) {
+	return "<option value=\"" + StringTools.htmlEscape(o.value) + "\">" + o.label + "</option>";
 };
-sui.controls.LabelControl.__name__ = ["sui","controls","LabelControl"];
-sui.controls.LabelControl.__super__ = sui.controls.ValueControl;
-sui.controls.LabelControl.prototype = $extend(sui.controls.ValueControl.prototype,{
-	set: function(value) {
-		this.el.textContent = value;
-		this._value.set(value);
+sui.controls.DataList.prototype = {
+	applyTo: function(el) {
+		el.setAttribute("list",this.id);
+		return this;
 	}
-	,focus: function() {
+	,__class__: sui.controls.DataList
+};
+sui.controls.LabelControl = function(value,options) {
+	sui.controls.SingleInputControl.call(this,value,"change","label","text",options);
+	this.input.setAttribute("readonly","readonly");
+};
+sui.controls.LabelControl.__name__ = true;
+sui.controls.LabelControl.__super__ = sui.controls.SingleInputControl;
+sui.controls.LabelControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
+	setInput: function(v) {
+		this.input.value = v;
+	}
+	,getInput: function() {
+		return this.input.value;
 	}
 	,__class__: sui.controls.LabelControl
 });
-sui.controls.TextControl = function(value,placeholder,allowEmptyString) {
-	if(allowEmptyString == null) allowEmptyString = false;
-	if(allowEmptyString && null == value) value = "";
-	sui.controls.ValueControl.call(this,value);
-	var input = dots.Html.parseNodes("<input class=\"sui-input sui-text\" type=\"text\" value=\"" + (function($this) {
-		var $r;
-		var t;
-		{
-			var _0 = value;
-			if(null == _0) t = null; else t = _0;
-		}
-		$r = t != null?t:"";
-		return $r;
-	}(this)) + "\" placeholder=\"" + (null == placeholder?"":placeholder) + "\" />")[0];
-	this.el = input;
-	thx.stream.dom.Dom.streamFocus(input).feed(this._focus);
-	var si = thx.stream.dom.Dom.streamInput(input,null);
-	if(!allowEmptyString) si = si.map(function(_) {
-		if(_ == "") return null; else return _;
-	});
-	si.subscribe($bind(this,this.set));
+sui.controls.TextControl = function(value,options) {
+	if(null == options) options = { };
+	sui.controls.SingleInputControl.call(this,value,"input","text","text",options);
+	if(null != options.maxlength) this.input.setAttribute("maxlength","" + options.maxlength);
+	if(options.autocomplete) this.input.setAttribute("autocomplete","autocomplete");
+	if(null != options.pattern) this.input.setAttribute("pattern","" + options.pattern);
+	if(null != options.placeholder) this.input.setAttribute("placeholder","" + options.placeholder);
+	if(null != options.list) sui.controls.DataList.fromArray(this.el,options.list).applyTo(this.input);
 };
-sui.controls.TextControl.__name__ = ["sui","controls","TextControl"];
-sui.controls.TextControl.__super__ = sui.controls.ValueControl;
-sui.controls.TextControl.prototype = $extend(sui.controls.ValueControl.prototype,{
-	set: function(value) {
-		this.el.value = value;
-		this._value.set(value);
+sui.controls.TextControl.__name__ = true;
+sui.controls.TextControl.__super__ = sui.controls.SingleInputControl;
+sui.controls.TextControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
+	setInput: function(v) {
+		this.input.value = v;
 	}
-	,focus: function() {
-		this.el.focus();
+	,getInput: function() {
+		return this.input.value;
 	}
 	,__class__: sui.controls.TextControl
-});
-sui.controls.TriggerControl = function(label) {
-	var button = dots.Html.parseNodes("<button class=\"sui-button\">" + label + "</button>")[0];
-	this.el = button;
-	var emitter = thx.stream.dom.Dom.streamEvent(button,"click",false).toNil();
-	sui.controls.Control.call(this,emitter);
-	thx.stream.dom.Dom.streamFocus(button).feed(this._focus);
-};
-sui.controls.TriggerControl.__name__ = ["sui","controls","TriggerControl"];
-sui.controls.TriggerControl.__super__ = sui.controls.Control;
-sui.controls.TriggerControl.prototype = $extend(sui.controls.Control.prototype,{
-	get: function() {
-		return thx.core.Nil.nil;
-	}
-	,set: function(value) {
-		this.el.click();
-	}
-	,reset: function() {
-		this.set(thx.core.Nil.nil);
-	}
-	,focus: function() {
-		this.el.focus();
-	}
-	,__class__: sui.controls.TriggerControl
 });
 var thx = {};
 thx.core = {};
 thx.core.Arrays = function() { };
-thx.core.Arrays.__name__ = ["thx","core","Arrays"];
+thx.core.Arrays.__name__ = true;
 thx.core.Arrays.after = function(array,element) {
 	return array.slice(HxOverrides.indexOf(array,element,0) + 1);
 };
@@ -1363,7 +1091,7 @@ thx.core.Arrays.unzip5 = function(array) {
 	return { _0 : a1, _1 : a2, _2 : a3, _3 : a4, _4 : a5};
 };
 thx.core.ArrayFloats = function() { };
-thx.core.ArrayFloats.__name__ = ["thx","core","ArrayFloats"];
+thx.core.ArrayFloats.__name__ = true;
 thx.core.ArrayFloats.average = function(arr) {
 	return thx.core.ArrayFloats.sum(arr) / arr.length;
 };
@@ -1388,7 +1116,7 @@ thx.core.ArrayFloats.sum = function(arr) {
 	},0.0);
 };
 thx.core.ArrayInts = function() { };
-thx.core.ArrayInts.__name__ = ["thx","core","ArrayInts"];
+thx.core.ArrayInts.__name__ = true;
 thx.core.ArrayInts.average = function(arr) {
 	return thx.core.ArrayInts.sum(arr) / arr.length;
 };
@@ -1408,7 +1136,7 @@ thx.core.ArrayInts.sum = function(arr) {
 	},0);
 };
 thx.core.ArrayStrings = function() { };
-thx.core.ArrayStrings.__name__ = ["thx","core","ArrayStrings"];
+thx.core.ArrayStrings.__name__ = true;
 thx.core.ArrayStrings.compact = function(arr) {
 	return arr.filter(function(v) {
 		return !thx.core.Strings.isEmpty(v);
@@ -1445,7 +1173,7 @@ thx.core.Error = function(message,stack,pos) {
 	this.stackItems = stack;
 	this.pos = pos;
 };
-thx.core.Error.__name__ = ["thx","core","Error"];
+thx.core.Error.__name__ = true;
 thx.core.Error.fromDynamic = function(err,pos) {
 	if(js.Boot.__instanceof(err,thx.core.Error)) return err;
 	return new thx.core.Error("" + Std.string(err),null,pos);
@@ -1457,55 +1185,8 @@ thx.core.Error.prototype = $extend(Error.prototype,{
 	}
 	,__class__: thx.core.Error
 });
-thx.core.Floats = function() { };
-thx.core.Floats.__name__ = ["thx","core","Floats"];
-thx.core.Floats.canParse = function(s) {
-	return thx.core.Floats.pattern_parse.match(s);
-};
-thx.core.Floats.clamp = function(v,min,max) {
-	if(v < min) return min; else if(v > max) return max; else return v;
-};
-thx.core.Floats.clampSym = function(v,max) {
-	return thx.core.Floats.clamp(v,-max,max);
-};
-thx.core.Floats.compare = function(a,b) {
-	if(a < b) return -1; else if(b > a) return 1; else return 0;
-};
-thx.core.Floats.interpolate = function(f,a,b) {
-	return (b - a) * f + a;
-};
-thx.core.Floats.nearEquals = function(a,b) {
-	return Math.abs(a - b) <= 10e-10;
-};
-thx.core.Floats.nearZero = function(n) {
-	return Math.abs(n) <= 10e-10;
-};
-thx.core.Floats.normalize = function(v) {
-	if(v < 0) return 0; else if(v > 1) return 1; else return v;
-};
-thx.core.Floats.parse = function(s) {
-	if(s.substring(0,1) == "+") s = s.substring(1);
-	return Std.parseFloat(s);
-};
-thx.core.Floats.round = function(f,decimals) {
-	var p = Math.pow(10,decimals);
-	return Math.round(f * p) / p;
-};
-thx.core.Floats.sign = function(value) {
-	if(value < 0) return -1; else return 1;
-};
-thx.core.Floats.wrap = function(v,min,max) {
-	var range = max - min + 1;
-	if(v < min) v += range * ((min - v) / range + 1);
-	return min + (v - min) % range;
-};
-thx.core.Floats.wrapCircular = function(v,max) {
-	v = v % max;
-	if(v < 0) v += max;
-	return v;
-};
 thx.core.Functions0 = function() { };
-thx.core.Functions0.__name__ = ["thx","core","Functions0"];
+thx.core.Functions0.__name__ = true;
 thx.core.Functions0.after = function(callback,n) {
 	return function() {
 		if(--n == 0) callback();
@@ -1544,7 +1225,7 @@ thx.core.Functions0.timesi = function(n,callback) {
 	};
 };
 thx.core.Functions1 = function() { };
-thx.core.Functions1.__name__ = ["thx","core","Functions1"];
+thx.core.Functions1.__name__ = true;
 thx.core.Functions1.compose = function(fa,fb) {
 	return function(v) {
 		return fa(fb(v));
@@ -1596,7 +1277,7 @@ thx.core.Functions1.swapArguments = function(callback) {
 	};
 };
 thx.core.Functions2 = function() { };
-thx.core.Functions2.__name__ = ["thx","core","Functions2"];
+thx.core.Functions2.__name__ = true;
 thx.core.Functions2.memoize = function(callback,resolver) {
 	if(null == resolver) resolver = function(v1,v2) {
 		return "" + Std.string(v1) + ":" + Std.string(v2);
@@ -1616,7 +1297,7 @@ thx.core.Functions2.negate = function(callback) {
 	};
 };
 thx.core.Functions3 = function() { };
-thx.core.Functions3.__name__ = ["thx","core","Functions3"];
+thx.core.Functions3.__name__ = true;
 thx.core.Functions3.memoize = function(callback,resolver) {
 	if(null == resolver) resolver = function(v1,v2,v3) {
 		return "" + Std.string(v1) + ":" + Std.string(v2) + ":" + Std.string(v3);
@@ -1636,7 +1317,7 @@ thx.core.Functions3.negate = function(callback) {
 	};
 };
 thx.core.Functions = function() { };
-thx.core.Functions.__name__ = ["thx","core","Functions"];
+thx.core.Functions.__name__ = true;
 thx.core.Functions.constant = function(v) {
 	return function() {
 		return v;
@@ -1651,7 +1332,7 @@ thx.core.Functions.identity = function(value) {
 thx.core.Functions.noop = function() {
 };
 thx.core.Ints = function() { };
-thx.core.Ints.__name__ = ["thx","core","Ints"];
+thx.core.Ints.__name__ = true;
 thx.core.Ints.abs = function(v) {
 	if(v < 0) return -v; else return v;
 };
@@ -1717,10 +1398,8 @@ thx.core.Ints.wrapCircular = function(v,max) {
 thx.core.Nil = { __ename__ : true, __constructs__ : ["nil"] };
 thx.core.Nil.nil = ["nil",0];
 thx.core.Nil.nil.__enum__ = thx.core.Nil;
-thx.core.Nulls = function() { };
-thx.core.Nulls.__name__ = ["thx","core","Nulls"];
 thx.core.Options = function() { };
-thx.core.Options.__name__ = ["thx","core","Options"];
+thx.core.Options.__name__ = true;
 thx.core.Options.equals = function(a,b,eq) {
 	switch(a[1]) {
 	case 1:
@@ -1798,7 +1477,7 @@ thx.core.Options.toValue = function(option) {
 };
 thx.core._Result = {};
 thx.core._Result.Result_Impl_ = {};
-thx.core._Result.Result_Impl_.__name__ = ["thx","core","_Result","Result_Impl_"];
+thx.core._Result.Result_Impl_.__name__ = true;
 thx.core._Result.Result_Impl_.optionValue = function(this1) {
 	switch(this1[1]) {
 	case 1:
@@ -1852,7 +1531,7 @@ thx.core._Result.Result_Impl_.get_isFailure = function(this1) {
 	}
 };
 thx.core.Strings = function() { };
-thx.core.Strings.__name__ = ["thx","core","Strings"];
+thx.core.Strings.__name__ = true;
 thx.core.Strings.after = function(value,searchFor) {
 	var pos = value.indexOf(searchFor);
 	if(pos < 0) return ""; else return value.substring(pos + searchFor.length);
@@ -2026,7 +1705,7 @@ thx.core.Strings.wrapLine = function(s,columns,indent,newline) {
 	return indent + parts.join(newline + indent);
 };
 thx.core.Timer = function() { };
-thx.core.Timer.__name__ = ["thx","core","Timer"];
+thx.core.Timer.__name__ = true;
 thx.core.Timer.debounce = function(callback,delayms,leading) {
 	if(leading == null) leading = false;
 	var cancel = thx.core.Functions.noop;
@@ -2112,7 +1791,7 @@ thx.core.Timer.time = function() {
 };
 thx.core._Tuple = {};
 thx.core._Tuple.Tuple0_Impl_ = {};
-thx.core._Tuple.Tuple0_Impl_.__name__ = ["thx","core","_Tuple","Tuple0_Impl_"];
+thx.core._Tuple.Tuple0_Impl_.__name__ = true;
 thx.core._Tuple.Tuple0_Impl_._new = function() {
 	return thx.core.Nil.nil;
 };
@@ -2129,7 +1808,7 @@ thx.core._Tuple.Tuple0_Impl_.nilToTuple = function(v) {
 	return thx.core.Nil.nil;
 };
 thx.core._Tuple.Tuple1_Impl_ = {};
-thx.core._Tuple.Tuple1_Impl_.__name__ = ["thx","core","_Tuple","Tuple1_Impl_"];
+thx.core._Tuple.Tuple1_Impl_.__name__ = true;
 thx.core._Tuple.Tuple1_Impl_._new = function(_0) {
 	return _0;
 };
@@ -2143,7 +1822,7 @@ thx.core._Tuple.Tuple1_Impl_.toString = function(this1) {
 	return "Tuple1(" + Std.string(this1) + ")";
 };
 thx.core._Tuple.Tuple2_Impl_ = {};
-thx.core._Tuple.Tuple2_Impl_.__name__ = ["thx","core","_Tuple","Tuple2_Impl_"];
+thx.core._Tuple.Tuple2_Impl_.__name__ = true;
 thx.core._Tuple.Tuple2_Impl_._new = function(_0,_1) {
 	return { _0 : _0, _1 : _1};
 };
@@ -2169,7 +1848,7 @@ thx.core._Tuple.Tuple2_Impl_.toString = function(this1) {
 	return "Tuple2(" + Std.string(this1._0) + "," + Std.string(this1._1) + ")";
 };
 thx.core._Tuple.Tuple3_Impl_ = {};
-thx.core._Tuple.Tuple3_Impl_.__name__ = ["thx","core","_Tuple","Tuple3_Impl_"];
+thx.core._Tuple.Tuple3_Impl_.__name__ = true;
 thx.core._Tuple.Tuple3_Impl_._new = function(_0,_1,_2) {
 	return { _0 : _0, _1 : _1, _2 : _2};
 };
@@ -2189,7 +1868,7 @@ thx.core._Tuple.Tuple3_Impl_.toString = function(this1) {
 	return "Tuple3(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + ")";
 };
 thx.core._Tuple.Tuple4_Impl_ = {};
-thx.core._Tuple.Tuple4_Impl_.__name__ = ["thx","core","_Tuple","Tuple4_Impl_"];
+thx.core._Tuple.Tuple4_Impl_.__name__ = true;
 thx.core._Tuple.Tuple4_Impl_._new = function(_0,_1,_2,_3) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3};
 };
@@ -2209,7 +1888,7 @@ thx.core._Tuple.Tuple4_Impl_.toString = function(this1) {
 	return "Tuple4(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + "," + Std.string(this1._3) + ")";
 };
 thx.core._Tuple.Tuple5_Impl_ = {};
-thx.core._Tuple.Tuple5_Impl_.__name__ = ["thx","core","_Tuple","Tuple5_Impl_"];
+thx.core._Tuple.Tuple5_Impl_.__name__ = true;
 thx.core._Tuple.Tuple5_Impl_._new = function(_0,_1,_2,_3,_4) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3, _4 : _4};
 };
@@ -2229,7 +1908,7 @@ thx.core._Tuple.Tuple5_Impl_.toString = function(this1) {
 	return "Tuple5(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + "," + Std.string(this1._3) + "," + Std.string(this1._4) + ")";
 };
 thx.core._Tuple.Tuple6_Impl_ = {};
-thx.core._Tuple.Tuple6_Impl_.__name__ = ["thx","core","_Tuple","Tuple6_Impl_"];
+thx.core._Tuple.Tuple6_Impl_.__name__ = true;
 thx.core._Tuple.Tuple6_Impl_._new = function(_0,_1,_2,_3,_4,_5) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3, _4 : _4, _5 : _5};
 };
@@ -2246,20 +1925,20 @@ thx.core._Tuple.Tuple6_Impl_.toString = function(this1) {
 	return "Tuple6(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + "," + Std.string(this1._3) + "," + Std.string(this1._4) + "," + Std.string(this1._5) + ")";
 };
 thx.core.error = {};
-thx.core.error.NotImplemented = function(posInfo) {
-	thx.core.Error.call(this,"method " + posInfo.className + "." + posInfo.methodName + "() needs to be implemented",null,posInfo);
+thx.core.error.AbstractMethod = function(posInfo) {
+	thx.core.Error.call(this,"method " + posInfo.className + "." + posInfo.methodName + "() is abstract",null,posInfo);
 };
-thx.core.error.NotImplemented.__name__ = ["thx","core","error","NotImplemented"];
-thx.core.error.NotImplemented.__super__ = thx.core.Error;
-thx.core.error.NotImplemented.prototype = $extend(thx.core.Error.prototype,{
-	__class__: thx.core.error.NotImplemented
+thx.core.error.AbstractMethod.__name__ = true;
+thx.core.error.AbstractMethod.__super__ = thx.core.Error;
+thx.core.error.AbstractMethod.prototype = $extend(thx.core.Error.prototype,{
+	__class__: thx.core.error.AbstractMethod
 });
 thx.promise = {};
 thx.promise.Future = function() {
 	this.handlers = [];
 	this.state = haxe.ds.Option.None;
 };
-thx.promise.Future.__name__ = ["thx","promise","Future"];
+thx.promise.Future.__name__ = true;
 thx.promise.Future.all = function(arr) {
 	return thx.promise.Future.create(function(callback) {
 		var results = [];
@@ -2362,7 +2041,7 @@ thx.promise.Future.prototype = {
 	,__class__: thx.promise.Future
 };
 thx.promise.Futures = function() { };
-thx.promise.Futures.__name__ = ["thx","promise","Futures"];
+thx.promise.Futures.__name__ = true;
 thx.promise.Futures.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		var counter = 0;
@@ -2391,7 +2070,7 @@ thx.promise.Futures.log = function(future,prefix) {
 	});
 };
 thx.promise.FutureTuple6 = function() { };
-thx.promise.FutureTuple6.__name__ = ["thx","promise","FutureTuple6"];
+thx.promise.FutureTuple6.__name__ = true;
 thx.promise.FutureTuple6.mapTuple = function(future,callback) {
 	return future.map(function(t) {
 		return callback(t._0,t._1,t._2,t._3,t._4,t._5);
@@ -2414,7 +2093,7 @@ thx.promise.FutureTuple6.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple5 = function() { };
-thx.promise.FutureTuple5.__name__ = ["thx","promise","FutureTuple5"];
+thx.promise.FutureTuple5.__name__ = true;
 thx.promise.FutureTuple5.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -2449,7 +2128,7 @@ thx.promise.FutureTuple5.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple4 = function() { };
-thx.promise.FutureTuple4.__name__ = ["thx","promise","FutureTuple4"];
+thx.promise.FutureTuple4.__name__ = true;
 thx.promise.FutureTuple4.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -2484,7 +2163,7 @@ thx.promise.FutureTuple4.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple3 = function() { };
-thx.promise.FutureTuple3.__name__ = ["thx","promise","FutureTuple3"];
+thx.promise.FutureTuple3.__name__ = true;
 thx.promise.FutureTuple3.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -2519,7 +2198,7 @@ thx.promise.FutureTuple3.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple2 = function() { };
-thx.promise.FutureTuple2.__name__ = ["thx","promise","FutureTuple2"];
+thx.promise.FutureTuple2.__name__ = true;
 thx.promise.FutureTuple2.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -2554,7 +2233,7 @@ thx.promise.FutureTuple2.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureNil = function() { };
-thx.promise.FutureNil.__name__ = ["thx","promise","FutureNil"];
+thx.promise.FutureNil.__name__ = true;
 thx.promise.FutureNil.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -2564,7 +2243,7 @@ thx.promise.FutureNil.join = function(p1,p2) {
 };
 thx.promise._Promise = {};
 thx.promise._Promise.Promise_Impl_ = {};
-thx.promise._Promise.Promise_Impl_.__name__ = ["thx","promise","_Promise","Promise_Impl_"];
+thx.promise._Promise.Promise_Impl_.__name__ = true;
 thx.promise._Promise.Promise_Impl_.futureToPromise = function(future) {
 	return future.map(function(v) {
 		return thx.core.Either.Right(v);
@@ -2747,7 +2426,7 @@ thx.promise._Promise.Promise_Impl_.toString = function(this1) {
 	return "Promise";
 };
 thx.promise.Promises = function() { };
-thx.promise.Promises.__name__ = ["thx","promise","Promises"];
+thx.promise.Promises.__name__ = true;
 thx.promise.Promises.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		var hasError = false;
@@ -2786,7 +2465,7 @@ thx.promise.Promises.log = function(promise,prefix) {
 	});
 };
 thx.promise.PromiseTuple6 = function() { };
-thx.promise.PromiseTuple6.__name__ = ["thx","promise","PromiseTuple6"];
+thx.promise.PromiseTuple6.__name__ = true;
 thx.promise.PromiseTuple6.mapTuplePromise = function(promise,success) {
 	return thx.promise._Promise.Promise_Impl_.mapSuccessPromise(promise,function(t) {
 		return success(t._0,t._1,t._2,t._3,t._4,t._5);
@@ -2804,7 +2483,7 @@ thx.promise.PromiseTuple6.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple5 = function() { };
-thx.promise.PromiseTuple5.__name__ = ["thx","promise","PromiseTuple5"];
+thx.promise.PromiseTuple5.__name__ = true;
 thx.promise.PromiseTuple5.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -2836,7 +2515,7 @@ thx.promise.PromiseTuple5.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple4 = function() { };
-thx.promise.PromiseTuple4.__name__ = ["thx","promise","PromiseTuple4"];
+thx.promise.PromiseTuple4.__name__ = true;
 thx.promise.PromiseTuple4.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -2868,7 +2547,7 @@ thx.promise.PromiseTuple4.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple3 = function() { };
-thx.promise.PromiseTuple3.__name__ = ["thx","promise","PromiseTuple3"];
+thx.promise.PromiseTuple3.__name__ = true;
 thx.promise.PromiseTuple3.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -2900,7 +2579,7 @@ thx.promise.PromiseTuple3.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple2 = function() { };
-thx.promise.PromiseTuple2.__name__ = ["thx","promise","PromiseTuple2"];
+thx.promise.PromiseTuple2.__name__ = true;
 thx.promise.PromiseTuple2.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -2932,7 +2611,7 @@ thx.promise.PromiseTuple2.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseNil = function() { };
-thx.promise.PromiseNil.__name__ = ["thx","promise","PromiseNil"];
+thx.promise.PromiseNil.__name__ = true;
 thx.promise.PromiseNil.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -2943,7 +2622,7 @@ thx.promise.PromiseNil.join = function(p1,p2) {
 	});
 };
 thx.promise.Timer = function() { };
-thx.promise.Timer.__name__ = ["thx","promise","Timer"];
+thx.promise.Timer.__name__ = true;
 thx.promise.Timer.delay = function(delayms) {
 	return thx.promise.Timer.delayValue(thx.core.Nil.nil,delayms);
 };
@@ -2972,7 +2651,7 @@ thx.stream = {};
 thx.stream.Emitter = function(init) {
 	this.init = init;
 };
-thx.stream.Emitter.__name__ = ["thx","stream","Emitter"];
+thx.stream.Emitter.__name__ = true;
 thx.stream.Emitter.prototype = {
 	feed: function(value) {
 		var stream = new thx.stream.Stream(null);
@@ -3650,7 +3329,7 @@ thx.stream.Bus = function(distinctValuesOnly,equal) {
 		});
 	});
 };
-thx.stream.Bus.__name__ = ["thx","stream","Bus"];
+thx.stream.Bus.__name__ = true;
 thx.stream.Bus.__super__ = thx.stream.Emitter;
 thx.stream.Bus.prototype = $extend(thx.stream.Emitter.prototype,{
 	cancel: function() {
@@ -3727,7 +3406,7 @@ thx.stream.Bus.prototype = $extend(thx.stream.Emitter.prototype,{
 	,__class__: thx.stream.Bus
 });
 thx.stream.Emitters = function() { };
-thx.stream.Emitters.__name__ = ["thx","stream","Emitters"];
+thx.stream.Emitters.__name__ = true;
 thx.stream.Emitters.skipNull = function(emitter) {
 	return emitter.filter(function(value) {
 		return null != value;
@@ -3745,7 +3424,7 @@ thx.stream.Emitters.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterStrings = function() { };
-thx.stream.EmitterStrings.__name__ = ["thx","stream","EmitterStrings"];
+thx.stream.EmitterStrings.__name__ = true;
 thx.stream.EmitterStrings.match = function(emitter,pattern) {
 	return emitter.filter(function(s) {
 		return pattern.match(s);
@@ -3773,7 +3452,7 @@ thx.stream.EmitterStrings.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterInts = function() { };
-thx.stream.EmitterInts.__name__ = ["thx","stream","EmitterInts"];
+thx.stream.EmitterInts.__name__ = true;
 thx.stream.EmitterInts.average = function(emitter) {
 	return emitter.map((function() {
 		var sum = 0.0;
@@ -3860,7 +3539,7 @@ thx.stream.EmitterInts.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterFloats = function() { };
-thx.stream.EmitterFloats.__name__ = ["thx","stream","EmitterFloats"];
+thx.stream.EmitterFloats.__name__ = true;
 thx.stream.EmitterFloats.average = function(emitter) {
 	return emitter.map((function() {
 		var sum = 0.0;
@@ -3931,7 +3610,7 @@ thx.stream.EmitterFloats.sum = function(emitter) {
 	})());
 };
 thx.stream.EmitterOptions = function() { };
-thx.stream.EmitterOptions.__name__ = ["thx","stream","EmitterOptions"];
+thx.stream.EmitterOptions.__name__ = true;
 thx.stream.EmitterOptions.either = function(emitter,some,none,end) {
 	if(null == some) some = function(_) {
 	};
@@ -3967,14 +3646,14 @@ thx.stream.EmitterOptions.toValue = function(emitter) {
 	});
 };
 thx.stream.EmitterBools = function() { };
-thx.stream.EmitterBools.__name__ = ["thx","stream","EmitterBools"];
+thx.stream.EmitterBools.__name__ = true;
 thx.stream.EmitterBools.negate = function(emitter) {
 	return emitter.map(function(v) {
 		return !v;
 	});
 };
 thx.stream.EmitterEmitters = function() { };
-thx.stream.EmitterEmitters.__name__ = ["thx","stream","EmitterEmitters"];
+thx.stream.EmitterEmitters.__name__ = true;
 thx.stream.EmitterEmitters.flatMap = function(emitter) {
 	return new thx.stream.Emitter(function(stream) {
 		emitter.init(new thx.stream.Stream(function(r) {
@@ -3998,7 +3677,7 @@ thx.stream.EmitterEmitters.flatMap = function(emitter) {
 	});
 };
 thx.stream.EmitterArrays = function() { };
-thx.stream.EmitterArrays.__name__ = ["thx","stream","EmitterArrays"];
+thx.stream.EmitterArrays.__name__ = true;
 thx.stream.EmitterArrays.containerOf = function(emitter,value) {
 	return emitter.filter(function(arr) {
 		return HxOverrides.indexOf(arr,value,0) >= 0;
@@ -4027,7 +3706,7 @@ thx.stream.EmitterArrays.flatten = function(emitter) {
 	});
 };
 thx.stream.EmitterValues = function() { };
-thx.stream.EmitterValues.__name__ = ["thx","stream","EmitterValues"];
+thx.stream.EmitterValues.__name__ = true;
 thx.stream.EmitterValues.left = function(emitter) {
 	return emitter.map(function(v) {
 		return v._0;
@@ -4039,7 +3718,7 @@ thx.stream.EmitterValues.right = function(emitter) {
 	});
 };
 thx.stream.IStream = function() { };
-thx.stream.IStream.__name__ = ["thx","stream","IStream"];
+thx.stream.IStream.__name__ = true;
 thx.stream.IStream.prototype = {
 	__class__: thx.stream.IStream
 };
@@ -4049,7 +3728,7 @@ thx.stream.Stream = function(subscriber) {
 	this.finalized = false;
 	this.canceled = false;
 };
-thx.stream.Stream.__name__ = ["thx","stream","Stream"];
+thx.stream.Stream.__name__ = true;
 thx.stream.Stream.__interfaces__ = [thx.stream.IStream];
 thx.stream.Stream.prototype = {
 	addCleanUp: function(f) {
@@ -4092,7 +3771,7 @@ thx.stream.Value = function(value,equals) {
 		stream.pulse(_g.value);
 	});
 };
-thx.stream.Value.__name__ = ["thx","stream","Value"];
+thx.stream.Value.__name__ = true;
 thx.stream.Value.createOption = function(value,equals) {
 	var def;
 	if(null == value) def = haxe.ds.Option.None; else def = haxe.ds.Option.Some(value);
@@ -4145,7 +3824,7 @@ thx.stream.Value.prototype = $extend(thx.stream.Emitter.prototype,{
 });
 thx.stream.dom = {};
 thx.stream.dom.Dom = function() { };
-thx.stream.dom.Dom.__name__ = ["thx","stream","dom","Dom"];
+thx.stream.dom.Dom.__name__ = true;
 thx.stream.dom.Dom.ready = function() {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,_) {
 		window.document.addEventListener("DOMContentLoaded",function(_1) {
@@ -4263,8 +3942,8 @@ if(Array.prototype.indexOf) HxOverrides.indexOf = function(a,o,i) {
 	return Array.prototype.indexOf.call(a,o,i);
 };
 String.prototype.__class__ = String;
-String.__name__ = ["String"];
-Array.__name__ = ["Array"];
+String.__name__ = true;
+Array.__name__ = true;
 Date.prototype.__class__ = Date;
 Date.__name__ = ["Date"];
 var Int = { __name__ : ["Int"]};
@@ -4364,10 +4043,7 @@ if(typeof(scope.performance.now) == "undefined") {
 }
 dots.Html.pattern = new EReg("[<]([^> ]+)","");
 dots.Query.doc = document;
-sui.controls.ColorControl.PATTERN = new EReg("^[#][0-9a-f]{6}$","i");
-thx.core.Floats.TOLERANCE = 10e-5;
-thx.core.Floats.EPSILON = 10e-10;
-thx.core.Floats.pattern_parse = new EReg("^(\\+|-)?\\d+(\\.\\d+)?(e-?\\d+)?$","");
+sui.controls.DataList.nid = 0;
 thx.core.Ints.pattern_parse = new EReg("^[+-]?(\\d+|0x[0-9A-F]+)$","i");
 thx.core.Ints.BASE = "0123456789abcdefghijklmnopqrstuvwxyz";
 thx.core.Strings.UCWORDS = new EReg("[^a-zA-Z]([a-z])","g");

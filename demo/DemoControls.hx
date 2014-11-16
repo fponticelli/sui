@@ -10,7 +10,16 @@ class DemoControls {
   public static function main() {
     var ui = new sui.Sui();
     //ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
+    //ui.date("date", function(v) trace('date: $v'));
     ui.bool("boolean", function(v) trace('bool: $v'));
+    ui.text("text", "", {
+        placeholder : "placeholder"
+      }, function(v) trace('string: $v'));
+    ui.text(null, "", {
+        placeholder : "libs",
+        list : ["haxe", "thx", "sui"]
+      }, function(v) trace('string: $v'));
+    /*
     ui.color("color",  function(v) trace('color: $v'));
     ui.float("float",  function(v) trace('float: $v'));
     ui.float("float", 0.5, 0.0, 1.0, function(v) trace('float: $v'));
@@ -18,11 +27,10 @@ class DemoControls {
     ui.int("int", 20, 10, 30, function(v) trace('int: $v'));
     ui.label("temp").set("hello there");
     //?label, ?defaultValue, ?placeholder, ?allowEmptyText = true, callback : String -> Void
-    ui.text(null, "", "placeholder", function(v) trace('string: $v'));
     ui.trigger("trigger", function() trace("triggered"));
-
+    */
     ui.attach();
-
+/*
     var grid = new Grid();
     Browser.document.body.appendChild(grid.el);
     grid.add(Single(new LabelControl("I act like a title")));
@@ -38,8 +46,9 @@ class DemoControls {
     createControlContainer(new IntControl(7));
     createControlContainer(new FloatRangeControl(7, 0, 100, 0.01));
     createControlContainer(new IntRangeControl(7, 0, 100));
+*/
   }
-
+/*
   public static function createControlContainer<T>(control : Control<T>) {
     var description = Type.getClassName(Type.getClass(control)).split(".").pop(),
         el = Html.parse('<div class="sample">
@@ -62,4 +71,5 @@ class DemoControls {
       focus.textContent = 'focus: $v';
     });
   }
+*/
 }

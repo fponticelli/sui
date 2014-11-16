@@ -1,22 +1,14 @@
 package sui.controls;
 
-using thx.core.Nulls;
-using thx.stream.dom.Dom;
-import js.html.OutputElement;
-
-class LabelControl extends ValueControl<String> {
-  public function new(value : String) {
-    if(null == value)
-      value = "";
-    super(value);
-    el = cast dots.Html.parse('<output class="sui-output">$value</output>');
+class LabelControl extends SingleInputControl<String> {
+  public function new(value : String, ?options : Options) {
+    super(value, "change", "label", "text", options);
+    input.setAttribute("readonly", "readonly");
   }
 
-  override public function set(value : String) {
-    el.textContent = value;
-    _value.set(value);
-  }
+  override function setInput(v : String)
+    input.value = v;
 
-  // labels do not have focus ... at least for now
-  override public function focus() {}
+  override function getInput() : String
+    return input.value;
 }

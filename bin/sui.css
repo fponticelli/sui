@@ -18,7 +18,7 @@ table.sui-grid td:last-child{border-right:1px solid #ddd}
 .sui-grid .sui-color{width:100%;}
 .sui-grid .sui-color .sui-color-control{width:calc(100% - 4px - 6em)}
 .sui-grid .sui-color .sui-color-text{width:6em}
-.sui-grid .sui-float,.sui-grid .sui-int,.sui-grid .sui-text{width:100%}
+.sui-grid .sui-float,.sui-grid .sui-int,.sui-grid .sui-text,.sui-grid .sui-date{width:100%}
 .sui-grid .sui-range-int .sui-range-slider-int{width:calc(100% - 8px - 6em);margin-left:4px}
 .sui-grid .sui-range-int .sui-range-input-int{width:6em}
 .sui-grid .sui-range-float .sui-range-slider-float{width:calc(100% - 8px - 6em);margin-left:4px}

@@ -1,6 +1,6 @@
 package sui.controls;
 
-typedef ControlOptions = {
+typedef OptionsInput = {
   ?disabled  : Bool,
   ?autofocus : Bool,
   ?required  : Bool

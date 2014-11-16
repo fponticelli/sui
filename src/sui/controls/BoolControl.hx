@@ -1,20 +1,13 @@
 package sui.controls;
 
-import dots.Html;
-import dots.Query;
-using thx.stream.dom.Dom;
-import js.html.InputElement;
-
-class BoolControl extends InputControl<Bool> {
-  public function new(value : Bool, ?options : ControlOptions) {
-    el = Html.parse('<div class="sui-single sui-input sui-bool"><input type="checkbox" ${value ? "checked" : ""}/></div>');
-    var input = (cast Query.first('input', el) : InputElement);
-    super(value, input, options);
-    input.streamChecked().subscribe(set);
+class BoolControl extends SingleInputControl<Bool> {
+  public function new(value : Bool, ?options : Options) {
+    super(value, "change", "bool", "checkbox", options);
   }
 
-  override public function set(value : Bool) {
-    input.checked = value;
-    _value.set(value);
-  }
+  override function setInput(v : Bool)
+    input.checked = v;
+
+  override function getInput() : Bool
+    return input.checked;
 }

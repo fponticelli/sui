@@ -3,7 +3,7 @@ package sui.components;
 import dots.Html;
 import dots.Query;
 import js.html.Element;
-import sui.controls.Control;
+import sui.controls.IControl;
 using thx.core.Arrays;
 
 class Grid {
@@ -32,7 +32,7 @@ class Grid {
 }
 
 enum CellContent {
-  Single(control : Control<Dynamic>);
-  VerticalPair(top : Control<Dynamic>, bottom : Control<Dynamic>);
-  HorizontalPair(left : Control<Dynamic>, right : Control<Dynamic>);
+  Single(control : IControl<Dynamic>);
+  VerticalPair(top : IControl<Dynamic>, bottom : IControl<Dynamic>);
+  HorizontalPair(left : IControl<Dynamic>, right : IControl<Dynamic>);
 }

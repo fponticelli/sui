@@ -7,9 +7,8 @@ import js.html.InputElement;
 
 class InputControl<T> extends ValueControl<T> {
   var input : InputElement;
-  public function new(value : T, input : InputElement, ?options : ControlOptions) {
+  public function new(value : T, options : OptionsInput) {
     super(value);
-    this.input = input;
     input.streamFocus().feed(_focus);
     if(null != options) {
       if(options.required)

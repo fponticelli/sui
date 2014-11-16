@@ -1,28 +1,28 @@
 package sui.controls;
 
-using thx.core.Nulls;
-using thx.stream.dom.Dom;
-import js.html.InputElement;
+import sui.controls.Options;
 
-class TextControl extends ValueControl<String> {
-  public function new(value : String, ?placeholder : String, allowEmptyString = false) {
-    if(allowEmptyString && null == value)
-      value = "";
-    super(value);
-    var input : InputElement = cast dots.Html.parse('<input class="sui-input sui-text" type="text" value="${value.or("")}" placeholder="${null == placeholder ? "" : placeholder}" />');
-    el = input;
-    input.streamFocus().feed(_focus);
-    var si = input.streamInput();
-    if(!allowEmptyString)
-      si = si.pluck(_ == "" ? null : _);
-    si.subscribe(set);
+class TextControl extends SingleInputControl<String> {
+  public function new(value : String, ?options : OptionsText) {
+    if(null == options)
+      options = {};
+    super(value, "input", "text", "text", options);
+
+    if(null != options.maxlength)
+      input.setAttribute('maxlength', '${options.maxlength}');
+    if(options.autocomplete)
+      input.setAttribute('autocomplete', 'autocomplete');
+    if(null != options.pattern)
+      input.setAttribute('pattern', '${options.pattern}');
+    if(null != options.placeholder)
+      input.setAttribute('placeholder', '${options.placeholder}');
+    if(null != options.list)
+      DataList.fromArray(el, options.list).applyTo(input);
   }
 
-  override public function set(value : String) {
-    (cast el : InputElement).value = value;
-    _value.set(value);
-  }
+  override function setInput(v : String)
+    input.value = v;
 
-  override public function focus()
-    (cast el : InputElement).focus();
+  override function getInput() : String
+    return input.value;
 }
