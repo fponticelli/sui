@@ -10,8 +10,10 @@ class DemoControls {
   public static function main() {
     var ui = new sui.Sui();
     //ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
-    //ui.date("date", function(v) trace('date: $v'));
     ui.bool("boolean", function(v) trace('bool: $v'));
+    ui.date("date", {
+        list : [{ label : "birthday", value : Date.fromString("1972-05-02") }, { label : "today", value : Date.now() }]
+      }, function(v) trace('date: $v'));
     ui.password("secret", "", {
         placeholder : "shhh"
       }, function(v) trace('password: $v'));
@@ -20,7 +22,7 @@ class DemoControls {
       }, function(v) trace('string: $v'));
     ui.text(null, "", {
         placeholder : "libs",
-        list : ["haxe", "thx", "sui"]
+        values : ["haxe", "thx", "sui"]
       }, function(v) trace('string: $v'));
     /*
     ui.color("color",  function(v) trace('color: $v'));

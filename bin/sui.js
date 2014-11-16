@@ -11,19 +11,22 @@ DemoControls.__name__ = true;
 DemoControls.main = function() {
 	var ui = new sui.Sui();
 	ui.bool("boolean",null,null,function(v) {
-		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
 	});
-	ui.password("secret","",{ placeholder : "shhh"},function(v1) {
-		haxe.Log.trace("password: " + v1,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
+	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v1) {
+		haxe.Log.trace("date: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("text","",{ placeholder : "placeholder"},function(v2) {
-		haxe.Log.trace("string: " + v2,{ fileName : "DemoControls.hx", lineNumber : 20, className : "DemoControls", methodName : "main"});
+	ui.password("secret","",{ placeholder : "shhh"},function(v2) {
+		haxe.Log.trace("password: " + v2,{ fileName : "DemoControls.hx", lineNumber : 19, className : "DemoControls", methodName : "main"});
 	});
-	ui.text(null,"",{ placeholder : "libs", list : ["haxe","thx","sui"]},function(v3) {
-		haxe.Log.trace("string: " + v3,{ fileName : "DemoControls.hx", lineNumber : 24, className : "DemoControls", methodName : "main"});
+	ui.text("text","",{ placeholder : "placeholder"},function(v3) {
+		haxe.Log.trace("string: " + v3,{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
+	});
+	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v4) {
+		haxe.Log.trace("string: " + v4,{ fileName : "DemoControls.hx", lineNumber : 26, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 34, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 36, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -93,6 +96,37 @@ EReg.prototype = {
 };
 var HxOverrides = function() { };
 HxOverrides.__name__ = true;
+HxOverrides.dateStr = function(date) {
+	var m = date.getMonth() + 1;
+	var d = date.getDate();
+	var h = date.getHours();
+	var mi = date.getMinutes();
+	var s = date.getSeconds();
+	return date.getFullYear() + "-" + (m < 10?"0" + m:"" + m) + "-" + (d < 10?"0" + d:"" + d) + " " + (h < 10?"0" + h:"" + h) + ":" + (mi < 10?"0" + mi:"" + mi) + ":" + (s < 10?"0" + s:"" + s);
+};
+HxOverrides.strDate = function(s) {
+	var _g = s.length;
+	switch(_g) {
+	case 8:
+		var k = s.split(":");
+		var d = new Date();
+		d.setTime(0);
+		d.setUTCHours(k[0]);
+		d.setUTCMinutes(k[1]);
+		d.setUTCSeconds(k[2]);
+		return d;
+	case 10:
+		var k1 = s.split("-");
+		return new Date(k1[0],k1[1] - 1,k1[2],0,0,0);
+	case 19:
+		var k2 = s.split(" ");
+		var y = k2[0].split("-");
+		var t = k2[1].split(":");
+		return new Date(y[0],y[1] - 1,y[2],t[0],t[1],t[2]);
+	default:
+		throw "Invalid date format : " + s;
+	}
+};
 HxOverrides.cca = function(s,index) {
 	var x = s.charCodeAt(index);
 	if(x != x) return undefined;
@@ -140,6 +174,12 @@ Std.__name__ = true;
 Std.string = function(s) {
 	return js.Boot.__string_rec(s,"");
 };
+Std.parseInt = function(x) {
+	var v = parseInt(x,10);
+	if(v == 0 && (HxOverrides.cca(x,1) == 120 || HxOverrides.cca(x,1) == 88)) v = parseInt(x);
+	if(isNaN(v)) return null;
+	return v;
+};
 Std.random = function(x) {
 	if(x <= 0) return 0; else return Math.floor(Math.random() * x);
 };
@@ -185,6 +225,11 @@ StringTools.rtrim = function(s) {
 };
 StringTools.trim = function(s) {
 	return StringTools.ltrim(StringTools.rtrim(s));
+};
+StringTools.lpad = function(s,c,l) {
+	if(c.length <= 0) return s;
+	while(s.length < l) s = c + s;
+	return s;
 };
 StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
@@ -534,6 +579,13 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,date: function(label,defaultValue,options,callback) {
+		if(null == defaultValue) defaultValue = new Date();
+		var control = new sui.controls.DateControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,password: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
 		var control = new sui.controls.PasswordControl(defaultValue,options);
@@ -683,6 +735,62 @@ sui.controls.SingleInputControl.prototype = {
 	}
 	,__class__: sui.controls.SingleInputControl
 };
+sui.controls.BaseDateControl = function(value,name,type,dateToString,options) {
+	if(null == options) options = { };
+	this.dateToString = dateToString;
+	sui.controls.SingleInputControl.call(this,value,"input",name,type,options);
+	if(null != options.autocomplete) this.input.setAttribute("autocomplete",options.autocomplete?"on":"off");
+	if(null != options.min) this.input.setAttribute("min",dateToString(options.min));
+	if(null != options.max) this.input.setAttribute("max",dateToString(options.max));
+	if(null != options.list) new sui.controls.DataList(this.el,options.list.map(function(o) {
+		return { label : o.label, value : dateToString(o.value)};
+	})).applyTo(this.input); else if(null != options.values) new sui.controls.DataList(this.el,options.values.map(function(o1) {
+		return { label : HxOverrides.dateStr(o1), value : dateToString(o1)};
+	})).applyTo(this.input);
+};
+sui.controls.BaseDateControl.__name__ = true;
+sui.controls.BaseDateControl.toRFCDate = function(date) {
+	var y = date.getFullYear();
+	var m = StringTools.lpad("" + (date.getMonth() + 1),"0",2);
+	var d = StringTools.lpad("" + date.getDate(),"0",2);
+	return "" + y + "-" + m + "-" + d;
+};
+sui.controls.BaseDateControl.toRFCDateTime = function(date) {
+	var d = sui.controls.BaseDateControl.toRFCDate(date);
+	var hh = StringTools.lpad("" + date.getHours(),"0",2);
+	var mm = StringTools.lpad("" + date.getMinutes(),"0",2);
+	var ss = StringTools.lpad("" + date.getSeconds(),"0",2);
+	return "" + d + "T" + hh + ":" + mm + ":" + ss;
+};
+sui.controls.BaseDateControl.fromRFC = function(date) {
+	var dp = date.split("T")[0];
+	var dt;
+	var t1;
+	var _0 = date;
+	var _1;
+	var _2;
+	if(null == _0) t1 = null; else if(null == (_1 = _0.split("T"))) t1 = null; else if(null == (_2 = _1[1])) t1 = null; else t1 = _2;
+	if(t1 != null) dt = t1; else dt = "00:00:00";
+	var p = dp.split("-");
+	var y = Std.parseInt(p[0]);
+	var m = Std.parseInt(p[1]) - 1;
+	var d = Std.parseInt(p[2]);
+	var t = dt.split(":");
+	var hh = Std.parseInt(t[0]);
+	var mm = Std.parseInt(t[1]);
+	var ss = Std.parseInt(t[2]);
+	return new Date(y,m,d,hh,mm,ss);
+};
+sui.controls.BaseDateControl.__super__ = sui.controls.SingleInputControl;
+sui.controls.BaseDateControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
+	setInput: function(v) {
+		this.input.value = this.dateToString(v);
+	}
+	,getInput: function() {
+		if(thx.core.Strings.isEmpty(this.input.value)) return null; else return sui.controls.BaseDateControl.fromRFC(this.input.value);
+	}
+	,__class__: sui.controls.BaseDateControl
+});
 sui.controls.BaseTextControl = function(value,name,type,options) {
 	if(null == options) options = { };
 	sui.controls.SingleInputControl.call(this,value,"input",name,type,options);
@@ -690,7 +798,7 @@ sui.controls.BaseTextControl = function(value,name,type,options) {
 	if(null != options.autocomplete) this.input.setAttribute("autocomplete",options.autocomplete?"on":"off");
 	if(null != options.pattern) this.input.setAttribute("pattern","" + options.pattern);
 	if(null != options.placeholder) this.input.setAttribute("placeholder","" + options.placeholder);
-	if(null != options.list) sui.controls.DataList.fromArray(this.el,options.list).applyTo(this.input);
+	if(null != options.list) new sui.controls.DataList(this.el,options.list).applyTo(this.input); else if(null != options.values) sui.controls.DataList.fromArray(this.el,options.values).applyTo(this.input);
 };
 sui.controls.BaseTextControl.__name__ = true;
 sui.controls.BaseTextControl.__super__ = sui.controls.SingleInputControl;
@@ -737,7 +845,7 @@ sui.controls.ControlValues.prototype = {
 };
 sui.controls.DataList = function(container,values) {
 	this.id = "sui-dl-" + ++sui.controls.DataList.nid;
-	var datalist = dots.Html.parse("<datalist id=\"" + this.id + "\">" + Std.string(values.map(sui.controls.DataList.toOption)) + "</datalist>");
+	var datalist = dots.Html.parse("<datalist id=\"" + this.id + "\" style=\"display:none\">" + Std.string(values.map(sui.controls.DataList.toOption)) + "</datalist>");
 	container.appendChild(datalist);
 };
 sui.controls.DataList.__name__ = true;
@@ -756,6 +864,14 @@ sui.controls.DataList.prototype = {
 	}
 	,__class__: sui.controls.DataList
 };
+sui.controls.DateControl = function(value,options) {
+	sui.controls.BaseDateControl.call(this,value,"date","date",sui.controls.BaseDateControl.toRFCDate,options);
+};
+sui.controls.DateControl.__name__ = true;
+sui.controls.DateControl.__super__ = sui.controls.BaseDateControl;
+sui.controls.DateControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
+	__class__: sui.controls.DateControl
+});
 sui.controls.LabelControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"label","text",options);
 	this.input.setAttribute("readonly","readonly");
@@ -1487,6 +1603,8 @@ thx.core.Ints.wrapCircular = function(v,max) {
 thx.core.Nil = { __ename__ : true, __constructs__ : ["nil"] };
 thx.core.Nil.nil = ["nil",0];
 thx.core.Nil.nil.__enum__ = thx.core.Nil;
+thx.core.Nulls = function() { };
+thx.core.Nulls.__name__ = true;
 thx.core.Options = function() { };
 thx.core.Options.__name__ = true;
 thx.core.Options.equals = function(a,b,eq) {
