@@ -10,16 +10,24 @@ import thx.core.Functions;
 class Control<T> {
   public var el(default, null) : Element;
   public var streams(default, null) : ControlStreams<T>;
+  public var disabled(default, null) : Bool;
 
   var _focus : Value<Bool>;
 
   public function new(valueEmitter : Emitter<T>) {
     _focus = new Value(false);
     streams = new ControlStreams(valueEmitter, _focus);
+    disabled = false;
   }
 
-  public function get() : T
+  public function enable()
     throw new NotImplemented();
+
+  public function disable()
+    throw new NotImplemented();
+
+  public function get() : T
+    return throw new NotImplemented();
 
   public function set(v : T)
     throw new NotImplemented();
