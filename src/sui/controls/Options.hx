@@ -8,7 +8,10 @@ typedef Options = {
 
 typedef OptionsDate = {> Options,
   ?min : Date,
-  ?max : Date
+  ?max : Date,
+  ?autocomplete : Bool,
+  ?list : Array<{ label : String, value : Date }>,
+  ?values : Array<Date>
 }
 
 typedef OptionsText = {> Options,
@@ -16,5 +19,6 @@ typedef OptionsText = {> Options,
   ?autocomplete : Bool,
   ?pattern : String,
   ?placeholder : String,
-  ?list : Array<String>
+  ?list : Array<{ label : String, value : String }>,
+  ?values : Array<String>
 }

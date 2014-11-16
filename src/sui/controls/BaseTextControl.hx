@@ -17,7 +17,9 @@ class BaseTextControl extends SingleInputControl<String> {
     if(null != options.placeholder)
       input.setAttribute('placeholder', '${options.placeholder}');
     if(null != options.list)
-      DataList.fromArray(el, options.list).applyTo(input);
+      new DataList(el, options.list).applyTo(input);
+    else if(null != options.values)
+      DataList.fromArray(el, options.values).applyTo(input);
   }
 
   override function setInput(v : String)
