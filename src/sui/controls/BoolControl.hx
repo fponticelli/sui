@@ -5,13 +5,11 @@ import dots.Query;
 using thx.stream.dom.Dom;
 import js.html.InputElement;
 
-class BoolControl extends ValueControl<Bool> {
-  var input : InputElement;
-  public function new(value : Bool) {
-    super(value);
+class BoolControl extends InputControl<Bool> {
+  public function new(value : Bool, ?options : ControlOptions) {
     el = Html.parse('<div class="sui-single sui-input sui-bool"><input type="checkbox" ${value ? "checked" : ""}/></div>');
-    input = cast Query.first('input', el);
-    input.streamFocus().feed(_focus);
+    var input = (cast Query.first('input', el) : InputElement);
+    super(value, input, options);
     input.streamChecked().subscribe(set);
   }
 
@@ -19,7 +17,4 @@ class BoolControl extends ValueControl<Bool> {
     input.checked = value;
     _value.set(value);
   }
-
-  override public function focus()
-    input.focus();
 }
