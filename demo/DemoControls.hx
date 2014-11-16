@@ -12,6 +12,9 @@ class DemoControls {
     //ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
     //ui.date("date", function(v) trace('date: $v'));
     ui.bool("boolean", function(v) trace('bool: $v'));
+    ui.password("secret", "", {
+        placeholder : "shhh"
+      }, function(v) trace('password: $v'));
     ui.text("text", "", {
         placeholder : "placeholder"
       }, function(v) trace('string: $v'));

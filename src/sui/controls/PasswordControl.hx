@@ -2,8 +2,8 @@ package sui.controls;
 
 import sui.controls.Options;
 
-class TextControl extends BaseTextControl {
+class PasswordControl extends BaseTextControl {
   public function new(value : String, ?options : OptionsText) {
-    super(value, "text", "text", options);
+    super(value, "text", "password", options);
   }
 }

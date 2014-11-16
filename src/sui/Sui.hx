@@ -59,6 +59,13 @@ class Sui {
     return control;
   }
 */
+  public function password(?label : String, ?defaultValue = "", ?options : OptionsText, callback : String -> Void) {
+    var control = new PasswordControl(defaultValue, options);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
   public function text(?label : String, ?defaultValue = "", ?options : OptionsText, callback : String -> Void) {
     var control = new TextControl(defaultValue, options);
     control.streams.value.subscribe(callback);

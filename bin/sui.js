@@ -13,11 +13,14 @@ DemoControls.main = function() {
 	ui.bool("boolean",null,null,function(v) {
 		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("text","",{ placeholder : "placeholder"},function(v1) {
-		haxe.Log.trace("string: " + v1,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
+	ui.password("secret","",{ placeholder : "shhh"},function(v1) {
+		haxe.Log.trace("password: " + v1,{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
 	});
-	ui.text(null,"",{ placeholder : "libs", list : ["haxe","thx","sui"]},function(v2) {
-		haxe.Log.trace("string: " + v2,{ fileName : "DemoControls.hx", lineNumber : 21, className : "DemoControls", methodName : "main"});
+	ui.text("text","",{ placeholder : "placeholder"},function(v2) {
+		haxe.Log.trace("string: " + v2,{ fileName : "DemoControls.hx", lineNumber : 20, className : "DemoControls", methodName : "main"});
+	});
+	ui.text(null,"",{ placeholder : "libs", list : ["haxe","thx","sui"]},function(v3) {
+		haxe.Log.trace("string: " + v3,{ fileName : "DemoControls.hx", lineNumber : 24, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -528,6 +531,13 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,password: function(label,defaultValue,options,callback) {
+		if(defaultValue == null) defaultValue = "";
+		var control = new sui.controls.PasswordControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
 		var control = new sui.controls.TextControl(defaultValue,options);
@@ -662,6 +672,26 @@ sui.controls.SingleInputControl.prototype = {
 	}
 	,__class__: sui.controls.SingleInputControl
 };
+sui.controls.BaseTextControl = function(value,name,type,options) {
+	if(null == options) options = { };
+	sui.controls.SingleInputControl.call(this,value,"input",name,type,options);
+	if(null != options.maxlength) this.input.setAttribute("maxlength","" + options.maxlength);
+	if(null != options.autocomplete) this.input.setAttribute("autocomplete",options.autocomplete?"on":"off");
+	if(null != options.pattern) this.input.setAttribute("pattern","" + options.pattern);
+	if(null != options.placeholder) this.input.setAttribute("placeholder","" + options.placeholder);
+	if(null != options.list) sui.controls.DataList.fromArray(this.el,options.list).applyTo(this.input);
+};
+sui.controls.BaseTextControl.__name__ = true;
+sui.controls.BaseTextControl.__super__ = sui.controls.SingleInputControl;
+sui.controls.BaseTextControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
+	setInput: function(v) {
+		this.input.value = v;
+	}
+	,getInput: function() {
+		return this.input.value;
+	}
+	,__class__: sui.controls.BaseTextControl
+});
 sui.controls.BoolControl = function(value,options) {
 	sui.controls.SingleInputControl.call(this,value,"change","bool","checkbox",options);
 };
@@ -716,39 +746,29 @@ sui.controls.DataList.prototype = {
 	,__class__: sui.controls.DataList
 };
 sui.controls.LabelControl = function(value,options) {
-	sui.controls.SingleInputControl.call(this,value,"change","label","text",options);
+	sui.controls.BaseTextControl.call(this,value,"label","text",options);
 	this.input.setAttribute("readonly","readonly");
 };
 sui.controls.LabelControl.__name__ = true;
-sui.controls.LabelControl.__super__ = sui.controls.SingleInputControl;
-sui.controls.LabelControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
-	setInput: function(v) {
-		this.input.value = v;
-	}
-	,getInput: function() {
-		return this.input.value;
-	}
-	,__class__: sui.controls.LabelControl
+sui.controls.LabelControl.__super__ = sui.controls.BaseTextControl;
+sui.controls.LabelControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
+	__class__: sui.controls.LabelControl
+});
+sui.controls.PasswordControl = function(value,options) {
+	sui.controls.BaseTextControl.call(this,value,"text","password",options);
+};
+sui.controls.PasswordControl.__name__ = true;
+sui.controls.PasswordControl.__super__ = sui.controls.BaseTextControl;
+sui.controls.PasswordControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
+	__class__: sui.controls.PasswordControl
 });
 sui.controls.TextControl = function(value,options) {
-	if(null == options) options = { };
-	sui.controls.SingleInputControl.call(this,value,"input","text","text",options);
-	if(null != options.maxlength) this.input.setAttribute("maxlength","" + options.maxlength);
-	if(options.autocomplete) this.input.setAttribute("autocomplete","autocomplete");
-	if(null != options.pattern) this.input.setAttribute("pattern","" + options.pattern);
-	if(null != options.placeholder) this.input.setAttribute("placeholder","" + options.placeholder);
-	if(null != options.list) sui.controls.DataList.fromArray(this.el,options.list).applyTo(this.input);
+	sui.controls.BaseTextControl.call(this,value,"text","text",options);
 };
 sui.controls.TextControl.__name__ = true;
-sui.controls.TextControl.__super__ = sui.controls.SingleInputControl;
-sui.controls.TextControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
-	setInput: function(v) {
-		this.input.value = v;
-	}
-	,getInput: function() {
-		return this.input.value;
-	}
-	,__class__: sui.controls.TextControl
+sui.controls.TextControl.__super__ = sui.controls.BaseTextControl;
+sui.controls.TextControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
+	__class__: sui.controls.TextControl
 });
 var thx = {};
 thx.core = {};
