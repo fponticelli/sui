@@ -32,13 +32,21 @@ class DemoControls {
       }, function(t) trace('time: $t'));
     /*
     ui.color("color",  function(v) trace('color: $v'));
-    ui.float("float",  function(v) trace('float: $v'));
-    ui.float("float", 0.5, 0.0, 1.0, function(v) trace('float: $v'));
-    ui.int("int",  function(v) trace('int: $v'));
-    ui.int("int", 20, 10, 30, function(v) trace('int: $v'));
-    ui.label("temp").set("hello there");
-    //?label, ?defaultValue, ?placeholder, ?allowEmptyText = true, callback : String -> Void
     */
+    ui.float("float",  function(v) trace('float: $v'));
+    ui.float("float", 0.5, {
+        step : 0.01,
+        min  : 0.0,
+        max  : 1.0
+      }, function(v) trace('float: $v'));
+    ui.int("int", {
+        list : [{ label : "one", value : 1}, { label : "two", value : 2}, { label : "three", value : 3}]
+      }, function(v) trace('int: $v'));
+    ui.int("int constrained", 20, {
+        min : 10,
+        max : 30
+      }, function(v) trace('int constrained: $v'));
+    ui.label("temp").set("hello there");
     ui.trigger("trigger", function() trace("triggered"));
     ui.attach();
 /*

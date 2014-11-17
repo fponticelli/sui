@@ -30,3 +30,13 @@ typedef OptionsText = {> Options,
   ?list : Array<{ label : String, value : String }>,
   ?values : Array<String>
 }
+
+typedef OptionsNumber<T : Float> = {> Options,
+  ?min : T,
+  ?max : T,
+  ?step : T,
+  ?autocomplete : Bool,
+  ?placeholder : String,
+  ?list : Array<{ label : String, value : T }>,
+  ?values : Array<T>
+}

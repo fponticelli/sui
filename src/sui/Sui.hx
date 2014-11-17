@@ -45,29 +45,29 @@ class Sui {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
-
-  public function float(?label : String, ?defaultValue = 0.0, ?min : Float, ?max : Float, ?step : Float = 0.01, ?allowNaN = false, callback : Float -> Void) {
-    var control = (min != null && max != null) ? new FloatRangeControl(defaultValue, min, max, step) : new FloatControl(defaultValue, allowNaN);
+*/
+  public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsNumber<Float>, callback : Float -> Void) {
+    var control = /*(options.min != null && options.max != null) ? new FloatRangeControl(defaultValue, min, max, step) :*/ new FloatControl(defaultValue, options);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
 
-  public function int(?label : String, ?defaultValue = 0, ?min : Int, ?max : Int, ?step : Int = 1, callback : Int -> Void) {
-    var control = (min != null && max != null) ? new IntRangeControl(defaultValue, min, max, step) : new IntControl(defaultValue);
+  public function int(?label : String, ?defaultValue = 0, ?options : OptionsNumber<Int>, callback : Int -> Void) {
+    var control = /*(options.min != null && options.max != null) ? new IntRangeControl(defaultValue, min, max, step) :*/ new IntControl(defaultValue, options);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
 
-  public function label(?defaultValue = "", ?label : String, ?callback : String -> Void) {
-    var control = new LabelControl(defaultValue);
+  public function label(?defaultValue = "", ?label : String, ?options : OptionsText, ?callback : String -> Void) {
+    var control = new LabelControl(defaultValue, options);
     if(null != callback)
       control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
-*/
+
   public function password(?label : String, ?defaultValue = "", ?options : OptionsText, callback : String -> Void) {
     var control = new PasswordControl(defaultValue, options);
     control.streams.value.subscribe(callback);

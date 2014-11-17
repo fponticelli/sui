@@ -31,8 +31,21 @@ DemoControls.main = function() {
 	ui.time("time",82800000,{ values : [0,60000,3600000]},function(t) {
 		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 32, className : "DemoControls", methodName : "main"});
 	});
+	ui["float"]("float",null,null,function(v6) {
+		haxe.Log.trace("float: " + v6,{ fileName : "DemoControls.hx", lineNumber : 36, className : "DemoControls", methodName : "main"});
+	});
+	ui["float"]("float",0.5,{ step : 0.01, min : 0.0, max : 1.0},function(v7) {
+		haxe.Log.trace("float: " + v7,{ fileName : "DemoControls.hx", lineNumber : 41, className : "DemoControls", methodName : "main"});
+	});
+	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v8) {
+		haxe.Log.trace("int: " + v8,{ fileName : "DemoControls.hx", lineNumber : 44, className : "DemoControls", methodName : "main"});
+	});
+	ui["int"]("int constrained",20,{ min : 10, max : 30},function(v9) {
+		haxe.Log.trace("int constrained: " + v9,{ fileName : "DemoControls.hx", lineNumber : 48, className : "DemoControls", methodName : "main"});
+	});
+	ui.label("temp").set("hello there");
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 50, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -602,6 +615,27 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,'float': function(label,defaultValue,options,callback) {
+		if(defaultValue == null) defaultValue = 0.0;
+		var control = new sui.controls.FloatControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,'int': function(label,defaultValue,options,callback) {
+		if(defaultValue == null) defaultValue = 0;
+		var control = new sui.controls.IntControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,label: function(defaultValue,label,options,callback) {
+		if(defaultValue == null) defaultValue = "";
+		var control = new sui.controls.LabelControl(defaultValue,options);
+		if(null != callback) control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,password: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
 		var control = new sui.controls.PasswordControl(defaultValue,options);
@@ -908,6 +942,53 @@ sui.controls.DateTimeControl.__name__ = true;
 sui.controls.DateTimeControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateTimeControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateTimeControl
+});
+sui.controls.NumberControl = function(value,name,options) {
+	if(null == options) options = { };
+	sui.controls.SingleInputControl.call(this,value,"input",name,"number",options);
+	if(null != options.autocomplete) this.input.setAttribute("autocomplete",options.autocomplete?"on":"off");
+	if(null != options.min) this.input.setAttribute("min","" + Std.string(options.min));
+	if(null != options.max) this.input.setAttribute("max","" + Std.string(options.max));
+	if(null != options.step) this.input.setAttribute("step","" + Std.string(options.step));
+	if(null != options.placeholder) this.input.setAttribute("placeholder","" + options.placeholder);
+	if(null != options.list) new sui.controls.DataList(this.el,options.list.map(function(o) {
+		return { label : o.label, value : "" + Std.string(o.value)};
+	})).applyTo(this.input); else if(null != options.values) new sui.controls.DataList(this.el,options.values.map(function(o1) {
+		return { label : "" + Std.string(o1), value : "" + Std.string(o1)};
+	})).applyTo(this.input);
+};
+sui.controls.NumberControl.__name__ = true;
+sui.controls.NumberControl.__super__ = sui.controls.SingleInputControl;
+sui.controls.NumberControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
+	__class__: sui.controls.NumberControl
+});
+sui.controls.FloatControl = function(value,options) {
+	sui.controls.NumberControl.call(this,value,"float",options);
+};
+sui.controls.FloatControl.__name__ = true;
+sui.controls.FloatControl.__super__ = sui.controls.NumberControl;
+sui.controls.FloatControl.prototype = $extend(sui.controls.NumberControl.prototype,{
+	setInput: function(v) {
+		this.input.value = "" + v;
+	}
+	,getInput: function() {
+		return Std.parseFloat(this.input.value);
+	}
+	,__class__: sui.controls.FloatControl
+});
+sui.controls.IntControl = function(value,options) {
+	sui.controls.NumberControl.call(this,value,"int",options);
+};
+sui.controls.IntControl.__name__ = true;
+sui.controls.IntControl.__super__ = sui.controls.NumberControl;
+sui.controls.IntControl.prototype = $extend(sui.controls.NumberControl.prototype,{
+	setInput: function(v) {
+		this.input.value = "" + v;
+	}
+	,getInput: function() {
+		return Std.parseInt(this.input.value);
+	}
+	,__class__: sui.controls.IntControl
 });
 sui.controls.LabelControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"label","text",options);
