@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     stylus = require('gulp-stylus'),
-    connect = require('gulp-connect');
+    connect = require('gulp-connect'),
+    nib = require('nib');;
 
 gulp.task('connect', function () {
   connect.server({
@@ -22,7 +23,10 @@ gulp.task('js', function () {
 
 gulp.task('stylus', function () {
   gulp.src('./style/*.styl')
-    .pipe(stylus())
+    .pipe(stylus({
+      use: [nib()],
+      compress: true
+    }))
     .pipe(gulp.dest('./bin'))
     .pipe(connect.reload());
 });

@@ -1,7 +1,12 @@
 light-border = #ddd
+dark-border = #aaa
+white-background = #ffffff
 light-background = #f6f6f6
+dark-background = #eeeeee
 font-default = Helvetica, "Nimbus Sans L", "Liberation Sans", Arial, sans-serif
-font-mono = monospace
+font-mono = Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace
+outline-color = #AAFF99 solid 1px
+outline-offset = 1px
 
 box-shadow(args...)
   -webkit-box-shadow args
@@ -25,12 +30,12 @@ table.sui-grid
     border-left 1px solid light-border
   td:last-child
     border-right 1px solid light-border
-//  .sui-horizontal
-//    .sui-left
-//    .sui-right
-//  .sui-vertical.sui-top
-//  .sui-vertical.sui-bottom
-//
+  td.sui-top
+  td.sui-left
+    background-color white-background
+  td.sui-bottom
+  td.sui-right
+    background-color light-background
 
 .sui-top-right
   position absolute
@@ -44,94 +49,68 @@ table.sui-grid
         border-top none
     td:last-child
       border-right none
-
-// controls
-.sui-input
-.sui-output
-.sui-button
+.sui-control
   box-sizing border-box
   *
     box-sizing border-box
-  font-size 11px
-  font-family font-default
-  margin 0
-  padding 0
-  display inline-block
-  //height 18px
-  line-height 23px
-  vertical-align middle
-  padding 0 6px
-.sui-input
-  border none
-  background-color light-background
-.sui-bool
-  text-align center
-.sui-color
-  background-color light-background
-  .sui-color-control
-    padding 0 4px
+    font-size 11px
+    font-family font-default
     margin 0
-  .sui-color-text
-    font-family font-mono
+    padding 0
+    //display inline-block
+    line-height 18px
+    vertical-align middle
+  input
+    border none
+    background-color light-background
+  button:focus
+    outline outline-color
+    outline-offset outline-offset
+  input:focus
+    outline outline-color
+    outline-offset outline-offset
+
+  output
+    padding 0 6px
+    background-color white-background
+
+  input[type="number"]
+  input[type="date"]
+  input[type="datetime-local"]
+  input[type="time"]
     text-align right
+  input[type="number"]
+    font-family font-mono
+  input
+    padding 0 6px
+  input[type="color"]
+  input[type="checkbox"]
+    padding 0
+    margin 0
+  input[type="range"]
+    margin 0 8px
+  button
+    background-color dark-background
+    border 1px solid dark-border
+    border-radius 4px
 
-.sui-float
-.sui-int
-.sui-range-input-int
-.sui-range-input-float
-  text-align right
-  font-family font-mono
-
-.sui-grid
-  .sui-color
-    width 100%
-    .sui-color-control
-      width calc(100% - 4px - 6em)
-    .sui-color-text
-      width 6em
-  .sui-float
-  .sui-int
-  .sui-text
-  .sui-date
-    width 100%
-  .sui-range-int
-    .sui-range-slider-int
-      width calc(100% - 8px - 6em)
-      margin-left 4px
-    .sui-range-input-int
-      width 6em
-  .sui-range-float
-    .sui-range-slider-float
-      width calc(100% - 8px - 6em)
-      margin-left 4px
-    .sui-range-input-float
-      width 6em
-  .sui-bool
-    width 100%
-
-.sui-single
-  td[colspan="2"]
-    .sui-input
-    .sui-output
-    .sui-button
+  &.sui-control-single
+    input
+    output
+    button
       width 100%
-
-.sui-range-int
-.sui-range-float
-  background-color light-background
-    
-//    
-//.sui-float
-//  
-//    
-//.sui-int
-//  
-//.sui-range-int
-//  .sui-range-slider-int
-//  .sui-range-input-int
-//    
-//.sui-output
-//  
-//.sui-text
-//  
-//.sui-button
+    input[type="checkbox"]
+      width initial
+  &.sui-control-double
+    input
+    output
+    button
+      width 50%
+    .input1
+      width calc(100% - 7em)
+    input.input1[type="range"]
+        width calc(100% - 7em - 16px)
+    .input2
+      width 7em
+  &.sui-type-bool
+    text-align center
