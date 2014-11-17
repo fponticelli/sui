@@ -48,6 +48,7 @@ class DemoControls {
         max : 30
       }, function(v) trace('int constrained: $v'));
     ui.label("temp").set("hello there");
+    ui.search("search", "", function(v) trace('search: $v'));
     ui.trigger("trigger", function() trace("triggered"));
     ui.url("url", "", function(v) trace('url: $v'));
     ui.attach();

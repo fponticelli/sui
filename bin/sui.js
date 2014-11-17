@@ -47,11 +47,14 @@ DemoControls.main = function() {
 		haxe.Log.trace("int constrained: " + v10,{ fileName : "DemoControls.hx", lineNumber : 49, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
-	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
+	ui.search("search","",null,function(v11) {
+		haxe.Log.trace("search: " + v11,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
 	});
-	ui.url("url","",null,function(v11) {
-		haxe.Log.trace("url: " + v11,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
+	ui.trigger("trigger",null,null,function() {
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
+	});
+	ui.url("url","",null,function(v12) {
+		haxe.Log.trace("url: " + v12,{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -656,6 +659,13 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,search: function(label,defaultValue,options,callback) {
+		if(defaultValue == null) defaultValue = "";
+		var control = new sui.controls.SearchControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
 		var control = new sui.controls.TextControl(defaultValue,options);
@@ -747,6 +757,7 @@ sui.controls.SingleInputControl = function(defaultValue,event,name,type,options)
 	var _g = this;
 	var template = "<div class=\"sui-control sui-control-single sui-type-" + name + "\"><input type=\"" + type + "\"/></div>";
 	if(null == options) options = { };
+	if(null == options.allownull) options.allownull = true;
 	this.defaultValue = defaultValue;
 	this.values = new sui.controls.ControlValues(defaultValue);
 	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
@@ -777,10 +788,10 @@ sui.controls.SingleInputControl.__name__ = true;
 sui.controls.SingleInputControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.SingleInputControl.prototype = {
 	setInput: function(v) {
-		throw new thx.core.error.AbstractMethod({ fileName : "SingleInputControl.hx", lineNumber : 62, className : "sui.controls.SingleInputControl", methodName : "setInput"});
+		throw new thx.core.error.AbstractMethod({ fileName : "SingleInputControl.hx", lineNumber : 64, className : "sui.controls.SingleInputControl", methodName : "setInput"});
 	}
 	,getInput: function() {
-		throw new thx.core.error.AbstractMethod({ fileName : "SingleInputControl.hx", lineNumber : 65, className : "sui.controls.SingleInputControl", methodName : "getInput"});
+		throw new thx.core.error.AbstractMethod({ fileName : "SingleInputControl.hx", lineNumber : 67, className : "sui.controls.SingleInputControl", methodName : "getInput"});
 	}
 	,set: function(v) {
 		this.setInput(v);
@@ -1036,6 +1047,15 @@ sui.controls.PasswordControl.__name__ = true;
 sui.controls.PasswordControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.PasswordControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.PasswordControl
+});
+sui.controls.SearchControl = function(value,options) {
+	if(null == options) options = { };
+	sui.controls.BaseTextControl.call(this,value,"search","search",options);
+};
+sui.controls.SearchControl.__name__ = true;
+sui.controls.SearchControl.__super__ = sui.controls.BaseTextControl;
+sui.controls.SearchControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
+	__class__: sui.controls.SearchControl
 });
 sui.controls.TextControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","text",options);

@@ -20,6 +20,8 @@ class SingleInputControl<T> implements IControl<T> {
 
     if(null == options)
       options = {};
+    if(null == options.allownull)
+      options.allownull = true;
 
     this.defaultValue = defaultValue;
 
