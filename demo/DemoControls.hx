@@ -35,18 +35,19 @@ class DemoControls {
         list : [{ value : "#FF0000", label : "red" }, { value : "#00FF00", label : "blue" }, { value : "#0000FF", label : "green" }]
       }, function(v) trace('color: $v'));
     ui.float("float",  function(v) trace('float: $v'));
-    ui.float("float", 0.5, {
+    ui.float("float range", 0.5, {
         step : 0.01,
         min  : 0.0,
-        max  : 1.0
-      }, function(v) trace('float: $v'));
+        max  : 1.0,
+        values : [0, 0.5, 1]
+      }, function(v) trace('float range: $v'));
     ui.int("int", {
         list : [{ label : "one", value : 1}, { label : "two", value : 2}, { label : "three", value : 3}]
       }, function(v) trace('int: $v'));
-    ui.int("int constrained", 20, {
+    ui.int("int range", 20, {
         min : 10,
         max : 30
-      }, function(v) trace('int constrained: $v'));
+      }, function(v) trace('int range: $v'));
     ui.label("temp").set("hello there");
     ui.search("search", "", function(v) trace('search: $v'));
     ui.tel("tel", "", function(v) trace('tel: $v'));

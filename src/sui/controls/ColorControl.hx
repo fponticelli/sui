@@ -17,6 +17,8 @@ class ColorControl extends DoubleInputControl<String> {
       new DataList(el, options.list).applyTo(input1).applyTo(input2);
     else if(null != options.values)
       DataList.fromArray(el, options.values).applyTo(input1).applyTo(input2);
+
+    setInputs(value);
   }
 
   override function setInput1(v : String)

@@ -50,8 +50,6 @@ class DoubleInputControl<T> implements IControl<T> {
       el.classList.remove("sui-focused");
     });
 
-    setInputs(defaultValue);
-
     input1.streamFocus()
       .merge(input2.streamFocus())
       .feed(values.focused);

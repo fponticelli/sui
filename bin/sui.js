@@ -40,27 +40,27 @@ DemoControls.main = function() {
 	ui["float"]("float",null,null,function(v8) {
 		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 37, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float",0.5,{ step : 0.01, min : 0.0, max : 1.0},function(v9) {
-		haxe.Log.trace("float: " + v9,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
+	ui["float"]("float range",0.5,{ step : 0.01, min : 0.0, max : 1.0, values : [0,0.5,1]},function(v9) {
+		haxe.Log.trace("float range: " + v9,{ fileName : "DemoControls.hx", lineNumber : 43, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v10) {
-		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 45, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 46, className : "DemoControls", methodName : "main"});
 	});
-	ui["int"]("int constrained",20,{ min : 10, max : 30},function(v11) {
-		haxe.Log.trace("int constrained: " + v11,{ fileName : "DemoControls.hx", lineNumber : 49, className : "DemoControls", methodName : "main"});
+	ui["int"]("int range",20,{ min : 10, max : 30},function(v11) {
+		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 50, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
 	ui.search("search","",null,function(v12) {
-		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
 	});
 	ui.tel("tel","",null,function(v13) {
-		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 54, className : "DemoControls", methodName : "main"});
 	});
 	ui.url("url","",null,function(v14) {
-		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 54, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 55, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -710,14 +710,16 @@ sui.Sui.prototype = {
 	}
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
-		var control = new sui.controls.FloatControl(defaultValue,options);
+		var control;
+		if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
 	,'int': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0;
-		var control = new sui.controls.IntControl(defaultValue,options);
+		var control;
+		if(null != options && options.min != null && options.max != null) control = new sui.controls.IntRangeControl(defaultValue,options); else control = new sui.controls.IntControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -1028,7 +1030,6 @@ sui.controls.DoubleInputControl = function(defaultValue,name,event1,type1,event2
 	this.values.focused.subscribe(function(v1) {
 		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
 	});
-	this.setInputs(defaultValue);
 	thx.stream.dom.Dom.streamFocus(this.input1).merge(thx.stream.dom.Dom.streamFocus(this.input2)).feed(this.values.focused);
 	thx.stream.dom.Dom.streamEvent(this.input1,event1).map(function(_) {
 		return _g.getInput1();
@@ -1058,16 +1059,16 @@ sui.controls.DoubleInputControl.prototype = {
 		this.setInput2(v);
 	}
 	,setInput1: function(v) {
-		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 91, className : "sui.controls.DoubleInputControl", methodName : "setInput1"});
+		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 89, className : "sui.controls.DoubleInputControl", methodName : "setInput1"});
 	}
 	,setInput2: function(v) {
-		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 94, className : "sui.controls.DoubleInputControl", methodName : "setInput2"});
+		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 92, className : "sui.controls.DoubleInputControl", methodName : "setInput2"});
 	}
 	,getInput1: function() {
-		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 97, className : "sui.controls.DoubleInputControl", methodName : "getInput1"});
+		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 95, className : "sui.controls.DoubleInputControl", methodName : "getInput1"});
 	}
 	,getInput2: function() {
-		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 100, className : "sui.controls.DoubleInputControl", methodName : "getInput2"});
+		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 98, className : "sui.controls.DoubleInputControl", methodName : "getInput2"});
 	}
 	,set: function(v) {
 		this.setInputs(v);
@@ -1105,6 +1106,7 @@ sui.controls.ColorControl = function(value,options) {
 	sui.controls.DoubleInputControl.call(this,value,"color","input","color","input","text",($_=sui.controls.ColorControl.PATTERN,$bind($_,$_.match)),options);
 	if(null != options.autocomplete) this.input2.setAttribute("autocomplete",options.autocomplete?"on":"off");
 	if(null != options.list) new sui.controls.DataList(this.el,options.list).applyTo(this.input1).applyTo(this.input2); else if(null != options.values) sui.controls.DataList.fromArray(this.el,options.values).applyTo(this.input1).applyTo(this.input2);
+	this.setInputs(value);
 };
 sui.controls.ColorControl.__name__ = true;
 sui.controls.ColorControl.__super__ = sui.controls.DoubleInputControl;
@@ -1221,6 +1223,66 @@ sui.controls.FloatControl.prototype = $extend(sui.controls.NumberControl.prototy
 	}
 	,__class__: sui.controls.FloatControl
 });
+sui.controls.NumberRangeControl = function(value,options) {
+	sui.controls.DoubleInputControl.call(this,value,"float-range","input","range","input","number",function(v) {
+		return v != null;
+	},options);
+	if(null != options.autocomplete) {
+		this.input1.setAttribute("autocomplete",options.autocomplete?"on":"off");
+		this.input2.setAttribute("autocomplete",options.autocomplete?"on":"off");
+	}
+	if(null != options.min) {
+		this.input1.setAttribute("min","" + Std.string(options.min));
+		this.input2.setAttribute("min","" + Std.string(options.min));
+	}
+	if(null != options.max) {
+		this.input1.setAttribute("max","" + Std.string(options.max));
+		this.input2.setAttribute("max","" + Std.string(options.max));
+	}
+	if(null != options.step) {
+		this.input1.setAttribute("step","" + Std.string(options.step));
+		this.input2.setAttribute("step","" + Std.string(options.step));
+	}
+	if(null != options.placeholder) this.input2.setAttribute("placeholder","" + options.placeholder);
+	if(null != options.list) new sui.controls.DataList(this.el,options.list.map(function(o) {
+		return { label : o.label, value : "" + Std.string(o.value)};
+	})).applyTo(this.input1).applyTo(this.input2); else if(null != options.values) new sui.controls.DataList(this.el,options.values.map(function(o1) {
+		return { label : "" + Std.string(o1), value : "" + Std.string(o1)};
+	})).applyTo(this.input1).applyTo(this.input2);
+	this.setInputs(value);
+};
+sui.controls.NumberRangeControl.__name__ = true;
+sui.controls.NumberRangeControl.__super__ = sui.controls.DoubleInputControl;
+sui.controls.NumberRangeControl.prototype = $extend(sui.controls.DoubleInputControl.prototype,{
+	setInput1: function(v) {
+		this.input1.value = "" + Std.string(v);
+	}
+	,setInput2: function(v) {
+		this.input2.value = "" + Std.string(v);
+	}
+	,__class__: sui.controls.NumberRangeControl
+});
+sui.controls.FloatRangeControl = function(value,options) {
+	if(null == options) options = { };
+	if(null == options.min) options.min = Math.min(value,0);
+	if(null == options.min) {
+		var s;
+		if(null != options.step) s = options.step; else s = 1;
+		options.max = Math.max(value,s);
+	}
+	sui.controls.NumberRangeControl.call(this,value,options);
+};
+sui.controls.FloatRangeControl.__name__ = true;
+sui.controls.FloatRangeControl.__super__ = sui.controls.NumberRangeControl;
+sui.controls.FloatRangeControl.prototype = $extend(sui.controls.NumberRangeControl.prototype,{
+	getInput1: function() {
+		if(thx.core.Floats.canParse(this.input1.value)) return thx.core.Floats.parse(this.input1.value); else return null;
+	}
+	,getInput2: function() {
+		if(thx.core.Floats.canParse(this.input2.value)) return thx.core.Floats.parse(this.input2.value); else return null;
+	}
+	,__class__: sui.controls.FloatRangeControl
+});
 sui.controls.IntControl = function(value,options) {
 	sui.controls.NumberControl.call(this,value,"int",options);
 };
@@ -1234,6 +1296,27 @@ sui.controls.IntControl.prototype = $extend(sui.controls.NumberControl.prototype
 		return Std.parseInt(this.input.value);
 	}
 	,__class__: sui.controls.IntControl
+});
+sui.controls.IntRangeControl = function(value,options) {
+	if(null == options) options = { };
+	if(null == options.min) if(value < 0) options.min = value; else options.min = 0;
+	if(null == options.min) {
+		var s;
+		if(null != options.step) s = options.step; else s = 100;
+		if(value > s) options.max = value; else options.max = s;
+	}
+	sui.controls.NumberRangeControl.call(this,value,options);
+};
+sui.controls.IntRangeControl.__name__ = true;
+sui.controls.IntRangeControl.__super__ = sui.controls.NumberRangeControl;
+sui.controls.IntRangeControl.prototype = $extend(sui.controls.NumberRangeControl.prototype,{
+	getInput1: function() {
+		if(thx.core.Ints.canParse(this.input1.value)) return thx.core.Ints.parse(this.input1.value); else return null;
+	}
+	,getInput2: function() {
+		if(thx.core.Ints.canParse(this.input2.value)) return thx.core.Ints.parse(this.input2.value); else return null;
+	}
+	,__class__: sui.controls.IntRangeControl
 });
 sui.controls.LabelControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"label","text",options);
@@ -1823,6 +1906,53 @@ thx.core.Error.prototype = $extend(Error.prototype,{
 	}
 	,__class__: thx.core.Error
 });
+thx.core.Floats = function() { };
+thx.core.Floats.__name__ = true;
+thx.core.Floats.canParse = function(s) {
+	return thx.core.Floats.pattern_parse.match(s);
+};
+thx.core.Floats.clamp = function(v,min,max) {
+	if(v < min) return min; else if(v > max) return max; else return v;
+};
+thx.core.Floats.clampSym = function(v,max) {
+	return thx.core.Floats.clamp(v,-max,max);
+};
+thx.core.Floats.compare = function(a,b) {
+	if(a < b) return -1; else if(b > a) return 1; else return 0;
+};
+thx.core.Floats.interpolate = function(f,a,b) {
+	return (b - a) * f + a;
+};
+thx.core.Floats.nearEquals = function(a,b) {
+	return Math.abs(a - b) <= 10e-10;
+};
+thx.core.Floats.nearZero = function(n) {
+	return Math.abs(n) <= 10e-10;
+};
+thx.core.Floats.normalize = function(v) {
+	if(v < 0) return 0; else if(v > 1) return 1; else return v;
+};
+thx.core.Floats.parse = function(s) {
+	if(s.substring(0,1) == "+") s = s.substring(1);
+	return Std.parseFloat(s);
+};
+thx.core.Floats.round = function(f,decimals) {
+	var p = Math.pow(10,decimals);
+	return Math.round(f * p) / p;
+};
+thx.core.Floats.sign = function(value) {
+	if(value < 0) return -1; else return 1;
+};
+thx.core.Floats.wrap = function(v,min,max) {
+	var range = max - min + 1;
+	if(v < min) v += range * ((min - v) / range + 1);
+	return min + (v - min) % range;
+};
+thx.core.Floats.wrapCircular = function(v,max) {
+	v = v % max;
+	if(v < 0) v += max;
+	return v;
+};
 thx.core.Functions0 = function() { };
 thx.core.Functions0.__name__ = true;
 thx.core.Functions0.after = function(callback,n) {
@@ -4685,6 +4815,9 @@ dots.Html.pattern = new EReg("[<]([^> ]+)","");
 dots.Query.doc = document;
 sui.controls.ColorControl.PATTERN = new EReg("^[#][0-9a-f]{6}$","i");
 sui.controls.DataList.nid = 0;
+thx.core.Floats.TOLERANCE = 10e-5;
+thx.core.Floats.EPSILON = 10e-10;
+thx.core.Floats.pattern_parse = new EReg("^(\\+|-)?\\d+(\\.\\d+)?(e-?\\d+)?$","");
 thx.core.Ints.pattern_parse = new EReg("^[+-]?(\\d+|0x[0-9A-F]+)$","i");
 thx.core.Ints.BASE = "0123456789abcdefghijklmnopqrstuvwxyz";
 thx.core.Strings.UCWORDS = new EReg("[^a-zA-Z]([a-z])","g");

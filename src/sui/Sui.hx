@@ -53,14 +53,14 @@ class Sui {
   }
 
   public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsNumber<Float>, callback : Float -> Void) {
-    var control = /*(options.min != null && options.max != null) ? new FloatRangeControl(defaultValue, min, max, step) :*/ new FloatControl(defaultValue, options);
+    var control = (null != options && options.min != null && options.max != null) ? new FloatRangeControl(defaultValue, options) : new FloatControl(defaultValue, options);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
 
   public function int(?label : String, ?defaultValue = 0, ?options : OptionsNumber<Int>, callback : Int -> Void) {
-    var control = /*(options.min != null && options.max != null) ? new IntRangeControl(defaultValue, min, max, step) :*/ new IntControl(defaultValue, options);
+    var control = (null != options && options.min != null && options.max != null) ? new IntRangeControl(defaultValue, options) : new IntControl(defaultValue, options);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
