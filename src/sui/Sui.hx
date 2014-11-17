@@ -66,8 +66,8 @@ class Sui {
     return control;
   }
 
-  public function label(?defaultValue = "", ?label : String, ?options : OptionsText, ?callback : String -> Void) {
-    var control = new LabelControl(defaultValue, options);
+  public function label(?defaultValue = "", ?label : String, ?callback : String -> Void) {
+    var control = new LabelControl(defaultValue);
     if(null != callback)
       control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));

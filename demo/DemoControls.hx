@@ -9,7 +9,6 @@ import js.Browser;
 class DemoControls {
   public static function main() {
     var ui = new sui.Sui();
-    //ui.bind("name", new TextControl("", "type it good"), function(s) trace(s));
     ui.bool("boolean", function(v) trace('bool: $v'));
     ui.dateTime("date time", {
         list : [{ label : "birthday", value : Date.fromString("1972-05-02 16:01:00") }, { label : "other", value : Date.fromString("1974-06-09") }, { label : "today", value : Date.now() }]
@@ -54,7 +53,7 @@ class DemoControls {
     ui.trigger("trigger", function() trace("triggered"));
     ui.url("url", "", function(v) trace('url: $v'));
     ui.attach();
-/*
+
     var grid = new Grid();
     Browser.document.body.appendChild(grid.el);
     grid.add(Single(new LabelControl("I act like a title")));
@@ -65,15 +64,14 @@ class DemoControls {
     createControlContainer(new TriggerControl("click me"));
     createControlContainer(new ColorControl("#ff0000"));
     createControlContainer(new BoolControl(true));
-    createControlContainer(new TextControl(null, "put text here"));
+    createControlContainer(new TextControl(null, { placeholder : "put text here" }));
     createControlContainer(new FloatControl(7.7));
     createControlContainer(new IntControl(7));
-    createControlContainer(new FloatRangeControl(7, 0, 100, 0.01));
-    createControlContainer(new IntRangeControl(7, 0, 100));
-*/
+    createControlContainer(new FloatRangeControl(7, { min : 0, max : 100, step : 0.01 }));
+    createControlContainer(new IntRangeControl(7, { min : 0, max : 100 }));
   }
-/*
-  public static function createControlContainer<T>(control : Control<T>) {
+
+  public static function createControlContainer<T>(control : IControl<T>) {
     var description = Type.getClassName(Type.getClass(control)).split(".").pop(),
         el = Html.parse('<div class="sample">
   <h2>$description</h2>
@@ -91,9 +89,8 @@ class DemoControls {
       value.textContent = 'value: $v';
     });
 
-    control.streams.focus.subscribe(function(v) {
+    control.streams.focused.subscribe(function(v) {
       focus.textContent = 'focus: $v';
     });
   }
-*/
 }

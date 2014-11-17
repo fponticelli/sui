@@ -7,68 +7,97 @@ function $extend(from, fields) {
 	return proto;
 }
 var DemoControls = function() { };
-DemoControls.__name__ = true;
+DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
 	var ui = new sui.Sui();
 	ui.bool("boolean",null,null,function(v) {
-		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 12, className : "DemoControls", methodName : "main"});
 	});
 	ui.dateTime("date time",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02 16:01:00")},{ label : "other", value : HxOverrides.strDate("1974-06-09")},{ label : "today", value : new Date()}]},function(v1) {
-		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 16, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 15, className : "DemoControls", methodName : "main"});
 	});
 	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v2) {
-		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 19, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 18, className : "DemoControls", methodName : "main"});
 	});
 	ui.email("email","",null,function(v3) {
-		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 20, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 19, className : "DemoControls", methodName : "main"});
 	});
 	ui.password("secret","",{ placeholder : "shhh"},function(v4) {
-		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 23, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("text","",{ placeholder : "placeholder"},function(v5) {
-		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 26, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 25, className : "DemoControls", methodName : "main"});
 	});
 	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v6) {
-		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 30, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 29, className : "DemoControls", methodName : "main"});
 	});
 	ui.time("time",82800000,{ values : [0,60000,3600000]},function(t) {
-		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 33, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 32, className : "DemoControls", methodName : "main"});
 	});
 	ui.color("color",null,{ list : [{ value : "#FF0000", label : "red"},{ value : "#00FF00", label : "blue"},{ value : "#0000FF", label : "green"}]},function(v7) {
-		haxe.Log.trace("color: " + v7,{ fileName : "DemoControls.hx", lineNumber : 36, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("color: " + v7,{ fileName : "DemoControls.hx", lineNumber : 35, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("float",null,null,function(v8) {
-		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 37, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 36, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("float range",0.5,{ step : 0.01, min : 0.0, max : 1.0, values : [0,0.5,1]},function(v9) {
-		haxe.Log.trace("float range: " + v9,{ fileName : "DemoControls.hx", lineNumber : 43, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("float range: " + v9,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v10) {
-		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 46, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 45, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int range",20,{ min : 10, max : 30},function(v11) {
-		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 50, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 49, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
 	ui.search("search","",null,function(v12) {
-		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
 	});
 	ui.tel("tel","",null,function(v13) {
-		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 54, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
 	});
 	ui.url("url","",null,function(v14) {
-		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 55, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 54, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
+	var grid = new sui.components.Grid();
+	window.document.body.appendChild(grid.el);
+	grid.add(sui.components.CellContent.Single(new sui.controls.LabelControl("I act like a title")));
+	grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl("got it?"),new sui.controls.BoolControl(true)));
+	grid.add(sui.components.CellContent.VerticalPair(new sui.controls.LabelControl("name"),new sui.controls.TextControl("sui")));
+	DemoControls.createControlContainer(new sui.controls.LabelControl("just a label, not interactive"));
+	DemoControls.createControlContainer(new sui.controls.TriggerControl("click me"));
+	DemoControls.createControlContainer(new sui.controls.ColorControl("#ff0000"));
+	DemoControls.createControlContainer(new sui.controls.BoolControl(true));
+	DemoControls.createControlContainer(new sui.controls.TextControl(null,{ placeholder : "put text here"}));
+	DemoControls.createControlContainer(new sui.controls.FloatControl(7.7));
+	DemoControls.createControlContainer(new sui.controls.IntControl(7));
+	DemoControls.createControlContainer(new sui.controls.FloatRangeControl(7,{ min : 0, max : 100, step : 0.01}));
+	DemoControls.createControlContainer(new sui.controls.IntRangeControl(7,{ min : 0, max : 100}));
+};
+DemoControls.createControlContainer = function(control) {
+	var description = Type.getClassName(Type.getClass(control)).split(".").pop();
+	var el = dots.Html.parseNodes("<div class=\"sample\">\n  <h2>" + description + "</h2>\n  <div class=\"container\"></div>\n  <div class=\"focus\"></div>\n  <div class=\"value\"></div>\n</div>")[0];
+	window.document.body.appendChild(el);
+	var container = dots.Query.first(".container",el);
+	var focus = dots.Query.first(".focus",el);
+	var value = dots.Query.first(".value",el);
+	container.appendChild(control.el);
+	control.streams.value.subscribe(function(v) {
+		value.textContent = "value: " + Std.string(v);
+	});
+	control.streams.focused.subscribe(function(v1) {
+		focus.textContent = "focus: " + (v1 == null?"null":"" + v1);
+	});
 };
 var EReg = function(r,opt) {
 	opt = opt.split("u").join("");
 	this.r = new RegExp(r,opt);
 };
-EReg.__name__ = true;
+EReg.__name__ = ["EReg"];
 EReg.prototype = {
 	match: function(s) {
 		if(this.r.global) this.r.lastIndex = 0;
@@ -129,7 +158,7 @@ EReg.prototype = {
 	,__class__: EReg
 };
 var HxOverrides = function() { };
-HxOverrides.__name__ = true;
+HxOverrides.__name__ = ["HxOverrides"];
 HxOverrides.dateStr = function(date) {
 	var m = date.getMonth() + 1;
 	var d = date.getDate();
@@ -201,15 +230,15 @@ HxOverrides.iter = function(a) {
 	}};
 };
 var IMap = function() { };
-IMap.__name__ = true;
-Math.__name__ = true;
+IMap.__name__ = ["IMap"];
+Math.__name__ = ["Math"];
 var Reflect = function() { };
-Reflect.__name__ = true;
+Reflect.__name__ = ["Reflect"];
 Reflect.hasField = function(o,field) {
 	return Object.prototype.hasOwnProperty.call(o,field);
 };
 var Std = function() { };
-Std.__name__ = true;
+Std.__name__ = ["Std"];
 Std.string = function(s) {
 	return js.Boot.__string_rec(s,"");
 };
@@ -228,7 +257,7 @@ Std.random = function(x) {
 var StringBuf = function() {
 	this.b = "";
 };
-StringBuf.__name__ = true;
+StringBuf.__name__ = ["StringBuf"];
 StringBuf.prototype = {
 	add: function(x) {
 		this.b += Std.string(x);
@@ -236,7 +265,7 @@ StringBuf.prototype = {
 	,__class__: StringBuf
 };
 var StringTools = function() { };
-StringTools.__name__ = true;
+StringTools.__name__ = ["StringTools"];
 StringTools.htmlEscape = function(s,quotes) {
 	s = s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
 	if(quotes) return s.split("\"").join("&quot;").split("'").join("&#039;"); else return s;
@@ -276,9 +305,19 @@ StringTools.lpad = function(s,c,l) {
 StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
 };
+var Type = function() { };
+Type.__name__ = ["Type"];
+Type.getClass = function(o) {
+	if(o == null) return null;
+	if((o instanceof Array) && o.__enum__ == null) return Array; else return o.__class__;
+};
+Type.getClassName = function(c) {
+	var a = c.__name__;
+	return a.join(".");
+};
 var dots = {};
 dots.Detect = function() { };
-dots.Detect.__name__ = true;
+dots.Detect.__name__ = ["dots","Detect"];
 dots.Detect.supportsInput = function(type) {
 	var i;
 	var _this = window.document;
@@ -337,7 +376,7 @@ dots.Detect.supportsHistory = function() {
 	return !!(window.history && history.pushState);
 };
 dots.Html = function() { };
-dots.Html.__name__ = true;
+dots.Html.__name__ = ["dots","Html"];
 dots.Html.parseNodes = function(html) {
 	if(!dots.Html.pattern.match(html)) throw "Invalid pattern \"" + html + "\"";
 	var el;
@@ -368,7 +407,7 @@ dots.Html.nodeListToArray = function(list) {
 	return Array.prototype.slice.call(list,0);
 };
 dots.Query = function() { };
-dots.Query.__name__ = true;
+dots.Query.__name__ = ["dots","Query"];
 dots.Query.first = function(selector,ctx) {
 	return (ctx != null?ctx:dots.Query.doc).querySelector(selector);
 };
@@ -397,7 +436,7 @@ haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,li
 haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; return $x; };
 haxe.StackItem.LocalFunction = function(v) { var $x = ["LocalFunction",4,v]; $x.__enum__ = haxe.StackItem; return $x; };
 haxe.CallStack = function() { };
-haxe.CallStack.__name__ = true;
+haxe.CallStack.__name__ = ["haxe","CallStack"];
 haxe.CallStack.callStack = function() {
 	var oldValue = Error.prepareStackTrace;
 	Error.prepareStackTrace = function(error,callsites) {
@@ -490,7 +529,7 @@ haxe.CallStack.makeStack = function(s) {
 	} else return s;
 };
 haxe.Log = function() { };
-haxe.Log.__name__ = true;
+haxe.Log.__name__ = ["haxe","Log"];
 haxe.Log.trace = function(v,infos) {
 	js.Boot.__trace(v,infos);
 };
@@ -498,7 +537,7 @@ haxe.ds = {};
 haxe.ds.IntMap = function() {
 	this.h = { };
 };
-haxe.ds.IntMap.__name__ = true;
+haxe.ds.IntMap.__name__ = ["haxe","ds","IntMap"];
 haxe.ds.IntMap.__interfaces__ = [IMap];
 haxe.ds.IntMap.prototype = {
 	set: function(key,value) {
@@ -516,7 +555,7 @@ haxe.ds.Option.None.__enum__ = haxe.ds.Option;
 haxe.ds.StringMap = function() {
 	this.h = { };
 };
-haxe.ds.StringMap.__name__ = true;
+haxe.ds.StringMap.__name__ = ["haxe","ds","StringMap"];
 haxe.ds.StringMap.__interfaces__ = [IMap];
 haxe.ds.StringMap.prototype = {
 	set: function(key,value) {
@@ -532,7 +571,7 @@ haxe.ds.StringMap.prototype = {
 };
 var js = {};
 js.Boot = function() { };
-js.Boot.__name__ = true;
+js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
 	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
 };
@@ -665,13 +704,13 @@ js.Boot.__instanceof = function(o,cl) {
 	}
 };
 js.Browser = function() { };
-js.Browser.__name__ = true;
+js.Browser.__name__ = ["js","Browser"];
 var sui = {};
 sui.Sui = function() {
 	this.grid = new sui.components.Grid();
 	this.el = this.grid.el;
 };
-sui.Sui.__name__ = true;
+sui.Sui.__name__ = ["sui","Sui"];
 sui.Sui.prototype = {
 	bool: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = false;
@@ -724,9 +763,9 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
-	,label: function(defaultValue,label,options,callback) {
+	,label: function(defaultValue,label,callback) {
 		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.LabelControl(defaultValue,options);
+		var control = new sui.controls.LabelControl(defaultValue);
 		if(null != callback) control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -796,7 +835,7 @@ sui.components = {};
 sui.components.Grid = function() {
 	this.el = dots.Html.parseNodes("<table class=\"sui-grid\"></table>")[0];
 };
-sui.components.Grid.__name__ = true;
+sui.components.Grid.__name__ = ["sui","components","Grid"];
 sui.components.Grid.prototype = {
 	add: function(cell) {
 		var _g = this;
@@ -835,7 +874,7 @@ sui.components.CellContent.VerticalPair = function(top,bottom) { var $x = ["Vert
 sui.components.CellContent.HorizontalPair = function(left,right) { var $x = ["HorizontalPair",2,left,right]; $x.__enum__ = sui.components.CellContent; return $x; };
 sui.controls = {};
 sui.controls.IControl = function() { };
-sui.controls.IControl.__name__ = true;
+sui.controls.IControl.__name__ = ["sui","controls","IControl"];
 sui.controls.IControl.prototype = {
 	__class__: sui.controls.IControl
 };
@@ -870,7 +909,7 @@ sui.controls.SingleInputControl = function(defaultValue,event,name,type,options)
 	if(options.autofocus) this.focus();
 	if(options.disabled) this.disable();
 };
-sui.controls.SingleInputControl.__name__ = true;
+sui.controls.SingleInputControl.__name__ = ["sui","controls","SingleInputControl"];
 sui.controls.SingleInputControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.SingleInputControl.prototype = {
 	setInput: function(v) {
@@ -922,7 +961,7 @@ sui.controls.BaseDateControl = function(value,name,type,dateToString,options) {
 		return { label : HxOverrides.dateStr(o1), value : dateToString(o1)};
 	})).applyTo(this.input);
 };
-sui.controls.BaseDateControl.__name__ = true;
+sui.controls.BaseDateControl.__name__ = ["sui","controls","BaseDateControl"];
 sui.controls.BaseDateControl.toRFCDate = function(date) {
 	var y = date.getFullYear();
 	var m = StringTools.lpad("" + (date.getMonth() + 1),"0",2);
@@ -980,7 +1019,7 @@ sui.controls.BaseTextControl = function(value,name,type,options) {
 	if(null != options.placeholder) this.input.setAttribute("placeholder","" + options.placeholder);
 	if(null != options.list) new sui.controls.DataList(this.el,options.list).applyTo(this.input); else if(null != options.values) sui.controls.DataList.fromArray(this.el,options.values).applyTo(this.input);
 };
-sui.controls.BaseTextControl.__name__ = true;
+sui.controls.BaseTextControl.__name__ = ["sui","controls","BaseTextControl"];
 sui.controls.BaseTextControl.__super__ = sui.controls.SingleInputControl;
 sui.controls.BaseTextControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
 	setInput: function(v) {
@@ -994,7 +1033,7 @@ sui.controls.BaseTextControl.prototype = $extend(sui.controls.SingleInputControl
 sui.controls.BoolControl = function(value,options) {
 	sui.controls.SingleInputControl.call(this,value,"change","bool","checkbox",options);
 };
-sui.controls.BoolControl.__name__ = true;
+sui.controls.BoolControl.__name__ = ["sui","controls","BoolControl"];
 sui.controls.BoolControl.__super__ = sui.controls.SingleInputControl;
 sui.controls.BoolControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
 	setInput: function(v) {
@@ -1051,7 +1090,7 @@ sui.controls.DoubleInputControl = function(defaultValue,name,event1,type1,event2
 	if(options.disabled) this.disable();
 	if(!dots.Detect.supportsInput(type1)) this.input1.style.display = "none";
 };
-sui.controls.DoubleInputControl.__name__ = true;
+sui.controls.DoubleInputControl.__name__ = ["sui","controls","DoubleInputControl"];
 sui.controls.DoubleInputControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.DoubleInputControl.prototype = {
 	setInputs: function(v) {
@@ -1108,7 +1147,7 @@ sui.controls.ColorControl = function(value,options) {
 	if(null != options.list) new sui.controls.DataList(this.el,options.list).applyTo(this.input1).applyTo(this.input2); else if(null != options.values) sui.controls.DataList.fromArray(this.el,options.values).applyTo(this.input1).applyTo(this.input2);
 	this.setInputs(value);
 };
-sui.controls.ColorControl.__name__ = true;
+sui.controls.ColorControl.__name__ = ["sui","controls","ColorControl"];
 sui.controls.ColorControl.__super__ = sui.controls.DoubleInputControl;
 sui.controls.ColorControl.prototype = $extend(sui.controls.DoubleInputControl.prototype,{
 	setInput1: function(v) {
@@ -1130,7 +1169,7 @@ sui.controls.ControlStreams = function(value,focused,enabled) {
 	this.focused = focused;
 	this.enabled = enabled;
 };
-sui.controls.ControlStreams.__name__ = true;
+sui.controls.ControlStreams.__name__ = ["sui","controls","ControlStreams"];
 sui.controls.ControlStreams.prototype = {
 	__class__: sui.controls.ControlStreams
 };
@@ -1139,7 +1178,7 @@ sui.controls.ControlValues = function(defaultValue) {
 	this.focused = new thx.stream.Value(false);
 	this.enabled = new thx.stream.Value(true);
 };
-sui.controls.ControlValues.__name__ = true;
+sui.controls.ControlValues.__name__ = ["sui","controls","ControlValues"];
 sui.controls.ControlValues.prototype = {
 	__class__: sui.controls.ControlValues
 };
@@ -1148,7 +1187,7 @@ sui.controls.DataList = function(container,values) {
 	var datalist = dots.Html.parse("<datalist id=\"" + this.id + "\" style=\"display:none\">" + values.map(sui.controls.DataList.toOption).join("") + "</datalist>");
 	container.appendChild(datalist);
 };
-sui.controls.DataList.__name__ = true;
+sui.controls.DataList.__name__ = ["sui","controls","DataList"];
 sui.controls.DataList.fromArray = function(container,values) {
 	return new sui.controls.DataList(container,values.map(function(v) {
 		return { value : v, label : v};
@@ -1167,7 +1206,7 @@ sui.controls.DataList.prototype = {
 sui.controls.DateControl = function(value,options) {
 	sui.controls.BaseDateControl.call(this,value,"date","date",sui.controls.BaseDateControl.toRFCDate,options);
 };
-sui.controls.DateControl.__name__ = true;
+sui.controls.DateControl.__name__ = ["sui","controls","DateControl"];
 sui.controls.DateControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateControl
@@ -1175,7 +1214,7 @@ sui.controls.DateControl.prototype = $extend(sui.controls.BaseDateControl.protot
 sui.controls.DateTimeControl = function(value,options) {
 	sui.controls.BaseDateControl.call(this,value,"date-time","datetime-local",sui.controls.BaseDateControl.toRFCDateTimeNoSeconds,options);
 };
-sui.controls.DateTimeControl.__name__ = true;
+sui.controls.DateTimeControl.__name__ = ["sui","controls","DateTimeControl"];
 sui.controls.DateTimeControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateTimeControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateTimeControl
@@ -1185,7 +1224,7 @@ sui.controls.EmailControl = function(value,options) {
 	if(null == options.placeholder) options.placeholder = "name@example.com";
 	sui.controls.BaseTextControl.call(this,value,"email","email",options);
 };
-sui.controls.EmailControl.__name__ = true;
+sui.controls.EmailControl.__name__ = ["sui","controls","EmailControl"];
 sui.controls.EmailControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.EmailControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.EmailControl
@@ -1204,7 +1243,7 @@ sui.controls.NumberControl = function(value,name,options) {
 		return { label : "" + Std.string(o1), value : "" + Std.string(o1)};
 	})).applyTo(this.input);
 };
-sui.controls.NumberControl.__name__ = true;
+sui.controls.NumberControl.__name__ = ["sui","controls","NumberControl"];
 sui.controls.NumberControl.__super__ = sui.controls.SingleInputControl;
 sui.controls.NumberControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
 	__class__: sui.controls.NumberControl
@@ -1212,7 +1251,7 @@ sui.controls.NumberControl.prototype = $extend(sui.controls.SingleInputControl.p
 sui.controls.FloatControl = function(value,options) {
 	sui.controls.NumberControl.call(this,value,"float",options);
 };
-sui.controls.FloatControl.__name__ = true;
+sui.controls.FloatControl.__name__ = ["sui","controls","FloatControl"];
 sui.controls.FloatControl.__super__ = sui.controls.NumberControl;
 sui.controls.FloatControl.prototype = $extend(sui.controls.NumberControl.prototype,{
 	setInput: function(v) {
@@ -1251,7 +1290,7 @@ sui.controls.NumberRangeControl = function(value,options) {
 	})).applyTo(this.input1).applyTo(this.input2);
 	this.setInputs(value);
 };
-sui.controls.NumberRangeControl.__name__ = true;
+sui.controls.NumberRangeControl.__name__ = ["sui","controls","NumberRangeControl"];
 sui.controls.NumberRangeControl.__super__ = sui.controls.DoubleInputControl;
 sui.controls.NumberRangeControl.prototype = $extend(sui.controls.DoubleInputControl.prototype,{
 	setInput1: function(v) {
@@ -1272,7 +1311,7 @@ sui.controls.FloatRangeControl = function(value,options) {
 	}
 	sui.controls.NumberRangeControl.call(this,value,options);
 };
-sui.controls.FloatRangeControl.__name__ = true;
+sui.controls.FloatRangeControl.__name__ = ["sui","controls","FloatRangeControl"];
 sui.controls.FloatRangeControl.__super__ = sui.controls.NumberRangeControl;
 sui.controls.FloatRangeControl.prototype = $extend(sui.controls.NumberRangeControl.prototype,{
 	getInput1: function() {
@@ -1286,7 +1325,7 @@ sui.controls.FloatRangeControl.prototype = $extend(sui.controls.NumberRangeContr
 sui.controls.IntControl = function(value,options) {
 	sui.controls.NumberControl.call(this,value,"int",options);
 };
-sui.controls.IntControl.__name__ = true;
+sui.controls.IntControl.__name__ = ["sui","controls","IntControl"];
 sui.controls.IntControl.__super__ = sui.controls.NumberControl;
 sui.controls.IntControl.prototype = $extend(sui.controls.NumberControl.prototype,{
 	setInput: function(v) {
@@ -1307,7 +1346,7 @@ sui.controls.IntRangeControl = function(value,options) {
 	}
 	sui.controls.NumberRangeControl.call(this,value,options);
 };
-sui.controls.IntRangeControl.__name__ = true;
+sui.controls.IntRangeControl.__name__ = ["sui","controls","IntRangeControl"];
 sui.controls.IntRangeControl.__super__ = sui.controls.NumberRangeControl;
 sui.controls.IntRangeControl.prototype = $extend(sui.controls.NumberRangeControl.prototype,{
 	getInput1: function() {
@@ -1318,19 +1357,53 @@ sui.controls.IntRangeControl.prototype = $extend(sui.controls.NumberRangeControl
 	}
 	,__class__: sui.controls.IntRangeControl
 });
-sui.controls.LabelControl = function(value,options) {
-	sui.controls.BaseTextControl.call(this,value,"label","text",options);
-	this.input.setAttribute("readonly","readonly");
+sui.controls.LabelControl = function(defaultValue) {
+	var _g = this;
+	var template = "<div class=\"sui-control sui-control-single sui-type-label\"><output>" + defaultValue + "</output></div>";
+	this.defaultValue = defaultValue;
+	this.values = new sui.controls.ControlValues(defaultValue);
+	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
+	this.el = dots.Html.parseNodes(template)[0];
+	this.output = dots.Query.first("output",this.el);
+	this.values.enabled.subscribe(function(v) {
+		if(v) _g.el.classList.add("sui-disabled"); else _g.el.classList.remove("sui-disabled");
+	});
 };
-sui.controls.LabelControl.__name__ = true;
-sui.controls.LabelControl.__super__ = sui.controls.BaseTextControl;
-sui.controls.LabelControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
-	__class__: sui.controls.LabelControl
-});
+sui.controls.LabelControl.__name__ = ["sui","controls","LabelControl"];
+sui.controls.LabelControl.__interfaces__ = [sui.controls.IControl];
+sui.controls.LabelControl.prototype = {
+	set: function(v) {
+		this.output.innerHTML = v;
+		this.values.value.set(v);
+	}
+	,get: function() {
+		return this.values.value.get();
+	}
+	,isEnabled: function() {
+		return this.values.enabled.get();
+	}
+	,isFocused: function() {
+		return this.values.focused.get();
+	}
+	,disable: function() {
+		this.values.enabled.set(false);
+	}
+	,enable: function() {
+		this.values.enabled.set(true);
+	}
+	,focus: function() {
+	}
+	,blur: function() {
+	}
+	,reset: function() {
+		this.set(this.defaultValue);
+	}
+	,__class__: sui.controls.LabelControl
+};
 sui.controls.PasswordControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","password",options);
 };
-sui.controls.PasswordControl.__name__ = true;
+sui.controls.PasswordControl.__name__ = ["sui","controls","PasswordControl"];
 sui.controls.PasswordControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.PasswordControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.PasswordControl
@@ -1339,7 +1412,7 @@ sui.controls.SearchControl = function(value,options) {
 	if(null == options) options = { };
 	sui.controls.BaseTextControl.call(this,value,"search","search",options);
 };
-sui.controls.SearchControl.__name__ = true;
+sui.controls.SearchControl.__name__ = ["sui","controls","SearchControl"];
 sui.controls.SearchControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.SearchControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.SearchControl
@@ -1348,7 +1421,7 @@ sui.controls.TelControl = function(value,options) {
 	if(null == options) options = { };
 	sui.controls.BaseTextControl.call(this,value,"tel","tel",options);
 };
-sui.controls.TelControl.__name__ = true;
+sui.controls.TelControl.__name__ = ["sui","controls","TelControl"];
 sui.controls.TelControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.TelControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.TelControl
@@ -1356,7 +1429,7 @@ sui.controls.TelControl.prototype = $extend(sui.controls.BaseTextControl.prototy
 sui.controls.TextControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","text",options);
 };
-sui.controls.TextControl.__name__ = true;
+sui.controls.TextControl.__name__ = ["sui","controls","TextControl"];
 sui.controls.TextControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.TextControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.TextControl
@@ -1373,7 +1446,7 @@ sui.controls.TimeControl = function(value,options) {
 		return { label : sui.controls.TimeControl.timeToString(o1), value : sui.controls.TimeControl.timeToString(o1)};
 	})).applyTo(this.input);
 };
-sui.controls.TimeControl.__name__ = true;
+sui.controls.TimeControl.__name__ = ["sui","controls","TimeControl"];
 sui.controls.TimeControl.timeToString = function(t) {
 	var h = Math.floor(t / 3600000);
 	t -= h * 3600000;
@@ -1429,7 +1502,7 @@ sui.controls.TriggerControl = function(label,options) {
 	if(options.autofocus) this.focus();
 	if(options.disabled) this.disable();
 };
-sui.controls.TriggerControl.__name__ = true;
+sui.controls.TriggerControl.__name__ = ["sui","controls","TriggerControl"];
 sui.controls.TriggerControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.TriggerControl.prototype = {
 	set: function(v) {
@@ -1466,7 +1539,7 @@ sui.controls.UrlControl = function(value,options) {
 	if(null == options.placeholder) options.placeholder = "http://example.com";
 	sui.controls.BaseTextControl.call(this,value,"url","url",options);
 };
-sui.controls.UrlControl.__name__ = true;
+sui.controls.UrlControl.__name__ = ["sui","controls","UrlControl"];
 sui.controls.UrlControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.UrlControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.UrlControl
@@ -1474,7 +1547,7 @@ sui.controls.UrlControl.prototype = $extend(sui.controls.BaseTextControl.prototy
 var thx = {};
 thx.core = {};
 thx.core.Arrays = function() { };
-thx.core.Arrays.__name__ = true;
+thx.core.Arrays.__name__ = ["thx","core","Arrays"];
 thx.core.Arrays.after = function(array,element) {
 	return array.slice(HxOverrides.indexOf(array,element,0) + 1);
 };
@@ -1812,7 +1885,7 @@ thx.core.Arrays.unzip5 = function(array) {
 	return { _0 : a1, _1 : a2, _2 : a3, _3 : a4, _4 : a5};
 };
 thx.core.ArrayFloats = function() { };
-thx.core.ArrayFloats.__name__ = true;
+thx.core.ArrayFloats.__name__ = ["thx","core","ArrayFloats"];
 thx.core.ArrayFloats.average = function(arr) {
 	return thx.core.ArrayFloats.sum(arr) / arr.length;
 };
@@ -1837,7 +1910,7 @@ thx.core.ArrayFloats.sum = function(arr) {
 	},0.0);
 };
 thx.core.ArrayInts = function() { };
-thx.core.ArrayInts.__name__ = true;
+thx.core.ArrayInts.__name__ = ["thx","core","ArrayInts"];
 thx.core.ArrayInts.average = function(arr) {
 	return thx.core.ArrayInts.sum(arr) / arr.length;
 };
@@ -1857,7 +1930,7 @@ thx.core.ArrayInts.sum = function(arr) {
 	},0);
 };
 thx.core.ArrayStrings = function() { };
-thx.core.ArrayStrings.__name__ = true;
+thx.core.ArrayStrings.__name__ = ["thx","core","ArrayStrings"];
 thx.core.ArrayStrings.compact = function(arr) {
 	return arr.filter(function(v) {
 		return !thx.core.Strings.isEmpty(v);
@@ -1894,7 +1967,7 @@ thx.core.Error = function(message,stack,pos) {
 	this.stackItems = stack;
 	this.pos = pos;
 };
-thx.core.Error.__name__ = true;
+thx.core.Error.__name__ = ["thx","core","Error"];
 thx.core.Error.fromDynamic = function(err,pos) {
 	if(js.Boot.__instanceof(err,thx.core.Error)) return err;
 	return new thx.core.Error("" + Std.string(err),null,pos);
@@ -1907,7 +1980,7 @@ thx.core.Error.prototype = $extend(Error.prototype,{
 	,__class__: thx.core.Error
 });
 thx.core.Floats = function() { };
-thx.core.Floats.__name__ = true;
+thx.core.Floats.__name__ = ["thx","core","Floats"];
 thx.core.Floats.canParse = function(s) {
 	return thx.core.Floats.pattern_parse.match(s);
 };
@@ -1954,7 +2027,7 @@ thx.core.Floats.wrapCircular = function(v,max) {
 	return v;
 };
 thx.core.Functions0 = function() { };
-thx.core.Functions0.__name__ = true;
+thx.core.Functions0.__name__ = ["thx","core","Functions0"];
 thx.core.Functions0.after = function(callback,n) {
 	return function() {
 		if(--n == 0) callback();
@@ -1993,7 +2066,7 @@ thx.core.Functions0.timesi = function(n,callback) {
 	};
 };
 thx.core.Functions1 = function() { };
-thx.core.Functions1.__name__ = true;
+thx.core.Functions1.__name__ = ["thx","core","Functions1"];
 thx.core.Functions1.compose = function(fa,fb) {
 	return function(v) {
 		return fa(fb(v));
@@ -2045,7 +2118,7 @@ thx.core.Functions1.swapArguments = function(callback) {
 	};
 };
 thx.core.Functions2 = function() { };
-thx.core.Functions2.__name__ = true;
+thx.core.Functions2.__name__ = ["thx","core","Functions2"];
 thx.core.Functions2.memoize = function(callback,resolver) {
 	if(null == resolver) resolver = function(v1,v2) {
 		return "" + Std.string(v1) + ":" + Std.string(v2);
@@ -2065,7 +2138,7 @@ thx.core.Functions2.negate = function(callback) {
 	};
 };
 thx.core.Functions3 = function() { };
-thx.core.Functions3.__name__ = true;
+thx.core.Functions3.__name__ = ["thx","core","Functions3"];
 thx.core.Functions3.memoize = function(callback,resolver) {
 	if(null == resolver) resolver = function(v1,v2,v3) {
 		return "" + Std.string(v1) + ":" + Std.string(v2) + ":" + Std.string(v3);
@@ -2085,7 +2158,7 @@ thx.core.Functions3.negate = function(callback) {
 	};
 };
 thx.core.Functions = function() { };
-thx.core.Functions.__name__ = true;
+thx.core.Functions.__name__ = ["thx","core","Functions"];
 thx.core.Functions.constant = function(v) {
 	return function() {
 		return v;
@@ -2100,7 +2173,7 @@ thx.core.Functions.identity = function(value) {
 thx.core.Functions.noop = function() {
 };
 thx.core.Ints = function() { };
-thx.core.Ints.__name__ = true;
+thx.core.Ints.__name__ = ["thx","core","Ints"];
 thx.core.Ints.abs = function(v) {
 	if(v < 0) return -v; else return v;
 };
@@ -2167,9 +2240,9 @@ thx.core.Nil = { __ename__ : true, __constructs__ : ["nil"] };
 thx.core.Nil.nil = ["nil",0];
 thx.core.Nil.nil.__enum__ = thx.core.Nil;
 thx.core.Nulls = function() { };
-thx.core.Nulls.__name__ = true;
+thx.core.Nulls.__name__ = ["thx","core","Nulls"];
 thx.core.Options = function() { };
-thx.core.Options.__name__ = true;
+thx.core.Options.__name__ = ["thx","core","Options"];
 thx.core.Options.equals = function(a,b,eq) {
 	switch(a[1]) {
 	case 1:
@@ -2247,7 +2320,7 @@ thx.core.Options.toValue = function(option) {
 };
 thx.core._Result = {};
 thx.core._Result.Result_Impl_ = {};
-thx.core._Result.Result_Impl_.__name__ = true;
+thx.core._Result.Result_Impl_.__name__ = ["thx","core","_Result","Result_Impl_"];
 thx.core._Result.Result_Impl_.optionValue = function(this1) {
 	switch(this1[1]) {
 	case 1:
@@ -2301,7 +2374,7 @@ thx.core._Result.Result_Impl_.get_isFailure = function(this1) {
 	}
 };
 thx.core.Strings = function() { };
-thx.core.Strings.__name__ = true;
+thx.core.Strings.__name__ = ["thx","core","Strings"];
 thx.core.Strings.after = function(value,searchFor) {
 	var pos = value.indexOf(searchFor);
 	if(pos < 0) return ""; else return value.substring(pos + searchFor.length);
@@ -2475,7 +2548,7 @@ thx.core.Strings.wrapLine = function(s,columns,indent,newline) {
 	return indent + parts.join(newline + indent);
 };
 thx.core.Timer = function() { };
-thx.core.Timer.__name__ = true;
+thx.core.Timer.__name__ = ["thx","core","Timer"];
 thx.core.Timer.debounce = function(callback,delayms,leading) {
 	if(leading == null) leading = false;
 	var cancel = thx.core.Functions.noop;
@@ -2561,7 +2634,7 @@ thx.core.Timer.time = function() {
 };
 thx.core._Tuple = {};
 thx.core._Tuple.Tuple0_Impl_ = {};
-thx.core._Tuple.Tuple0_Impl_.__name__ = true;
+thx.core._Tuple.Tuple0_Impl_.__name__ = ["thx","core","_Tuple","Tuple0_Impl_"];
 thx.core._Tuple.Tuple0_Impl_._new = function() {
 	return thx.core.Nil.nil;
 };
@@ -2578,7 +2651,7 @@ thx.core._Tuple.Tuple0_Impl_.nilToTuple = function(v) {
 	return thx.core.Nil.nil;
 };
 thx.core._Tuple.Tuple1_Impl_ = {};
-thx.core._Tuple.Tuple1_Impl_.__name__ = true;
+thx.core._Tuple.Tuple1_Impl_.__name__ = ["thx","core","_Tuple","Tuple1_Impl_"];
 thx.core._Tuple.Tuple1_Impl_._new = function(_0) {
 	return _0;
 };
@@ -2592,7 +2665,7 @@ thx.core._Tuple.Tuple1_Impl_.toString = function(this1) {
 	return "Tuple1(" + Std.string(this1) + ")";
 };
 thx.core._Tuple.Tuple2_Impl_ = {};
-thx.core._Tuple.Tuple2_Impl_.__name__ = true;
+thx.core._Tuple.Tuple2_Impl_.__name__ = ["thx","core","_Tuple","Tuple2_Impl_"];
 thx.core._Tuple.Tuple2_Impl_._new = function(_0,_1) {
 	return { _0 : _0, _1 : _1};
 };
@@ -2618,7 +2691,7 @@ thx.core._Tuple.Tuple2_Impl_.toString = function(this1) {
 	return "Tuple2(" + Std.string(this1._0) + "," + Std.string(this1._1) + ")";
 };
 thx.core._Tuple.Tuple3_Impl_ = {};
-thx.core._Tuple.Tuple3_Impl_.__name__ = true;
+thx.core._Tuple.Tuple3_Impl_.__name__ = ["thx","core","_Tuple","Tuple3_Impl_"];
 thx.core._Tuple.Tuple3_Impl_._new = function(_0,_1,_2) {
 	return { _0 : _0, _1 : _1, _2 : _2};
 };
@@ -2638,7 +2711,7 @@ thx.core._Tuple.Tuple3_Impl_.toString = function(this1) {
 	return "Tuple3(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + ")";
 };
 thx.core._Tuple.Tuple4_Impl_ = {};
-thx.core._Tuple.Tuple4_Impl_.__name__ = true;
+thx.core._Tuple.Tuple4_Impl_.__name__ = ["thx","core","_Tuple","Tuple4_Impl_"];
 thx.core._Tuple.Tuple4_Impl_._new = function(_0,_1,_2,_3) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3};
 };
@@ -2658,7 +2731,7 @@ thx.core._Tuple.Tuple4_Impl_.toString = function(this1) {
 	return "Tuple4(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + "," + Std.string(this1._3) + ")";
 };
 thx.core._Tuple.Tuple5_Impl_ = {};
-thx.core._Tuple.Tuple5_Impl_.__name__ = true;
+thx.core._Tuple.Tuple5_Impl_.__name__ = ["thx","core","_Tuple","Tuple5_Impl_"];
 thx.core._Tuple.Tuple5_Impl_._new = function(_0,_1,_2,_3,_4) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3, _4 : _4};
 };
@@ -2678,7 +2751,7 @@ thx.core._Tuple.Tuple5_Impl_.toString = function(this1) {
 	return "Tuple5(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + "," + Std.string(this1._3) + "," + Std.string(this1._4) + ")";
 };
 thx.core._Tuple.Tuple6_Impl_ = {};
-thx.core._Tuple.Tuple6_Impl_.__name__ = true;
+thx.core._Tuple.Tuple6_Impl_.__name__ = ["thx","core","_Tuple","Tuple6_Impl_"];
 thx.core._Tuple.Tuple6_Impl_._new = function(_0,_1,_2,_3,_4,_5) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3, _4 : _4, _5 : _5};
 };
@@ -2698,7 +2771,7 @@ thx.core.error = {};
 thx.core.error.AbstractMethod = function(posInfo) {
 	thx.core.Error.call(this,"method " + posInfo.className + "." + posInfo.methodName + "() is abstract",null,posInfo);
 };
-thx.core.error.AbstractMethod.__name__ = true;
+thx.core.error.AbstractMethod.__name__ = ["thx","core","error","AbstractMethod"];
 thx.core.error.AbstractMethod.__super__ = thx.core.Error;
 thx.core.error.AbstractMethod.prototype = $extend(thx.core.Error.prototype,{
 	__class__: thx.core.error.AbstractMethod
@@ -2708,7 +2781,7 @@ thx.promise.Future = function() {
 	this.handlers = [];
 	this.state = haxe.ds.Option.None;
 };
-thx.promise.Future.__name__ = true;
+thx.promise.Future.__name__ = ["thx","promise","Future"];
 thx.promise.Future.all = function(arr) {
 	return thx.promise.Future.create(function(callback) {
 		var results = [];
@@ -2811,7 +2884,7 @@ thx.promise.Future.prototype = {
 	,__class__: thx.promise.Future
 };
 thx.promise.Futures = function() { };
-thx.promise.Futures.__name__ = true;
+thx.promise.Futures.__name__ = ["thx","promise","Futures"];
 thx.promise.Futures.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		var counter = 0;
@@ -2840,7 +2913,7 @@ thx.promise.Futures.log = function(future,prefix) {
 	});
 };
 thx.promise.FutureTuple6 = function() { };
-thx.promise.FutureTuple6.__name__ = true;
+thx.promise.FutureTuple6.__name__ = ["thx","promise","FutureTuple6"];
 thx.promise.FutureTuple6.mapTuple = function(future,callback) {
 	return future.map(function(t) {
 		return callback(t._0,t._1,t._2,t._3,t._4,t._5);
@@ -2863,7 +2936,7 @@ thx.promise.FutureTuple6.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple5 = function() { };
-thx.promise.FutureTuple5.__name__ = true;
+thx.promise.FutureTuple5.__name__ = ["thx","promise","FutureTuple5"];
 thx.promise.FutureTuple5.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -2898,7 +2971,7 @@ thx.promise.FutureTuple5.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple4 = function() { };
-thx.promise.FutureTuple4.__name__ = true;
+thx.promise.FutureTuple4.__name__ = ["thx","promise","FutureTuple4"];
 thx.promise.FutureTuple4.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -2933,7 +3006,7 @@ thx.promise.FutureTuple4.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple3 = function() { };
-thx.promise.FutureTuple3.__name__ = true;
+thx.promise.FutureTuple3.__name__ = ["thx","promise","FutureTuple3"];
 thx.promise.FutureTuple3.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -2968,7 +3041,7 @@ thx.promise.FutureTuple3.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple2 = function() { };
-thx.promise.FutureTuple2.__name__ = true;
+thx.promise.FutureTuple2.__name__ = ["thx","promise","FutureTuple2"];
 thx.promise.FutureTuple2.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -3003,7 +3076,7 @@ thx.promise.FutureTuple2.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureNil = function() { };
-thx.promise.FutureNil.__name__ = true;
+thx.promise.FutureNil.__name__ = ["thx","promise","FutureNil"];
 thx.promise.FutureNil.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -3013,7 +3086,7 @@ thx.promise.FutureNil.join = function(p1,p2) {
 };
 thx.promise._Promise = {};
 thx.promise._Promise.Promise_Impl_ = {};
-thx.promise._Promise.Promise_Impl_.__name__ = true;
+thx.promise._Promise.Promise_Impl_.__name__ = ["thx","promise","_Promise","Promise_Impl_"];
 thx.promise._Promise.Promise_Impl_.futureToPromise = function(future) {
 	return future.map(function(v) {
 		return thx.core.Either.Right(v);
@@ -3196,7 +3269,7 @@ thx.promise._Promise.Promise_Impl_.toString = function(this1) {
 	return "Promise";
 };
 thx.promise.Promises = function() { };
-thx.promise.Promises.__name__ = true;
+thx.promise.Promises.__name__ = ["thx","promise","Promises"];
 thx.promise.Promises.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		var hasError = false;
@@ -3235,7 +3308,7 @@ thx.promise.Promises.log = function(promise,prefix) {
 	});
 };
 thx.promise.PromiseTuple6 = function() { };
-thx.promise.PromiseTuple6.__name__ = true;
+thx.promise.PromiseTuple6.__name__ = ["thx","promise","PromiseTuple6"];
 thx.promise.PromiseTuple6.mapTuplePromise = function(promise,success) {
 	return thx.promise._Promise.Promise_Impl_.mapSuccessPromise(promise,function(t) {
 		return success(t._0,t._1,t._2,t._3,t._4,t._5);
@@ -3253,7 +3326,7 @@ thx.promise.PromiseTuple6.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple5 = function() { };
-thx.promise.PromiseTuple5.__name__ = true;
+thx.promise.PromiseTuple5.__name__ = ["thx","promise","PromiseTuple5"];
 thx.promise.PromiseTuple5.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3285,7 +3358,7 @@ thx.promise.PromiseTuple5.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple4 = function() { };
-thx.promise.PromiseTuple4.__name__ = true;
+thx.promise.PromiseTuple4.__name__ = ["thx","promise","PromiseTuple4"];
 thx.promise.PromiseTuple4.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3317,7 +3390,7 @@ thx.promise.PromiseTuple4.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple3 = function() { };
-thx.promise.PromiseTuple3.__name__ = true;
+thx.promise.PromiseTuple3.__name__ = ["thx","promise","PromiseTuple3"];
 thx.promise.PromiseTuple3.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3349,7 +3422,7 @@ thx.promise.PromiseTuple3.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple2 = function() { };
-thx.promise.PromiseTuple2.__name__ = true;
+thx.promise.PromiseTuple2.__name__ = ["thx","promise","PromiseTuple2"];
 thx.promise.PromiseTuple2.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3381,7 +3454,7 @@ thx.promise.PromiseTuple2.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseNil = function() { };
-thx.promise.PromiseNil.__name__ = true;
+thx.promise.PromiseNil.__name__ = ["thx","promise","PromiseNil"];
 thx.promise.PromiseNil.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3392,7 +3465,7 @@ thx.promise.PromiseNil.join = function(p1,p2) {
 	});
 };
 thx.promise.Timer = function() { };
-thx.promise.Timer.__name__ = true;
+thx.promise.Timer.__name__ = ["thx","promise","Timer"];
 thx.promise.Timer.delay = function(delayms) {
 	return thx.promise.Timer.delayValue(thx.core.Nil.nil,delayms);
 };
@@ -3421,7 +3494,7 @@ thx.stream = {};
 thx.stream.Emitter = function(init) {
 	this.init = init;
 };
-thx.stream.Emitter.__name__ = true;
+thx.stream.Emitter.__name__ = ["thx","stream","Emitter"];
 thx.stream.Emitter.prototype = {
 	feed: function(value) {
 		var stream = new thx.stream.Stream(null);
@@ -4099,7 +4172,7 @@ thx.stream.Bus = function(distinctValuesOnly,equal) {
 		});
 	});
 };
-thx.stream.Bus.__name__ = true;
+thx.stream.Bus.__name__ = ["thx","stream","Bus"];
 thx.stream.Bus.__super__ = thx.stream.Emitter;
 thx.stream.Bus.prototype = $extend(thx.stream.Emitter.prototype,{
 	cancel: function() {
@@ -4176,7 +4249,7 @@ thx.stream.Bus.prototype = $extend(thx.stream.Emitter.prototype,{
 	,__class__: thx.stream.Bus
 });
 thx.stream.Emitters = function() { };
-thx.stream.Emitters.__name__ = true;
+thx.stream.Emitters.__name__ = ["thx","stream","Emitters"];
 thx.stream.Emitters.skipNull = function(emitter) {
 	return emitter.filter(function(value) {
 		return null != value;
@@ -4194,7 +4267,7 @@ thx.stream.Emitters.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterStrings = function() { };
-thx.stream.EmitterStrings.__name__ = true;
+thx.stream.EmitterStrings.__name__ = ["thx","stream","EmitterStrings"];
 thx.stream.EmitterStrings.match = function(emitter,pattern) {
 	return emitter.filter(function(s) {
 		return pattern.match(s);
@@ -4222,7 +4295,7 @@ thx.stream.EmitterStrings.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterInts = function() { };
-thx.stream.EmitterInts.__name__ = true;
+thx.stream.EmitterInts.__name__ = ["thx","stream","EmitterInts"];
 thx.stream.EmitterInts.average = function(emitter) {
 	return emitter.map((function() {
 		var sum = 0.0;
@@ -4309,7 +4382,7 @@ thx.stream.EmitterInts.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterFloats = function() { };
-thx.stream.EmitterFloats.__name__ = true;
+thx.stream.EmitterFloats.__name__ = ["thx","stream","EmitterFloats"];
 thx.stream.EmitterFloats.average = function(emitter) {
 	return emitter.map((function() {
 		var sum = 0.0;
@@ -4380,7 +4453,7 @@ thx.stream.EmitterFloats.sum = function(emitter) {
 	})());
 };
 thx.stream.EmitterOptions = function() { };
-thx.stream.EmitterOptions.__name__ = true;
+thx.stream.EmitterOptions.__name__ = ["thx","stream","EmitterOptions"];
 thx.stream.EmitterOptions.either = function(emitter,some,none,end) {
 	if(null == some) some = function(_) {
 	};
@@ -4416,14 +4489,14 @@ thx.stream.EmitterOptions.toValue = function(emitter) {
 	});
 };
 thx.stream.EmitterBools = function() { };
-thx.stream.EmitterBools.__name__ = true;
+thx.stream.EmitterBools.__name__ = ["thx","stream","EmitterBools"];
 thx.stream.EmitterBools.negate = function(emitter) {
 	return emitter.map(function(v) {
 		return !v;
 	});
 };
 thx.stream.EmitterEmitters = function() { };
-thx.stream.EmitterEmitters.__name__ = true;
+thx.stream.EmitterEmitters.__name__ = ["thx","stream","EmitterEmitters"];
 thx.stream.EmitterEmitters.flatMap = function(emitter) {
 	return new thx.stream.Emitter(function(stream) {
 		emitter.init(new thx.stream.Stream(function(r) {
@@ -4447,7 +4520,7 @@ thx.stream.EmitterEmitters.flatMap = function(emitter) {
 	});
 };
 thx.stream.EmitterArrays = function() { };
-thx.stream.EmitterArrays.__name__ = true;
+thx.stream.EmitterArrays.__name__ = ["thx","stream","EmitterArrays"];
 thx.stream.EmitterArrays.containerOf = function(emitter,value) {
 	return emitter.filter(function(arr) {
 		return HxOverrides.indexOf(arr,value,0) >= 0;
@@ -4476,7 +4549,7 @@ thx.stream.EmitterArrays.flatten = function(emitter) {
 	});
 };
 thx.stream.EmitterValues = function() { };
-thx.stream.EmitterValues.__name__ = true;
+thx.stream.EmitterValues.__name__ = ["thx","stream","EmitterValues"];
 thx.stream.EmitterValues.left = function(emitter) {
 	return emitter.map(function(v) {
 		return v._0;
@@ -4488,7 +4561,7 @@ thx.stream.EmitterValues.right = function(emitter) {
 	});
 };
 thx.stream.IStream = function() { };
-thx.stream.IStream.__name__ = true;
+thx.stream.IStream.__name__ = ["thx","stream","IStream"];
 thx.stream.IStream.prototype = {
 	__class__: thx.stream.IStream
 };
@@ -4498,7 +4571,7 @@ thx.stream.Stream = function(subscriber) {
 	this.finalized = false;
 	this.canceled = false;
 };
-thx.stream.Stream.__name__ = true;
+thx.stream.Stream.__name__ = ["thx","stream","Stream"];
 thx.stream.Stream.__interfaces__ = [thx.stream.IStream];
 thx.stream.Stream.prototype = {
 	addCleanUp: function(f) {
@@ -4541,7 +4614,7 @@ thx.stream.Value = function(value,equals) {
 		stream.pulse(_g.value);
 	});
 };
-thx.stream.Value.__name__ = true;
+thx.stream.Value.__name__ = ["thx","stream","Value"];
 thx.stream.Value.createOption = function(value,equals) {
 	var def;
 	if(null == value) def = haxe.ds.Option.None; else def = haxe.ds.Option.Some(value);
@@ -4594,7 +4667,7 @@ thx.stream.Value.prototype = $extend(thx.stream.Emitter.prototype,{
 });
 thx.stream.dom = {};
 thx.stream.dom.Dom = function() { };
-thx.stream.dom.Dom.__name__ = true;
+thx.stream.dom.Dom.__name__ = ["thx","stream","dom","Dom"];
 thx.stream.dom.Dom.ready = function() {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,_) {
 		window.document.addEventListener("DOMContentLoaded",function(_1) {
@@ -4712,8 +4785,8 @@ if(Array.prototype.indexOf) HxOverrides.indexOf = function(a,o,i) {
 	return Array.prototype.indexOf.call(a,o,i);
 };
 String.prototype.__class__ = String;
-String.__name__ = true;
-Array.__name__ = true;
+String.__name__ = ["String"];
+Array.__name__ = ["Array"];
 Date.prototype.__class__ = Date;
 Date.__name__ = ["Date"];
 var Int = { __name__ : ["Int"]};
