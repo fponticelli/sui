@@ -31,9 +31,9 @@ class DemoControls {
     ui.time("time", 3600000 * 23, {
         values : [0, 60000, 3600000]
       }, function(t) trace('time: $t'));
-    /*
-    ui.color("color",  function(v) trace('color: $v'));
-    */
+    ui.color("color", {
+        list : [{ value : "#FF0000", label : "red" }, { value : "#00FF00", label : "blue" }, { value : "#0000FF", label : "green" }]
+      }, function(v) trace('color: $v'));
     ui.float("float",  function(v) trace('float: $v'));
     ui.float("float", 0.5, {
         step : 0.01,

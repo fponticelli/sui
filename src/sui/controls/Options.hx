@@ -6,6 +6,12 @@ typedef Options = {
   ?allownull : Bool
 }
 
+typedef OptionsColor = {> Options,
+  ?autocomplete : Bool,
+  ?list : Array<{ label : String, value : String }>,
+  ?values : Array<String>
+}
+
 typedef OptionsDate = {> Options,
   ?min : Date,
   ?max : Date,

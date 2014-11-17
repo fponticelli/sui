@@ -45,14 +45,13 @@ class Sui {
     return control;
   }
 
-/*
-  public function color(?label : String, ?defaultValue = "#AA0000", callback : String -> Void) {
-    var control = new ColorControl(defaultValue);
+  public function color(?label : String, ?defaultValue = "#AA0000", ?options : OptionsColor, callback : String -> Void) {
+    var control = new ColorControl(defaultValue, options);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
-*/
+
   public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsNumber<Float>, callback : Float -> Void) {
     var control = /*(options.min != null && options.max != null) ? new FloatRangeControl(defaultValue, min, max, step) :*/ new FloatControl(defaultValue, options);
     control.streams.value.subscribe(callback);

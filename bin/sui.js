@@ -34,30 +34,33 @@ DemoControls.main = function() {
 	ui.time("time",82800000,{ values : [0,60000,3600000]},function(t) {
 		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 33, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float",null,null,function(v7) {
-		haxe.Log.trace("float: " + v7,{ fileName : "DemoControls.hx", lineNumber : 37, className : "DemoControls", methodName : "main"});
+	ui.color("color",null,{ list : [{ value : "#FF0000", label : "red"},{ value : "#00FF00", label : "blue"},{ value : "#0000FF", label : "green"}]},function(v7) {
+		haxe.Log.trace("color: " + v7,{ fileName : "DemoControls.hx", lineNumber : 36, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float",0.5,{ step : 0.01, min : 0.0, max : 1.0},function(v8) {
-		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
+	ui["float"]("float",null,null,function(v8) {
+		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 37, className : "DemoControls", methodName : "main"});
 	});
-	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v9) {
-		haxe.Log.trace("int: " + v9,{ fileName : "DemoControls.hx", lineNumber : 45, className : "DemoControls", methodName : "main"});
+	ui["float"]("float",0.5,{ step : 0.01, min : 0.0, max : 1.0},function(v9) {
+		haxe.Log.trace("float: " + v9,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
 	});
-	ui["int"]("int constrained",20,{ min : 10, max : 30},function(v10) {
-		haxe.Log.trace("int constrained: " + v10,{ fileName : "DemoControls.hx", lineNumber : 49, className : "DemoControls", methodName : "main"});
+	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v10) {
+		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 45, className : "DemoControls", methodName : "main"});
+	});
+	ui["int"]("int constrained",20,{ min : 10, max : 30},function(v11) {
+		haxe.Log.trace("int constrained: " + v11,{ fileName : "DemoControls.hx", lineNumber : 49, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
-	ui.search("search","",null,function(v11) {
-		haxe.Log.trace("search: " + v11,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
+	ui.search("search","",null,function(v12) {
+		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
 	});
-	ui.tel("tel","",null,function(v12) {
-		haxe.Log.trace("tel: " + v12,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
+	ui.tel("tel","",null,function(v13) {
+		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
 		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
 	});
-	ui.url("url","",null,function(v13) {
-		haxe.Log.trace("url: " + v13,{ fileName : "DemoControls.hx", lineNumber : 54, className : "DemoControls", methodName : "main"});
+	ui.url("url","",null,function(v14) {
+		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 54, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -200,6 +203,11 @@ HxOverrides.iter = function(a) {
 var IMap = function() { };
 IMap.__name__ = true;
 Math.__name__ = true;
+var Reflect = function() { };
+Reflect.__name__ = true;
+Reflect.hasField = function(o,field) {
+	return Object.prototype.hasOwnProperty.call(o,field);
+};
 var Std = function() { };
 Std.__name__ = true;
 Std.string = function(s) {
@@ -269,6 +277,65 @@ StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
 };
 var dots = {};
+dots.Detect = function() { };
+dots.Detect.__name__ = true;
+dots.Detect.supportsInput = function(type) {
+	var i;
+	var _this = window.document;
+	i = _this.createElement("input");
+	i.setAttribute("type",type);
+	return i.type == type;
+};
+dots.Detect.supportsInputPlaceholder = function() {
+	var i;
+	var _this = window.document;
+	i = _this.createElement("input");
+	return Object.prototype.hasOwnProperty.call(i,"placeholder");
+};
+dots.Detect.supportsInputAutofocus = function() {
+	var i;
+	var _this = window.document;
+	i = _this.createElement("input");
+	return Object.prototype.hasOwnProperty.call(i,"autofocus");
+};
+dots.Detect.supportsCanvas = function() {
+	return null != ($_=((function($this) {
+		var $r;
+		var _this = window.document;
+		$r = _this.createElement("canvas");
+		return $r;
+	}(this))),$bind($_,$_.getContext));
+};
+dots.Detect.supportsVideo = function() {
+	return null != ($_=((function($this) {
+		var $r;
+		var _this = window.document;
+		$r = _this.createElement("video");
+		return $r;
+	}(this))),$bind($_,$_.canPlayType));
+};
+dots.Detect.supportsLocalStorage = function() {
+	try {
+		return 'localStorage' in window && window['localStorage'] !== null;
+	} catch( e ) {
+		return false;
+	}
+};
+dots.Detect.supportsWebWorkers = function() {
+	return !(!window.Worker);
+};
+dots.Detect.supportsOffline = function() {
+	return null != window.applicationCache;
+};
+dots.Detect.supportsGeolocation = function() {
+	return Reflect.hasField(window.navigator,"geolocation");
+};
+dots.Detect.supportsMicrodata = function() {
+	return Reflect.hasField(window.document,"getItems");
+};
+dots.Detect.supportsHistory = function() {
+	return !!(window.history && history.pushState);
+};
 dots.Html = function() { };
 dots.Html.__name__ = true;
 dots.Html.parseNodes = function(html) {
@@ -634,6 +701,13 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,color: function(label,defaultValue,options,callback) {
+		if(defaultValue == null) defaultValue = "#AA0000";
+		var control = new sui.controls.ColorControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
 		var control = new sui.controls.FloatControl(defaultValue,options);
@@ -928,6 +1002,126 @@ sui.controls.BoolControl.prototype = $extend(sui.controls.SingleInputControl.pro
 		return this.input.checked;
 	}
 	,__class__: sui.controls.BoolControl
+});
+sui.controls.DoubleInputControl = function(defaultValue,name,event1,type1,event2,type2,filter,options) {
+	var _g = this;
+	var template = "<div class=\"sui-control sui-control-double sui-type-" + name + "\"><input class=\"input1\" type=\"" + type1 + "\"/><input class=\"input2\" type=\"" + type2 + "\"/></div>";
+	if(null == options) options = { };
+	if(null == options.allownull) options.allownull = true;
+	this.defaultValue = defaultValue;
+	this.values = new sui.controls.ControlValues(defaultValue);
+	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
+	this.el = dots.Html.parseNodes(template)[0];
+	this.input1 = dots.Query.first(".input1",this.el);
+	this.input2 = dots.Query.first(".input2",this.el);
+	this.values.enabled.subscribe(function(v) {
+		if(v) {
+			_g.el.classList.add("sui-disabled");
+			_g.input1.removeAttribute("disabled");
+			_g.input2.removeAttribute("disabled");
+		} else {
+			_g.el.classList.remove("sui-disabled");
+			_g.input1.setAttribute("disabled","disabled");
+			_g.input2.setAttribute("disabled","disabled");
+		}
+	});
+	this.values.focused.subscribe(function(v1) {
+		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
+	});
+	this.setInputs(defaultValue);
+	thx.stream.dom.Dom.streamFocus(this.input1).merge(thx.stream.dom.Dom.streamFocus(this.input2)).feed(this.values.focused);
+	thx.stream.dom.Dom.streamEvent(this.input1,event1).map(function(_) {
+		return _g.getInput1();
+	}).subscribe(function(v2) {
+		_g.setInput2(v2);
+		_g.values.value.set(v2);
+	});
+	thx.stream.dom.Dom.streamEvent(this.input2,event2).map(function(_1) {
+		return _g.getInput2();
+	}).filter(filter).subscribe(function(v3) {
+		_g.setInput1(v3);
+		_g.values.value.set(v3);
+	});
+	if(!options.allownull) {
+		this.input1.setAttribute("required","required");
+		this.input2.setAttribute("required","required");
+	}
+	if(options.autofocus) this.focus();
+	if(options.disabled) this.disable();
+	if(!dots.Detect.supportsInput(type1)) this.input1.style.display = "none";
+};
+sui.controls.DoubleInputControl.__name__ = true;
+sui.controls.DoubleInputControl.__interfaces__ = [sui.controls.IControl];
+sui.controls.DoubleInputControl.prototype = {
+	setInputs: function(v) {
+		this.setInput1(v);
+		this.setInput2(v);
+	}
+	,setInput1: function(v) {
+		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 91, className : "sui.controls.DoubleInputControl", methodName : "setInput1"});
+	}
+	,setInput2: function(v) {
+		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 94, className : "sui.controls.DoubleInputControl", methodName : "setInput2"});
+	}
+	,getInput1: function() {
+		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 97, className : "sui.controls.DoubleInputControl", methodName : "getInput1"});
+	}
+	,getInput2: function() {
+		throw new thx.core.error.AbstractMethod({ fileName : "DoubleInputControl.hx", lineNumber : 100, className : "sui.controls.DoubleInputControl", methodName : "getInput2"});
+	}
+	,set: function(v) {
+		this.setInputs(v);
+		this.values.value.set(v);
+	}
+	,get: function() {
+		return this.values.value.get();
+	}
+	,isEnabled: function() {
+		return this.values.enabled.get();
+	}
+	,isFocused: function() {
+		return this.values.focused.get();
+	}
+	,disable: function() {
+		this.values.enabled.set(false);
+	}
+	,enable: function() {
+		this.values.enabled.set(true);
+	}
+	,focus: function() {
+		this.input2.focus();
+	}
+	,blur: function() {
+		var el = window.document.activeElement;
+		if(el == this.input1 || el == this.input2) el.blur();
+	}
+	,reset: function() {
+		this.set(this.defaultValue);
+	}
+	,__class__: sui.controls.DoubleInputControl
+};
+sui.controls.ColorControl = function(value,options) {
+	if(null == options) options = { };
+	sui.controls.DoubleInputControl.call(this,value,"color","input","color","input","text",($_=sui.controls.ColorControl.PATTERN,$bind($_,$_.match)),options);
+	if(null != options.autocomplete) this.input2.setAttribute("autocomplete",options.autocomplete?"on":"off");
+	if(null != options.list) new sui.controls.DataList(this.el,options.list).applyTo(this.input1).applyTo(this.input2); else if(null != options.values) sui.controls.DataList.fromArray(this.el,options.values).applyTo(this.input1).applyTo(this.input2);
+};
+sui.controls.ColorControl.__name__ = true;
+sui.controls.ColorControl.__super__ = sui.controls.DoubleInputControl;
+sui.controls.ColorControl.prototype = $extend(sui.controls.DoubleInputControl.prototype,{
+	setInput1: function(v) {
+		this.input1.value = v;
+	}
+	,setInput2: function(v) {
+		this.input2.value = v;
+	}
+	,getInput1: function() {
+		return this.input1.value;
+	}
+	,getInput2: function() {
+		return this.input2.value;
+	}
+	,__class__: sui.controls.ColorControl
 });
 sui.controls.ControlStreams = function(value,focused,enabled) {
 	this.value = value;
@@ -4489,6 +4683,7 @@ if(typeof(scope.performance.now) == "undefined") {
 }
 dots.Html.pattern = new EReg("[<]([^> ]+)","");
 dots.Query.doc = document;
+sui.controls.ColorControl.PATTERN = new EReg("^[#][0-9a-f]{6}$","i");
 sui.controls.DataList.nid = 0;
 thx.core.Ints.pattern_parse = new EReg("^[+-]?(\\d+|0x[0-9A-F]+)$","i");
 thx.core.Ints.BASE = "0123456789abcdefghijklmnopqrstuvwxyz";
