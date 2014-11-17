@@ -19,33 +19,39 @@ DemoControls.main = function() {
 	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v2) {
 		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 19, className : "DemoControls", methodName : "main"});
 	});
-	ui.password("secret","",{ placeholder : "shhh"},function(v3) {
-		haxe.Log.trace("password: " + v3,{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
+	ui.email("email","",null,function(v3) {
+		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 20, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("text","",{ placeholder : "placeholder"},function(v4) {
-		haxe.Log.trace("string: " + v4,{ fileName : "DemoControls.hx", lineNumber : 25, className : "DemoControls", methodName : "main"});
+	ui.password("secret","",{ placeholder : "shhh"},function(v4) {
+		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 23, className : "DemoControls", methodName : "main"});
 	});
-	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v5) {
-		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 29, className : "DemoControls", methodName : "main"});
+	ui.text("text","",{ placeholder : "placeholder"},function(v5) {
+		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 26, className : "DemoControls", methodName : "main"});
+	});
+	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v6) {
+		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 30, className : "DemoControls", methodName : "main"});
 	});
 	ui.time("time",82800000,{ values : [0,60000,3600000]},function(t) {
-		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 32, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 33, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float",null,null,function(v6) {
-		haxe.Log.trace("float: " + v6,{ fileName : "DemoControls.hx", lineNumber : 36, className : "DemoControls", methodName : "main"});
+	ui["float"]("float",null,null,function(v7) {
+		haxe.Log.trace("float: " + v7,{ fileName : "DemoControls.hx", lineNumber : 37, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float",0.5,{ step : 0.01, min : 0.0, max : 1.0},function(v7) {
-		haxe.Log.trace("float: " + v7,{ fileName : "DemoControls.hx", lineNumber : 41, className : "DemoControls", methodName : "main"});
+	ui["float"]("float",0.5,{ step : 0.01, min : 0.0, max : 1.0},function(v8) {
+		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
 	});
-	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v8) {
-		haxe.Log.trace("int: " + v8,{ fileName : "DemoControls.hx", lineNumber : 44, className : "DemoControls", methodName : "main"});
+	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v9) {
+		haxe.Log.trace("int: " + v9,{ fileName : "DemoControls.hx", lineNumber : 45, className : "DemoControls", methodName : "main"});
 	});
-	ui["int"]("int constrained",20,{ min : 10, max : 30},function(v9) {
-		haxe.Log.trace("int constrained: " + v9,{ fileName : "DemoControls.hx", lineNumber : 48, className : "DemoControls", methodName : "main"});
+	ui["int"]("int constrained",20,{ min : 10, max : 30},function(v10) {
+		haxe.Log.trace("int constrained: " + v10,{ fileName : "DemoControls.hx", lineNumber : 49, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 50, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
+	});
+	ui.url("url","",null,function(v11) {
+		haxe.Log.trace("url: " + v11,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -615,6 +621,13 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,email: function(label,defaultValue,options,callback) {
+		if(defaultValue == null) defaultValue = "";
+		var control = new sui.controls.EmailControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
 		var control = new sui.controls.FloatControl(defaultValue,options);
@@ -662,6 +675,13 @@ sui.Sui.prototype = {
 		control.streams.value.subscribe(function(_) {
 			callback();
 		});
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
+	,url: function(label,defaultValue,options,callback) {
+		if(defaultValue == null) defaultValue = "";
+		var control = new sui.controls.UrlControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
@@ -943,6 +963,16 @@ sui.controls.DateTimeControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateTimeControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateTimeControl
 });
+sui.controls.EmailControl = function(value,options) {
+	if(null == options) options = { };
+	if(null == options.placeholder) options.placeholder = "name@example.com";
+	sui.controls.BaseTextControl.call(this,value,"email","email",options);
+};
+sui.controls.EmailControl.__name__ = true;
+sui.controls.EmailControl.__super__ = sui.controls.BaseTextControl;
+sui.controls.EmailControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
+	__class__: sui.controls.EmailControl
+});
 sui.controls.NumberControl = function(value,name,options) {
 	if(null == options) options = { };
 	sui.controls.SingleInputControl.call(this,value,"input",name,"number",options);
@@ -1115,6 +1145,16 @@ sui.controls.TriggerControl.prototype = {
 	}
 	,__class__: sui.controls.TriggerControl
 };
+sui.controls.UrlControl = function(value,options) {
+	if(null == options) options = { };
+	if(null == options.placeholder) options.placeholder = "http://example.com";
+	sui.controls.BaseTextControl.call(this,value,"url","url",options);
+};
+sui.controls.UrlControl.__name__ = true;
+sui.controls.UrlControl.__super__ = sui.controls.BaseTextControl;
+sui.controls.UrlControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
+	__class__: sui.controls.UrlControl
+});
 var thx = {};
 thx.core = {};
 thx.core.Arrays = function() { };

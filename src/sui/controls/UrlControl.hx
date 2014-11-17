@@ -2,12 +2,12 @@ package sui.controls;
 
 import sui.controls.Options;
 
-class EmailControl extends BaseTextControl {
+class UrlControl extends BaseTextControl {
   public function new(value : String, ?options : OptionsText) {
     if(null == options)
       options = {};
     if(null == options.placeholder)
-      options.placeholder = "name@example.com";
-    super(value, "email", "email", options);
+      options.placeholder = "http://example.com";
+    super(value, "url", "url", options);
   }
 }

@@ -105,6 +105,13 @@ class Sui {
     return control;
   }
 
+  public function url(?label : String, ?defaultValue = "", ?options : OptionsText, callback : String -> Void) {
+    var control = new UrlControl(defaultValue, options);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
   // general binding
   public function control<T>(?label : String, control : IControl<T>, callback : T -> Void) {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));

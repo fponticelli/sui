@@ -17,6 +17,7 @@ class DemoControls {
     ui.date("date", {
         list : [{ label : "birthday", value : Date.fromString("1972-05-02") }, { label : "today", value : Date.now() }]
       }, function(v) trace('date: $v'));
+    ui.email("email", "", function(v) trace('email: $v'));
     ui.password("secret", "", {
         placeholder : "shhh"
       }, function(v) trace('password: $v'));
@@ -48,6 +49,7 @@ class DemoControls {
       }, function(v) trace('int constrained: $v'));
     ui.label("temp").set("hello there");
     ui.trigger("trigger", function() trace("triggered"));
+    ui.url("url", "", function(v) trace('url: $v'));
     ui.attach();
 /*
     var grid = new Grid();
