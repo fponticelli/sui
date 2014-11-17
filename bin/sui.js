@@ -50,11 +50,14 @@ DemoControls.main = function() {
 	ui.search("search","",null,function(v11) {
 		haxe.Log.trace("search: " + v11,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
 	});
-	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
+	ui.tel("tel","",null,function(v12) {
+		haxe.Log.trace("tel: " + v12,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
 	});
-	ui.url("url","",null,function(v12) {
-		haxe.Log.trace("url: " + v12,{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
+	ui.trigger("trigger",null,null,function() {
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
+	});
+	ui.url("url","",null,function(v13) {
+		haxe.Log.trace("url: " + v13,{ fileName : "DemoControls.hx", lineNumber : 54, className : "DemoControls", methodName : "main"});
 	});
 	ui.attach();
 };
@@ -666,6 +669,13 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
+	,tel: function(label,defaultValue,options,callback) {
+		if(defaultValue == null) defaultValue = "";
+		var control = new sui.controls.TelControl(defaultValue,options);
+		control.streams.value.subscribe(callback);
+		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
+		return control;
+	}
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
 		var control = new sui.controls.TextControl(defaultValue,options);
@@ -1056,6 +1066,15 @@ sui.controls.SearchControl.__name__ = true;
 sui.controls.SearchControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.SearchControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.SearchControl
+});
+sui.controls.TelControl = function(value,options) {
+	if(null == options) options = { };
+	sui.controls.BaseTextControl.call(this,value,"tel","tel",options);
+};
+sui.controls.TelControl.__name__ = true;
+sui.controls.TelControl.__super__ = sui.controls.BaseTextControl;
+sui.controls.TelControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
+	__class__: sui.controls.TelControl
 });
 sui.controls.TextControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","text",options);
