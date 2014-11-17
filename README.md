@@ -1,27 +1,41 @@
 # SUI
+## Simple User Interface: Html + Haxe
 
-## Simple User Interface
+Example:
 
-# Controls
+```haxe
+var ui = new sui.Sui();
+ui.bool("boolean", function(v) trace('bool: $v'));
+ui.color("color", {
+    list : [
+      { value : "#FF0000", label : "red" },
+      { value : "#00FF00", label : "blue" },
+      { value : "#0000FF", label : "green" }]
+  }, function(v) trace('color: $v'));
+ui.int("int range", 20, {
+    min : 10,
+    max : 30
+  }, function(v) trace('int range: $v'));
+ui.trigger("trigger", function() trace("triggered"));
+ui.attach();
+```
 
 ## TODO
 
-  * automap field/variable to control
+### API
+  * macro automap field/variable to control
+  * append to container (with position and close controls)
 
 ### Controls
-  * date
-  * time
-  * date/time
+
   * select string (options)
-  * select number
-  * datalist for every control
-  * folders
+  * select float
+  * select int
+  * select date
+  * text area
   * objects and nested objects
   * arrays
   * unstructured objects (create field together with values)
-
-### API
-  * append to container (with position and close controls)
 
 
 ### Inspiration
