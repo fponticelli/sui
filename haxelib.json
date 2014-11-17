@@ -5,8 +5,8 @@
   "classPath": "src",
   "tags": ["ui", "js"],
   "description": "Simple User Interface - Haxe + Html",
-  "releasenote": "initial release",
-  "version": "0.0.2",
+  "releasenote": "refactored controls",
+  "version": "0.1.0",
   "contributors": ["fponticelli"],
   "dependencies": {
     "thx.core": "",
