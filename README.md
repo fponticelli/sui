@@ -23,11 +23,16 @@ ui.attach();
 ## TODO
 
 ### API
-  * macro automap field/variable to control
+  * Sui.add(): macro automap field/variable to control
   * append to container (with position and close controls)
+  * Sui.hide()/Sui.show() (with default keyboard control H)
+  * Sui.open()/Sui.close()
+  * presets? save/restore?
+  * listen?
 
 ### Controls
 
+  * folder (with open/collapse)
   * select string (options)
   * select float
   * select int
