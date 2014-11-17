@@ -38,6 +38,13 @@ class Sui {
     return control;
   }
 
+  public function email(?label : String, ?defaultValue = "", ?options : OptionsText, callback : String -> Void) {
+    var control = new EmailControl(defaultValue, options);
+    control.streams.value.subscribe(callback);
+    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
+    return control;
+  }
+
 /*
   public function color(?label : String, ?defaultValue = "#AA0000", callback : String -> Void) {
     var control = new ColorControl(defaultValue);
