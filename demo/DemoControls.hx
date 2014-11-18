@@ -52,6 +52,20 @@ class DemoControls {
     ui.tel("tel", "", function(v) trace('tel: $v'));
     ui.trigger("trigger", function() trace("triggered"));
     ui.url("url", "", function(v) trace('url: $v'));
+
+
+    var obj = {
+      name : "Sui",
+      info : {
+        age : 0.1
+      }
+    };
+    ui.bind(obj.name);
+    ui.bind(obj.info.age);
+
+    var a = 12;
+    ui.bind(a);
+
     ui.attach();
 
     var grid = new Grid();

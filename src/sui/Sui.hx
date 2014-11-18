@@ -1,11 +1,17 @@
 package sui;
 
+#if !macro
 import js.html.Element;
 import sui.components.Grid;
 import sui.controls.*;
 import sui.controls.Options;
-
+#else
+import haxe.macro.Context;
+import haxe.macro.Expr;
+import haxe.macro.ExprTools;
+#end
 class Sui {
+#if !macro
   public var el(default, null) : Element;
   var grid : Grid;
   public function new() {
@@ -136,5 +142,36 @@ class Sui {
       el = js.Browser.document.body;
     this.el.classList.add("sui-top-right");
     el.appendChild(this.el);
+  }
+#end
+
+  // label (readonly?)
+  macro public function bind(sui : ExprOf<Sui>, variable : Expr) {
+    //trace(sui);
+    var id = switch variable.expr {
+            case EField(e, field):
+              (ExprTools.toString(e) + "." + field).split(".").slice(1).join(".");
+            case EConst(CIdent(id)):
+              id;
+            case _:
+              Context.error('invalid expression $variable', variable.pos);
+          },
+        type = Context.typeof(variable);
+    id = thx.core.Strings.humanize(id);
+    return switch type {
+      case TInst(_.toString() => "String", _):
+        macro $e{sui}.text($v{id}, $e{variable}, function(v) $e{variable} = v);
+      case TInst(_.toString() => "Date", _):
+        macro $e{sui}.date($v{id}, $e{variable}, function(v) $e{variable} = v);
+      case TAbstract(_.toString() => "Bool", _):
+        macro $e{sui}.bool($v{id}, $e{variable}, function(v) $e{variable} = v);
+      case TAbstract(_.toString() => "Float", _):
+        macro $e{sui}.float($v{id}, $e{variable}, function(v) $e{variable} = v);
+      case TAbstract(_.toString() => "Int", _):
+        macro $e{sui}.int($v{id}, $e{variable}, function(v) $e{variable} = v);
+      case TFun([],TAbstract(_.toString() => "Void",[])):
+        macro $e{sui}.trigger($v{id}, $e{variable});
+      case _: Context.error('unsupported type $type', variable.pos);
+    };
   }
 }

@@ -1,5 +1,5 @@
 -js bin/sui.js
--main DemoControls
+-main DemoObject
 -cp src
 -cp demo
 -lib dots
