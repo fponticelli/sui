@@ -7,4 +7,14 @@
 -lib thx.stream
 -lib thx.stream.dom
 #-D analyzer
+--next
+-js bin/controls.js
+-main DemoControls
+-cp src
+-cp demo
+-lib dots
+-lib thx.core
+-lib thx.stream
+-lib thx.stream.dom
+
 -cmd stylus --compress < style/sui.styl > bin/sui.css
