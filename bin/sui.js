@@ -677,21 +677,20 @@ sui.Sui.prototype = {
 	}
 	,date: function(label,defaultValue,options,callback) {
 		if(null == defaultValue) defaultValue = new Date();
-		var control = new sui.controls.DateControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,dateTime: function(label,defaultValue,options,callback) {
-		if(null == defaultValue) defaultValue = new Date();
-		var control = new sui.controls.DateTimeControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,email: function(label,defaultValue,options,callback) {
-		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.EmailControl(defaultValue,options);
+		var control;
+		var _g;
+		var t;
+		var _0 = options;
+		var _1;
+		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
+		if(t != null) _g = t; else _g = null;
+		if(_g != null) switch(_g) {
+		case "dateTime":
+			control = new sui.controls.DateTimeControl(defaultValue,options);
+			break;
+		default:
+			control = new sui.controls.DateControl(defaultValue,options);
+		} else control = new sui.controls.DateControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -706,7 +705,19 @@ sui.Sui.prototype = {
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
 		var control;
-		if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+		var _g;
+		var t;
+		var _0 = options;
+		var _1;
+		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
+		if(t != null) _g = t; else _g = null;
+		if(_g != null) switch(_g) {
+		case "time":
+			control = new sui.controls.TimeControl(defaultValue,options);
+			break;
+		default:
+			if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+		} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -726,37 +737,34 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
-	,password: function(label,defaultValue,options,callback) {
-		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.PasswordControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,search: function(label,defaultValue,options,callback) {
-		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.SearchControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,tel: function(label,defaultValue,options,callback) {
-		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.TelControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.TextControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,time: function(label,defaultValue,options,callback) {
-		if(null == defaultValue) defaultValue = 0;
-		var control = new sui.controls.TimeControl(defaultValue,options);
+		var control;
+		var _g;
+		var t;
+		var _0 = options;
+		var _1;
+		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
+		if(t != null) _g = t; else _g = null;
+		if(_g != null) switch(_g) {
+		case "email":
+			control = new sui.controls.EmailControl(defaultValue,options);
+			break;
+		case "password":
+			control = new sui.controls.PasswordControl(defaultValue,options);
+			break;
+		case "tel":
+			control = new sui.controls.TelControl(defaultValue,options);
+			break;
+		case "search":
+			control = new sui.controls.SearchControl(defaultValue,options);
+			break;
+		case "url":
+			control = new sui.controls.UrlControl(defaultValue,options);
+			break;
+		default:
+			control = new sui.controls.TextControl(defaultValue,options);
+		} else control = new sui.controls.TextControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -766,13 +774,6 @@ sui.Sui.prototype = {
 		control.streams.value.subscribe(function(_) {
 			callback();
 		});
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
-	}
-	,url: function(label,defaultValue,options,callback) {
-		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.UrlControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
 	}
@@ -1937,6 +1938,10 @@ thx.core.Error.prototype = $extend(Error.prototype,{
 });
 thx.core.Floats = function() { };
 thx.core.Floats.__name__ = true;
+thx.core.Floats.ceil = function(f,decimals) {
+	var p = Math.pow(10,decimals);
+	return Math.ceil(f * p) / p;
+};
 thx.core.Floats.canParse = function(s) {
 	return thx.core.Floats.pattern_parse.match(s);
 };
@@ -1948,6 +1953,10 @@ thx.core.Floats.clampSym = function(v,max) {
 };
 thx.core.Floats.compare = function(a,b) {
 	if(a < b) return -1; else if(b > a) return 1; else return 0;
+};
+thx.core.Floats.floor = function(f,decimals) {
+	var p = Math.pow(10,decimals);
+	return Math.floor(f * p) / p;
 };
 thx.core.Floats.interpolate = function(f,a,b) {
 	return (b - a) * f + a;
@@ -2430,6 +2439,14 @@ thx.core.Strings.toCharcodeArray = function(s) {
 	return thx.core.Strings.map(s,function(s1) {
 		return HxOverrides.cca(s1,0);
 	});
+};
+thx.core.Strings.toChunks = function(s,len) {
+	var chunks = [];
+	while(s.length > 0) {
+		chunks.push(s.substring(0,len));
+		s = s.substring(len);
+	}
+	return chunks;
 };
 thx.core.Strings.trim = function(value,charlist) {
 	return thx.core.Strings.trimRight(thx.core.Strings.trimLeft(value,charlist),charlist);

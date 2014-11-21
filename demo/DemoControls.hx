@@ -3,6 +3,7 @@ using dots.Query;
 
 import sui.components.*;
 import sui.controls.*;
+import sui.controls.Options;
 
 import js.Browser;
 
@@ -10,14 +11,18 @@ class DemoControls {
   public static function main() {
     var ui = new sui.Sui();
     ui.bool("boolean", function(v) trace('bool: $v'));
-    ui.dateTime("date time", {
+    ui.date("date time", {
+        kind : DateKind.dateTime,
         list : [{ label : "birthday", value : Date.fromString("1972-05-02 16:01:00") }, { label : "other", value : Date.fromString("1974-06-09") }, { label : "today", value : Date.now() }]
       }, function(v) trace('date time: $v'));
     ui.date("date", {
         list : [{ label : "birthday", value : Date.fromString("1972-05-02") }, { label : "today", value : Date.now() }]
       }, function(v) trace('date: $v'));
-    ui.email("email", "", function(v) trace('email: $v'));
-    ui.password("secret", "", {
+    ui.text("email", "", {
+        kind : TextKind.email,
+      }, function(v) trace('email: $v'));
+    ui.text("secret", "", {
+        kind : TextKind.password,
         placeholder : "shhh"
       }, function(v) trace('password: $v'));
     ui.text("text", "", {
@@ -27,7 +32,8 @@ class DemoControls {
         placeholder : "libs",
         values : ["haxe", "thx", "sui"]
       }, function(v) trace('string: $v'));
-    ui.time("time", 3600000 * 23, {
+    ui.float("time", 3600000 * 23, {
+        kind : FloatKind.time,
         values : [0, 60000, 3600000]
       }, function(t) trace('time: $t'));
     ui.color("color", {
@@ -48,10 +54,16 @@ class DemoControls {
         max : 30
       }, function(v) trace('int range: $v'));
     ui.label("temp").set("hello there");
-    ui.search("search", "", function(v) trace('search: $v'));
-    ui.tel("tel", "", function(v) trace('tel: $v'));
+    ui.text("search", "", {
+        kind : TextKind.search
+      }, function(v) trace('search: $v'));
+    ui.text("tel", "", {
+        kind : TextKind.tel
+      }, function(v) trace('tel: $v'));
     ui.trigger("trigger", function() trace("triggered"));
-    ui.url("url", "", function(v) trace('url: $v'));
+    ui.text("url", "", {
+        kind : TextKind.url
+      }, function(v) trace('url: $v'));
 
 
     var obj = {
