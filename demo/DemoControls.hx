@@ -10,6 +10,11 @@ import js.Browser;
 class DemoControls {
   public static function main() {
     var ui = new sui.Sui();
+//    ui.control("select text",  new TextSelectControl("sui"),  function(v) trace('select text: $v'));
+//    ui.control("select int",   new IntSelectControl(),   function(v) trace('select int: $v'));
+//    ui.control("select float", new FloatSelectControl(), function(v) trace('select float: $v'));
+//    ui.control("select color", new ColorSelectControl(), function(v) trace('select color: $v'));
+//    ui.control("select date",  new DateSelectControl(),  function(v) trace('select date: $v'));
     ui.bool("boolean", function(v) trace('bool: $v'));
     ui.date("date time", {
         kind : DateKind.dateTime,
@@ -86,6 +91,7 @@ class DemoControls {
     grid.add(HorizontalPair(new LabelControl("got it?"), new BoolControl(true)));
     grid.add(VerticalPair(new LabelControl("name"), new TextControl("sui")));
 
+    createControlContainer(new TextSelectControl("sui", { values : ["thx", "sui", "haxe"]}));
     createControlContainer(new LabelControl("just a label, not interactive"));
     createControlContainer(new TriggerControl("click me"));
     createControlContainer(new ColorControl("#ff0000"));
@@ -99,13 +105,13 @@ class DemoControls {
 
   public static function createControlContainer<T>(control : IControl<T>) {
     var description = Type.getClassName(Type.getClass(control)).split(".").pop(),
-        el = Html.parse('<div class="sample">
+        el = Html.parse('<div class="sample" style="width:200px;float:left;margin:0 20px 20px">
   <h2>$description</h2>
   <div class="container"></div>
   <div class="focus"></div>
   <div class="value"></div>
 </div>');
-    Browser.document.body.appendChild(el);
+    Browser.document.getElementById("container").appendChild(el);
     var container = Query.first(".container", el),
         focus     = Query.first(".focus", el),
         value     = Query.first(".value", el);

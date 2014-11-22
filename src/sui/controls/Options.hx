@@ -11,6 +11,10 @@ typedef OptionsList<T> = {> Options,
   ?values : Array<T>
 }
 
+typedef OptionsSelect<T> = {> OptionsList<T>,
+  ?labelfornull : String
+}
+
 typedef OptionsColor = {> OptionsList<String>,
   ?autocomplete : Bool
 }
