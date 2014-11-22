@@ -6,18 +6,19 @@ typedef Options = {
   ?allownull : Bool
 }
 
-typedef OptionsColor = {> Options,
-  ?autocomplete : Bool,
-  ?list : Array<{ label : String, value : String }>,
-  ?values : Array<String>
+typedef OptionsList<T> = {> Options,
+  ?list : Array<{ label : String, value : T }>,
+  ?values : Array<T>
 }
 
-typedef OptionsDate = {> Options,
+typedef OptionsColor = {> OptionsList<String>,
+  ?autocomplete : Bool
+}
+
+typedef OptionsDate = {> OptionsList<Date>,
   ?min : Date,
   ?max : Date,
-  ?autocomplete : Bool,
-  ?list : Array<{ label : String, value : Date }>,
-  ?values : Array<Date>
+  ?autocomplete : Bool
 }
 
 typedef OptionsKindDate = {> OptionsDate,
@@ -30,14 +31,12 @@ abstract DateKind(String) {
   var dateTime = "dateTime";
 }
 
-typedef OptionsNumber<T : Float> = {> Options,
+typedef OptionsNumber<T : Float> = {> OptionsList<T>,
   ?min : T,
   ?max : T,
   ?step : T,
   ?autocomplete : Bool,
-  ?placeholder : String,
-  ?list : Array<{ label : String, value : T }>,
-  ?values : Array<T>
+  ?placeholder : String
 }
 
 typedef OptionsKindFloat = {> OptionsNumber<Float>,
@@ -50,13 +49,11 @@ abstract FloatKind(String) {
   var time = "time";
 }
 
-typedef OptionsText = {> Options,
+typedef OptionsText = {> OptionsList<String>,
   ?maxlength : Int,
   ?autocomplete : Bool,
   ?pattern : String,
-  ?placeholder : String,
-  ?list : Array<{ label : String, value : String }>,
-  ?values : Array<String>
+  ?placeholder : String
 }
 
 typedef OptionsKindText = {> OptionsText,
