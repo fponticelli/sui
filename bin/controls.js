@@ -13,16 +13,16 @@ DemoControls.main = function() {
 	ui.bool("boolean",null,null,function(v) {
 		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
 	});
-	ui.date("date time",null,{ kind : "dateTime", list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02 16:01:00")},{ label : "other", value : HxOverrides.strDate("1974-06-09")},{ label : "today", value : new Date()}]},function(v1) {
+	ui.date("date time",null,{ kind : sui.controls.DateKind.DateTime, list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02 16:01:00")},{ label : "other", value : HxOverrides.strDate("1974-06-09")},{ label : "today", value : new Date()}]},function(v1) {
 		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
 	});
 	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v2) {
 		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 20, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("email","",{ kind : "email"},function(v3) {
+	ui.text("email","",{ kind : sui.controls.TextKind.TextEmail},function(v3) {
 		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 23, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("secret","",{ kind : "password", placeholder : "shhh"},function(v4) {
+	ui.text("secret","",{ kind : sui.controls.TextKind.TextPassword, placeholder : "shhh"},function(v4) {
 		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 27, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("text","",{ placeholder : "placeholder"},function(v5) {
@@ -31,7 +31,7 @@ DemoControls.main = function() {
 	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v6) {
 		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 34, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("time",82800000,{ kind : "time", values : [0,60000,3600000]},function(t) {
+	ui["float"]("time",82800000,{ kind : sui.controls.FloatKind.FloatTime, values : [0,60000,3600000]},function(t) {
 		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 38, className : "DemoControls", methodName : "main"});
 	});
 	ui.color("color",null,{ list : [{ value : "#FF0000", label : "red"},{ value : "#00FF00", label : "blue"},{ value : "#0000FF", label : "green"}]},function(v7) {
@@ -50,16 +50,16 @@ DemoControls.main = function() {
 		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 55, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
-	ui.text("search","",{ kind : "search"},function(v12) {
+	ui.text("search","",{ kind : sui.controls.TextKind.TextSearch},function(v12) {
 		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 59, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("tel","",{ kind : "tel"},function(v13) {
+	ui.text("tel","",{ kind : sui.controls.TextKind.TextTel},function(v13) {
 		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 62, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
 		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 63, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("url","",{ kind : "url"},function(v14) {
+	ui.text("url","",{ kind : sui.controls.TextKind.TextUrl},function(v14) {
 		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 66, className : "DemoControls", methodName : "main"});
 	});
 	var obj_name = "Sui";
@@ -759,15 +759,15 @@ sui.Sui.prototype = {
 				control = new sui.controls.DateSelectControl(defaultValue,options);
 				break;
 			default:
-				if(_g1 != null) switch(_g1) {
-				case "dateTime":
+				if(_g1 != null) switch(_g1[1]) {
+				case 1:
 					control = new sui.controls.DateTimeControl(defaultValue,options);
 					break;
 				default:
 					control = new sui.controls.DateControl(defaultValue,options);
 				} else control = new sui.controls.DateControl(defaultValue,options);
-			} else if(_g1 != null) switch(_g1) {
-			case "dateTime":
+			} else if(_g1 != null) switch(_g1[1]) {
+			case 1:
 				control = new sui.controls.DateTimeControl(defaultValue,options);
 				break;
 			default:
@@ -806,15 +806,15 @@ sui.Sui.prototype = {
 				control = new sui.controls.NumberSelectControl(defaultValue,options);
 				break;
 			default:
-				if(_g1 != null) switch(_g1) {
-				case "time":
+				if(_g1 != null) switch(_g1[1]) {
+				case 1:
 					control = new sui.controls.TimeControl(defaultValue,options);
 					break;
 				default:
 					if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
 				} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
-			} else if(_g1 != null) switch(_g1) {
-			case "time":
+			} else if(_g1 != null) switch(_g1[1]) {
+			case 1:
 				control = new sui.controls.TimeControl(defaultValue,options);
 				break;
 			default:
@@ -871,39 +871,39 @@ sui.Sui.prototype = {
 				control = new sui.controls.TextSelectControl(defaultValue,options);
 				break;
 			default:
-				if(_g1 != null) switch(_g1) {
-				case "email":
+				if(_g1 != null) switch(_g1[1]) {
+				case 0:
 					control = new sui.controls.EmailControl(defaultValue,options);
 					break;
-				case "password":
+				case 1:
 					control = new sui.controls.PasswordControl(defaultValue,options);
 					break;
-				case "tel":
+				case 3:
 					control = new sui.controls.TelControl(defaultValue,options);
 					break;
-				case "search":
+				case 2:
 					control = new sui.controls.SearchControl(defaultValue,options);
 					break;
-				case "url":
+				case 5:
 					control = new sui.controls.UrlControl(defaultValue,options);
 					break;
 				default:
 					control = new sui.controls.TextControl(defaultValue,options);
 				} else control = new sui.controls.TextControl(defaultValue,options);
-			} else if(_g1 != null) switch(_g1) {
-			case "email":
+			} else if(_g1 != null) switch(_g1[1]) {
+			case 0:
 				control = new sui.controls.EmailControl(defaultValue,options);
 				break;
-			case "password":
+			case 1:
 				control = new sui.controls.PasswordControl(defaultValue,options);
 				break;
-			case "tel":
+			case 3:
 				control = new sui.controls.TelControl(defaultValue,options);
 				break;
-			case "search":
+			case 2:
 				control = new sui.controls.SearchControl(defaultValue,options);
 				break;
-			case "url":
+			case 5:
 				control = new sui.controls.UrlControl(defaultValue,options);
 				break;
 			default:
@@ -1678,6 +1678,29 @@ sui.controls.NumberSelectControl.__super__ = sui.controls.SelectControl;
 sui.controls.NumberSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
 	__class__: sui.controls.NumberSelectControl
 });
+sui.controls.DateKind = { __ename__ : true, __constructs__ : ["DateOnly","DateTime"] };
+sui.controls.DateKind.DateOnly = ["DateOnly",0];
+sui.controls.DateKind.DateOnly.__enum__ = sui.controls.DateKind;
+sui.controls.DateKind.DateTime = ["DateTime",1];
+sui.controls.DateKind.DateTime.__enum__ = sui.controls.DateKind;
+sui.controls.FloatKind = { __ename__ : true, __constructs__ : ["FloatNumber","FloatTime"] };
+sui.controls.FloatKind.FloatNumber = ["FloatNumber",0];
+sui.controls.FloatKind.FloatNumber.__enum__ = sui.controls.FloatKind;
+sui.controls.FloatKind.FloatTime = ["FloatTime",1];
+sui.controls.FloatKind.FloatTime.__enum__ = sui.controls.FloatKind;
+sui.controls.TextKind = { __ename__ : true, __constructs__ : ["TextEmail","TextPassword","TextSearch","TextTel","PlainText","TextUrl"] };
+sui.controls.TextKind.TextEmail = ["TextEmail",0];
+sui.controls.TextKind.TextEmail.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.TextPassword = ["TextPassword",1];
+sui.controls.TextKind.TextPassword.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.TextSearch = ["TextSearch",2];
+sui.controls.TextKind.TextSearch.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.TextTel = ["TextTel",3];
+sui.controls.TextKind.TextTel.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.PlainText = ["PlainText",4];
+sui.controls.TextKind.PlainText.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.TextUrl = ["TextUrl",5];
+sui.controls.TextKind.TextUrl.__enum__ = sui.controls.TextKind;
 sui.controls.PasswordControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","password",options);
 };

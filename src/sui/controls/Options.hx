@@ -31,10 +31,9 @@ typedef OptionsKindDate = {> OptionsDate,
   ?listonly : Bool
 }
 
-@:enum
-abstract DateKind(String) {
-  var date = "date";
-  var dateTime = "dateTime";
+enum DateKind {
+  DateOnly;
+  DateTime;
 }
 
 typedef OptionsNumber<T : Float> = {> OptionsList<T>,
@@ -51,10 +50,9 @@ typedef OptionsKindFloat = {> OptionsNumber<Float>,
   ?listonly : Bool
 }
 
-@:enum
-abstract FloatKind(String) {
-  var float = "float";
-  var time = "time";
+enum FloatKind {
+  FloatNumber;
+  FloatTime;
 }
 
 typedef OptionsKindInt = {> OptionsNumber<Int>,
@@ -75,14 +73,13 @@ typedef OptionsKindText = {> OptionsText,
   ?listonly : Bool
 }
 
-@:enum
-abstract TextKind(String) {
-  var email = "email";
-  var password = "password";
-  var search = "search";
-  var tel = "tel";
-  var text = "text";
-  var url = "url";
+enum TextKind {
+  TextEmail;
+  TextPassword;
+  TextSearch;
+  TextTel;
+  PlainText;
+  TextUrl;
 }
 
 typedef OptionsTime = {> Options,

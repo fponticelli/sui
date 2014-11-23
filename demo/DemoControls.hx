@@ -12,17 +12,17 @@ class DemoControls {
     var ui = new sui.Sui();
     ui.bool("boolean", function(v) trace('bool: $v'));
     ui.date("date time", {
-        kind : DateKind.dateTime,
+        kind : DateTime,
         list : [{ label : "birthday", value : Date.fromString("1972-05-02 16:01:00") }, { label : "other", value : Date.fromString("1974-06-09") }, { label : "today", value : Date.now() }]
       }, function(v) trace('date time: $v'));
     ui.date("date", {
         list : [{ label : "birthday", value : Date.fromString("1972-05-02") }, { label : "today", value : Date.now() }]
       }, function(v) trace('date: $v'));
     ui.text("email", "", {
-        kind : TextKind.email,
+        kind : TextEmail,
       }, function(v) trace('email: $v'));
     ui.text("secret", "", {
-        kind : TextKind.password,
+        kind : TextPassword,
         placeholder : "shhh"
       }, function(v) trace('password: $v'));
     ui.text("text", "", {
@@ -33,7 +33,7 @@ class DemoControls {
         values : ["haxe", "thx", "sui"]
       }, function(v) trace('string: $v'));
     ui.float("time", 3600000 * 23, {
-        kind : FloatKind.time,
+        kind : FloatTime,
         values : [0, 60000, 3600000]
       }, function(t) trace('time: $t'));
     ui.color("color", {
@@ -55,14 +55,14 @@ class DemoControls {
       }, function(v) trace('int range: $v'));
     ui.label("temp").set("hello there");
     ui.text("search", "", {
-        kind : TextKind.search
+        kind : TextSearch
       }, function(v) trace('search: $v'));
     ui.text("tel", "", {
-        kind : TextKind.tel
+        kind : TextTel
       }, function(v) trace('tel: $v'));
     ui.trigger("trigger", function() trace("triggered"));
     ui.text("url", "", {
-        kind : TextKind.url
+        kind : TextUrl
       }, function(v) trace('url: $v'));
 
 

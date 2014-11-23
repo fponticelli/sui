@@ -35,7 +35,7 @@ class Sui {
     var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
       case [true, _]:
         new DateSelectControl(defaultValue, options);
-      case [_, dateTime]:
+      case [_, DateTime]:
         new DateTimeControl(defaultValue, options);
       case _:
         new DateControl(defaultValue, options);
@@ -56,7 +56,7 @@ class Sui {
     var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
       case [true, _]:
         new NumberSelectControl<Float>(defaultValue, options);
-      case [_, time]:
+      case [_, FloatTime]:
         new TimeControl(defaultValue, options);
       case [_, _]:
         (null != options && options.min != null && options.max != null) ?
@@ -89,13 +89,13 @@ class Sui {
 
   public function text(?label : String, ?defaultValue = "", ?options : OptionsKindText, callback : String -> Void) {
     var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
-      case [true, _]:     new TextSelectControl(defaultValue, options);
-      case [_, email]:    new EmailControl(defaultValue, options);
-      case [_, password]: new PasswordControl(defaultValue, options);
-      case [_, tel]:      new TelControl(defaultValue, options);
-      case [_, search]:   new SearchControl(defaultValue, options);
-      case [_, url]:      new UrlControl(defaultValue, options);
-      case [_, _]:        new TextControl(defaultValue, options);
+      case [true, _]:         new TextSelectControl(defaultValue, options);
+      case [_, TextEmail]:    new EmailControl(defaultValue, options);
+      case [_, TextPassword]: new PasswordControl(defaultValue, options);
+      case [_, TextTel]:      new TelControl(defaultValue, options);
+      case [_, TextSearch]:   new SearchControl(defaultValue, options);
+      case [_, TextUrl]:      new UrlControl(defaultValue, options);
+      case [_, _]:            new TextControl(defaultValue, options);
     };
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
@@ -109,7 +109,7 @@ class Sui {
     return control;
   }
 
-  // general binding
+  // generic binding
   public function control<T>(?label : String, control : IControl<T>, callback : T -> Void) {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     control.streams.value.subscribe(callback);
