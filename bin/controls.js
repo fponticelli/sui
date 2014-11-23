@@ -80,6 +80,12 @@ DemoControls.main = function() {
 	grid.add(sui.components.CellContent.Single(new sui.controls.LabelControl("I act like a title")));
 	grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl("got it?"),new sui.controls.BoolControl(true)));
 	grid.add(sui.components.CellContent.VerticalPair(new sui.controls.LabelControl("name"),new sui.controls.TextControl("sui")));
+	DemoControls.createControlContainer(new sui.controls.ArrayControl([1,2,3],{ createcontrol : function() {
+		return new sui.controls.IntControl(1);
+	}}));
+	DemoControls.createControlContainer(new sui.controls.ArrayControl(["a","b","c"],{ createcontrol : function() {
+		return new sui.controls.TextControl("");
+	}}));
 	DemoControls.createControlContainer(new sui.controls.TextSelectControl("sui",{ values : ["thx","sui","haxe"], allownull : true}));
 	DemoControls.createControlContainer(new sui.controls.NumberSelectControl(3,{ values : [1,2,3,4,5,6]}));
 	DemoControls.createControlContainer(new sui.controls.NumberSelectControl(0.3,{ values : [0.1,0.2,0.3,0.4,0.5,0.6]}));
@@ -973,6 +979,60 @@ sui.controls.IControl = function() { };
 sui.controls.IControl.__name__ = ["sui","controls","IControl"];
 sui.controls.IControl.prototype = {
 	__class__: sui.controls.IControl
+};
+sui.controls.ArrayControl = function(defaultValue,options) {
+	var _g = this;
+	var template = "<div class=\"sui-control sui-control-single sui-type-array\"><ul></ul></div>";
+	this.defaultValue = defaultValue;
+	this.values = new sui.controls.ControlValues(defaultValue);
+	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
+	this.el = dots.Html.parseNodes(template)[0];
+	this.ul = dots.Query.first("ul",this.el);
+	this.values.enabled.subscribe(function(v) {
+		if(v) _g.el.classList.add("sui-disabled"); else _g.el.classList.remove("sui-disabled");
+	});
+	this.values.focused.subscribe(function(v1) {
+		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
+	});
+	this.setValue(defaultValue);
+	if(options.autofocus) this.focus();
+	if(options.disabled) this.disable();
+};
+sui.controls.ArrayControl.__name__ = ["sui","controls","ArrayControl"];
+sui.controls.ArrayControl.__interfaces__ = [sui.controls.IControl];
+sui.controls.ArrayControl.prototype = {
+	setValue: function(v) {
+	}
+	,getValue: function() {
+		return null;
+	}
+	,set: function(v) {
+		this.setValue(v);
+		this.values.value.set(v);
+	}
+	,get: function() {
+		return this.values.value.get();
+	}
+	,isEnabled: function() {
+		return this.values.enabled.get();
+	}
+	,isFocused: function() {
+		return this.values.focused.get();
+	}
+	,disable: function() {
+		this.values.enabled.set(false);
+	}
+	,enable: function() {
+		this.values.enabled.set(true);
+	}
+	,focus: function() {
+	}
+	,blur: function() {
+	}
+	,reset: function() {
+		this.set(this.defaultValue);
+	}
+	,__class__: sui.controls.ArrayControl
 };
 sui.controls.SingleInputControl = function(defaultValue,event,name,type,options) {
 	var _g = this;

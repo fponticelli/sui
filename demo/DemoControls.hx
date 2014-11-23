@@ -86,6 +86,13 @@ class DemoControls {
     grid.add(HorizontalPair(new LabelControl("got it?"), new BoolControl(true)));
     grid.add(VerticalPair(new LabelControl("name"), new TextControl("sui")));
 
+    createControlContainer(new ArrayControl([1,2,3], {
+        createcontrol : function() return new IntControl(1)
+      }));
+    createControlContainer(new ArrayControl(["a", "b", "c"], {
+        createcontrol : function() return new TextControl("")
+      }));
+
     createControlContainer(new TextSelectControl("sui", { values : ["thx", "sui", "haxe"], allownull : true }));
     createControlContainer(new NumberSelectControl(3, { values : [1,2,3,4,5,6]}));
     createControlContainer(new NumberSelectControl(0.3, { values : [0.1,0.2,0.3,0.4,0.5,0.6]}));

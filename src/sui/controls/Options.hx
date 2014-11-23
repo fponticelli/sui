@@ -92,3 +92,7 @@ typedef OptionsTime = {> Options,
   ?list : Array<{ label : String, value : Float }>,
   ?values : Array<Float>
 }
+
+typedef OptionsArray<T> = {> Options,
+  createcontrol : Void -> IControl<T>
+}
