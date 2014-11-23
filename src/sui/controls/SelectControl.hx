@@ -26,7 +26,7 @@ class SelectControl<T> implements IControl<T> {
     if(null == options.values && null == options.list)
       throw " A select control requires either the values or list option";
     if(null == options.allownull)
-      options.allownull = true;
+      options.allownull = false;
     this.defaultValue = defaultValue;
 
     values  = new ControlValues(defaultValue);

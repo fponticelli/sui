@@ -26,7 +26,9 @@ typedef OptionsDate = {> OptionsList<Date>,
 }
 
 typedef OptionsKindDate = {> OptionsDate,
-  ?kind : DateKind
+  ?kind : DateKind,
+  ?labelfornull : String,
+  ?listonly : Bool
 }
 
 @:enum
@@ -44,13 +46,20 @@ typedef OptionsNumber<T : Float> = {> OptionsList<T>,
 }
 
 typedef OptionsKindFloat = {> OptionsNumber<Float>,
-  ?kind : FloatKind
+  ?kind : FloatKind,
+  ?labelfornull : String,
+  ?listonly : Bool
 }
 
 @:enum
 abstract FloatKind(String) {
   var float = "float";
   var time = "time";
+}
+
+typedef OptionsKindInt = {> OptionsNumber<Int>,
+  ?labelfornull : String,
+  ?listonly : Bool
 }
 
 typedef OptionsText = {> OptionsList<String>,
@@ -61,7 +70,9 @@ typedef OptionsText = {> OptionsList<String>,
 }
 
 typedef OptionsKindText = {> OptionsText,
-  ?kind : TextKind
+  ?kind : TextKind,
+  ?labelfornull : String,
+  ?listonly : Bool
 }
 
 @:enum

@@ -11,56 +11,56 @@ DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
 	var ui = new sui.Sui();
 	ui.bool("boolean",null,null,function(v) {
-		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 18, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
 	});
 	ui.date("date time",null,{ kind : "dateTime", list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02 16:01:00")},{ label : "other", value : HxOverrides.strDate("1974-06-09")},{ label : "today", value : new Date()}]},function(v1) {
-		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 22, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
 	});
 	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v2) {
-		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 25, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 20, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("email","",{ kind : "email"},function(v3) {
-		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 28, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 23, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("secret","",{ kind : "password", placeholder : "shhh"},function(v4) {
-		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 32, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 27, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("text","",{ placeholder : "placeholder"},function(v5) {
-		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 35, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 30, className : "DemoControls", methodName : "main"});
 	});
 	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v6) {
-		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 39, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 34, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("time",82800000,{ kind : "time", values : [0,60000,3600000]},function(t) {
-		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 43, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 38, className : "DemoControls", methodName : "main"});
 	});
 	ui.color("color",null,{ list : [{ value : "#FF0000", label : "red"},{ value : "#00FF00", label : "blue"},{ value : "#0000FF", label : "green"}]},function(v7) {
-		haxe.Log.trace("color: " + v7,{ fileName : "DemoControls.hx", lineNumber : 46, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("color: " + v7,{ fileName : "DemoControls.hx", lineNumber : 41, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("float",null,null,function(v8) {
-		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 47, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("float range",0.5,{ step : 0.01, min : 0.0, max : 1.0, values : [0,0.5,1]},function(v9) {
-		haxe.Log.trace("float range: " + v9,{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("float range: " + v9,{ fileName : "DemoControls.hx", lineNumber : 48, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v10) {
-		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 56, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int range",20,{ min : 10, max : 30},function(v11) {
-		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 60, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 55, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
 	ui.text("search","",{ kind : "search"},function(v12) {
-		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 64, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 59, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("tel","",{ kind : "tel"},function(v13) {
-		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 67, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 62, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 68, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 63, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("url","",{ kind : "url"},function(v14) {
-		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 71, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 66, className : "DemoControls", methodName : "main"});
 	});
 	var obj_name = "Sui";
 	var obj_info = { age : 0.1};
@@ -80,7 +80,9 @@ DemoControls.main = function() {
 	grid.add(sui.components.CellContent.Single(new sui.controls.LabelControl("I act like a title")));
 	grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl("got it?"),new sui.controls.BoolControl(true)));
 	grid.add(sui.components.CellContent.VerticalPair(new sui.controls.LabelControl("name"),new sui.controls.TextControl("sui")));
-	DemoControls.createControlContainer(new sui.controls.TextSelectControl("sui",{ values : ["thx","sui","haxe"]}));
+	DemoControls.createControlContainer(new sui.controls.TextSelectControl("sui",{ values : ["thx","sui","haxe"], allownull : true}));
+	DemoControls.createControlContainer(new sui.controls.NumberSelectControl(3,{ values : [1,2,3,4,5,6]}));
+	DemoControls.createControlContainer(new sui.controls.NumberSelectControl(0.3,{ values : [0.1,0.2,0.3,0.4,0.5,0.6]}));
 	DemoControls.createControlContainer(new sui.controls.LabelControl("just a label, not interactive"));
 	DemoControls.createControlContainer(new sui.controls.TriggerControl("click me"));
 	DemoControls.createControlContainer(new sui.controls.ColorControl("#ff0000"));
@@ -733,19 +735,39 @@ sui.Sui.prototype = {
 	,date: function(label,defaultValue,options,callback) {
 		if(null == defaultValue) defaultValue = new Date();
 		var control;
-		var _g;
-		var t;
-		var _0 = options;
-		var _1;
-		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
-		if(t != null) _g = t; else _g = null;
-		if(_g != null) switch(_g) {
-		case "dateTime":
-			control = new sui.controls.DateTimeControl(defaultValue,options);
-			break;
-		default:
-			control = new sui.controls.DateControl(defaultValue,options);
-		} else control = new sui.controls.DateControl(defaultValue,options);
+		{
+			var _g;
+			var t;
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+			if(t != null) _g = t; else _g = false;
+			var _g1;
+			var t1;
+			var _01 = options;
+			var _11;
+			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+			if(t1 != null) _g1 = t1; else _g1 = null;
+			if(_g != null) switch(_g) {
+			case true:
+				control = new sui.controls.DateSelectControl(defaultValue,options);
+				break;
+			default:
+				if(_g1 != null) switch(_g1) {
+				case "dateTime":
+					control = new sui.controls.DateTimeControl(defaultValue,options);
+					break;
+				default:
+					control = new sui.controls.DateControl(defaultValue,options);
+				} else control = new sui.controls.DateControl(defaultValue,options);
+			} else if(_g1 != null) switch(_g1) {
+			case "dateTime":
+				control = new sui.controls.DateTimeControl(defaultValue,options);
+				break;
+			default:
+				control = new sui.controls.DateControl(defaultValue,options);
+			} else control = new sui.controls.DateControl(defaultValue,options);
+		}
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -760,19 +782,39 @@ sui.Sui.prototype = {
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
 		var control;
-		var _g;
-		var t;
-		var _0 = options;
-		var _1;
-		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
-		if(t != null) _g = t; else _g = null;
-		if(_g != null) switch(_g) {
-		case "time":
-			control = new sui.controls.TimeControl(defaultValue,options);
-			break;
-		default:
-			if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
-		} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+		{
+			var _g;
+			var t;
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+			if(t != null) _g = t; else _g = false;
+			var _g1;
+			var t1;
+			var _01 = options;
+			var _11;
+			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+			if(t1 != null) _g1 = t1; else _g1 = null;
+			if(_g != null) switch(_g) {
+			case true:
+				control = new sui.controls.NumberSelectControl(defaultValue,options);
+				break;
+			default:
+				if(_g1 != null) switch(_g1) {
+				case "time":
+					control = new sui.controls.TimeControl(defaultValue,options);
+					break;
+				default:
+					if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+				} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+			} else if(_g1 != null) switch(_g1) {
+			case "time":
+				control = new sui.controls.TimeControl(defaultValue,options);
+				break;
+			default:
+				if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+			} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+		}
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -780,7 +822,17 @@ sui.Sui.prototype = {
 	,'int': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0;
 		var control;
-		if(null != options && options.min != null && options.max != null) control = new sui.controls.IntRangeControl(defaultValue,options); else control = new sui.controls.IntControl(defaultValue,options);
+		if((function($this) {
+			var $r;
+			var t;
+			{
+				var _0 = options;
+				var _1;
+				if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+			}
+			$r = t != null?t:false;
+			return $r;
+		}(this))) control = new sui.controls.NumberSelectControl(defaultValue,options); else if(null != options && options.min != null && options.max != null) control = new sui.controls.IntRangeControl(defaultValue,options); else control = new sui.controls.IntControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -795,31 +847,63 @@ sui.Sui.prototype = {
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
 		var control;
-		var _g;
-		var t;
-		var _0 = options;
-		var _1;
-		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
-		if(t != null) _g = t; else _g = null;
-		if(_g != null) switch(_g) {
-		case "email":
-			control = new sui.controls.EmailControl(defaultValue,options);
-			break;
-		case "password":
-			control = new sui.controls.PasswordControl(defaultValue,options);
-			break;
-		case "tel":
-			control = new sui.controls.TelControl(defaultValue,options);
-			break;
-		case "search":
-			control = new sui.controls.SearchControl(defaultValue,options);
-			break;
-		case "url":
-			control = new sui.controls.UrlControl(defaultValue,options);
-			break;
-		default:
-			control = new sui.controls.TextControl(defaultValue,options);
-		} else control = new sui.controls.TextControl(defaultValue,options);
+		{
+			var _g;
+			var t;
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+			if(t != null) _g = t; else _g = false;
+			var _g1;
+			var t1;
+			var _01 = options;
+			var _11;
+			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+			if(t1 != null) _g1 = t1; else _g1 = null;
+			if(_g != null) switch(_g) {
+			case true:
+				control = new sui.controls.TextSelectControl(defaultValue,options);
+				break;
+			default:
+				if(_g1 != null) switch(_g1) {
+				case "email":
+					control = new sui.controls.EmailControl(defaultValue,options);
+					break;
+				case "password":
+					control = new sui.controls.PasswordControl(defaultValue,options);
+					break;
+				case "tel":
+					control = new sui.controls.TelControl(defaultValue,options);
+					break;
+				case "search":
+					control = new sui.controls.SearchControl(defaultValue,options);
+					break;
+				case "url":
+					control = new sui.controls.UrlControl(defaultValue,options);
+					break;
+				default:
+					control = new sui.controls.TextControl(defaultValue,options);
+				} else control = new sui.controls.TextControl(defaultValue,options);
+			} else if(_g1 != null) switch(_g1) {
+			case "email":
+				control = new sui.controls.EmailControl(defaultValue,options);
+				break;
+			case "password":
+				control = new sui.controls.PasswordControl(defaultValue,options);
+				break;
+			case "tel":
+				control = new sui.controls.TelControl(defaultValue,options);
+				break;
+			case "search":
+				control = new sui.controls.SearchControl(defaultValue,options);
+				break;
+			case "url":
+				control = new sui.controls.UrlControl(defaultValue,options);
+				break;
+			default:
+				control = new sui.controls.TextControl(defaultValue,options);
+			} else control = new sui.controls.TextControl(defaultValue,options);
+		}
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -1223,6 +1307,120 @@ sui.controls.DateControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateControl
 });
+sui.controls.SelectControl = function(defaultValue,name,options) {
+	this.count = 0;
+	var _g = this;
+	var template = "<div class=\"sui-control sui-control-single sui-type-" + name + "\"><select></select></div>";
+	if(null == options) throw " A select control requires an option object with values or list set";
+	if(null == options.values && null == options.list) throw " A select control requires either the values or list option";
+	if(null == options.allownull) options.allownull = false;
+	this.defaultValue = defaultValue;
+	this.values = new sui.controls.ControlValues(defaultValue);
+	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
+	this.el = dots.Html.parseNodes(template)[0];
+	this.select = dots.Query.first("select",this.el);
+	this.values.enabled.subscribe(function(v) {
+		if(v) {
+			_g.el.classList.add("sui-disabled");
+			_g.select.removeAttribute("disabled");
+		} else {
+			_g.el.classList.remove("sui-disabled");
+			_g.select.setAttribute("disabled","disabled");
+		}
+	});
+	this.values.focused.subscribe(function(v1) {
+		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
+	});
+	this.options = [];
+	(options.allownull?[{ label : (function($this) {
+		var $r;
+		var t;
+		{
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.labelfornull)) t = null; else t = _1;
+		}
+		$r = t != null?t:"- none -";
+		return $r;
+	}(this)), value : null}]:[]).concat((function($this) {
+		var $r;
+		var t1;
+		{
+			var _01 = options;
+			var _11;
+			if(null == _01) t1 = null; else if(null == (_11 = _01.list)) t1 = null; else t1 = _11;
+		}
+		$r = t1 != null?t1:options.values.map(function(_) {
+			return { value : _, label : Std.string(_)};
+		});
+		return $r;
+	}(this))).map(function(_2) {
+		return _g.addOption(_2.label,_2.value);
+	});
+	this.setInput(defaultValue);
+	thx.stream.dom.Dom.streamFocus(this.select).feed(this.values.focused);
+	thx.stream.dom.Dom.streamEvent(this.select,"change").map(function(_3) {
+		return _g.getInput();
+	}).feed(this.values.value);
+	if(options.autofocus) this.focus();
+	if(options.disabled) this.disable();
+};
+sui.controls.SelectControl.__name__ = ["sui","controls","SelectControl"];
+sui.controls.SelectControl.__interfaces__ = [sui.controls.IControl];
+sui.controls.SelectControl.prototype = {
+	addOption: function(label,value) {
+		var index = this.count++;
+		var option = dots.Html.parseNodes("<option>" + label + "</option>")[0];
+		this.options[index] = value;
+		this.select.appendChild(option);
+		return option;
+	}
+	,setInput: function(v) {
+		var index = HxOverrides.indexOf(this.options,v,0);
+		if(index < 0) throw "value \"" + Std.string(v) + "\" is not included in this select control";
+		this.select.selectedIndex = index;
+	}
+	,getInput: function() {
+		return this.options[this.select.selectedIndex];
+	}
+	,set: function(v) {
+		this.setInput(v);
+		this.values.value.set(v);
+	}
+	,get: function() {
+		return this.values.value.get();
+	}
+	,isEnabled: function() {
+		return this.values.enabled.get();
+	}
+	,isFocused: function() {
+		return this.values.focused.get();
+	}
+	,disable: function() {
+		this.values.enabled.set(false);
+	}
+	,enable: function() {
+		this.values.enabled.set(true);
+	}
+	,focus: function() {
+		this.select.focus();
+	}
+	,blur: function() {
+		this.select.blur();
+	}
+	,reset: function() {
+		this.set(this.defaultValue);
+	}
+	,__class__: sui.controls.SelectControl
+};
+sui.controls.DateSelectControl = function(defaultValue,options) {
+	sui.controls.SelectControl.call(this,defaultValue,"select-date",options);
+};
+sui.controls.DateSelectControl.__name__ = ["sui","controls","DateSelectControl"];
+sui.controls.DateSelectControl.__super__ = sui.controls.SelectControl;
+sui.controls.DateSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
+	__class__: sui.controls.DateSelectControl
+});
 sui.controls.DateTimeControl = function(value,options) {
 	sui.controls.BaseDateControl.call(this,value,"date-time","datetime-local",sui.controls.BaseDateControl.toRFCDateTimeNoSeconds,options);
 };
@@ -1412,6 +1610,14 @@ sui.controls.LabelControl.prototype = {
 	}
 	,__class__: sui.controls.LabelControl
 };
+sui.controls.NumberSelectControl = function(defaultValue,options) {
+	sui.controls.SelectControl.call(this,defaultValue,"select-number",options);
+};
+sui.controls.NumberSelectControl.__name__ = ["sui","controls","NumberSelectControl"];
+sui.controls.NumberSelectControl.__super__ = sui.controls.SelectControl;
+sui.controls.NumberSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
+	__class__: sui.controls.NumberSelectControl
+});
 sui.controls.PasswordControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","password",options);
 };
@@ -1429,112 +1635,6 @@ sui.controls.SearchControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.SearchControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.SearchControl
 });
-sui.controls.SelectControl = function(defaultValue,name,options) {
-	this.count = 0;
-	var _g = this;
-	var template = "<div class=\"sui-control sui-control-single sui-type-" + name + "\"><select></select></div>";
-	if(null == options) throw " A select control requires an option object with values or list set";
-	if(null == options.values && null == options.list) throw " A select control requires either the values or list option";
-	if(null == options.allownull) options.allownull = true;
-	this.defaultValue = defaultValue;
-	this.values = new sui.controls.ControlValues(defaultValue);
-	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
-	this.el = dots.Html.parseNodes(template)[0];
-	this.select = dots.Query.first("select",this.el);
-	this.values.enabled.subscribe(function(v) {
-		if(v) {
-			_g.el.classList.add("sui-disabled");
-			_g.select.removeAttribute("disabled");
-		} else {
-			_g.el.classList.remove("sui-disabled");
-			_g.select.setAttribute("disabled","disabled");
-		}
-	});
-	this.values.focused.subscribe(function(v1) {
-		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
-	});
-	this.options = [];
-	(options.allownull?[{ label : (function($this) {
-		var $r;
-		var t;
-		{
-			var _0 = options;
-			var _1;
-			if(null == _0) t = null; else if(null == (_1 = _0.labelfornull)) t = null; else t = _1;
-		}
-		$r = t != null?t:"- none -";
-		return $r;
-	}(this)), value : null}]:[]).concat((function($this) {
-		var $r;
-		var t1;
-		{
-			var _01 = options;
-			var _11;
-			if(null == _01) t1 = null; else if(null == (_11 = _01.list)) t1 = null; else t1 = _11;
-		}
-		$r = t1 != null?t1:options.values.map(function(_) {
-			return { value : _, label : Std.string(_)};
-		});
-		return $r;
-	}(this))).map(function(_2) {
-		return _g.addOption(_2.label,_2.value);
-	});
-	this.setInput(defaultValue);
-	thx.stream.dom.Dom.streamFocus(this.select).feed(this.values.focused);
-	thx.stream.dom.Dom.streamEvent(this.select,"change").map(function(_3) {
-		return _g.getInput();
-	}).feed(this.values.value);
-	if(options.autofocus) this.focus();
-	if(options.disabled) this.disable();
-};
-sui.controls.SelectControl.__name__ = ["sui","controls","SelectControl"];
-sui.controls.SelectControl.__interfaces__ = [sui.controls.IControl];
-sui.controls.SelectControl.prototype = {
-	addOption: function(label,value) {
-		var index = this.count++;
-		var option = dots.Html.parseNodes("<option>" + label + "</option>")[0];
-		this.options[index] = value;
-		this.select.appendChild(option);
-		return option;
-	}
-	,setInput: function(v) {
-		var index = HxOverrides.indexOf(this.options,v,0);
-		if(index < 0) throw "value \"" + Std.string(v) + "\" is not included in this select control";
-		this.select.selectedIndex = index;
-	}
-	,getInput: function() {
-		return this.options[this.select.selectedIndex];
-	}
-	,set: function(v) {
-		this.setInput(v);
-		this.values.value.set(v);
-	}
-	,get: function() {
-		return this.values.value.get();
-	}
-	,isEnabled: function() {
-		return this.values.enabled.get();
-	}
-	,isFocused: function() {
-		return this.values.focused.get();
-	}
-	,disable: function() {
-		this.values.enabled.set(false);
-	}
-	,enable: function() {
-		this.values.enabled.set(true);
-	}
-	,focus: function() {
-		this.select.focus();
-	}
-	,blur: function() {
-		this.select.blur();
-	}
-	,reset: function() {
-		this.set(this.defaultValue);
-	}
-	,__class__: sui.controls.SelectControl
-};
 sui.controls.TelControl = function(value,options) {
 	if(null == options) options = { };
 	sui.controls.BaseTextControl.call(this,value,"tel","tel",options);

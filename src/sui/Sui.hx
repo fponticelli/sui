@@ -32,9 +32,13 @@ class Sui {
   public function date(?label : String, ?defaultValue : Date, ?options : OptionsKindDate, callback : Date -> Void) {
     if(null == defaultValue)
       defaultValue = Date.now();
-    var control = switch (options.kind).or(null) {
-      case dateTime: new DateTimeControl(defaultValue, options);
-      case _:        new DateControl(defaultValue, options);
+    var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
+      case [true, _]:
+        new DateSelectControl(defaultValue, options);
+      case [_, dateTime]:
+        new DateTimeControl(defaultValue, options);
+      case _:
+        new DateControl(defaultValue, options);
     }
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
@@ -49,17 +53,27 @@ class Sui {
   }
 
   public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsKindFloat, callback : Float -> Void) {
-    var control = switch (options.kind).or(null) {
-      case time: new TimeControl(defaultValue, options);
-      case _:    (null != options && options.min != null && options.max != null) ? new FloatRangeControl(defaultValue, options) : new FloatControl(defaultValue, options);
+    var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
+      case [true, _]:
+        new NumberSelectControl<Float>(defaultValue, options);
+      case [_, time]:
+        new TimeControl(defaultValue, options);
+      case [_, _]:
+        (null != options && options.min != null && options.max != null) ?
+        new FloatRangeControl(defaultValue, options) :
+        new FloatControl(defaultValue, options);
     };
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
 
-  public function int(?label : String, ?defaultValue = 0, ?options : OptionsNumber<Int>, callback : Int -> Void) {
-    var control = (null != options && options.min != null && options.max != null) ? new IntRangeControl(defaultValue, options) : new IntControl(defaultValue, options);
+  public function int(?label : String, ?defaultValue = 0, ?options : OptionsKindInt, callback : Int -> Void) {
+    var control = (options.listonly).or(false) ?
+          new NumberSelectControl<Int>(defaultValue, options) :
+          (null != options && options.min != null && options.max != null) ?
+            new IntRangeControl(defaultValue, options) :
+            new IntControl(defaultValue, options);
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
@@ -74,13 +88,14 @@ class Sui {
   }
 
   public function text(?label : String, ?defaultValue = "", ?options : OptionsKindText, callback : String -> Void) {
-    var control = switch (options.kind).or(null) {
-      case email:    new EmailControl(defaultValue, options);
-      case password: new PasswordControl(defaultValue, options);
-      case tel:      new TelControl(defaultValue, options);
-      case search:   new SearchControl(defaultValue, options);
-      case url:      new UrlControl(defaultValue, options);
-      case _:        new TextControl(defaultValue, options);
+    var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
+      case [true, _]:     new TextSelectControl(defaultValue, options);
+      case [_, email]:    new EmailControl(defaultValue, options);
+      case [_, password]: new PasswordControl(defaultValue, options);
+      case [_, tel]:      new TelControl(defaultValue, options);
+      case [_, search]:   new SearchControl(defaultValue, options);
+      case [_, url]:      new UrlControl(defaultValue, options);
+      case [_, _]:        new TextControl(defaultValue, options);
     };
     control.streams.value.subscribe(callback);
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));

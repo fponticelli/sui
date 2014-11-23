@@ -10,11 +10,6 @@ import js.Browser;
 class DemoControls {
   public static function main() {
     var ui = new sui.Sui();
-//    ui.control("select text",  new TextSelectControl("sui"),  function(v) trace('select text: $v'));
-//    ui.control("select int",   new IntSelectControl(),   function(v) trace('select int: $v'));
-//    ui.control("select float", new FloatSelectControl(), function(v) trace('select float: $v'));
-//    ui.control("select color", new ColorSelectControl(), function(v) trace('select color: $v'));
-//    ui.control("select date",  new DateSelectControl(),  function(v) trace('select date: $v'));
     ui.bool("boolean", function(v) trace('bool: $v'));
     ui.date("date time", {
         kind : DateKind.dateTime,
@@ -91,7 +86,10 @@ class DemoControls {
     grid.add(HorizontalPair(new LabelControl("got it?"), new BoolControl(true)));
     grid.add(VerticalPair(new LabelControl("name"), new TextControl("sui")));
 
-    createControlContainer(new TextSelectControl("sui", { values : ["thx", "sui", "haxe"]}));
+    createControlContainer(new TextSelectControl("sui", { values : ["thx", "sui", "haxe"], allownull : true }));
+    createControlContainer(new NumberSelectControl(3, { values : [1,2,3,4,5,6]}));
+    createControlContainer(new NumberSelectControl(0.3, { values : [0.1,0.2,0.3,0.4,0.5,0.6]}));
+
     createControlContainer(new LabelControl("just a label, not interactive"));
     createControlContainer(new TriggerControl("click me"));
     createControlContainer(new ColorControl("#ff0000"));
