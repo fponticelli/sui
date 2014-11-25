@@ -37,11 +37,16 @@ table.sui-grid
   td.sui-right
     background-color light-background
 
+.sui-bottom-left
+.sui-bottom-right
+.sui-top-left
 .sui-top-right
   position absolute
+  background-color #fff
+
+.sui-top-right
   top 0
   right 0
-  background-color #fff
   box-shadow(-1px 1px 6px rgba(0,0,0,0.1))
   &.sui-grid
     tr:first-child
@@ -49,6 +54,46 @@ table.sui-grid
         border-top none
     td:last-child
       border-right none
+.sui-top-left
+  top 0
+  left 0
+  box-shadow(1px 1px 6px rgba(0,0,0,0.1))
+  &.sui-grid
+    tr:first-child
+      td
+        border-top none
+    td:last-child
+      border-left none
+.sui-bottom-right
+  bottom 0
+  right 0
+  box-shadow(-1px 1px 6px rgba(0,0,0,0.1))
+  &.sui-grid
+    tr:first-child
+      td
+        border-bottom none
+    td:last-child
+      border-right none
+.sui-bottom-left
+  bottom 0
+  left 0
+  box-shadow(1px 1px 6px rgba(0,0,0,0.1))
+  &.sui-grid
+    tr:first-child
+      td
+        border-bottom none
+    td:last-child
+      border-left none
+.sui-fill
+  position absolute
+  width 100%
+  max-height 100%
+  top 0
+  left 0
+
+.sui-append
+  width 100%
+
 .sui-control
   box-sizing border-box
   *
