@@ -6,9 +6,21 @@ table.sui-grid td:first-child{border-left:1px solid #ddd}
 table.sui-grid td:last-child{border-right:1px solid #ddd}
 table.sui-grid td.sui-top,table.sui-grid td.sui-left{background-color:#fff}
 table.sui-grid td.sui-bottom,table.sui-grid td.sui-right{background-color:#f6f6f6}
-.sui-top-right{position:absolute;top:0;right:0;background-color:#fff;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}
+.sui-bottom-left,.sui-bottom-right,.sui-top-left,.sui-top-right{position:absolute;background-color:#fff}
+.sui-top-right{top:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}
 .sui-top-right.sui-grid tr:first-child td{border-top:none}
 .sui-top-right.sui-grid td:last-child{border-right:none}
+.sui-top-left{top:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}
+.sui-top-left.sui-grid tr:first-child td{border-top:none}
+.sui-top-left.sui-grid td:last-child{border-left:none}
+.sui-bottom-right{bottom:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}
+.sui-bottom-right.sui-grid tr:first-child td{border-bottom:none}
+.sui-bottom-right.sui-grid td:last-child{border-right:none}
+.sui-bottom-left{bottom:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}
+.sui-bottom-left.sui-grid tr:first-child td{border-bottom:none}
+.sui-bottom-left.sui-grid td:last-child{border-left:none}
+.sui-fill{position:absolute;width:100%;max-height:100%;top:0;left:0}
+.sui-append{width:100%}
 .sui-control{box-sizing:border-box;}
 .sui-control *{box-sizing:border-box;font-size:11px;font-family:Helvetica,"Nimbus Sans L","Liberation Sans",Arial,sans-serif;margin:0;padding:0;line-height:18px;vertical-align:middle}
 .sui-control input{border:none;background-color:#f6f6f6}

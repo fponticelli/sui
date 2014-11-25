@@ -1,6 +1,7 @@
 package sui;
 
 #if !macro
+import js.Browser;
 import js.html.Element;
 import sui.components.Grid;
 import sui.controls.*;
@@ -10,6 +11,7 @@ using thx.core.Nulls;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
+using thx.core.Strings;
 #end
 
 
@@ -115,10 +117,11 @@ class Sui {
     control.streams.value.subscribe(callback);
   }
 
-  public function attach(?el : Element) {
-    if(null == el)
-      el = js.Browser.document.body;
-    this.el.classList.add("sui-top-right");
+  public function attach(?el : Element, ?anchor : Anchor) {
+    if(null == el) {
+      el = Browser.document.body;
+    }
+    this.el.classList.add((anchor).or(el == Browser.document.body ? topRight : append));
     el.appendChild(this.el);
   }
 #end
@@ -135,7 +138,7 @@ class Sui {
               Context.error('invalid expression $variable', variable.pos);
           },
         type = Context.typeof(variable);
-    id = thx.core.Strings.humanize(id);
+    id = id.humanize();
     return switch type {
       case TInst(_.toString() => "String", _):
         macro $e{sui}.text($v{id}, $e{variable}, function(v) $e{variable} = v);
@@ -152,4 +155,13 @@ class Sui {
       case _: Context.error('unsupported type $type', variable.pos);
     };
   }
+}
+
+@:enum abstract Anchor(String) to String {
+  public var topLeft = "sui-top-left";
+  public var topRight = "sui-top-right";
+  public var bottomLeft = "sui-bottom-left";
+  public var bottomRight = "sui-bottom-right";
+  public var fill = "sui-fill";
+  public var append = "sui-append";
 }

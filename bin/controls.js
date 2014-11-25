@@ -926,9 +926,18 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		control.streams.value.subscribe(callback);
 	}
-	,attach: function(el) {
+	,attach: function(el,anchor) {
 		if(null == el) el = window.document.body;
-		this.el.classList.add("sui-top-right");
+		this.el.classList.add((function($this) {
+			var $r;
+			var t;
+			{
+				var _0 = anchor;
+				if(null == _0) t = null; else t = _0;
+			}
+			$r = t != null?t:el == window.document.body?"sui-top-right":"sui-append";
+			return $r;
+		}(this)));
 		el.appendChild(this.el);
 	}
 	,__class__: sui.Sui
