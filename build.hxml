@@ -6,6 +6,7 @@
 -lib thx.core
 -lib thx.stream
 -lib thx.stream.dom
+-D sui_embed_css=1
 #-D analyzer
 --next
 -js bin/controls.js
@@ -16,5 +17,4 @@
 -lib thx.core
 -lib thx.stream
 -lib thx.stream.dom
-
--cmd stylus --compress < style/sui.styl > bin/sui.css
+-D sui_embed_css=1
