@@ -124,6 +124,12 @@ class Sui {
     this.el.classList.add((anchor).or(el == Browser.document.body ? topRight : append));
     el.appendChild(this.el);
   }
+
+  static function __init__() {
+#if (sui_embed_css == 1)
+    dots.Dom.addCss(sui.macro.Embed.file("css/sui.css"));
+#end
+  }
 #end
 
   // label (readonly?)

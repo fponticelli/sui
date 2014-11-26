@@ -331,6 +331,17 @@ dots.Detect.supportsMicrodata = function() {
 dots.Detect.supportsHistory = function() {
 	return !!(window.history && history.pushState);
 };
+dots.Dom = function() { };
+dots.Dom.__name__ = true;
+dots.Dom.addCss = function(css,container) {
+	if(null == container) container = window.document.head;
+	var style;
+	var _this = window.document;
+	style = _this.createElement("style");
+	style.type = "text/css";
+	style.appendChild(window.document.createTextNode(css));
+	container.appendChild(style);
+};
 dots.Html = function() { };
 dots.Html.__name__ = true;
 dots.Html.parseNodes = function(html) {
@@ -659,8 +670,6 @@ js.Boot.__instanceof = function(o,cl) {
 		return o.__enum__ == cl;
 	}
 };
-js.Browser = function() { };
-js.Browser.__name__ = true;
 var sui = {};
 sui.Sui = function() {
 	this.grid = new sui.components.Grid();
@@ -678,19 +687,39 @@ sui.Sui.prototype = {
 	,date: function(label,defaultValue,options,callback) {
 		if(null == defaultValue) defaultValue = new Date();
 		var control;
-		var _g;
-		var t;
-		var _0 = options;
-		var _1;
-		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
-		if(t != null) _g = t; else _g = null;
-		if(_g != null) switch(_g) {
-		case "dateTime":
-			control = new sui.controls.DateTimeControl(defaultValue,options);
-			break;
-		default:
-			control = new sui.controls.DateControl(defaultValue,options);
-		} else control = new sui.controls.DateControl(defaultValue,options);
+		{
+			var _g;
+			var t;
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+			if(t != null) _g = t; else _g = false;
+			var _g1;
+			var t1;
+			var _01 = options;
+			var _11;
+			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+			if(t1 != null) _g1 = t1; else _g1 = null;
+			if(_g != null) switch(_g) {
+			case true:
+				control = new sui.controls.DateSelectControl(defaultValue,options);
+				break;
+			default:
+				if(_g1 != null) switch(_g1[1]) {
+				case 1:
+					control = new sui.controls.DateTimeControl(defaultValue,options);
+					break;
+				default:
+					control = new sui.controls.DateControl(defaultValue,options);
+				} else control = new sui.controls.DateControl(defaultValue,options);
+			} else if(_g1 != null) switch(_g1[1]) {
+			case 1:
+				control = new sui.controls.DateTimeControl(defaultValue,options);
+				break;
+			default:
+				control = new sui.controls.DateControl(defaultValue,options);
+			} else control = new sui.controls.DateControl(defaultValue,options);
+		}
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -705,19 +734,39 @@ sui.Sui.prototype = {
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
 		var control;
-		var _g;
-		var t;
-		var _0 = options;
-		var _1;
-		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
-		if(t != null) _g = t; else _g = null;
-		if(_g != null) switch(_g) {
-		case "time":
-			control = new sui.controls.TimeControl(defaultValue,options);
-			break;
-		default:
-			if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
-		} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+		{
+			var _g;
+			var t;
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+			if(t != null) _g = t; else _g = false;
+			var _g1;
+			var t1;
+			var _01 = options;
+			var _11;
+			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+			if(t1 != null) _g1 = t1; else _g1 = null;
+			if(_g != null) switch(_g) {
+			case true:
+				control = new sui.controls.NumberSelectControl(defaultValue,options);
+				break;
+			default:
+				if(_g1 != null) switch(_g1[1]) {
+				case 1:
+					control = new sui.controls.TimeControl(defaultValue,options);
+					break;
+				default:
+					if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+				} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+			} else if(_g1 != null) switch(_g1[1]) {
+			case 1:
+				control = new sui.controls.TimeControl(defaultValue,options);
+				break;
+			default:
+				if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+			} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+		}
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -725,7 +774,17 @@ sui.Sui.prototype = {
 	,'int': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0;
 		var control;
-		if(null != options && options.min != null && options.max != null) control = new sui.controls.IntRangeControl(defaultValue,options); else control = new sui.controls.IntControl(defaultValue,options);
+		if((function($this) {
+			var $r;
+			var t;
+			{
+				var _0 = options;
+				var _1;
+				if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+			}
+			$r = t != null?t:false;
+			return $r;
+		}(this))) control = new sui.controls.NumberSelectControl(defaultValue,options); else if(null != options && options.min != null && options.max != null) control = new sui.controls.IntRangeControl(defaultValue,options); else control = new sui.controls.IntControl(defaultValue,options);
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -740,31 +799,63 @@ sui.Sui.prototype = {
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
 		var control;
-		var _g;
-		var t;
-		var _0 = options;
-		var _1;
-		if(null == _0) t = null; else if(null == (_1 = _0.kind)) t = null; else t = _1;
-		if(t != null) _g = t; else _g = null;
-		if(_g != null) switch(_g) {
-		case "email":
-			control = new sui.controls.EmailControl(defaultValue,options);
-			break;
-		case "password":
-			control = new sui.controls.PasswordControl(defaultValue,options);
-			break;
-		case "tel":
-			control = new sui.controls.TelControl(defaultValue,options);
-			break;
-		case "search":
-			control = new sui.controls.SearchControl(defaultValue,options);
-			break;
-		case "url":
-			control = new sui.controls.UrlControl(defaultValue,options);
-			break;
-		default:
-			control = new sui.controls.TextControl(defaultValue,options);
-		} else control = new sui.controls.TextControl(defaultValue,options);
+		{
+			var _g;
+			var t;
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+			if(t != null) _g = t; else _g = false;
+			var _g1;
+			var t1;
+			var _01 = options;
+			var _11;
+			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+			if(t1 != null) _g1 = t1; else _g1 = null;
+			if(_g != null) switch(_g) {
+			case true:
+				control = new sui.controls.TextSelectControl(defaultValue,options);
+				break;
+			default:
+				if(_g1 != null) switch(_g1[1]) {
+				case 0:
+					control = new sui.controls.EmailControl(defaultValue,options);
+					break;
+				case 1:
+					control = new sui.controls.PasswordControl(defaultValue,options);
+					break;
+				case 3:
+					control = new sui.controls.TelControl(defaultValue,options);
+					break;
+				case 2:
+					control = new sui.controls.SearchControl(defaultValue,options);
+					break;
+				case 5:
+					control = new sui.controls.UrlControl(defaultValue,options);
+					break;
+				default:
+					control = new sui.controls.TextControl(defaultValue,options);
+				} else control = new sui.controls.TextControl(defaultValue,options);
+			} else if(_g1 != null) switch(_g1[1]) {
+			case 0:
+				control = new sui.controls.EmailControl(defaultValue,options);
+				break;
+			case 1:
+				control = new sui.controls.PasswordControl(defaultValue,options);
+				break;
+			case 3:
+				control = new sui.controls.TelControl(defaultValue,options);
+				break;
+			case 2:
+				control = new sui.controls.SearchControl(defaultValue,options);
+				break;
+			case 5:
+				control = new sui.controls.UrlControl(defaultValue,options);
+				break;
+			default:
+				control = new sui.controls.TextControl(defaultValue,options);
+			} else control = new sui.controls.TextControl(defaultValue,options);
+		}
 		control.streams.value.subscribe(callback);
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		return control;
@@ -781,9 +872,18 @@ sui.Sui.prototype = {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		control.streams.value.subscribe(callback);
 	}
-	,attach: function(el) {
+	,attach: function(el,anchor) {
 		if(null == el) el = window.document.body;
-		this.el.classList.add("sui-top-right");
+		this.el.classList.add((function($this) {
+			var $r;
+			var t;
+			{
+				var _0 = anchor;
+				if(null == _0) t = null; else t = _0;
+			}
+			$r = t != null?t:el == window.document.body?"sui-top-right":"sui-append";
+			return $r;
+		}(this)));
 		el.appendChild(this.el);
 	}
 	,__class__: sui.Sui
@@ -1168,6 +1268,120 @@ sui.controls.DateControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateControl
 });
+sui.controls.SelectControl = function(defaultValue,name,options) {
+	this.count = 0;
+	var _g = this;
+	var template = "<div class=\"sui-control sui-control-single sui-type-" + name + "\"><select></select></div>";
+	if(null == options) throw " A select control requires an option object with values or list set";
+	if(null == options.values && null == options.list) throw " A select control requires either the values or list option";
+	if(null == options.allownull) options.allownull = false;
+	this.defaultValue = defaultValue;
+	this.values = new sui.controls.ControlValues(defaultValue);
+	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
+	this.el = dots.Html.parseNodes(template)[0];
+	this.select = dots.Query.first("select",this.el);
+	this.values.enabled.subscribe(function(v) {
+		if(v) {
+			_g.el.classList.add("sui-disabled");
+			_g.select.removeAttribute("disabled");
+		} else {
+			_g.el.classList.remove("sui-disabled");
+			_g.select.setAttribute("disabled","disabled");
+		}
+	});
+	this.values.focused.subscribe(function(v1) {
+		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
+	});
+	this.options = [];
+	(options.allownull?[{ label : (function($this) {
+		var $r;
+		var t;
+		{
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.labelfornull)) t = null; else t = _1;
+		}
+		$r = t != null?t:"- none -";
+		return $r;
+	}(this)), value : null}]:[]).concat((function($this) {
+		var $r;
+		var t1;
+		{
+			var _01 = options;
+			var _11;
+			if(null == _01) t1 = null; else if(null == (_11 = _01.list)) t1 = null; else t1 = _11;
+		}
+		$r = t1 != null?t1:options.values.map(function(_) {
+			return { value : _, label : Std.string(_)};
+		});
+		return $r;
+	}(this))).map(function(_2) {
+		return _g.addOption(_2.label,_2.value);
+	});
+	this.setInput(defaultValue);
+	thx.stream.dom.Dom.streamFocus(this.select).feed(this.values.focused);
+	thx.stream.dom.Dom.streamEvent(this.select,"change").map(function(_3) {
+		return _g.getInput();
+	}).feed(this.values.value);
+	if(options.autofocus) this.focus();
+	if(options.disabled) this.disable();
+};
+sui.controls.SelectControl.__name__ = true;
+sui.controls.SelectControl.__interfaces__ = [sui.controls.IControl];
+sui.controls.SelectControl.prototype = {
+	addOption: function(label,value) {
+		var index = this.count++;
+		var option = dots.Html.parseNodes("<option>" + label + "</option>")[0];
+		this.options[index] = value;
+		this.select.appendChild(option);
+		return option;
+	}
+	,setInput: function(v) {
+		var index = HxOverrides.indexOf(this.options,v,0);
+		if(index < 0) throw "value \"" + Std.string(v) + "\" is not included in this select control";
+		this.select.selectedIndex = index;
+	}
+	,getInput: function() {
+		return this.options[this.select.selectedIndex];
+	}
+	,set: function(v) {
+		this.setInput(v);
+		this.values.value.set(v);
+	}
+	,get: function() {
+		return this.values.value.get();
+	}
+	,isEnabled: function() {
+		return this.values.enabled.get();
+	}
+	,isFocused: function() {
+		return this.values.focused.get();
+	}
+	,disable: function() {
+		this.values.enabled.set(false);
+	}
+	,enable: function() {
+		this.values.enabled.set(true);
+	}
+	,focus: function() {
+		this.select.focus();
+	}
+	,blur: function() {
+		this.select.blur();
+	}
+	,reset: function() {
+		this.set(this.defaultValue);
+	}
+	,__class__: sui.controls.SelectControl
+};
+sui.controls.DateSelectControl = function(defaultValue,options) {
+	sui.controls.SelectControl.call(this,defaultValue,"select-date",options);
+};
+sui.controls.DateSelectControl.__name__ = true;
+sui.controls.DateSelectControl.__super__ = sui.controls.SelectControl;
+sui.controls.DateSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
+	__class__: sui.controls.DateSelectControl
+});
 sui.controls.DateTimeControl = function(value,options) {
 	sui.controls.BaseDateControl.call(this,value,"date-time","datetime-local",sui.controls.BaseDateControl.toRFCDateTimeNoSeconds,options);
 };
@@ -1357,6 +1571,37 @@ sui.controls.LabelControl.prototype = {
 	}
 	,__class__: sui.controls.LabelControl
 };
+sui.controls.NumberSelectControl = function(defaultValue,options) {
+	sui.controls.SelectControl.call(this,defaultValue,"select-number",options);
+};
+sui.controls.NumberSelectControl.__name__ = true;
+sui.controls.NumberSelectControl.__super__ = sui.controls.SelectControl;
+sui.controls.NumberSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
+	__class__: sui.controls.NumberSelectControl
+});
+sui.controls.DateKind = { __ename__ : true, __constructs__ : ["DateOnly","DateTime"] };
+sui.controls.DateKind.DateOnly = ["DateOnly",0];
+sui.controls.DateKind.DateOnly.__enum__ = sui.controls.DateKind;
+sui.controls.DateKind.DateTime = ["DateTime",1];
+sui.controls.DateKind.DateTime.__enum__ = sui.controls.DateKind;
+sui.controls.FloatKind = { __ename__ : true, __constructs__ : ["FloatNumber","FloatTime"] };
+sui.controls.FloatKind.FloatNumber = ["FloatNumber",0];
+sui.controls.FloatKind.FloatNumber.__enum__ = sui.controls.FloatKind;
+sui.controls.FloatKind.FloatTime = ["FloatTime",1];
+sui.controls.FloatKind.FloatTime.__enum__ = sui.controls.FloatKind;
+sui.controls.TextKind = { __ename__ : true, __constructs__ : ["TextEmail","TextPassword","TextSearch","TextTel","PlainText","TextUrl"] };
+sui.controls.TextKind.TextEmail = ["TextEmail",0];
+sui.controls.TextKind.TextEmail.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.TextPassword = ["TextPassword",1];
+sui.controls.TextKind.TextPassword.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.TextSearch = ["TextSearch",2];
+sui.controls.TextKind.TextSearch.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.TextTel = ["TextTel",3];
+sui.controls.TextKind.TextTel.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.PlainText = ["PlainText",4];
+sui.controls.TextKind.PlainText.__enum__ = sui.controls.TextKind;
+sui.controls.TextKind.TextUrl = ["TextUrl",5];
+sui.controls.TextKind.TextUrl.__enum__ = sui.controls.TextKind;
 sui.controls.PasswordControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","password",options);
 };
@@ -1390,6 +1635,14 @@ sui.controls.TextControl.__name__ = true;
 sui.controls.TextControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.TextControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.TextControl
+});
+sui.controls.TextSelectControl = function(defaultValue,options) {
+	sui.controls.SelectControl.call(this,defaultValue,"select-text",options);
+};
+sui.controls.TextSelectControl.__name__ = true;
+sui.controls.TextSelectControl.__super__ = sui.controls.SelectControl;
+sui.controls.TextSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
+	__class__: sui.controls.TextSelectControl
 });
 sui.controls.TimeControl = function(value,options) {
 	if(null == options) options = { };
@@ -1501,6 +1754,9 @@ sui.controls.UrlControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.UrlControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.UrlControl
 });
+sui.macro = {};
+sui.macro.Embed = function() { };
+sui.macro.Embed.__name__ = true;
 var thx = {};
 thx.core = {};
 thx.core.Arrays = function() { };
@@ -4791,6 +5047,7 @@ if(Array.prototype.filter == null) Array.prototype.filter = function(f1) {
 	}
 	return a1;
 };
+dots.Dom.addCss("table.sui-grid{box-sizing:border-box;border-collapse:collapse;}table.sui-grid *{box-sizing:border-box}table.sui-grid td{border-bottom:1px solid #ddd;margin:0;padding:0}table.sui-grid tr:first-child td{border-top:1px solid #ddd}table.sui-grid td:first-child{border-left:1px solid #ddd}table.sui-grid td:last-child{border-right:1px solid #ddd}table.sui-grid td.sui-top,table.sui-grid td.sui-left{background-color:#fff}table.sui-grid td.sui-bottom,table.sui-grid td.sui-right{background-color:#f6f6f6}.sui-bottom-left,.sui-bottom-right,.sui-top-left,.sui-top-right{position:absolute;background-color:#fff}.sui-top-right{top:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-top-right.sui-grid tr:first-child td{border-top:none}.sui-top-right.sui-grid td:last-child{border-right:none}.sui-top-left{top:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-top-left.sui-grid tr:first-child td{border-top:none}.sui-top-left.sui-grid td:last-child{border-left:none}.sui-bottom-right{bottom:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-right.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-right.sui-grid td:last-child{border-right:none}.sui-bottom-left{bottom:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-left.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-left.sui-grid td:last-child{border-left:none}.sui-fill{position:absolute;width:100%;max-height:100%;top:0;left:0}.sui-append{width:100%}.sui-control{box-sizing:border-box;}.sui-control *{box-sizing:border-box;font-size:11px;font-family:Helvetica,\"Nimbus Sans L\",\"Liberation Sans\",Arial,sans-serif;margin:0;padding:0;line-height:18px;vertical-align:middle}.sui-control input{border:none;background-color:#f6f6f6}.sui-control button:focus{outline:#af9 solid 1px;outline-offset:1px}.sui-control input:focus{outline:#af9 solid 1px;outline-offset:1px}.sui-control output{padding:0 6px;background-color:#fff}.sui-control input[type=\"number\"],.sui-control input[type=\"date\"],.sui-control input[type=\"datetime-local\"],.sui-control input[type=\"time\"]{text-align:right}.sui-control input[type=\"number\"]{font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace}.sui-control input{padding:0 6px}.sui-control input[type=\"color\"],.sui-control input[type=\"checkbox\"]{padding:0;margin:0}.sui-control input[type=\"range\"]{margin:0 8px}.sui-control button{background-color:#eee;border:1px solid #aaa;border-radius:4px}.sui-control.sui-control-single input,.sui-control.sui-control-single output,.sui-control.sui-control-single button{width:100%}.sui-control.sui-control-single input[type=\"checkbox\"]{width:initial}.sui-control.sui-control-double input,.sui-control.sui-control-double output,.sui-control.sui-control-double button{width:50%}.sui-control.sui-control-double .input1{width:calc(100% - 7em)}.sui-control.sui-control-double .input2{width:7em}.sui-control.sui-control-double .input1[type=\"range\"]{width:calc(100% - 7em - 16px)}.sui-control.sui-type-bool{text-align:center}");
 
       // Production steps of ECMA-262, Edition 5, 15.4.4.21
       // Reference: http://es5.github.io/#x15.4.4.21
