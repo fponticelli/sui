@@ -27,7 +27,7 @@ gulp.task('stylus', function () {
       use: [nib()],
       compress: true
     }))
-    .pipe(gulp.dest('./bin'))
+    .pipe(gulp.dest('./css'))
     .pipe(connect.reload());
 });
 
