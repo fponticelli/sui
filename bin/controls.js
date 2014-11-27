@@ -10,69 +10,69 @@ var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
 	var ui = new sui.Sui();
-	ui.bool("boolean",null,null,function(v) {
-		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
+	ui.bool("boolean",null,null,function(v2) {
+		haxe.Log.trace("bool: " + (v2 == null?"null":"" + v2),{ fileName : "DemoControls.hx", lineNumber : 13, className : "DemoControls", methodName : "main"});
 	});
-	ui.date("date time",null,{ kind : sui.controls.DateKind.DateTime, list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02 16:01:00")},{ label : "other", value : HxOverrides.strDate("1974-06-09")},{ label : "today", value : new Date()}]},function(v1) {
-		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
+	ui.date("date time",null,{ kind : sui.controls.DateKind.DateTime, list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02 16:01:00")},{ label : "other", value : HxOverrides.strDate("1974-06-09")},{ label : "today", value : new Date()}]},function(v3) {
+		haxe.Log.trace("date time: " + Std.string(v3),{ fileName : "DemoControls.hx", lineNumber : 17, className : "DemoControls", methodName : "main"});
 	});
-	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v2) {
-		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 20, className : "DemoControls", methodName : "main"});
+	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v4) {
+		haxe.Log.trace("date: " + Std.string(v4),{ fileName : "DemoControls.hx", lineNumber : 20, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("email","",{ kind : sui.controls.TextKind.TextEmail},function(v3) {
-		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 23, className : "DemoControls", methodName : "main"});
+	ui.text("email","",{ kind : sui.controls.TextKind.TextEmail},function(v5) {
+		haxe.Log.trace("email: " + v5,{ fileName : "DemoControls.hx", lineNumber : 23, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("secret","",{ kind : sui.controls.TextKind.TextPassword, placeholder : "shhh"},function(v4) {
-		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 27, className : "DemoControls", methodName : "main"});
+	ui.text("secret","",{ kind : sui.controls.TextKind.TextPassword, placeholder : "shhh"},function(v6) {
+		haxe.Log.trace("password: " + v6,{ fileName : "DemoControls.hx", lineNumber : 27, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("text","",{ placeholder : "placeholder"},function(v5) {
-		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 30, className : "DemoControls", methodName : "main"});
+	ui.text("text","",{ placeholder : "placeholder"},function(v7) {
+		haxe.Log.trace("string: " + v7,{ fileName : "DemoControls.hx", lineNumber : 30, className : "DemoControls", methodName : "main"});
 	});
-	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v6) {
-		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 34, className : "DemoControls", methodName : "main"});
+	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v8) {
+		haxe.Log.trace("string: " + v8,{ fileName : "DemoControls.hx", lineNumber : 34, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("time",82800000,{ kind : sui.controls.FloatKind.FloatTime, values : [0,60000,3600000]},function(t) {
 		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 38, className : "DemoControls", methodName : "main"});
 	});
-	ui.color("color",null,{ list : [{ value : "#FF0000", label : "red"},{ value : "#00FF00", label : "blue"},{ value : "#0000FF", label : "green"}]},function(v7) {
-		haxe.Log.trace("color: " + v7,{ fileName : "DemoControls.hx", lineNumber : 41, className : "DemoControls", methodName : "main"});
+	ui.color("color",null,{ list : [{ value : "#FF0000", label : "red"},{ value : "#00FF00", label : "blue"},{ value : "#0000FF", label : "green"}]},function(v9) {
+		haxe.Log.trace("color: " + v9,{ fileName : "DemoControls.hx", lineNumber : 41, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float",null,null,function(v8) {
-		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
+	ui["float"]("float",null,null,function(v10) {
+		haxe.Log.trace("float: " + v10,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
 	});
-	ui["float"]("float range",0.5,{ step : 0.01, min : 0.0, max : 1.0, values : [0,0.5,1]},function(v9) {
-		haxe.Log.trace("float range: " + v9,{ fileName : "DemoControls.hx", lineNumber : 48, className : "DemoControls", methodName : "main"});
+	ui["float"]("float range",0.5,{ step : 0.01, min : 0.0, max : 1.0, values : [0,0.5,1]},function(v11) {
+		haxe.Log.trace("float range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 48, className : "DemoControls", methodName : "main"});
 	});
-	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v10) {
-		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
+	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v12) {
+		haxe.Log.trace("int: " + v12,{ fileName : "DemoControls.hx", lineNumber : 51, className : "DemoControls", methodName : "main"});
 	});
-	ui["int"]("int range",20,{ min : 10, max : 30},function(v11) {
-		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 55, className : "DemoControls", methodName : "main"});
+	ui["int"]("int range",20,{ min : 10, max : 30},function(v13) {
+		haxe.Log.trace("int range: " + v13,{ fileName : "DemoControls.hx", lineNumber : 55, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
-	ui.text("search","",{ kind : sui.controls.TextKind.TextSearch},function(v12) {
-		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 59, className : "DemoControls", methodName : "main"});
+	ui.text("search","",{ kind : sui.controls.TextKind.TextSearch},function(v14) {
+		haxe.Log.trace("search: " + v14,{ fileName : "DemoControls.hx", lineNumber : 59, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("tel","",{ kind : sui.controls.TextKind.TextTel},function(v13) {
-		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 62, className : "DemoControls", methodName : "main"});
+	ui.text("tel","",{ kind : sui.controls.TextKind.TextTel},function(v15) {
+		haxe.Log.trace("tel: " + v15,{ fileName : "DemoControls.hx", lineNumber : 62, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
 		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 63, className : "DemoControls", methodName : "main"});
 	});
-	ui.text("url","",{ kind : sui.controls.TextKind.TextUrl},function(v14) {
-		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 66, className : "DemoControls", methodName : "main"});
+	ui.text("url","",{ kind : sui.controls.TextKind.TextUrl},function(v16) {
+		haxe.Log.trace("url: " + v16,{ fileName : "DemoControls.hx", lineNumber : 66, className : "DemoControls", methodName : "main"});
 	});
 	var obj_name = "Sui";
 	var obj_info = { age : 0.1};
-	ui.text("name",obj_name,null,function(v15) {
-		obj_name = v15;
+	ui.text("name",obj_name,null,function(v17) {
+		obj_name = v17;
 	});
-	ui["float"]("info.age",obj_info.age,null,function(v16) {
-		obj_info.age = v16;
+	ui["float"]("info.age",obj_info.age,null,function(v18) {
+		obj_info.age = v18;
 	});
 	var a = 12;
-	ui["int"]("a",a,null,function(v17) {
-		a = v17;
+	ui["int"]("a",a,null,function(v19) {
+		a = v19;
 	});
 	ui.attach();
 	var grid = new sui.components.Grid();
@@ -80,12 +80,18 @@ DemoControls.main = function() {
 	grid.add(sui.components.CellContent.Single(new sui.controls.LabelControl("I act like a title")));
 	grid.add(sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl("got it?"),new sui.controls.BoolControl(true)));
 	grid.add(sui.components.CellContent.VerticalPair(new sui.controls.LabelControl("name"),new sui.controls.TextControl("sui")));
-	DemoControls.createControlContainer(new sui.controls.ArrayControl([1,2,3],{ createcontrol : function() {
-		return new sui.controls.IntControl(1);
-	}}));
-	DemoControls.createControlContainer(new sui.controls.ArrayControl(["a","b","c"],{ createcontrol : function() {
-		return new sui.controls.TextControl("");
-	}}));
+	DemoControls.createControlContainer(new sui.controls.ArrayControl([1,2,3],5,function(value) {
+		return new sui.controls.IntRangeControl(value,{ min : 0, max : 10});
+	}));
+	DemoControls.createControlContainer(new sui.controls.ArrayControl(["a","b","c"],"",function(value1) {
+		return new sui.controls.TextControl(value1);
+	}));
+	var createInnerArrayControl = function(v) {
+		return new sui.controls.ArrayControl(v,"",function(v1) {
+			return new sui.controls.TextControl(v1);
+		},{ });
+	};
+	DemoControls.createControlContainer(new sui.controls.ArrayControl([["a","b","c"],["a","b"],["a"]],["x","y"],createInnerArrayControl,{ }));
 	DemoControls.createControlContainer(new sui.controls.TextSelectControl("sui",{ values : ["thx","sui","haxe"], allownull : true}));
 	DemoControls.createControlContainer(new sui.controls.NumberSelectControl(3,{ values : [1,2,3,4,5,6]}));
 	DemoControls.createControlContainer(new sui.controls.NumberSelectControl(0.3,{ values : [0.1,0.2,0.3,0.4,0.5,0.6]}));
@@ -1000,14 +1006,26 @@ sui.controls.IControl.__name__ = ["sui","controls","IControl"];
 sui.controls.IControl.prototype = {
 	__class__: sui.controls.IControl
 };
-sui.controls.ArrayControl = function(defaultValue,options) {
+sui.controls.ArrayControl = function(defaultValue,defaultElementValue,createElementControl,options) {
 	var _g = this;
-	var template = "<div class=\"sui-control sui-control-single sui-type-array\"><ul></ul></div>";
+	var template = "<div class=\"sui-control sui-control-single sui-type-array\"><ul class=\"sui-array\"></ul></div>";
+	var t;
+	var _0 = options;
+	if(null == _0) t = null; else t = _0;
+	if(t != null) options = t; else options = { };
 	this.defaultValue = defaultValue;
+	this.defaultElementValue = defaultElementValue;
+	this.createElementControl = createElementControl;
+	this.elements = [];
 	this.values = new sui.controls.ControlValues(defaultValue);
 	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused,this.values.enabled);
 	this.el = dots.Html.parseNodes(template)[0];
 	this.ul = dots.Query.first("ul",this.el);
+	this.addButton = new sui.controls.TriggerControl("<i class=\"sui-icon sui-icon-add\"></i>",{ });
+	this.el.appendChild(this.addButton.el);
+	this.addButton.streams.value.subscribe(function(_) {
+		_g.addControl(defaultElementValue);
+	});
 	this.values.enabled.subscribe(function(v) {
 		if(v) _g.el.classList.add("sui-disabled"); else _g.el.classList.remove("sui-disabled");
 	});
@@ -1015,13 +1033,22 @@ sui.controls.ArrayControl = function(defaultValue,options) {
 		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
 	});
 	this.setValue(defaultValue);
+	this.reset();
 	if(options.autofocus) this.focus();
 	if(options.disabled) this.disable();
 };
 sui.controls.ArrayControl.__name__ = ["sui","controls","ArrayControl"];
 sui.controls.ArrayControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.ArrayControl.prototype = {
-	setValue: function(v) {
+	addControl: function(value) {
+		var li = dots.Html.parseNodes("<li class=\"sui-array-item\">\n  <!--<div class=\"sui-drag\"><i class=\"sui-icon sui-icon-drag\"></i></div>-->\n  <div class=\"sui-control-container\"></div>\n  <!--<div class=\"sui-remove\"><i class=\"sui-icon sui-icon-remove\"></i></div>-->\n</li>")[0];
+		this.ul.appendChild(li);
+		var controlContainer = dots.Query.first(".sui-control-container",li);
+		var control = this.createElementControl(value);
+		controlContainer.appendChild(control.el);
+		this.elements.push({ control : control, el : li});
+	}
+	,setValue: function(v) {
 	}
 	,getValue: function() {
 		return null;
@@ -1050,6 +1077,14 @@ sui.controls.ArrayControl.prototype = {
 	,blur: function() {
 	}
 	,reset: function() {
+		var _g = this;
+		this.elements.map(function(item) {
+			_g.ul.removeChild(item.el);
+		});
+		this.defaultValue.map(function(_) {
+			_g.addControl(_);
+			return;
+		});
 		this.set(this.defaultValue);
 	}
 	,__class__: sui.controls.ArrayControl
@@ -5166,7 +5201,7 @@ if(Array.prototype.filter == null) Array.prototype.filter = function(f1) {
 	}
 	return a1;
 };
-dots.Dom.addCss(".sui-icon-alarm,.sui-icon-arrows,.sui-icon-arrows_vertical,.sui-icon-arrows_vertical_2,.sui-icon-bar_chart_1,.sui-icon-bar_chart_2,.sui-icon-bar_chart_3{background-repeat:no-repeat}.sui-icon-alarm{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M44%2031h-9V18c0-1.657-1.343-3-3-3s-3%201.343-3%203v16c0%201.657%201.343%203%203%203h12c1.657%200%203-1.343%203-3s-1.343-3-3-3zM19.412%204.575C17.37%202.967%2014.8%202%2012%202%205.373%202%200%207.373%200%2014c0%202.8.967%205.37%202.575%207.412C5.81%2013.862%2011.862%207.81%2019.412%204.575zM52.252%202c-2.743%200-5.26.947-7.258%202.52%207.393%203.168%2013.318%209.094%2016.484%2016.486%201.574-2%202.52-4.516%202.52-7.257C64%207.26%2058.74%202%2052.252%202zM32%205C15.984%205%203%2017.984%203%2034c0%207.69%203.015%2014.664%207.902%2019.855L6.88%2057.878C6.335%2058.422%206%2059.172%206%2060c0%201.657%201.343%203%203%203%20.828%200%201.578-.336%202.12-.88l4.328-4.326C20.144%2061.066%2025.842%2063%2032%2063c6.17%200%2011.878-1.94%2016.58-5.227l4.355%204.357c.538.538%201.28.87%202.1.87C56.67%2063%2058%2061.672%2058%2060.034c0-.82-.332-1.562-.87-2.1l-4.055-4.055C57.977%2048.687%2061%2041.703%2061%2034%2061%2017.984%2048.016%205%2032%205zm0%2052C19.297%2057%209%2046.703%209%2034s10.297-23%2023-23c12.702%200%2023%2010.297%2023%2023S44.703%2057%2032%2057z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-arrows{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M64%2032c0-.885-.383-1.68-.993-2.23l-10-9C52.475%2020.292%2051.77%2020%2051%2020c-1.657%200-3%201.343-3%203%200%20.885.384%201.68.993%202.23l4.19%203.77H35V10.818l3.77%204.19c.548.608%201.345.992%202.23.992%201.657%200%203-1.343%203-3%200-.772-.292-1.475-.77-2.007l-9-10C33.682.383%2032.885%200%2032%200s-1.68.384-2.23.993l-9%2010c-.478.532-.77%201.235-.77%202.007%200%201.657%201.343%203%203%203%20.885%200%201.68-.384%202.23-.993l3.77-4.19V29H10.818l4.19-3.77c.61-.55.992-1.345.992-2.23%200-1.657-1.343-3-3-3-.772%200-1.475.292-2.007.77l-10%209C.383%2030.32%200%2031.115%200%2032s.384%201.68.993%202.23l10%209c.532.48%201.235.77%202.007.77%201.657%200%203-1.343%203-3%200-.885-.384-1.68-.993-2.23L10.817%2035H29v18.182l-3.77-4.188C24.68%2048.384%2023.885%2048%2023%2048c-1.657%200-3%201.343-3%203%200%20.77.292%201.475.77%202.007l9%2010c.55.61%201.345.993%202.23.993s1.682-.383%202.23-.993l9-10c.478-.532.77-1.236.77-2.007%200-1.657-1.343-3-3-3-.885%200-1.682.384-2.23.993L35%2053.183V35h18.182l-4.188%203.77c-.61.55-.994%201.345-.994%202.23%200%201.657%201.343%203%203%203%20.77%200%201.475-.292%202.007-.77l10-9c.61-.548.993-1.345.993-2.23z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-arrows_vertical{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M57%2051c0-1.657-1.343-3-3-3-.885%200-1.673.39-2.223%201l-.008-.007-3.77%204.19V3c0-1.657-1.343-3-3-3s-3%201.343-3%203v50.182l-3.77-4.188-.007.006c-.55-.61-1.338-1-2.223-1-1.657%200-3%201.343-3%203%200%20.77.3%201.468.777%202l-.008.007%209%2010%20.007-.007c.55.61%201.338%201%202.223%201s1.672-.39%202.223-1l.008.007%209-10-.007-.007c.478-.532.777-1.23.777-2zM30.23%2010.993l-9-10-.008.007C20.672.39%2019.885%200%2019%200s-1.673.39-2.222%201L16.77.994l-9%2010%20.008.007C7.3%2011.532%207%2012.228%207%2013c0%201.657%201.343%203%203%203%20.885%200%201.673-.39%202.222-1l.008.007%203.77-4.19V61c0%201.657%201.343%203%203%203s3-1.343%203-3V10.818l3.77%204.19.008-.008c.55.61%201.337%201%202.222%201%201.657%200%203-1.343%203-3%200-.772-.3-1.468-.778-2l.008-.007z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-arrows_vertical_2{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M41%2048c-.885%200-1.682.384-2.23.993L35%2053.183V10.817l3.77%204.19c.548.608%201.345.992%202.23.992%201.657%200%203-1.343%203-3%200-.772-.292-1.475-.77-2.007l-9-10C33.682.383%2032.885%200%2032%200s-1.68.384-2.23.993l-9%2010c-.478.532-.77%201.235-.77%202.007%200%201.657%201.343%203%203%203%20.885%200%201.68-.384%202.23-.993l3.77-4.19v42.365l-3.77-4.188C24.68%2048.384%2023.885%2048%2023%2048c-1.657%200-3%201.343-3%203%200%20.77.292%201.475.77%202.007l9%2010c.55.61%201.345.993%202.23.993s1.682-.383%202.23-.993l9-10c.478-.532.77-1.236.77-2.007%200-1.657-1.343-3-3-3z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-bar_chart_1{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M29%2050h6c1.657%200%203-1.343%203-3V22c0-1.657-1.343-3-3-3h-6c-1.657%200-3%201.343-3%203v25c0%201.657%201.343%203%203%203zm17%200h6c1.657%200%203-1.343%203-3V8c0-1.657-1.343-3-3-3h-6c-1.657%200-3%201.343-3%203v39c0%201.657%201.343%203%203%203zm-34%200h6c1.657%200%203-1.343%203-3V36c0-1.657-1.343-3-3-3h-6c-1.657%200-3%201.343-3%203v11c0%201.657%201.343%203%203%203zm49.5%203h-59C1.12%2053%200%2054.12%200%2055.5v1C0%2057.88%201.12%2059%202.5%2059h59c1.38%200%202.5-1.12%202.5-2.5v-1c0-1.38-1.12-2.5-2.5-2.5z%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-bar_chart_2{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M61.5%2053h-59C1.12%2053%200%2054.12%200%2055.5v1C0%2057.88%201.12%2059%202.5%2059h59c1.38%200%202.5-1.12%202.5-2.5v-1c0-1.38-1.12-2.5-2.5-2.5zM46%2050h6c1.657%200%203-1.343%203-3V20c0-1.657-1.343-3-3-3h-6c-1.657%200-3%201.343-3%203v27c0%201.657%201.343%203%203%203zm-17%200h6c1.657%200%203-1.343%203-3V8c0-1.657-1.343-3-3-3h-6c-1.657%200-3%201.343-3%203v39c0%201.657%201.343%203%203%203zm-17%200h6c1.657%200%203-1.343%203-3V35c0-1.656-1.343-3-3-3h-6c-1.657%200-3%201.344-3%203v12c0%201.657%201.343%203%203%203z%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-bar_chart_3{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M29%2050h6c1.657%200%203-1.343%203-3V22c0-1.657-1.343-3-3-3h-6c-1.657%200-3%201.343-3%203v25c0%201.657%201.343%203%203%203zm17%200h6c1.657%200%203-1.343%203-3V36c0-1.657-1.343-3-3-3h-6c-1.657%200-3%201.343-3%203v11c0%201.657%201.343%203%203%203zm15.5%203h-59C1.12%2053%200%2054.12%200%2055.5v1C0%2057.88%201.12%2059%202.5%2059h59c1.38%200%202.5-1.12%202.5-2.5v-1c0-1.38-1.12-2.5-2.5-2.5zM12%2050h6c1.657%200%203-1.343%203-3V8c0-1.657-1.343-3-3-3h-6c-1.657%200-3%201.343-3%203v39c0%201.657%201.343%203%203%203z%22%2F%3E%3C%2Fsvg%3E\")}table.sui-grid{box-sizing:border-box;border-collapse:collapse;}table.sui-grid *{box-sizing:border-box}table.sui-grid td{border-bottom:1px solid #ddd;margin:0;padding:0}table.sui-grid tr:first-child td{border-top:1px solid #ddd}table.sui-grid td:first-child{border-left:1px solid #ddd}table.sui-grid td:last-child{border-right:1px solid #ddd}table.sui-grid td.sui-top,table.sui-grid td.sui-left{background-color:#fff}table.sui-grid td.sui-bottom,table.sui-grid td.sui-right{background-color:#f6f6f6}.sui-bottom-left,.sui-bottom-right,.sui-top-left,.sui-top-right{position:absolute;background-color:#fff}.sui-top-right{top:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-top-right.sui-grid tr:first-child td{border-top:none}.sui-top-right.sui-grid td:last-child{border-right:none}.sui-top-left{top:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-top-left.sui-grid tr:first-child td{border-top:none}.sui-top-left.sui-grid td:last-child{border-left:none}.sui-bottom-right{bottom:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-right.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-right.sui-grid td:last-child{border-right:none}.sui-bottom-left{bottom:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-left.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-left.sui-grid td:last-child{border-left:none}.sui-fill{position:absolute;width:100%;max-height:100%;top:0;left:0}.sui-append{width:100%}.sui-control{box-sizing:border-box;}.sui-control *{box-sizing:border-box;font-size:11px;font-family:Helvetica,\"Nimbus Sans L\",\"Liberation Sans\",Arial,sans-serif;margin:0;padding:0;line-height:18px;vertical-align:middle}.sui-control input{border:none;background-color:#f6f6f6}.sui-control button:focus{outline:#af9 solid 1px;outline-offset:1px}.sui-control input:focus{outline:#af9 solid 1px;outline-offset:1px}.sui-control output{padding:0 6px;background-color:#fff}.sui-control input[type=\"number\"],.sui-control input[type=\"date\"],.sui-control input[type=\"datetime-local\"],.sui-control input[type=\"time\"]{text-align:right}.sui-control input[type=\"number\"]{font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace}.sui-control input{padding:0 6px}.sui-control input[type=\"color\"],.sui-control input[type=\"checkbox\"]{padding:0;margin:0}.sui-control input[type=\"range\"]{margin:0 8px}.sui-control button{background-color:#eee;border:1px solid #aaa;border-radius:4px}.sui-control.sui-control-single input,.sui-control.sui-control-single output,.sui-control.sui-control-single button{width:100%}.sui-control.sui-control-single input[type=\"checkbox\"]{width:initial}.sui-control.sui-control-double input,.sui-control.sui-control-double output,.sui-control.sui-control-double button{width:50%}.sui-control.sui-control-double .input1{width:calc(100% - 7em)}.sui-control.sui-control-double .input2{width:7em}.sui-control.sui-control-double .input1[type=\"range\"]{width:calc(100% - 7em - 16px)}.sui-control.sui-type-bool{text-align:center}");
+dots.Dom.addCss(".sui-icon-add,.sui-icon-drag,.sui-icon-off,.sui-icon-on,.sui-icon-remove{background-repeat:no-repeat}.sui-icon-add{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H35V19c0-1.657-1.343-3-3-3s-3%201.343-3%203v10H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h10v10c0%201.657%201.343%203%203%203s3-1.343%203-3V35h10c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-drag{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M31.998%2026c-3.314%200-6%202.687-6%206%200%203.314%202.686%206.002%206%206.002s6.002-2.688%206.002-6C38%2028.686%2035.312%2026%2031.998%2026zm0-7C35.312%2019%2038%2016.315%2038%2013c0-3.313-2.688-6-6.002-6-3.314%200-6%202.686-6%206%200%203.315%202.686%206%206%206zm0%2026c-3.314%200-6%202.688-6%206s2.686%206.002%206%206.002%206.002-2.688%206.002-6S35.312%2045%2031.998%2045z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-off{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026zm14-37c0-1.657-1.343-3-3-3-.828%200-1.578.336-2.12.88L32%2027.757l-8.88-8.88C22.58%2018.337%2021.83%2018%2021%2018c-1.657%200-3%201.343-3%203%200%20.828.336%201.578.88%202.12L27.756%2032l-8.88%208.88C18.338%2041.42%2018%2042.17%2018%2043c0%201.657%201.343%203%203%203%20.828%200%201.58-.336%202.12-.88L32%2036.244l8.88%208.88c.542.54%201.292.877%202.12.877%201.657%200%203-1.343%203-3%200-.828-.336-1.578-.88-2.12L36.244%2032l8.88-8.878c.54-.544.877-1.293.877-2.122z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-on{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M46%2043zm0-22zm-2%200c-.828%200-1.578.336-2.12.88L28%2035.757l-6.88-6.88C20.58%2028.337%2019.83%2028%2019%2028c-1.657%200-3%201.343-3%203%200%20.828.336%201.578.88%202.12l9%209c.542.544%201.292.88%202.12.88s1.578-.336%202.12-.88l16-16c.544-.54.88-1.292.88-2.12%200-1.657-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-remove{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h26c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}table.sui-grid{box-sizing:border-box;border-collapse:collapse;}table.sui-grid *{box-sizing:border-box}table.sui-grid td{border-bottom:1px solid #ddd;margin:0;padding:0}table.sui-grid tr:first-child td{border-top:1px solid #ddd}table.sui-grid td:first-child{border-left:1px solid #ddd}table.sui-grid td:last-child{border-right:1px solid #ddd}table.sui-grid td.sui-top,table.sui-grid td.sui-left{background-color:#fff}table.sui-grid td.sui-bottom,table.sui-grid td.sui-right{background-color:#f6f6f6}.sui-bottom-left,.sui-bottom-right,.sui-top-left,.sui-top-right{position:absolute;background-color:#fff}.sui-top-right{top:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-top-right.sui-grid tr:first-child td{border-top:none}.sui-top-right.sui-grid td:last-child{border-right:none}.sui-top-left{top:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-top-left.sui-grid tr:first-child td{border-top:none}.sui-top-left.sui-grid td:last-child{border-left:none}.sui-bottom-right{bottom:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-right.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-right.sui-grid td:last-child{border-right:none}.sui-bottom-left{bottom:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-left.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-left.sui-grid td:last-child{border-left:none}.sui-fill{position:absolute;width:100%;max-height:100%;top:0;left:0}.sui-append{width:100%}.sui-control{box-sizing:border-box;}.sui-control *{box-sizing:border-box;font-size:11px;font-family:Helvetica,\"Nimbus Sans L\",\"Liberation Sans\",Arial,sans-serif;margin:0;padding:0;line-height:18px;vertical-align:middle}.sui-control input{border:none;background-color:#f6f6f6}.sui-control button:focus{outline:#af9 solid 1px;outline-offset:1px}.sui-control input:focus{outline:#af9 solid 1px;outline-offset:1px}.sui-control output{padding:0 6px;background-color:#fff}.sui-control input[type=\"number\"],.sui-control input[type=\"date\"],.sui-control input[type=\"datetime-local\"],.sui-control input[type=\"time\"]{text-align:right}.sui-control input[type=\"number\"]{font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace}.sui-control input{padding:0 6px}.sui-control input[type=\"color\"],.sui-control input[type=\"checkbox\"]{padding:0;margin:0}.sui-control input[type=\"range\"]{margin:0 8px}.sui-control button{background-color:#eee;border:1px solid #aaa;border-radius:4px}.sui-control.sui-control-single input,.sui-control.sui-control-single output,.sui-control.sui-control-single button{width:100%}.sui-control.sui-control-single input[type=\"checkbox\"]{width:initial}.sui-control.sui-control-double input,.sui-control.sui-control-double output,.sui-control.sui-control-double button{width:50%}.sui-control.sui-control-double .input1{width:calc(100% - 7em)}.sui-control.sui-control-double .input2{width:7em}.sui-control.sui-control-double .input1[type=\"range\"]{width:calc(100% - 7em - 16px)}.sui-control.sui-type-bool{text-align:center}.sui-array{list-style:none;}.sui-array .sui-array-item{border-bottom:1px dotted #aaa;}.sui-array .sui-array-item:last-child{border-bottom:none;margin-bottom:4px}.sui-array .sui-array-item > div{display:inline-block}.sui-array .sui-array-item .sui-drag{width:12px}.sui-array .sui-array-item .sui-control-container{width:calc(100% - 32px)}.sui-array .sui-array-item .sui-remove{width:12px}.sui-icon{width:12px;height:12px;background-size:12px 12px;display:inline-block;opacity:.4;margin-top:-1px}.sui-icon-drag{cursor:move;cursor:-webkit-grab;cursor:grab}");
 
       // Production steps of ECMA-262, Edition 5, 15.4.4.21
       // Reference: http://es5.github.io/#x15.4.4.21
