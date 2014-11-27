@@ -9,6 +9,7 @@ font-default = Helvetica, "Nimbus Sans L", "Liberation Sans", Arial, sans-serif
 font-mono = Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace
 outline-color = #AAFF99 solid 1px
 outline-offset = 1px
+$icon = 12px
 
 box-shadow(args...)
   -webkit-box-shadow args
@@ -161,3 +162,32 @@ table.sui-grid
       width calc(100% - 7em - 16px)
   &.sui-type-bool
     text-align center
+
+.sui-array
+  list-style none
+  .sui-array-item
+    border-bottom 1px dotted dark-border
+    &:last-child
+      border-bottom none
+      margin-bottom 4px
+    > div
+      display inline-block
+    .sui-drag
+      width $icon
+    .sui-control-container
+      width calc(100% - 32px)
+    .sui-remove
+      width $icon
+
+.sui-icon
+  width $icon
+  height $icon
+  background-size $icon $icon
+  display inline-block
+  opacity 0.4
+  margin-top -1px
+
+.sui-icon-drag
+  cursor move
+  cursor -webkit-grab
+  cursor grab
