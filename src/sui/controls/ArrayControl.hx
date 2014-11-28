@@ -16,7 +16,7 @@ using thx.core.Nulls;
 class ArrayControl<T> implements IControl<Array<T>> {
   public var el(default, null) : Element;
   public var ul(default, null) : Element;
-  public var addButton(default, null) : TriggerControl;
+  public var addButton(default, null) : Element;
   public var defaultValue(default, null) : Array<T>;
   public var defaultElementValue(default, null) : T;
   public var streams(default, null) : ControlStreams<Array<T>>;
@@ -31,7 +31,10 @@ class ArrayControl<T> implements IControl<Array<T>> {
   var arr : Array<T>;
 
   public function new(defaultValue : Array<T>, defaultElementValue : T, createElementControl : T -> IControl<T>, ?options : Options) {
-    var template = '<div class="sui-control sui-control-single sui-type-array"><ul class="sui-array"></ul></div>';
+    var template = '<div class="sui-control sui-control-single sui-type-array">
+<ul class="sui-array"></ul>
+<div class="sui-array-add"><i class="sui-icon sui-icon-add"></i></div>
+</div>';
     options = (options).or({});
     this.defaultValue = defaultValue;
     this.defaultElementValue = defaultElementValue;
@@ -43,11 +46,11 @@ class ArrayControl<T> implements IControl<Array<T>> {
     streams = new ControlStreams(values.value, values.focused, values.enabled);
 
     el = Html.parse(template);
+    trace(el.innerHTML);
     ul = Query.first('ul', el);
-    addButton = new TriggerControl('<i class="sui-icon sui-icon-add"></i>', {});
-    el.appendChild(addButton.el);
+    addButton = Query.first('.sui-icon-add', el); // new TriggerControl('<i class="sui-icon sui-icon-add"></i>', {});
 
-    addButton.streams.value.subscribe(function(_) addControl(defaultElementValue));
+    addButton.streamClick().subscribe(function(_) addControl(defaultElementValue));
 
     values.enabled.subscribe(function(v) if(v) {
       el.classList.add("sui-disabled");
@@ -75,9 +78,9 @@ class ArrayControl<T> implements IControl<Array<T>> {
     var o = {
       control : createElementControl(value),
       el : Html.parse('<li class="sui-array-item">
-  <!--<div class="sui-drag"><i class="sui-icon sui-icon-drag"></i></div>-->
-  <div class="sui-control-container"></div>
-  <div class="sui-remove"><i class="sui-icon sui-icon-remove"></i></div>
+    <div class="sui-move"><i class="sui-icon-mini sui-icon-up"></i><i class="sui-icon-mini sui-icon-down"></i></div>
+    <div class="sui-control-container"></div>
+    <div class="sui-remove"><i class="sui-icon sui-icon-remove"></i></div>
 </li>'),
       index : arr.length
     };
@@ -85,6 +88,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
     ul.appendChild(o.el);
 
     var removeElement = Query.first(".sui-icon-remove", o.el),
+        //dragElement = Query.first(".sui-icon-drag", o.el),
         controlContainer = Query.first(".sui-control-container", o.el);
 
     controlContainer.appendChild(o.control.el);
@@ -92,9 +96,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
     removeElement.streamClick().subscribe(function(_) {
       ul.removeChild(o.el);
       elements.splice(o.index, 1);
-      trace(arr);
       arr.splice(o.index, 1);
-      trace(arr);
       for(i in o.index...elements.length)
         elements[i].index--;
       values.value.set(arr.copy());
