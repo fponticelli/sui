@@ -7,9 +7,10 @@ light-background = #f6f6f6
 dark-background = #eeeeee
 font-default = Helvetica, "Nimbus Sans L", "Liberation Sans", Arial, sans-serif
 font-mono = Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace
-outline-color = #AAFF99 solid 1px
-outline-offset = 1px
+outline-color = #BADA55 solid 1px
+outline-offset = 0px
 $icon = 12px
+$iconmini = 8px
 
 box-shadow(args...)
   -webkit-box-shadow args
@@ -98,17 +99,26 @@ table.sui-grid
   width 100%
 
 .sui-control
+  -moz-user-select -moz-none
+  -khtml-user-select none
+  -webkit-user-select none
+  -o-user-select none
+  user-select none
   box-sizing border-box
+  font-size 11px
+  font-family font-default
+  line-height 18px
+  vertical-align middle
   *
     box-sizing border-box
-    font-size 11px
-    font-family font-default
     margin 0
     padding 0
-    //display inline-block
+  button
     line-height 18px
     vertical-align middle
   input
+    line-height 18px
+    vertical-align middle
     border none
     background-color light-background
   button:focus
@@ -167,32 +177,71 @@ table.sui-grid
   list-style none
   .sui-array-item
     border-bottom 1px dotted dark-border
+    //margin 2px 0
+    //padding 2px 0
+    //min-height 18px
+    position relative
+    > *
+      vertical-align top
+      //> .sui-icon
+      //  margin-top 4px
+    &:first-child
+      > .sui-move
+        > .sui-icon-up
+          visibility hidden
     &:last-child
-      border-bottom none
-      margin-bottom 4px
+      > .sui-move
+        border-bottom none
+        > .sui-icon-down
+          visibility hidden
     > div
       display inline-block
-    .sui-drag
-      width $icon
+    .sui-move
+      position absolute
+      width $iconmini
+      height 100%
+      .sui-icon-mini
+        display block
+        position absolute
+      .sui-icon-up
+        top 0
+        left -2px
+      .sui-icon-down
+        bottom 0
+        left -2px
     .sui-control-container
-      width calc(100% - 32px)
+      margin 0 12px 0 8px
+      width calc(100% - 20px)
     .sui-remove
       width $icon
+      position absolute
+      right 0
+      top 0
+    .sui-icon-remove
+    .sui-icon-up
+    .sui-icon-down
+      cursor pointer
   ~ .sui-control
-    margin-bottom 4px
+    margin-bottom 0px
+.sui-array-add
+  text-align right
 
-.sui-icon-remove
-  cursor pointer
 
 .sui-icon
+.sui-icon-mini
+  display inline-block
+  opacity 0.4
+  vertical-align middle
+  &:hover
+    opacity 0.8
+
+.sui-icon
+  margin-top -1px
   width $icon
   height $icon
   background-size $icon $icon
-  display inline-block
-  opacity 0.4
-  margin-top -1px
 
-.sui-icon-drag
-  cursor move
-  cursor -webkit-grab
-  cursor grab
+.sui-icon-mini
+  width $iconmini
+  height $iconmini
+  background-size $iconmini $iconmini
