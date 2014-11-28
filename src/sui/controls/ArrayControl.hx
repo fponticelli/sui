@@ -9,7 +9,6 @@ using thx.stream.dom.Dom;
 using thx.core.Arrays;
 using thx.core.Nulls;
 
-// TODO remove element
 // TODO move element up/down
 // TODO propagate focus
 // TODO propagate disable
@@ -26,7 +25,8 @@ class ArrayControl<T> implements IControl<Array<T>> {
   var values : ControlValues<Array<T>>;
   var elements :  Array<{
     control : IControl<T>,
-    el : Element
+    el : Element,
+    index : Int
   }>;
   var arr : Array<T>;
 
@@ -72,22 +72,37 @@ class ArrayControl<T> implements IControl<Array<T>> {
   }
 
   function addControl(value : T) {
-    var li = Html.parse('<li class="sui-array-item">
+    var o = {
+      control : createElementControl(value),
+      el : Html.parse('<li class="sui-array-item">
   <!--<div class="sui-drag"><i class="sui-icon sui-icon-drag"></i></div>-->
   <div class="sui-control-container"></div>
-  <!--<div class="sui-remove"><i class="sui-icon sui-icon-remove"></i></div>-->
+  <div class="sui-remove"><i class="sui-icon sui-icon-remove"></i></div>
 </li>'),
-        pos = elements.length;
-    ul.appendChild(li);
-    var controlContainer = Query.first(".sui-control-container", li),
-        control = createElementControl(value);
-    controlContainer.appendChild(control.el);
-    elements.push({
-      control : control,
-      el : li
+      index : arr.length
+    };
+
+    ul.appendChild(o.el);
+
+    var removeElement = Query.first(".sui-icon-remove", o.el),
+        controlContainer = Query.first(".sui-control-container", o.el);
+
+    controlContainer.appendChild(o.control.el);
+
+    removeElement.streamClick().subscribe(function(_) {
+      ul.removeChild(o.el);
+      elements.splice(o.index, 1);
+      trace(arr);
+      arr.splice(o.index, 1);
+      trace(arr);
+      for(i in o.index...elements.length)
+        elements[i].index--;
+      values.value.set(arr.copy());
     });
-    control.streams.value.subscribe(function(v : T){
-      arr[pos] = v;
+
+    elements.push(o);
+    o.control.streams.value.subscribe(function(v : T){
+      arr[o.index] = v;
       values.value.set(arr.copy());
     });
   }
@@ -128,9 +143,11 @@ class ArrayControl<T> implements IControl<Array<T>> {
     set(defaultValue);
 
   function clear() {
+    arr = [];
     elements.map(function(item) {
       //control.destroy();
       ul.removeChild(item.el);
     });
+    elements = [];
   }
 }
