@@ -9,7 +9,6 @@ using thx.stream.dom.Dom;
 using thx.core.Arrays;
 using thx.core.Nulls;
 
-// TODO stream values to array container
 // TODO remove element
 // TODO move element up/down
 // TODO propagate focus
@@ -29,6 +28,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
     control : IControl<T>,
     el : Element
   }>;
+  var arr : Array<T>;
 
   public function new(defaultValue : Array<T>, defaultElementValue : T, createElementControl : T -> IControl<T>, ?options : Options) {
     var template = '<div class="sui-control sui-control-single sui-type-array"><ul class="sui-array"></ul></div>';
@@ -37,6 +37,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
     this.defaultElementValue = defaultElementValue;
     this.createElementControl = createElementControl;
     this.elements = [];
+    this.arr = [];
 
     values  = new ControlValues(defaultValue);
     streams = new ControlStreams(values.value, values.focused, values.enabled);
@@ -61,12 +62,6 @@ class ArrayControl<T> implements IControl<Array<T>> {
     });
 
     setValue(defaultValue);
-/*
-    select.streamFocus().feed(values.focused);
-    select.streamEvent("change")
-      .pluck(getValue())
-      .feed(values.value);
-*/
 
     reset();
 
@@ -81,7 +76,8 @@ class ArrayControl<T> implements IControl<Array<T>> {
   <!--<div class="sui-drag"><i class="sui-icon sui-icon-drag"></i></div>-->
   <div class="sui-control-container"></div>
   <!--<div class="sui-remove"><i class="sui-icon sui-icon-remove"></i></div>-->
-</li>');
+</li>'),
+        pos = elements.length;
     ul.appendChild(li);
     var controlContainer = Query.first(".sui-control-container", li),
         control = createElementControl(value);
@@ -90,23 +86,23 @@ class ArrayControl<T> implements IControl<Array<T>> {
       control : control,
       el : li
     });
+    control.streams.value.subscribe(function(v : T){
+      arr[pos] = v;
+      values.value.set(arr.copy());
+    });
   }
 
-  function setValue(v : Array<T>) {
-
-  }
-
-  function getValue() {
-    return null;
-  }
+  function setValue(v : Array<T>)
+    v.pluck(addControl(_));
 
   public function set(v : Array<T>) {
+    clear();
     setValue(v);
     values.value.set(v);
   }
 
   public function get() : Array<T>
-    return values.value.get();
+    return values.value.get().copy();
 
   public function isEnabled()
     return values.enabled.get();
@@ -128,12 +124,13 @@ class ArrayControl<T> implements IControl<Array<T>> {
     // blur current if part of ArrayControl
   }
 
-  public function reset() {
+  public function reset()
+    set(defaultValue);
+
+  function clear() {
     elements.map(function(item) {
       //control.destroy();
       ul.removeChild(item.el);
     });
-    defaultValue.pluck(addControl(_));
-    set(defaultValue);
   }
 }
