@@ -24,20 +24,16 @@ class Sui {
     el = grid.el;
   }
 
-  public function bool(?label : String, ?defaultValue = false, ?options : Options, callback : Bool -> Void) {
-    var control = new BoolControl(defaultValue, options);
-    control.streams.value.subscribe(callback);
-    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
-    return control;
-  }
   public function array<T>(?label : String, ?defaultValue : Array<T>, ?defaultElementValue : T, createControl : T -> IControl<T>, ?options : Options, callback : Array<T> -> Void)
     return control(label, new ArrayControl((defaultValue).or([]), defaultElementValue, createControl, options), callback);
 
+  public function bool(?label : String, ?defaultValue = false, ?options : Options, callback : Bool -> Void)
+    return control(label, new BoolControl(defaultValue, options), callback);
 
   public function date(?label : String, ?defaultValue : Date, ?options : OptionsKindDate, callback : Date -> Void) {
     if(null == defaultValue)
       defaultValue = Date.now();
-    var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
+    var ctrl = switch [(options.listonly).or(false), (options.kind).or(null)] {
       case [true, _]:
         new DateSelectControl(defaultValue, options);
       case [_, DateTime]:
@@ -45,20 +41,14 @@ class Sui {
       case _:
         new DateControl(defaultValue, options);
     }
-    control.streams.value.subscribe(callback);
-    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
-    return control;
+    return control(label, ctrl, callback);
   }
 
-  public function color(?label : String, ?defaultValue = "#AA0000", ?options : OptionsColor, callback : String -> Void) {
-    var control = new ColorControl(defaultValue, options);
-    control.streams.value.subscribe(callback);
-    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
-    return control;
-  }
+  public function color(?label : String, ?defaultValue = "#AA0000", ?options : OptionsColor, callback : String -> Void)
+    return control(label, new ColorControl(defaultValue, options), callback);
 
   public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsKindFloat, callback : Float -> Void) {
-    var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
+    var ctrl = switch [(options.listonly).or(false), (options.kind).or(null)] {
       case [true, _]:
         new NumberSelectControl<Float>(defaultValue, options);
       case [_, FloatTime]:
@@ -68,32 +58,23 @@ class Sui {
         new FloatRangeControl(defaultValue, options) :
         new FloatControl(defaultValue, options);
     };
-    control.streams.value.subscribe(callback);
-    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
-    return control;
+    return control(label, ctrl, callback);
   }
 
   public function int(?label : String, ?defaultValue = 0, ?options : OptionsKindInt, callback : Int -> Void) {
-    var control = (options.listonly).or(false) ?
+    var ctrl = (options.listonly).or(false) ?
           new NumberSelectControl<Int>(defaultValue, options) :
           (null != options && options.min != null && options.max != null) ?
             new IntRangeControl(defaultValue, options) :
             new IntControl(defaultValue, options);
-    control.streams.value.subscribe(callback);
-    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
-    return control;
+    return control(label, ctrl, callback);
   }
 
-  public function label(?defaultValue = "", ?label : String, ?callback : String -> Void) {
-    var control = new LabelControl(defaultValue);
-    if(null != callback)
-      control.streams.value.subscribe(callback);
-    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
-    return control;
-  }
+  public function label(?defaultValue = "", ?label : String, ?callback : String -> Void)
+    return control(label, new LabelControl(defaultValue), callback);
 
   public function text(?label : String, ?defaultValue = "", ?options : OptionsKindText, callback : String -> Void) {
-    var control = switch [(options.listonly).or(false), (options.kind).or(null)] {
+    var ctrl = switch [(options.listonly).or(false), (options.kind).or(null)] {
       case [true, _]:         new TextSelectControl(defaultValue, options);
       case [_, TextEmail]:    new EmailControl(defaultValue, options);
       case [_, TextPassword]: new PasswordControl(defaultValue, options);
@@ -102,22 +83,17 @@ class Sui {
       case [_, TextUrl]:      new UrlControl(defaultValue, options);
       case [_, _]:            new TextControl(defaultValue, options);
     };
-    control.streams.value.subscribe(callback);
-    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
-    return control;
+    return control(label, ctrl, callback);
   }
 
-  public function trigger(actionLabel : String, ?label : String, ?options : Options, callback : Void -> Void) {
-    var control = new TriggerControl(actionLabel, options);
-    control.streams.value.subscribe(function(_) callback());
-    grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
-    return control;
-  }
+  public function trigger(actionLabel : String, ?label : String, ?options : Options, callback : Void -> Void)
+    return control(label, new TriggerControl(actionLabel, options), function(_) callback());
 
   // generic binding
-  public function control<T>(?label : String, control : IControl<T>, callback : T -> Void) {
+  public function control<T, TControl : IControl<T>>(?label : String, control : TControl, callback : T -> Void) : TControl {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     control.streams.value.subscribe(callback);
+    return control;
   }
 
   public function attach(?el : Element, ?anchor : Anchor) {

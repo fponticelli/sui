@@ -748,16 +748,25 @@ sui.Sui = function() {
 };
 sui.Sui.__name__ = ["sui","Sui"];
 sui.Sui.prototype = {
-	bool: function(label,defaultValue,options,callback) {
+	array: function(label,defaultValue,defaultElementValue,createControl,options,callback) {
+		return this.control(label,new sui.controls.ArrayControl((function($this) {
+			var $r;
+			var t;
+			{
+				var _0 = defaultValue;
+				if(null == _0) t = null; else t = _0;
+			}
+			$r = t != null?t:[];
+			return $r;
+		}(this)),defaultElementValue,createControl,options),callback);
+	}
+	,bool: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = false;
-		var control = new sui.controls.BoolControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
+		return this.control(label,new sui.controls.BoolControl(defaultValue,options),callback);
 	}
 	,date: function(label,defaultValue,options,callback) {
 		if(null == defaultValue) defaultValue = new Date();
-		var control;
+		var ctrl;
 		{
 			var _g;
 			var t;
@@ -773,38 +782,33 @@ sui.Sui.prototype = {
 			if(t1 != null) _g1 = t1; else _g1 = null;
 			if(_g != null) switch(_g) {
 			case true:
-				control = new sui.controls.DateSelectControl(defaultValue,options);
+				ctrl = new sui.controls.DateSelectControl(defaultValue,options);
 				break;
 			default:
 				if(_g1 != null) switch(_g1[1]) {
 				case 1:
-					control = new sui.controls.DateTimeControl(defaultValue,options);
+					ctrl = new sui.controls.DateTimeControl(defaultValue,options);
 					break;
 				default:
-					control = new sui.controls.DateControl(defaultValue,options);
-				} else control = new sui.controls.DateControl(defaultValue,options);
+					ctrl = new sui.controls.DateControl(defaultValue,options);
+				} else ctrl = new sui.controls.DateControl(defaultValue,options);
 			} else if(_g1 != null) switch(_g1[1]) {
 			case 1:
-				control = new sui.controls.DateTimeControl(defaultValue,options);
+				ctrl = new sui.controls.DateTimeControl(defaultValue,options);
 				break;
 			default:
-				control = new sui.controls.DateControl(defaultValue,options);
-			} else control = new sui.controls.DateControl(defaultValue,options);
+				ctrl = new sui.controls.DateControl(defaultValue,options);
+			} else ctrl = new sui.controls.DateControl(defaultValue,options);
 		}
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
+		return this.control(label,ctrl,callback);
 	}
 	,color: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "#AA0000";
-		var control = new sui.controls.ColorControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
+		return this.control(label,new sui.controls.ColorControl(defaultValue,options),callback);
 	}
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
-		var control;
+		var ctrl;
 		{
 			var _g;
 			var t;
@@ -820,31 +824,29 @@ sui.Sui.prototype = {
 			if(t1 != null) _g1 = t1; else _g1 = null;
 			if(_g != null) switch(_g) {
 			case true:
-				control = new sui.controls.NumberSelectControl(defaultValue,options);
+				ctrl = new sui.controls.NumberSelectControl(defaultValue,options);
 				break;
 			default:
 				if(_g1 != null) switch(_g1[1]) {
 				case 1:
-					control = new sui.controls.TimeControl(defaultValue,options);
+					ctrl = new sui.controls.TimeControl(defaultValue,options);
 					break;
 				default:
-					if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
-				} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+					if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.FloatRangeControl(defaultValue,options); else ctrl = new sui.controls.FloatControl(defaultValue,options);
+				} else if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.FloatRangeControl(defaultValue,options); else ctrl = new sui.controls.FloatControl(defaultValue,options);
 			} else if(_g1 != null) switch(_g1[1]) {
 			case 1:
-				control = new sui.controls.TimeControl(defaultValue,options);
+				ctrl = new sui.controls.TimeControl(defaultValue,options);
 				break;
 			default:
-				if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
-			} else if(null != options && options.min != null && options.max != null) control = new sui.controls.FloatRangeControl(defaultValue,options); else control = new sui.controls.FloatControl(defaultValue,options);
+				if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.FloatRangeControl(defaultValue,options); else ctrl = new sui.controls.FloatControl(defaultValue,options);
+			} else if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.FloatRangeControl(defaultValue,options); else ctrl = new sui.controls.FloatControl(defaultValue,options);
 		}
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
+		return this.control(label,ctrl,callback);
 	}
 	,'int': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0;
-		var control;
+		var ctrl;
 		if((function($this) {
 			var $r;
 			var t;
@@ -855,21 +857,16 @@ sui.Sui.prototype = {
 			}
 			$r = t != null?t:false;
 			return $r;
-		}(this))) control = new sui.controls.NumberSelectControl(defaultValue,options); else if(null != options && options.min != null && options.max != null) control = new sui.controls.IntRangeControl(defaultValue,options); else control = new sui.controls.IntControl(defaultValue,options);
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
+		}(this))) ctrl = new sui.controls.NumberSelectControl(defaultValue,options); else if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.IntRangeControl(defaultValue,options); else ctrl = new sui.controls.IntControl(defaultValue,options);
+		return this.control(label,ctrl,callback);
 	}
 	,label: function(defaultValue,label,callback) {
 		if(defaultValue == null) defaultValue = "";
-		var control = new sui.controls.LabelControl(defaultValue);
-		if(null != callback) control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
+		return this.control(label,new sui.controls.LabelControl(defaultValue),callback);
 	}
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
-		var control;
+		var ctrl;
 		{
 			var _g;
 			var t;
@@ -885,63 +882,59 @@ sui.Sui.prototype = {
 			if(t1 != null) _g1 = t1; else _g1 = null;
 			if(_g != null) switch(_g) {
 			case true:
-				control = new sui.controls.TextSelectControl(defaultValue,options);
+				ctrl = new sui.controls.TextSelectControl(defaultValue,options);
 				break;
 			default:
 				if(_g1 != null) switch(_g1[1]) {
 				case 0:
-					control = new sui.controls.EmailControl(defaultValue,options);
+					ctrl = new sui.controls.EmailControl(defaultValue,options);
 					break;
 				case 1:
-					control = new sui.controls.PasswordControl(defaultValue,options);
+					ctrl = new sui.controls.PasswordControl(defaultValue,options);
 					break;
 				case 3:
-					control = new sui.controls.TelControl(defaultValue,options);
+					ctrl = new sui.controls.TelControl(defaultValue,options);
 					break;
 				case 2:
-					control = new sui.controls.SearchControl(defaultValue,options);
+					ctrl = new sui.controls.SearchControl(defaultValue,options);
 					break;
 				case 5:
-					control = new sui.controls.UrlControl(defaultValue,options);
+					ctrl = new sui.controls.UrlControl(defaultValue,options);
 					break;
 				default:
-					control = new sui.controls.TextControl(defaultValue,options);
-				} else control = new sui.controls.TextControl(defaultValue,options);
+					ctrl = new sui.controls.TextControl(defaultValue,options);
+				} else ctrl = new sui.controls.TextControl(defaultValue,options);
 			} else if(_g1 != null) switch(_g1[1]) {
 			case 0:
-				control = new sui.controls.EmailControl(defaultValue,options);
+				ctrl = new sui.controls.EmailControl(defaultValue,options);
 				break;
 			case 1:
-				control = new sui.controls.PasswordControl(defaultValue,options);
+				ctrl = new sui.controls.PasswordControl(defaultValue,options);
 				break;
 			case 3:
-				control = new sui.controls.TelControl(defaultValue,options);
+				ctrl = new sui.controls.TelControl(defaultValue,options);
 				break;
 			case 2:
-				control = new sui.controls.SearchControl(defaultValue,options);
+				ctrl = new sui.controls.SearchControl(defaultValue,options);
 				break;
 			case 5:
-				control = new sui.controls.UrlControl(defaultValue,options);
+				ctrl = new sui.controls.UrlControl(defaultValue,options);
 				break;
 			default:
-				control = new sui.controls.TextControl(defaultValue,options);
-			} else control = new sui.controls.TextControl(defaultValue,options);
+				ctrl = new sui.controls.TextControl(defaultValue,options);
+			} else ctrl = new sui.controls.TextControl(defaultValue,options);
 		}
-		control.streams.value.subscribe(callback);
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
+		return this.control(label,ctrl,callback);
 	}
 	,trigger: function(actionLabel,label,options,callback) {
-		var control = new sui.controls.TriggerControl(actionLabel,options);
-		control.streams.value.subscribe(function(_) {
+		return this.control(label,new sui.controls.TriggerControl(actionLabel,options),function(_) {
 			callback();
 		});
-		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
-		return control;
 	}
 	,control: function(label,control,callback) {
 		this.grid.add(null == label?sui.components.CellContent.Single(control):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),control));
 		control.streams.value.subscribe(callback);
+		return control;
 	}
 	,attach: function(el,anchor) {
 		if(null == el) el = window.document.body;
