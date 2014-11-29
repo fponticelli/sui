@@ -44,7 +44,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
 
     el = Html.parse(template);
     ul = Query.first('ul', el);
-    addButton = Query.first('.sui-icon-add', el); // new TriggerControl('<i class="sui-icon sui-icon-add"></i>', {});
+    addButton = Query.first('.sui-icon-add', el);
 
     addButton.streamClick().subscribe(function(_) addControl(defaultElementValue));
 
@@ -158,7 +158,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
   }
 
   public function get() : Array<T>
-    return values.value.get().copy();
+    return values.value.get();
 
   public function isEnabled()
     return values.enabled.get();
@@ -179,8 +179,8 @@ class ArrayControl<T> implements IControl<Array<T>> {
   public function blur() {
     var el = js.Browser.document.activeElement;
     elements
-      .filterPluck(_.el == el)
-      .first().with(_.control.blur());
+      .filterPluck(_.control.el == el)
+      .first().with(el.blur());
   }
 
   public function reset()
