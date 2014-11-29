@@ -30,6 +30,9 @@ class Sui {
     grid.add(null == label ? Single(control) : HorizontalPair(new LabelControl(label), control));
     return control;
   }
+  public function array<T>(?label : String, ?defaultValue : Array<T>, ?defaultElementValue : T, createControl : T -> IControl<T>, ?options : Options, callback : Array<T> -> Void)
+    return control(label, new ArrayControl((defaultValue).or([]), defaultElementValue, createControl, options), callback);
+
 
   public function date(?label : String, ?defaultValue : Date, ?options : OptionsKindDate, callback : Date -> Void) {
     if(null == defaultValue)
