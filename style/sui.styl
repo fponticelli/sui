@@ -184,9 +184,6 @@ table.sui-grid
   list-style none
   .sui-array-item
     border-bottom 1px dotted dark-border
-    //margin 2px 0
-    //padding 2px 0
-    //min-height 18px
     position relative
     .sui-icon
     .sui-icon-mini
@@ -197,15 +194,13 @@ table.sui-grid
         opacity 0.2
     > *
       vertical-align top
-      //> .sui-icon
-      //  margin-top 4px
     &:first-child
       > .sui-move
         > .sui-icon-up
           visibility hidden
     &:last-child
+      border-bottom none
       > .sui-move
-        border-bottom none
         > .sui-icon-down
           visibility hidden
     > div
@@ -243,6 +238,30 @@ table.sui-grid
           opacity 0.4
   ~ .sui-control
     margin-bottom 0px
+
+.sui-map
+  border-collapse collapse
+  .sui-map-item
+    > td
+      border-bottom 1px dotted dark-border
+    &:last-child
+      > td
+        border-bottom none
+    .sui-icon
+      opacity 0.1
+    .sui-array-add
+      .sui-icon
+        opacity 0.2
+    .sui-remove
+      width $icon + 2px
+      text-align right
+      padding 0 1px
+    .sui-icon-remove
+      cursor pointer
+    &.sui-focus
+      > .sui-remove
+        .sui-icon
+          opacity 0.4
 
 .sui-disabled
   .sui-icon
