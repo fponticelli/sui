@@ -9,7 +9,6 @@ using thx.stream.dom.Dom;
 using thx.core.Arrays;
 using thx.core.Nulls;
 
-// TODO move element up/down
 // TODO propagate focus
 // TODO propagate disable
 
@@ -21,6 +20,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
   public var defaultElementValue(default, null) : T;
   public var streams(default, null) : ControlStreams<Array<T>>;
   public var createElementControl(default, null) : T -> IControl<T>;
+  public var length(default, null) : Int;
 
   var values : ControlValues<Array<T>>;
   var elements :  Array<{
@@ -28,7 +28,6 @@ class ArrayControl<T> implements IControl<Array<T>> {
     el : Element,
     index : Int
   }>;
-  var arr : Array<T>;
 
   public function new(defaultValue : Array<T>, defaultElementValue : T, createElementControl : T -> IControl<T>, ?options : Options) {
     var template = '<div class="sui-control sui-control-single sui-type-array">
@@ -40,13 +39,12 @@ class ArrayControl<T> implements IControl<Array<T>> {
     this.defaultElementValue = defaultElementValue;
     this.createElementControl = createElementControl;
     this.elements = [];
-    this.arr = [];
+    length = 0;
 
     values  = new ControlValues(defaultValue);
-    streams = new ControlStreams(values.value, values.focused, values.enabled);
+    streams = new ControlStreams(values.value, values.focused.debounce(0), values.enabled);
 
     el = Html.parse(template);
-    trace(el.innerHTML);
     ul = Query.first('ul', el);
     addButton = Query.first('.sui-icon-add', el); // new TriggerControl('<i class="sui-icon sui-icon-add"></i>', {});
 
@@ -82,13 +80,14 @@ class ArrayControl<T> implements IControl<Array<T>> {
     <div class="sui-control-container"></div>
     <div class="sui-remove"><i class="sui-icon sui-icon-remove"></i></div>
 </li>'),
-      index : arr.length
+      index : length++
     };
 
     ul.appendChild(o.el);
 
     var removeElement = Query.first(".sui-icon-remove", o.el),
-        //dragElement = Query.first(".sui-icon-drag", o.el),
+        upElement = Query.first(".sui-icon-up", o.el),
+        downElement = Query.first(".sui-icon-down", o.el),
         controlContainer = Query.first(".sui-control-container", o.el);
 
     controlContainer.appendChild(o.control.el);
@@ -96,21 +95,55 @@ class ArrayControl<T> implements IControl<Array<T>> {
     removeElement.streamClick().subscribe(function(_) {
       ul.removeChild(o.el);
       elements.splice(o.index, 1);
-      arr.splice(o.index, 1);
       for(i in o.index...elements.length)
         elements[i].index--;
-      values.value.set(arr.copy());
+      length--;
+      updateValue();
     });
 
     elements.push(o);
-    o.control.streams.value.subscribe(function(v : T){
-      arr[o.index] = v;
-      values.value.set(arr.copy());
-    });
+    o.control.streams.value.subscribe(function(_) updateValue());
+    o.control.streams
+      .focused
+      .subscribe(o.el.subscribeToggleClass("sui-focus"));
+
+    o.control.streams
+      .focused
+      .feed(values.focused);
+
+    upElement.streamClick()
+      .subscribe(function(_) {
+        var pos = o.index,
+            prev = elements[pos-1];
+        elements[pos] = prev;
+        elements[pos-1] = o;
+        prev.index = pos;
+        o.index = pos - 1;
+        ul.insertBefore(o.el, prev.el);
+        updateValue();
+      });
+
+    downElement.streamClick()
+      .subscribe(function(_) {
+        var pos = o.index,
+            next = elements[pos+1];
+        elements[pos] = next;
+        elements[pos+1] = o;
+        next.index = pos;
+        o.index = pos + 1;
+        ul.insertBefore(next.el, o.el);
+        updateValue();
+      });
   }
 
   function setValue(v : Array<T>)
     v.pluck(addControl(_));
+
+  function getValue()
+    return elements.pluck(_.control.get());
+
+  function updateValue()
+    values.value.set(getValue());
 
   public function set(v : Array<T>) {
     clear();
@@ -145,7 +178,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
     set(defaultValue);
 
   function clear() {
-    arr = [];
+    length = 0;
     elements.map(function(item) {
       //control.destroy();
       ul.removeChild(item.el);
