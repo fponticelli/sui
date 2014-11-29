@@ -96,6 +96,10 @@ class Sui {
   static public function createLabel(?defaultValue = "", ?label : String, ?callback : String -> Void)
     return new LabelControl(defaultValue);
 
+// TODO how to instantiate the right MapControl?
+//  static public function createMap<TKey, TValue>(?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
+//    return new MapControl(defaultValue, defaultElementValue, createControl, options);
+
   static public function createText(?defaultValue = "", ?options : OptionsKindText)
     return switch [(options.listonly).or(false), (options.kind).or(null)] {
       case [true, _]:         new TextSelectControl(defaultValue, options);

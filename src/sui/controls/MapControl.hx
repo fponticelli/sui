@@ -11,25 +11,32 @@ using thx.core.Arrays;
 using thx.core.Iterators;
 using thx.core.Nulls;
 
-class StringMapControl<TValue> extends MapControl<String, TValue> {
-  public function new(?defaultValue : Map<String, TValue>, createKeyControl : String -> IControl<String>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
+class EnumMapControl<TKey, TValue> extends MapControl<TKey, TValue> {
+  public function new(?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
     super(defaultValue, createKeyControl, createValueControl, options);
 
-  override function createMap() return new Map<String, TValue>();
+  override function createMap() return cast new haxe.ds.EnumValueMap();
 }
 
 class IntMapControl<TValue> extends MapControl<Int, TValue> {
   public function new(?defaultValue : Map<Int, TValue>, createKeyControl : Int -> IControl<Int>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
     super(defaultValue, createKeyControl, createValueControl, options);
 
-  override function createMap() return new Map<Int, TValue>();
+  override function createMap() return cast new haxe.ds.IntMap();
 }
 
 class ObjectMapControl<TKey, TValue> extends MapControl<TKey, TValue> {
   public function new(?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
     super(defaultValue, createKeyControl, createValueControl, options);
 
-  override function createMap() return cast new Map<{}, TValue>();
+  override function createMap() return cast new haxe.ds.ObjectMap();
+}
+
+class StringMapControl<TValue> extends MapControl<String, TValue> {
+  public function new(?defaultValue : Map<String, TValue>, createKeyControl : String -> IControl<String>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
+    super(defaultValue, createKeyControl, createValueControl, options);
+
+  override function createMap() return cast new haxe.ds.StringMap();
 }
 
 class MapControl<TKey, TValue> implements IControl<Map<TKey, TValue>> {
