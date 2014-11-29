@@ -5,8 +5,8 @@
   "classPath": "src",
   "tags": ["ui", "js"],
   "description": "Simple User Interface - Haxe + Html",
-  "releasenote": "refactored controls",
-  "version": "0.1.0",
+  "releasenote": "Lots of changes and improvements. Most notably support for Array and Map, automatic bind, and embedded CSS and icons.",
+  "version": "0.2.0",
   "contributors": ["fponticelli"],
   "dependencies": {
     "thx.core": "",
