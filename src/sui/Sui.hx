@@ -125,7 +125,7 @@ class Sui {
     if(null == el) {
       el = Browser.document.body;
     }
-    this.el.classList.add((anchor).or(el == Browser.document.body ? topRight : append));
+    this.el.classList.add((anchor).or(el == Browser.document.body ? Anchor.topRight : Anchor.append));
     el.appendChild(this.el);
   }
 
