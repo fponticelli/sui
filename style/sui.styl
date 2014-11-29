@@ -1,15 +1,16 @@
 @import "icons"
 
-light-border = #ddd
-dark-border = #aaa
-white-background = #ffffff
-light-background = #f6f6f6
-very-light-background = #fafafa
-dark-background = #eeeeee
-font-default = Helvetica, "Nimbus Sans L", "Liberation Sans", Arial, sans-serif
-font-mono = Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace
-outline-color = #eee solid 2px
-outline-offset = -2px
+$light-border = #ddd
+$dark-border = #aaa
+$white-background = #ffffff
+$light-background = #f6f6f6
+$very-light-background = #fafafa
+$dark-background = #eeeeee
+$invalid = #dd0000
+$font-default = Helvetica, "Nimbus Sans L", "Liberation Sans", Arial, sans-serif
+$font-mono = Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace
+$outline-color = #eee solid 2px
+$outline-offset = -2px
 $icon = 12px
 $iconmini = 8px
 
@@ -25,22 +26,22 @@ table.sui-grid
     box-sizing border-box
   border-collapse collapse
   td
-    border-bottom 1px solid light-border
+    border-bottom 1px solid $light-border
     margin 0
     padding 0
   tr:first-child
     td
-      border-top 1px solid light-border
+      border-top 1px solid $light-border
   td:first-child
-    border-left 1px solid light-border
+    border-left 1px solid $light-border
   td:last-child
-    border-right 1px solid light-border
+    border-right 1px solid $light-border
   td.sui-top
   td.sui-left
-    background-color white-background
+    background-color $white-background
   td.sui-bottom
   td.sui-right
-    background-color light-background
+    background-color $light-background
 
 .sui-bottom-left
 .sui-bottom-right
@@ -107,7 +108,7 @@ table.sui-grid
   user-select none
   box-sizing border-box
   font-size 11px
-  font-family font-default
+  font-family $font-default
   line-height 18px
   vertical-align middle
   *
@@ -121,22 +122,22 @@ table.sui-grid
     line-height 18px
     vertical-align middle
     border none
-    background-color light-background
+    background-color $light-background
   button:hover
-    background-color very-light-background
-    border 1px solid light-border
+    background-color $very-light-background
+    border 1px solid $light-border
   button:focus
-    background-color very-light-background
-    border 1px solid dark-border
-    outline outline-color
+    background-color $very-light-background
+    border 1px solid $dark-border
+    outline $outline-color
   input:focus
-    outline outline-color
-    outline-offset outline-offset
-    background-color very-light-background
+    outline $outline-color
+    $outline-offset $outline-offset
+    background-color $very-light-background
 
   output
     padding 0 6px
-    background-color white-background
+    background-color $white-background
 
   input[type="number"]
   input[type="date"]
@@ -144,7 +145,7 @@ table.sui-grid
   input[type="time"]
     text-align right
   input[type="number"]
-    font-family font-mono
+    font-family $font-mono
   input
     padding 0 6px
   input[type="color"]
@@ -155,8 +156,8 @@ table.sui-grid
     margin 0 8px
     min-height 19px
   button
-    background-color dark-background
-    border 1px solid dark-border
+    background-color $dark-background
+    border 1px solid $dark-border
     border-radius 4px
 
   &.sui-control-single
@@ -179,11 +180,13 @@ table.sui-grid
       width calc(100% - 7em - 16px)
   &.sui-type-bool
     text-align center
+  &.sui-invalid
+    border-left 4px solid $invalid
 
 .sui-array
   list-style none
   .sui-array-item
-    border-bottom 1px dotted dark-border
+    border-bottom 1px dotted $dark-border
     position relative
     .sui-icon
     .sui-icon-mini
@@ -243,7 +246,7 @@ table.sui-grid
   border-collapse collapse
   .sui-map-item
     > td
-      border-bottom 1px dotted dark-border
+      border-bottom 1px dotted $dark-border
     &:last-child
       > td
         border-bottom none
@@ -289,7 +292,6 @@ table.sui-grid
     opacity 0.8 !important
 
 .sui-icon
-  margin-top -1px
   width $icon
   height $icon
   background-size $icon $icon

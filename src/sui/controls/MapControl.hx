@@ -165,6 +165,11 @@ class MapControl<TKey, TValue> implements IControl<Map<TKey, TValue>> {
     elements.map(function(o) {
       var k = o.controlKey.get(),
           v = o.controlValue.get();
+      if(k == null || map.exists(k)) {
+        o.controlKey.el.classList.add("sui-invalid");
+        return;
+      }
+      o.controlKey.el.classList.remove("sui-invalid");
       map.set(k, v);
     });
     return map;
