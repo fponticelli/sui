@@ -607,6 +607,120 @@ haxe.ds.StringMap.prototype = {
 	}
 	,__class__: haxe.ds.StringMap
 };
+haxe.macro = {};
+haxe.macro.Constant = { __ename__ : true, __constructs__ : ["CInt","CFloat","CString","CIdent","CRegexp"] };
+haxe.macro.Constant.CInt = function(v) { var $x = ["CInt",0,v]; $x.__enum__ = haxe.macro.Constant; return $x; };
+haxe.macro.Constant.CFloat = function(f) { var $x = ["CFloat",1,f]; $x.__enum__ = haxe.macro.Constant; return $x; };
+haxe.macro.Constant.CString = function(s) { var $x = ["CString",2,s]; $x.__enum__ = haxe.macro.Constant; return $x; };
+haxe.macro.Constant.CIdent = function(s) { var $x = ["CIdent",3,s]; $x.__enum__ = haxe.macro.Constant; return $x; };
+haxe.macro.Constant.CRegexp = function(r,opt) { var $x = ["CRegexp",4,r,opt]; $x.__enum__ = haxe.macro.Constant; return $x; };
+haxe.macro.Binop = { __ename__ : true, __constructs__ : ["OpAdd","OpMult","OpDiv","OpSub","OpAssign","OpEq","OpNotEq","OpGt","OpGte","OpLt","OpLte","OpAnd","OpOr","OpXor","OpBoolAnd","OpBoolOr","OpShl","OpShr","OpUShr","OpMod","OpAssignOp","OpInterval","OpArrow"] };
+haxe.macro.Binop.OpAdd = ["OpAdd",0];
+haxe.macro.Binop.OpAdd.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpMult = ["OpMult",1];
+haxe.macro.Binop.OpMult.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpDiv = ["OpDiv",2];
+haxe.macro.Binop.OpDiv.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpSub = ["OpSub",3];
+haxe.macro.Binop.OpSub.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpAssign = ["OpAssign",4];
+haxe.macro.Binop.OpAssign.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpEq = ["OpEq",5];
+haxe.macro.Binop.OpEq.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpNotEq = ["OpNotEq",6];
+haxe.macro.Binop.OpNotEq.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpGt = ["OpGt",7];
+haxe.macro.Binop.OpGt.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpGte = ["OpGte",8];
+haxe.macro.Binop.OpGte.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpLt = ["OpLt",9];
+haxe.macro.Binop.OpLt.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpLte = ["OpLte",10];
+haxe.macro.Binop.OpLte.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpAnd = ["OpAnd",11];
+haxe.macro.Binop.OpAnd.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpOr = ["OpOr",12];
+haxe.macro.Binop.OpOr.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpXor = ["OpXor",13];
+haxe.macro.Binop.OpXor.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpBoolAnd = ["OpBoolAnd",14];
+haxe.macro.Binop.OpBoolAnd.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpBoolOr = ["OpBoolOr",15];
+haxe.macro.Binop.OpBoolOr.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpShl = ["OpShl",16];
+haxe.macro.Binop.OpShl.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpShr = ["OpShr",17];
+haxe.macro.Binop.OpShr.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpUShr = ["OpUShr",18];
+haxe.macro.Binop.OpUShr.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpMod = ["OpMod",19];
+haxe.macro.Binop.OpMod.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpAssignOp = function(op) { var $x = ["OpAssignOp",20,op]; $x.__enum__ = haxe.macro.Binop; return $x; };
+haxe.macro.Binop.OpInterval = ["OpInterval",21];
+haxe.macro.Binop.OpInterval.__enum__ = haxe.macro.Binop;
+haxe.macro.Binop.OpArrow = ["OpArrow",22];
+haxe.macro.Binop.OpArrow.__enum__ = haxe.macro.Binop;
+haxe.macro.Unop = { __ename__ : true, __constructs__ : ["OpIncrement","OpDecrement","OpNot","OpNeg","OpNegBits"] };
+haxe.macro.Unop.OpIncrement = ["OpIncrement",0];
+haxe.macro.Unop.OpIncrement.__enum__ = haxe.macro.Unop;
+haxe.macro.Unop.OpDecrement = ["OpDecrement",1];
+haxe.macro.Unop.OpDecrement.__enum__ = haxe.macro.Unop;
+haxe.macro.Unop.OpNot = ["OpNot",2];
+haxe.macro.Unop.OpNot.__enum__ = haxe.macro.Unop;
+haxe.macro.Unop.OpNeg = ["OpNeg",3];
+haxe.macro.Unop.OpNeg.__enum__ = haxe.macro.Unop;
+haxe.macro.Unop.OpNegBits = ["OpNegBits",4];
+haxe.macro.Unop.OpNegBits.__enum__ = haxe.macro.Unop;
+haxe.macro.ExprDef = { __ename__ : true, __constructs__ : ["EConst","EArray","EBinop","EField","EParenthesis","EObjectDecl","EArrayDecl","ECall","ENew","EUnop","EVars","EFunction","EBlock","EFor","EIn","EIf","EWhile","ESwitch","ETry","EReturn","EBreak","EContinue","EUntyped","EThrow","ECast","EDisplay","EDisplayNew","ETernary","ECheckType","EMeta"] };
+haxe.macro.ExprDef.EConst = function(c) { var $x = ["EConst",0,c]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EArray = function(e1,e2) { var $x = ["EArray",1,e1,e2]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EBinop = function(op,e1,e2) { var $x = ["EBinop",2,op,e1,e2]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EField = function(e,field) { var $x = ["EField",3,e,field]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EParenthesis = function(e) { var $x = ["EParenthesis",4,e]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EObjectDecl = function(fields) { var $x = ["EObjectDecl",5,fields]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EArrayDecl = function(values) { var $x = ["EArrayDecl",6,values]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.ECall = function(e,params) { var $x = ["ECall",7,e,params]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.ENew = function(t,params) { var $x = ["ENew",8,t,params]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EUnop = function(op,postFix,e) { var $x = ["EUnop",9,op,postFix,e]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EVars = function(vars) { var $x = ["EVars",10,vars]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EFunction = function(name,f) { var $x = ["EFunction",11,name,f]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EBlock = function(exprs) { var $x = ["EBlock",12,exprs]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EFor = function(it,expr) { var $x = ["EFor",13,it,expr]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EIn = function(e1,e2) { var $x = ["EIn",14,e1,e2]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EIf = function(econd,eif,eelse) { var $x = ["EIf",15,econd,eif,eelse]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EWhile = function(econd,e,normalWhile) { var $x = ["EWhile",16,econd,e,normalWhile]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.ESwitch = function(e,cases,edef) { var $x = ["ESwitch",17,e,cases,edef]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.ETry = function(e,catches) { var $x = ["ETry",18,e,catches]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EReturn = function(e) { var $x = ["EReturn",19,e]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EBreak = ["EBreak",20];
+haxe.macro.ExprDef.EBreak.__enum__ = haxe.macro.ExprDef;
+haxe.macro.ExprDef.EContinue = ["EContinue",21];
+haxe.macro.ExprDef.EContinue.__enum__ = haxe.macro.ExprDef;
+haxe.macro.ExprDef.EUntyped = function(e) { var $x = ["EUntyped",22,e]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EThrow = function(e) { var $x = ["EThrow",23,e]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.ECast = function(e,t) { var $x = ["ECast",24,e,t]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EDisplay = function(e,isCall) { var $x = ["EDisplay",25,e,isCall]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EDisplayNew = function(t) { var $x = ["EDisplayNew",26,t]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.ETernary = function(econd,eif,eelse) { var $x = ["ETernary",27,econd,eif,eelse]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.ECheckType = function(e,t) { var $x = ["ECheckType",28,e,t]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ExprDef.EMeta = function(s,e) { var $x = ["EMeta",29,s,e]; $x.__enum__ = haxe.macro.ExprDef; return $x; };
+haxe.macro.ComplexType = { __ename__ : true, __constructs__ : ["TPath","TFunction","TAnonymous","TParent","TExtend","TOptional"] };
+haxe.macro.ComplexType.TPath = function(p) { var $x = ["TPath",0,p]; $x.__enum__ = haxe.macro.ComplexType; return $x; };
+haxe.macro.ComplexType.TFunction = function(args,ret) { var $x = ["TFunction",1,args,ret]; $x.__enum__ = haxe.macro.ComplexType; return $x; };
+haxe.macro.ComplexType.TAnonymous = function(fields) { var $x = ["TAnonymous",2,fields]; $x.__enum__ = haxe.macro.ComplexType; return $x; };
+haxe.macro.ComplexType.TParent = function(t) { var $x = ["TParent",3,t]; $x.__enum__ = haxe.macro.ComplexType; return $x; };
+haxe.macro.ComplexType.TExtend = function(p,fields) { var $x = ["TExtend",4,p,fields]; $x.__enum__ = haxe.macro.ComplexType; return $x; };
+haxe.macro.ComplexType.TOptional = function(t) { var $x = ["TOptional",5,t]; $x.__enum__ = haxe.macro.ComplexType; return $x; };
+haxe.macro.Type = { __ename__ : true, __constructs__ : ["TMono","TEnum","TInst","TType","TFun","TAnonymous","TDynamic","TLazy","TAbstract"] };
+haxe.macro.Type.TMono = function(t) { var $x = ["TMono",0,t]; $x.__enum__ = haxe.macro.Type; return $x; };
+haxe.macro.Type.TEnum = function(t,params) { var $x = ["TEnum",1,t,params]; $x.__enum__ = haxe.macro.Type; return $x; };
+haxe.macro.Type.TInst = function(t,params) { var $x = ["TInst",2,t,params]; $x.__enum__ = haxe.macro.Type; return $x; };
+haxe.macro.Type.TType = function(t,params) { var $x = ["TType",3,t,params]; $x.__enum__ = haxe.macro.Type; return $x; };
+haxe.macro.Type.TFun = function(args,ret) { var $x = ["TFun",4,args,ret]; $x.__enum__ = haxe.macro.Type; return $x; };
+haxe.macro.Type.TAnonymous = function(a) { var $x = ["TAnonymous",5,a]; $x.__enum__ = haxe.macro.Type; return $x; };
+haxe.macro.Type.TDynamic = function(t) { var $x = ["TDynamic",6,t]; $x.__enum__ = haxe.macro.Type; return $x; };
+haxe.macro.Type.TLazy = function(f) { var $x = ["TLazy",7,f]; $x.__enum__ = haxe.macro.Type; return $x; };
+haxe.macro.Type.TAbstract = function(t,params) { var $x = ["TAbstract",8,t,params]; $x.__enum__ = haxe.macro.Type; return $x; };
 var js = {};
 js.Boot = function() { };
 js.Boot.__name__ = ["js","Boot"];
@@ -747,184 +861,192 @@ sui.Sui = function() {
 	this.el = this.grid.el;
 };
 sui.Sui.__name__ = ["sui","Sui"];
+sui.Sui.createArray = function(defaultValue,defaultElementValue,createControl,options) {
+	return new sui.controls.ArrayControl((function($this) {
+		var $r;
+		var t;
+		{
+			var _0 = defaultValue;
+			if(null == _0) t = null; else t = _0;
+		}
+		$r = t != null?t:[];
+		return $r;
+	}(this)),defaultElementValue,createControl,options);
+};
+sui.Sui.createBool = function(defaultValue,options) {
+	if(defaultValue == null) defaultValue = false;
+	return new sui.controls.BoolControl(defaultValue,options);
+};
+sui.Sui.createColor = function(defaultValue,options) {
+	if(defaultValue == null) defaultValue = "#AA0000";
+	return new sui.controls.ColorControl(defaultValue,options);
+};
+sui.Sui.createDate = function(defaultValue,options) {
+	if(null == defaultValue) defaultValue = new Date();
+	{
+		var _g;
+		var t;
+		var _0 = options;
+		var _1;
+		if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+		if(t != null) _g = t; else _g = false;
+		var _g1;
+		var t1;
+		var _01 = options;
+		var _11;
+		if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+		if(t1 != null) _g1 = t1; else _g1 = null;
+		if(_g != null) switch(_g) {
+		case true:
+			return new sui.controls.DateSelectControl(defaultValue,options);
+		default:
+			if(_g1 != null) switch(_g1[1]) {
+			case 1:
+				return new sui.controls.DateTimeControl(defaultValue,options);
+			default:
+				return new sui.controls.DateControl(defaultValue,options);
+			} else return new sui.controls.DateControl(defaultValue,options);
+		} else if(_g1 != null) switch(_g1[1]) {
+		case 1:
+			return new sui.controls.DateTimeControl(defaultValue,options);
+		default:
+			return new sui.controls.DateControl(defaultValue,options);
+		} else return new sui.controls.DateControl(defaultValue,options);
+	}
+};
+sui.Sui.createFloat = function(defaultValue,options) {
+	if(defaultValue == null) defaultValue = 0.0;
+	{
+		var _g;
+		var t;
+		var _0 = options;
+		var _1;
+		if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+		if(t != null) _g = t; else _g = false;
+		var _g1;
+		var t1;
+		var _01 = options;
+		var _11;
+		if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+		if(t1 != null) _g1 = t1; else _g1 = null;
+		if(_g != null) switch(_g) {
+		case true:
+			return new sui.controls.NumberSelectControl(defaultValue,options);
+		default:
+			if(_g1 != null) switch(_g1[1]) {
+			case 1:
+				return new sui.controls.TimeControl(defaultValue,options);
+			default:
+				if(null != options && options.min != null && options.max != null) return new sui.controls.FloatRangeControl(defaultValue,options); else return new sui.controls.FloatControl(defaultValue,options);
+			} else if(null != options && options.min != null && options.max != null) return new sui.controls.FloatRangeControl(defaultValue,options); else return new sui.controls.FloatControl(defaultValue,options);
+		} else if(_g1 != null) switch(_g1[1]) {
+		case 1:
+			return new sui.controls.TimeControl(defaultValue,options);
+		default:
+			if(null != options && options.min != null && options.max != null) return new sui.controls.FloatRangeControl(defaultValue,options); else return new sui.controls.FloatControl(defaultValue,options);
+		} else if(null != options && options.min != null && options.max != null) return new sui.controls.FloatRangeControl(defaultValue,options); else return new sui.controls.FloatControl(defaultValue,options);
+	}
+};
+sui.Sui.createInt = function(defaultValue,options) {
+	if(defaultValue == null) defaultValue = 0;
+	if((function($this) {
+		var $r;
+		var t;
+		{
+			var _0 = options;
+			var _1;
+			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+		}
+		$r = t != null?t:false;
+		return $r;
+	}(this))) return new sui.controls.NumberSelectControl(defaultValue,options); else if(null != options && options.min != null && options.max != null) return new sui.controls.IntRangeControl(defaultValue,options); else return new sui.controls.IntControl(defaultValue,options);
+};
+sui.Sui.createLabel = function(defaultValue,label,callback) {
+	if(defaultValue == null) defaultValue = "";
+	return new sui.controls.LabelControl(defaultValue);
+};
+sui.Sui.createText = function(defaultValue,options) {
+	if(defaultValue == null) defaultValue = "";
+	{
+		var _g;
+		var t;
+		var _0 = options;
+		var _1;
+		if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
+		if(t != null) _g = t; else _g = false;
+		var _g1;
+		var t1;
+		var _01 = options;
+		var _11;
+		if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
+		if(t1 != null) _g1 = t1; else _g1 = null;
+		if(_g != null) switch(_g) {
+		case true:
+			return new sui.controls.TextSelectControl(defaultValue,options);
+		default:
+			if(_g1 != null) switch(_g1[1]) {
+			case 0:
+				return new sui.controls.EmailControl(defaultValue,options);
+			case 1:
+				return new sui.controls.PasswordControl(defaultValue,options);
+			case 3:
+				return new sui.controls.TelControl(defaultValue,options);
+			case 2:
+				return new sui.controls.SearchControl(defaultValue,options);
+			case 5:
+				return new sui.controls.UrlControl(defaultValue,options);
+			default:
+				return new sui.controls.TextControl(defaultValue,options);
+			} else return new sui.controls.TextControl(defaultValue,options);
+		} else if(_g1 != null) switch(_g1[1]) {
+		case 0:
+			return new sui.controls.EmailControl(defaultValue,options);
+		case 1:
+			return new sui.controls.PasswordControl(defaultValue,options);
+		case 3:
+			return new sui.controls.TelControl(defaultValue,options);
+		case 2:
+			return new sui.controls.SearchControl(defaultValue,options);
+		case 5:
+			return new sui.controls.UrlControl(defaultValue,options);
+		default:
+			return new sui.controls.TextControl(defaultValue,options);
+		} else return new sui.controls.TextControl(defaultValue,options);
+	}
+};
+sui.Sui.createTrigger = function(actionLabel,options) {
+	return new sui.controls.TriggerControl(actionLabel,options);
+};
 sui.Sui.prototype = {
 	array: function(label,defaultValue,defaultElementValue,createControl,options,callback) {
-		return this.control(label,new sui.controls.ArrayControl((function($this) {
-			var $r;
-			var t;
-			{
-				var _0 = defaultValue;
-				if(null == _0) t = null; else t = _0;
-			}
-			$r = t != null?t:[];
-			return $r;
-		}(this)),defaultElementValue,createControl,options),callback);
+		return this.control(label,sui.Sui.createArray(defaultValue,defaultElementValue,createControl,options),callback);
 	}
 	,bool: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = false;
-		return this.control(label,new sui.controls.BoolControl(defaultValue,options),callback);
-	}
-	,date: function(label,defaultValue,options,callback) {
-		if(null == defaultValue) defaultValue = new Date();
-		var ctrl;
-		{
-			var _g;
-			var t;
-			var _0 = options;
-			var _1;
-			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
-			if(t != null) _g = t; else _g = false;
-			var _g1;
-			var t1;
-			var _01 = options;
-			var _11;
-			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
-			if(t1 != null) _g1 = t1; else _g1 = null;
-			if(_g != null) switch(_g) {
-			case true:
-				ctrl = new sui.controls.DateSelectControl(defaultValue,options);
-				break;
-			default:
-				if(_g1 != null) switch(_g1[1]) {
-				case 1:
-					ctrl = new sui.controls.DateTimeControl(defaultValue,options);
-					break;
-				default:
-					ctrl = new sui.controls.DateControl(defaultValue,options);
-				} else ctrl = new sui.controls.DateControl(defaultValue,options);
-			} else if(_g1 != null) switch(_g1[1]) {
-			case 1:
-				ctrl = new sui.controls.DateTimeControl(defaultValue,options);
-				break;
-			default:
-				ctrl = new sui.controls.DateControl(defaultValue,options);
-			} else ctrl = new sui.controls.DateControl(defaultValue,options);
-		}
-		return this.control(label,ctrl,callback);
+		return this.control(label,sui.Sui.createBool(defaultValue,options),callback);
 	}
 	,color: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "#AA0000";
-		return this.control(label,new sui.controls.ColorControl(defaultValue,options),callback);
+		return this.control(label,sui.Sui.createColor(defaultValue,options),callback);
+	}
+	,date: function(label,defaultValue,options,callback) {
+		return this.control(label,sui.Sui.createDate(defaultValue,options),callback);
 	}
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
-		var ctrl;
-		{
-			var _g;
-			var t;
-			var _0 = options;
-			var _1;
-			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
-			if(t != null) _g = t; else _g = false;
-			var _g1;
-			var t1;
-			var _01 = options;
-			var _11;
-			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
-			if(t1 != null) _g1 = t1; else _g1 = null;
-			if(_g != null) switch(_g) {
-			case true:
-				ctrl = new sui.controls.NumberSelectControl(defaultValue,options);
-				break;
-			default:
-				if(_g1 != null) switch(_g1[1]) {
-				case 1:
-					ctrl = new sui.controls.TimeControl(defaultValue,options);
-					break;
-				default:
-					if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.FloatRangeControl(defaultValue,options); else ctrl = new sui.controls.FloatControl(defaultValue,options);
-				} else if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.FloatRangeControl(defaultValue,options); else ctrl = new sui.controls.FloatControl(defaultValue,options);
-			} else if(_g1 != null) switch(_g1[1]) {
-			case 1:
-				ctrl = new sui.controls.TimeControl(defaultValue,options);
-				break;
-			default:
-				if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.FloatRangeControl(defaultValue,options); else ctrl = new sui.controls.FloatControl(defaultValue,options);
-			} else if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.FloatRangeControl(defaultValue,options); else ctrl = new sui.controls.FloatControl(defaultValue,options);
-		}
-		return this.control(label,ctrl,callback);
+		return this.control(label,sui.Sui.createFloat(defaultValue,options),callback);
 	}
 	,'int': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0;
-		var ctrl;
-		if((function($this) {
-			var $r;
-			var t;
-			{
-				var _0 = options;
-				var _1;
-				if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
-			}
-			$r = t != null?t:false;
-			return $r;
-		}(this))) ctrl = new sui.controls.NumberSelectControl(defaultValue,options); else if(null != options && options.min != null && options.max != null) ctrl = new sui.controls.IntRangeControl(defaultValue,options); else ctrl = new sui.controls.IntControl(defaultValue,options);
-		return this.control(label,ctrl,callback);
+		return this.control(label,sui.Sui.createInt(defaultValue,options),callback);
 	}
 	,label: function(defaultValue,label,callback) {
 		if(defaultValue == null) defaultValue = "";
-		return this.control(label,new sui.controls.LabelControl(defaultValue),callback);
+		return this.control(label,sui.Sui.createLabel(defaultValue),callback);
 	}
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
-		var ctrl;
-		{
-			var _g;
-			var t;
-			var _0 = options;
-			var _1;
-			if(null == _0) t = null; else if(null == (_1 = _0.listonly)) t = null; else t = _1;
-			if(t != null) _g = t; else _g = false;
-			var _g1;
-			var t1;
-			var _01 = options;
-			var _11;
-			if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
-			if(t1 != null) _g1 = t1; else _g1 = null;
-			if(_g != null) switch(_g) {
-			case true:
-				ctrl = new sui.controls.TextSelectControl(defaultValue,options);
-				break;
-			default:
-				if(_g1 != null) switch(_g1[1]) {
-				case 0:
-					ctrl = new sui.controls.EmailControl(defaultValue,options);
-					break;
-				case 1:
-					ctrl = new sui.controls.PasswordControl(defaultValue,options);
-					break;
-				case 3:
-					ctrl = new sui.controls.TelControl(defaultValue,options);
-					break;
-				case 2:
-					ctrl = new sui.controls.SearchControl(defaultValue,options);
-					break;
-				case 5:
-					ctrl = new sui.controls.UrlControl(defaultValue,options);
-					break;
-				default:
-					ctrl = new sui.controls.TextControl(defaultValue,options);
-				} else ctrl = new sui.controls.TextControl(defaultValue,options);
-			} else if(_g1 != null) switch(_g1[1]) {
-			case 0:
-				ctrl = new sui.controls.EmailControl(defaultValue,options);
-				break;
-			case 1:
-				ctrl = new sui.controls.PasswordControl(defaultValue,options);
-				break;
-			case 3:
-				ctrl = new sui.controls.TelControl(defaultValue,options);
-				break;
-			case 2:
-				ctrl = new sui.controls.SearchControl(defaultValue,options);
-				break;
-			case 5:
-				ctrl = new sui.controls.UrlControl(defaultValue,options);
-				break;
-			default:
-				ctrl = new sui.controls.TextControl(defaultValue,options);
-			} else ctrl = new sui.controls.TextControl(defaultValue,options);
-		}
-		return this.control(label,ctrl,callback);
+		return this.control(label,sui.Sui.createText(defaultValue,options),callback);
 	}
 	,trigger: function(actionLabel,label,options,callback) {
 		return this.control(label,new sui.controls.TriggerControl(actionLabel,options),function(_) {
@@ -5253,7 +5375,7 @@ if(Array.prototype.filter == null) Array.prototype.filter = function(f1) {
 	}
 	return a1;
 };
-dots.Dom.addCss(".sui-icon-add,.sui-icon-down,.sui-icon-remove,.sui-icon-up{background-repeat:no-repeat}.sui-icon-add{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H35V19c0-1.657-1.343-3-3-3s-3%201.343-3%203v10H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h10v10c0%201.657%201.343%203%203%203s3-1.343%203-3V35h10c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-down{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M53%2023c0-1.657-1.343-3-3-3-.81%200-1.542.32-2.082.84L31.992%2036.764%2016.275%2021.046C15.725%2020.406%2014.91%2020%2014%2020c-1.657%200-3%201.343-3%203%200%20.805.318%201.536.835%202.075l-.008.008%2018%2018c.547.565%201.312.917%202.16.917H32c.85%200%201.613-.352%202.16-.918l18-18c.52-.54.84-1.273.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-remove{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h26c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-up{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M52.16%2038.918l-18-18C33.612%2020.352%2032.847%2020%2032%2020h-.014c-.848%200-1.613.352-2.16.918l-18%2018%20.008.007c-.516.54-.834%201.27-.834%202.075%200%201.657%201.343%203%203%203%20.91%200%201.725-.406%202.275-1.046l15.718-15.718L47.917%2043.16c.54.52%201.274.84%202.083.84%201.657%200%203-1.343%203-3%200-.81-.32-1.542-.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}table.sui-grid{box-sizing:border-box;border-collapse:collapse;}table.sui-grid *{box-sizing:border-box}table.sui-grid td{border-bottom:1px solid #ddd;margin:0;padding:0}table.sui-grid tr:first-child td{border-top:1px solid #ddd}table.sui-grid td:first-child{border-left:1px solid #ddd}table.sui-grid td:last-child{border-right:1px solid #ddd}table.sui-grid td.sui-top,table.sui-grid td.sui-left{background-color:#fff}table.sui-grid td.sui-bottom,table.sui-grid td.sui-right{background-color:#f6f6f6}.sui-bottom-left,.sui-bottom-right,.sui-top-left,.sui-top-right{position:absolute;background-color:#fff}.sui-top-right{top:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-top-right.sui-grid tr:first-child td{border-top:none}.sui-top-right.sui-grid td:last-child{border-right:none}.sui-top-left{top:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-top-left.sui-grid tr:first-child td{border-top:none}.sui-top-left.sui-grid td:last-child{border-left:none}.sui-bottom-right{bottom:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-right.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-right.sui-grid td:last-child{border-right:none}.sui-bottom-left{bottom:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-left.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-left.sui-grid td:last-child{border-left:none}.sui-fill{position:absolute;width:100%;max-height:100%;top:0;left:0}.sui-append{width:100%}.sui-control{-moz-user-select:-moz-none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;user-select:none;box-sizing:border-box;font-size:11px;font-family:Helvetica,\"Nimbus Sans L\",\"Liberation Sans\",Arial,sans-serif;line-height:18px;vertical-align:middle;}.sui-control *{box-sizing:border-box;margin:0;padding:0}.sui-control button{line-height:18px;vertical-align:middle}.sui-control input{line-height:18px;vertical-align:middle;border:none;background-color:#f6f6f6}.sui-control button:hover{background-color:#fafafa;border:1px solid #ddd}.sui-control button:focus{background-color:#fafafa;border:1px solid #aaa;outline:#eee solid 2px}.sui-control input:focus{outline:#eee solid 2px;outline-offset:-2px;background-color:#fafafa}.sui-control output{padding:0 6px;background-color:#fff}.sui-control input[type=\"number\"],.sui-control input[type=\"date\"],.sui-control input[type=\"datetime-local\"],.sui-control input[type=\"time\"]{text-align:right}.sui-control input[type=\"number\"]{font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace}.sui-control input{padding:0 6px}.sui-control input[type=\"color\"],.sui-control input[type=\"checkbox\"]{padding:0;margin:0}.sui-control input[type=\"range\"]{margin:0 8px}.sui-control button{background-color:#eee;border:1px solid #aaa;border-radius:4px}.sui-control.sui-control-single input,.sui-control.sui-control-single output,.sui-control.sui-control-single button{width:100%}.sui-control.sui-control-single input[type=\"checkbox\"]{width:initial}.sui-control.sui-control-double input,.sui-control.sui-control-double output,.sui-control.sui-control-double button{width:50%}.sui-control.sui-control-double .input1{width:calc(100% - 7em)}.sui-control.sui-control-double .input2{width:7em}.sui-control.sui-control-double .input1[type=\"range\"]{width:calc(100% - 7em - 16px)}.sui-control.sui-type-bool{text-align:center}.sui-array{list-style:none;}.sui-array .sui-array-item{border-bottom:1px dotted #aaa;position:relative;}.sui-array .sui-array-item .sui-icon,.sui-array .sui-array-item .sui-icon-mini{opacity:.1}.sui-array .sui-array-item .sui-array-add .sui-icon,.sui-array .sui-array-item .sui-array-add .sui-icon-mini{opacity:.2}.sui-array .sui-array-item > *{vertical-align:top}.sui-array .sui-array-item:first-child > .sui-move > .sui-icon-up{visibility:hidden}.sui-array .sui-array-item:last-child > .sui-move{border-bottom:none;}.sui-array .sui-array-item:last-child > .sui-move > .sui-icon-down{visibility:hidden}.sui-array .sui-array-item > div{display:inline-block}.sui-array .sui-array-item .sui-move{position:absolute;width:8px;height:100%;}.sui-array .sui-array-item .sui-move .sui-icon-mini{display:block;position:absolute}.sui-array .sui-array-item .sui-move .sui-icon-up{top:0;left:-2px}.sui-array .sui-array-item .sui-move .sui-icon-down{bottom:0;left:-2px}.sui-array .sui-array-item .sui-control-container{margin:0 12px 0 8px;width:calc(100% - 20px)}.sui-array .sui-array-item .sui-remove{width:12px;position:absolute;right:0;top:0}.sui-array .sui-array-item .sui-icon-remove,.sui-array .sui-array-item .sui-icon-up,.sui-array .sui-array-item .sui-icon-down{cursor:pointer}.sui-array .sui-array-item.sui-focus > .sui-move .sui-icon,.sui-array .sui-array-item.sui-focus > .sui-remove .sui-icon,.sui-array .sui-array-item.sui-focus > .sui-move .sui-icon-mini,.sui-array .sui-array-item.sui-focus > .sui-remove .sui-icon-mini{opacity:.4}.sui-array ~ .sui-control{margin-bottom:0}.sui-disabled .sui-icon,.sui-disabled .sui-icon-mini,.sui-disabled .sui-icon:hover,.sui-disabled .sui-icon-mini:hover{opacity:.05 !important;cursor:default}.sui-array-add{text-align:right;}.sui-array-add .sui-icon,.sui-array-add .sui-icon-mini{opacity:.2;cursor:pointer}.sui-icon,.sui-icon-mini{display:inline-block;opacity:.4;vertical-align:middle;}.sui-icon:hover,.sui-icon-mini:hover{opacity:.8 !important}.sui-icon{margin-top:-1px;width:12px;height:12px;background-size:12px 12px}.sui-icon-mini{width:8px;height:8px;background-size:8px 8px}");
+dots.Dom.addCss(".sui-icon-add,.sui-icon-down,.sui-icon-remove,.sui-icon-up{background-repeat:no-repeat}.sui-icon-add{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H35V19c0-1.657-1.343-3-3-3s-3%201.343-3%203v10H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h10v10c0%201.657%201.343%203%203%203s3-1.343%203-3V35h10c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-down{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M53%2023c0-1.657-1.343-3-3-3-.81%200-1.542.32-2.082.84L31.992%2036.764%2016.275%2021.046C15.725%2020.406%2014.91%2020%2014%2020c-1.657%200-3%201.343-3%203%200%20.805.318%201.536.835%202.075l-.008.008%2018%2018c.547.565%201.312.917%202.16.917H32c.85%200%201.613-.352%202.16-.918l18-18c.52-.54.84-1.273.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-remove{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h26c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-up{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M52.16%2038.918l-18-18C33.612%2020.352%2032.847%2020%2032%2020h-.014c-.848%200-1.613.352-2.16.918l-18%2018%20.008.007c-.516.54-.834%201.27-.834%202.075%200%201.657%201.343%203%203%203%20.91%200%201.725-.406%202.275-1.046l15.718-15.718L47.917%2043.16c.54.52%201.274.84%202.083.84%201.657%200%203-1.343%203-3%200-.81-.32-1.542-.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}table.sui-grid{box-sizing:border-box;border-collapse:collapse;}table.sui-grid *{box-sizing:border-box}table.sui-grid td{border-bottom:1px solid #ddd;margin:0;padding:0}table.sui-grid tr:first-child td{border-top:1px solid #ddd}table.sui-grid td:first-child{border-left:1px solid #ddd}table.sui-grid td:last-child{border-right:1px solid #ddd}table.sui-grid td.sui-top,table.sui-grid td.sui-left{background-color:#fff}table.sui-grid td.sui-bottom,table.sui-grid td.sui-right{background-color:#f6f6f6}.sui-bottom-left,.sui-bottom-right,.sui-top-left,.sui-top-right{position:absolute;background-color:#fff}.sui-top-right{top:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-top-right.sui-grid tr:first-child td{border-top:none}.sui-top-right.sui-grid td:last-child{border-right:none}.sui-top-left{top:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-top-left.sui-grid tr:first-child td{border-top:none}.sui-top-left.sui-grid td:last-child{border-left:none}.sui-bottom-right{bottom:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-right.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-right.sui-grid td:last-child{border-right:none}.sui-bottom-left{bottom:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-left.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-left.sui-grid td:last-child{border-left:none}.sui-fill{position:absolute;width:100%;max-height:100%;top:0;left:0}.sui-append{width:100%}.sui-control{-moz-user-select:-moz-none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;user-select:none;box-sizing:border-box;font-size:11px;font-family:Helvetica,\"Nimbus Sans L\",\"Liberation Sans\",Arial,sans-serif;line-height:18px;vertical-align:middle;}.sui-control *{box-sizing:border-box;margin:0;padding:0}.sui-control button{line-height:18px;vertical-align:middle}.sui-control input{line-height:18px;vertical-align:middle;border:none;background-color:#f6f6f6}.sui-control button:hover{background-color:#fafafa;border:1px solid #ddd}.sui-control button:focus{background-color:#fafafa;border:1px solid #aaa;outline:#eee solid 2px}.sui-control input:focus{outline:#eee solid 2px;outline-offset:-2px;background-color:#fafafa}.sui-control output{padding:0 6px;background-color:#fff}.sui-control input[type=\"number\"],.sui-control input[type=\"date\"],.sui-control input[type=\"datetime-local\"],.sui-control input[type=\"time\"]{text-align:right}.sui-control input[type=\"number\"]{font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace}.sui-control input{padding:0 6px}.sui-control input[type=\"color\"],.sui-control input[type=\"checkbox\"]{padding:0;margin:0}.sui-control input[type=\"range\"]{margin:0 8px}.sui-control button{background-color:#eee;border:1px solid #aaa;border-radius:4px}.sui-control.sui-control-single input,.sui-control.sui-control-single output,.sui-control.sui-control-single button{width:100%}.sui-control.sui-control-single input[type=\"checkbox\"]{width:initial}.sui-control.sui-control-double input,.sui-control.sui-control-double output,.sui-control.sui-control-double button{width:50%}.sui-control.sui-control-double .input1{width:calc(100% - 7em)}.sui-control.sui-control-double .input2{width:7em}.sui-control.sui-control-double .input1[type=\"range\"]{width:calc(100% - 7em - 16px)}.sui-control.sui-type-bool{text-align:center}.sui-array{list-style:none;}.sui-array .sui-array-item{border-bottom:1px dotted #aaa;position:relative;}.sui-array .sui-array-item .sui-icon,.sui-array .sui-array-item .sui-icon-mini{opacity:.1}.sui-array .sui-array-item .sui-array-add .sui-icon,.sui-array .sui-array-item .sui-array-add .sui-icon-mini{opacity:.2}.sui-array .sui-array-item > *{vertical-align:top}.sui-array .sui-array-item:first-child > .sui-move > .sui-icon-up{visibility:hidden}.sui-array .sui-array-item:last-child > .sui-move{border-bottom:none;}.sui-array .sui-array-item:last-child > .sui-move > .sui-icon-down{visibility:hidden}.sui-array .sui-array-item > div{display:inline-block}.sui-array .sui-array-item .sui-move{position:absolute;width:8px;height:100%;}.sui-array .sui-array-item .sui-move .sui-icon-mini{display:block;position:absolute}.sui-array .sui-array-item .sui-move .sui-icon-up{top:0;left:1px}.sui-array .sui-array-item .sui-move .sui-icon-down{bottom:0;left:1px}.sui-array .sui-array-item .sui-control-container{margin:0 14px 0 10px;width:calc(100% - 24px)}.sui-array .sui-array-item .sui-remove{width:12px;position:absolute;right:1px;top:0}.sui-array .sui-array-item .sui-icon-remove,.sui-array .sui-array-item .sui-icon-up,.sui-array .sui-array-item .sui-icon-down{cursor:pointer}.sui-array .sui-array-item.sui-focus > .sui-move .sui-icon,.sui-array .sui-array-item.sui-focus > .sui-remove .sui-icon,.sui-array .sui-array-item.sui-focus > .sui-move .sui-icon-mini,.sui-array .sui-array-item.sui-focus > .sui-remove .sui-icon-mini{opacity:.4}.sui-array ~ .sui-control{margin-bottom:0}.sui-disabled .sui-icon,.sui-disabled .sui-icon-mini,.sui-disabled .sui-icon:hover,.sui-disabled .sui-icon-mini:hover{opacity:.05 !important;cursor:default}.sui-array-add{text-align:right;}.sui-array-add .sui-icon,.sui-array-add .sui-icon-mini{margin-right:1px;opacity:.2;cursor:pointer}.sui-icon,.sui-icon-mini{display:inline-block;opacity:.4;vertical-align:middle;}.sui-icon:hover,.sui-icon-mini:hover{opacity:.8 !important}.sui-icon{margin-top:-1px;width:12px;height:12px;background-size:12px 12px}.sui-icon-mini{width:8px;height:8px;background-size:8px 8px}");
 
       // Production steps of ECMA-262, Edition 5, 15.4.4.21
       // Reference: http://es5.github.io/#x15.4.4.21

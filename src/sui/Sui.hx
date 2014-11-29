@@ -145,11 +145,17 @@ class Sui {
           },
         type = Context.typeof(variable);
     id = id.humanize();
+
     return switch type {
       case TInst(_.toString() => "String", _):
         macro $e{sui}.text($v{id}, $e{variable}, function(v) $e{variable} = v);
       case TInst(_.toString() => "Date", _):
         macro $e{sui}.date($v{id}, $e{variable}, function(v) $e{variable} = v);
+      case TInst(_.toString() => "Array", t):
+        var f = bindType(t[0]);
+        macro $e{sui}.array($v{id}, $e{variable}, null,
+          function(v) return $e{f}(v),
+          function(v) $e{variable} = v);
       case TAbstract(_.toString() => "Bool", _):
         macro $e{sui}.bool($v{id}, $e{variable}, function(v) $e{variable} = v);
       case TAbstract(_.toString() => "Float", _):
@@ -161,6 +167,28 @@ class Sui {
       case _: Context.error('unsupported type $type', variable.pos);
     };
   }
+#if macro
+  public static function bindType(type : haxe.macro.Type) {
+    return switch type {
+      case TInst(_.toString() => "String", _):
+        macro Sui.createText;
+      case TInst(_.toString() => "Date", _):
+        macro Sui.createDate;
+      case TInst(_.toString() => "Array", t):
+        var f = bindType(t[0]);
+        macro function(v) return Sui.createArray(v, null, function(v) return $e{f}(v), null);
+      case TAbstract(_.toString() => "Bool", _):
+        macro Sui.createBool;
+      case TAbstract(_.toString() => "Float", _):
+        macro Sui.createFloat;
+      case TAbstract(_.toString() => "Int", _):
+        macro Sui.createInt;
+      case TFun([],TAbstract(_.toString() => "Void",[])):
+        macro Sui.createTrigger;
+      case _: Context.error('unsupported type $type', Context.currentPos());
+    };
+  }
+#end
 }
 
 @:enum abstract Anchor(String) to String {
