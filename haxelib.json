@@ -5,8 +5,8 @@
   "classPath": "src",
   "tags": ["ui", "js"],
   "description": "Simple User Interface - Haxe + Html",
-  "releasenote": "Lots of changes and improvements. Most notably support for Array and Map, automatic bind, and embedded CSS and icons.",
-  "version": "0.3.0",
+  "releasenote": "Fixes for Haxe 3.1.3. Also the css is now loaded from the lib and not the current project.",
+  "version": "0.3.1",
   "contributors": ["fponticelli"],
   "dependencies": {
     "thx.core": "",
