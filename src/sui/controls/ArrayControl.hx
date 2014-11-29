@@ -6,11 +6,9 @@ import sui.controls.Options;
 import dots.Html;
 import dots.Query;
 using thx.stream.dom.Dom;
+using thx.stream.Emitter;
 using thx.core.Arrays;
 using thx.core.Nulls;
-
-// TODO propagate focus
-// TODO propagate disable
 
 class ArrayControl<T> implements IControl<Array<T>> {
   public var el(default, null) : Element;
@@ -60,6 +58,14 @@ class ArrayControl<T> implements IControl<Array<T>> {
       el.classList.add("sui-focused");
     } else {
       el.classList.remove("sui-focused");
+    });
+
+    values.enabled
+      .negate()
+      .subscribe(el.subscribeToggleClass("sui-disabled"));
+
+    values.enabled.subscribe(function(v) {
+      elements.pluck(v ? _.control.enable() : _.control.disable());
     });
 
     setValue(defaultValue);
