@@ -3,6 +3,7 @@ using dots.Query;
 
 import sui.components.*;
 import sui.controls.*;
+import sui.controls.MapControl;
 import sui.controls.Options;
 
 import js.Browser;
@@ -85,6 +86,14 @@ class DemoControls {
     grid.add(Single(new LabelControl("I act like a title")));
     grid.add(HorizontalPair(new LabelControl("got it?"), new BoolControl(true)));
     grid.add(VerticalPair(new LabelControl("name"), new TextControl("sui")));
+
+    createControlContainer(new IntMapControl([
+        1 => "thx",
+        3 => "sui",
+        4 => "haxe"
+      ],
+      function(key) return new IntControl(key),
+      function(value) return new TextControl(value)));
 
     createControlContainer(new ArrayControl([1,2,3],
       5,
