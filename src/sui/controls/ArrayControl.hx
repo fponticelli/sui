@@ -172,12 +172,15 @@ class ArrayControl<T> implements IControl<Array<T>> {
   public function enable()
     values.enabled.set(true);
 
-  public function focus() {
-    // should set focus on first element
-  }
+  public function focus()
+    if(elements.length > 0)
+      elements.last().control.focus();
 
   public function blur() {
-    // blur current if part of ArrayControl
+    var el = js.Browser.document.activeElement;
+    elements
+      .filterPluck(_.el == el)
+      .first().with(_.control.blur());
   }
 
   public function reset()
