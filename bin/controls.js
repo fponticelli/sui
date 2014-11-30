@@ -1101,7 +1101,7 @@ sui.Sui.createDate = function(defaultValue,options) {
 		var _01 = options;
 		var _11;
 		if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
-		if(t1 != null) _g1 = t1; else _g1 = null;
+		if(t1 != null) _g1 = t1; else _g1 = sui.controls.DateKind.DateOnly;
 		switch(_g) {
 		case true:
 			return new sui.controls.DateSelectControl(defaultValue,options);
@@ -1129,7 +1129,7 @@ sui.Sui.createFloat = function(defaultValue,options) {
 		var _01 = options;
 		var _11;
 		if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
-		if(t1 != null) _g1 = t1; else _g1 = null;
+		if(t1 != null) _g1 = t1; else _g1 = sui.controls.FloatKind.FloatNumber;
 		switch(_g) {
 		case true:
 			return new sui.controls.NumberSelectControl(defaultValue,options);
@@ -1175,7 +1175,7 @@ sui.Sui.createText = function(defaultValue,options) {
 		var _01 = options;
 		var _11;
 		if(null == _01) t1 = null; else if(null == (_11 = _01.kind)) t1 = null; else t1 = _11;
-		if(t1 != null) _g1 = t1; else _g1 = null;
+		if(t1 != null) _g1 = t1; else _g1 = sui.controls.TextKind.PlainText;
 		switch(_g) {
 		case true:
 			return new sui.controls.TextSelectControl(defaultValue,options);

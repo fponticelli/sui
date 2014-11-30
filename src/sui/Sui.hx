@@ -64,7 +64,7 @@ class Sui {
   static public function createDate(?defaultValue : Date, ?options : OptionsKindDate) {
     if(null == defaultValue)
       defaultValue = Date.now();
-    return switch [(options.listonly).or(false), (options.kind).or(null)] {
+    return switch [(options.listonly).or(false), (options.kind).or(DateOnly)] {
       case [true, _]:
         new DateSelectControl(defaultValue, options);
       case [_, DateTime]:
@@ -75,7 +75,7 @@ class Sui {
   }
 
   static public function createFloat(?defaultValue = 0.0, ?options : OptionsKindFloat)
-    return switch [(options.listonly).or(false), (options.kind).or(null)] {
+    return switch [(options.listonly).or(false), (options.kind).or(FloatNumber)] {
       case [true, _]:
         new NumberSelectControl<Float>(defaultValue, options);
       case [_, FloatTime]:
@@ -101,7 +101,7 @@ class Sui {
 //    return new MapControl(defaultValue, defaultElementValue, createControl, options);
 
   static public function createText(?defaultValue = "", ?options : OptionsKindText)
-    return switch [(options.listonly).or(false), (options.kind).or(null)] {
+    return switch [(options.listonly).or(false), (options.kind).or(PlainText)] {
       case [true, _]:         new TextSelectControl(defaultValue, options);
       case [_, TextEmail]:    new EmailControl(defaultValue, options);
       case [_, TextPassword]: new PasswordControl(defaultValue, options);
