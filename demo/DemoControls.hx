@@ -87,11 +87,12 @@ class DemoControls {
     grid.add(HorizontalPair(new LabelControl("got it?"), new BoolControl(true)));
     grid.add(VerticalPair(new LabelControl("name"), new TextControl("sui")));
 
-    createControlContainer(new IntMapControl([
+    createControlContainer(new MapControl([
         1 => "thx",
         3 => "sui",
         4 => "haxe"
       ],
+      function() return new Map<Int, String>(),
       function(key) return new IntControl(key),
       function(value) return new TextControl(value)));
 
