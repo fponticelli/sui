@@ -62,7 +62,7 @@ gulp.task('haxe', function() {
 });
 
 gulp.task('stylus', function() {
-  gulp.src('./style/sui.styl')
+  return gulp.src('./style/sui.styl')
     .pipe(stylus({
       use: [nib()],
       compress: true
