@@ -66,18 +66,18 @@ class DemoControls {
         kind : TextUrl
       }, function(v) trace('url: $v'));
 
-
-    var obj = {
-      name : "Sui",
-      info : {
-        age : 0.1
-      }
-    };
-    ui.bind(obj.name);
-    ui.bind(obj.info.age);
+    var sui = ui.folder("more details"),
+        obj = {
+          name : "Sui",
+          info : {
+            age : 0.1
+          }
+        };
+    sui.bind(obj.name);
+    sui.bind(obj.info.age);
 
     var a = 12;
-    ui.bind(a);
+    sui.bind(a);
 
     ui.attach();
 
