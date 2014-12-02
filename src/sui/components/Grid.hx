@@ -31,8 +31,12 @@ class Grid {
   }
 }
 
+typedef WithElement = {
+  public var el(default, null) : Element;
+}
+
 enum CellContent {
-  Single(control : IControl<Dynamic>);
-  VerticalPair(top : IControl<Dynamic>, bottom : IControl<Dynamic>);
-  HorizontalPair(left : IControl<Dynamic>, right : IControl<Dynamic>);
+  Single(control : WithElement);
+  VerticalPair(top : WithElement, bottom : WithElement);
+  HorizontalPair(left : WithElement, right : WithElement);
 }
