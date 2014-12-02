@@ -39,6 +39,16 @@ class Sui {
   public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsKindFloat, callback : Float -> Void)
     return control(label, createFloat(defaultValue, options), callback);
 
+  public function folder(label : String) {
+    var sui = new Sui(),
+        header = {
+          el : dots.Html.parse('<header class="sui-folder">$label</header>')
+        };
+    sui.grid.el.classList.add("sui-grid-inner");
+    grid.add(VerticalPair(header, sui.grid));
+    return sui;
+  }
+
   public function int(?label : String, ?defaultValue = 0, ?options : OptionsKindInt, callback : Int -> Void)
     return control(label, createInt(defaultValue, options), callback);
 
