@@ -1240,6 +1240,9 @@ sui.Sui.prototype = {
 	,date: function(label,defaultValue,options,callback) {
 		return this.control(label,sui.Sui.createDate(defaultValue,options),callback);
 	}
+	,enumMap: function(label,defaultValue,createKeyControl,createValueControl,options,callback) {
+		return this.control(label,sui.Sui.createEnumMap(defaultValue,createKeyControl,createValueControl,options),callback);
+	}
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
 		return this.control(label,sui.Sui.createFloat(defaultValue,options),callback);

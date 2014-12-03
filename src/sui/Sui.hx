@@ -41,6 +41,9 @@ class Sui {
   public function date(?label : String, ?defaultValue : Date, ?options : OptionsKindDate, callback : Date -> Void)
     return control(label, createDate(defaultValue, options), callback);
 
+  public function enumMap<TKey, TValue>(?label : String, ?defaultValue : IMap<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options, callback : IMap<TKey, TValue> -> Void)
+    return control(label, createEnumMap(defaultValue, createKeyControl, createValueControl, options), callback);
+
   public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsKindFloat, callback : Float -> Void)
     return control(label, createFloat(defaultValue, options), callback);
 
