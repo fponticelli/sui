@@ -14,6 +14,11 @@ import haxe.macro.ExprTools;
 using thx.core.Strings;
 #end
 
+#if (haxe_ver >= 3.200)
+import haxe.Constraints.IMap;
+#else
+import Map.IMap;
+#end
 
 class Sui {
 #if !macro
@@ -86,7 +91,7 @@ class Sui {
     };
   }
 
-  static public function createEnumMap<TKey, TValue>(?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
+  static public function createEnumMap<TKey, TValue>(?defaultValue : IMap<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
     return new MapControl(cast defaultValue, function() return new haxe.ds.EnumValueMap<TKey, TValue>(), createKeyControl, createValueControl, options);
 
   static public function createFloat(?defaultValue = 0.0, ?options : OptionsKindFloat)
@@ -108,16 +113,16 @@ class Sui {
             new IntRangeControl(defaultValue, options) :
             new IntControl(defaultValue, options);
 
-  static public function createIntMap<TValue>(?defaultValue : Map<Int, TValue>, createKeyControl : Int -> IControl<Int>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
+  static public function createIntMap<TValue>(?defaultValue : IMap<Int, TValue>, createKeyControl : Int -> IControl<Int>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
     return new MapControl(defaultValue, function() return new haxe.ds.IntMap<TValue>(), createKeyControl, createValueControl, options);
 
   static public function createLabel(?defaultValue = "", ?label : String, ?callback : String -> Void)
     return new LabelControl(defaultValue);
 
-  static public function createObjectMap<TKey : {}, TValue>(?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
+  static public function createObjectMap<TKey : {}, TValue>(?defaultValue : IMap<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
     return new MapControl(defaultValue, function() return new haxe.ds.ObjectMap<TKey, TValue>(), createKeyControl, createValueControl, options);
 
-  static public function createStringMap<TValue>(?defaultValue : Map<String, TValue>, createKeyControl : String -> IControl<String>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
+  static public function createStringMap<TValue>(?defaultValue : IMap<String, TValue>, createKeyControl : String -> IControl<String>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
     return new MapControl(defaultValue, function() return new haxe.ds.StringMap<TValue>(), createKeyControl, createValueControl, options);
 
   static public function createText(?defaultValue = "", ?options : OptionsKindText)
