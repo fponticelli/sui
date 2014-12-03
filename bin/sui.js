@@ -9,8 +9,11 @@ var DemoObject = function() {
 	this.scores = [1,5,10];
 	this.name = "Sui";
 	this.startedOn = HxOverrides.strDate("2014-11-09");
+	var _g = new haxe.ds.StringMap();
+	_g.set("a","b");
+	this.info = _g;
 };
-DemoObject.__name__ = true;
+DemoObject.__name__ = ["DemoObject"];
 DemoObject.main = function() {
 	var o = new DemoObject();
 	var sui1 = new sui.Sui();
@@ -29,20 +32,30 @@ DemoObject.main = function() {
 		o.scores = v4;
 	});
 	sui1.trigger("trace me",null,null,$bind(o,o.traceMe));
+	sui1.stringMap("info",o.info,function(v5) {
+		return sui.Sui.createText(v5);
+	},null,function(v6) {
+		o.info = v6;
+	});
 	sui1.attach();
 };
 DemoObject.prototype = {
-	traceMe: function() {
+	scores: null
+	,name: null
+	,startedOn: null
+	,info: null
+	,enabled: null
+	,traceMe: function() {
 		var _g = this;
 		haxe.Log.trace(Reflect.fields(this).map(function(field) {
 			return "" + field + ": " + Std.string(Reflect.field(_g,field));
-		}).join(", "),{ fileName : "DemoObject.hx", lineNumber : 27, className : "DemoObject", methodName : "traceMe"});
+		}).join(", "),{ fileName : "DemoObject.hx", lineNumber : 30, className : "DemoObject", methodName : "traceMe"});
 	}
 	,get_enabled: function() {
 		return this.enabled;
 	}
 	,set_enabled: function(v) {
-		haxe.Log.trace("enabled set to " + (v == null?"null":"" + v),{ fileName : "DemoObject.hx", lineNumber : 35, className : "DemoObject", methodName : "set_enabled"});
+		haxe.Log.trace("enabled set to " + (v == null?"null":"" + v),{ fileName : "DemoObject.hx", lineNumber : 38, className : "DemoObject", methodName : "set_enabled"});
 		return this.enabled = v;
 	}
 	,__class__: DemoObject
@@ -51,9 +64,10 @@ var EReg = function(r,opt) {
 	opt = opt.split("u").join("");
 	this.r = new RegExp(r,opt);
 };
-EReg.__name__ = true;
+EReg.__name__ = ["EReg"];
 EReg.prototype = {
-	match: function(s) {
+	r: null
+	,match: function(s) {
 		if(this.r.global) this.r.lastIndex = 0;
 		this.r.m = this.r.exec(s);
 		this.r.s = s;
@@ -112,7 +126,7 @@ EReg.prototype = {
 	,__class__: EReg
 };
 var HxOverrides = function() { };
-HxOverrides.__name__ = true;
+HxOverrides.__name__ = ["HxOverrides"];
 HxOverrides.dateStr = function(date) {
 	var m = date.getMonth() + 1;
 	var d = date.getDate();
@@ -183,11 +197,28 @@ HxOverrides.iter = function(a) {
 		return this.arr[this.cur++];
 	}};
 };
+var Lambda = function() { };
+Lambda.__name__ = ["Lambda"];
+Lambda.has = function(it,elt) {
+	var $it0 = $iterator(it)();
+	while( $it0.hasNext() ) {
+		var x = $it0.next();
+		if(x == elt) return true;
+	}
+	return false;
+};
 var IMap = function() { };
-IMap.__name__ = true;
-Math.__name__ = true;
+IMap.__name__ = ["IMap"];
+IMap.prototype = {
+	get: null
+	,set: null
+	,exists: null
+	,keys: null
+	,__class__: IMap
+};
+Math.__name__ = ["Math"];
 var Reflect = function() { };
-Reflect.__name__ = true;
+Reflect.__name__ = ["Reflect"];
 Reflect.hasField = function(o,field) {
 	return Object.prototype.hasOwnProperty.call(o,field);
 };
@@ -208,8 +239,22 @@ Reflect.fields = function(o) {
 	}
 	return a;
 };
+Reflect.isFunction = function(f) {
+	return typeof(f) == "function" && !(f.__name__ || f.__ename__);
+};
+Reflect.compare = function(a,b) {
+	if(a == b) return 0; else if(a > b) return 1; else return -1;
+};
+Reflect.isObject = function(v) {
+	if(v == null) return false;
+	var t = typeof(v);
+	return t == "string" || t == "object" && v.__enum__ == null || t == "function" && (v.__name__ || v.__ename__) != null;
+};
+Reflect.isEnumValue = function(v) {
+	return v != null && v.__enum__ != null;
+};
 var Std = function() { };
-Std.__name__ = true;
+Std.__name__ = ["Std"];
 Std.string = function(s) {
 	return js.Boot.__string_rec(s,"");
 };
@@ -228,15 +273,16 @@ Std.random = function(x) {
 var StringBuf = function() {
 	this.b = "";
 };
-StringBuf.__name__ = true;
+StringBuf.__name__ = ["StringBuf"];
 StringBuf.prototype = {
-	add: function(x) {
+	b: null
+	,add: function(x) {
 		this.b += Std.string(x);
 	}
 	,__class__: StringBuf
 };
 var StringTools = function() { };
-StringTools.__name__ = true;
+StringTools.__name__ = ["StringTools"];
 StringTools.htmlEscape = function(s,quotes) {
 	s = s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
 	if(quotes) return s.split("\"").join("&quot;").split("'").join("&#039;"); else return s;
@@ -276,9 +322,77 @@ StringTools.lpad = function(s,c,l) {
 StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
 };
+var ValueType = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] };
+ValueType.TNull = ["TNull",0];
+ValueType.TNull.__enum__ = ValueType;
+ValueType.TInt = ["TInt",1];
+ValueType.TInt.__enum__ = ValueType;
+ValueType.TFloat = ["TFloat",2];
+ValueType.TFloat.__enum__ = ValueType;
+ValueType.TBool = ["TBool",3];
+ValueType.TBool.__enum__ = ValueType;
+ValueType.TObject = ["TObject",4];
+ValueType.TObject.__enum__ = ValueType;
+ValueType.TFunction = ["TFunction",5];
+ValueType.TFunction.__enum__ = ValueType;
+ValueType.TClass = function(c) { var $x = ["TClass",6,c]; $x.__enum__ = ValueType; return $x; };
+ValueType.TEnum = function(e) { var $x = ["TEnum",7,e]; $x.__enum__ = ValueType; return $x; };
+ValueType.TUnknown = ["TUnknown",8];
+ValueType.TUnknown.__enum__ = ValueType;
+var Type = function() { };
+Type.__name__ = ["Type"];
+Type.getClass = function(o) {
+	if(o == null) return null;
+	if((o instanceof Array) && o.__enum__ == null) return Array; else return o.__class__;
+};
+Type.getSuperClass = function(c) {
+	return c.__super__;
+};
+Type.getClassName = function(c) {
+	var a = c.__name__;
+	return a.join(".");
+};
+Type.getEnumName = function(e) {
+	var a = e.__ename__;
+	return a.join(".");
+};
+Type.getInstanceFields = function(c) {
+	var a = [];
+	for(var i in c.prototype) a.push(i);
+	HxOverrides.remove(a,"__class__");
+	HxOverrides.remove(a,"__properties__");
+	return a;
+};
+Type["typeof"] = function(v) {
+	var _g = typeof(v);
+	switch(_g) {
+	case "boolean":
+		return ValueType.TBool;
+	case "string":
+		return ValueType.TClass(String);
+	case "number":
+		if(Math.ceil(v) == v % 2147483648.0) return ValueType.TInt;
+		return ValueType.TFloat;
+	case "object":
+		if(v == null) return ValueType.TNull;
+		var e = v.__enum__;
+		if(e != null) return ValueType.TEnum(e);
+		var c;
+		if((v instanceof Array) && v.__enum__ == null) c = Array; else c = v.__class__;
+		if(c != null) return ValueType.TClass(c);
+		return ValueType.TObject;
+	case "function":
+		if(v.__name__ || v.__ename__) return ValueType.TObject;
+		return ValueType.TFunction;
+	case "undefined":
+		return ValueType.TNull;
+	default:
+		return ValueType.TUnknown;
+	}
+};
 var dots = {};
 dots.Detect = function() { };
-dots.Detect.__name__ = true;
+dots.Detect.__name__ = ["dots","Detect"];
 dots.Detect.supportsInput = function(type) {
 	var i;
 	var _this = window.document;
@@ -337,7 +451,7 @@ dots.Detect.supportsHistory = function() {
 	return !!(window.history && history.pushState);
 };
 dots.Dom = function() { };
-dots.Dom.__name__ = true;
+dots.Dom.__name__ = ["dots","Dom"];
 dots.Dom.addCss = function(css,container) {
 	if(null == container) container = window.document.head;
 	var style;
@@ -348,7 +462,7 @@ dots.Dom.addCss = function(css,container) {
 	container.appendChild(style);
 };
 dots.Html = function() { };
-dots.Html.__name__ = true;
+dots.Html.__name__ = ["dots","Html"];
 dots.Html.parseNodes = function(html) {
 	if(!dots.Html.pattern.match(html)) throw "Invalid pattern \"" + html + "\"";
 	var el;
@@ -379,7 +493,7 @@ dots.Html.nodeListToArray = function(list) {
 	return Array.prototype.slice.call(list,0);
 };
 dots.Query = function() { };
-dots.Query.__name__ = true;
+dots.Query.__name__ = ["dots","Query"];
 dots.Query.first = function(selector,ctx) {
 	return (ctx != null?ctx:dots.Query.doc).querySelector(selector);
 };
@@ -400,7 +514,7 @@ dots.Query.childrenOf = function(children,parent) {
 	});
 };
 var haxe = {};
-haxe.StackItem = { __ename__ : true, __constructs__ : ["CFunction","Module","FilePos","Method","LocalFunction"] };
+haxe.StackItem = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunction","Module","FilePos","Method","LocalFunction"] };
 haxe.StackItem.CFunction = ["CFunction",0];
 haxe.StackItem.CFunction.__enum__ = haxe.StackItem;
 haxe.StackItem.Module = function(m) { var $x = ["Module",1,m]; $x.__enum__ = haxe.StackItem; return $x; };
@@ -408,7 +522,7 @@ haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,li
 haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; return $x; };
 haxe.StackItem.LocalFunction = function(v) { var $x = ["LocalFunction",4,v]; $x.__enum__ = haxe.StackItem; return $x; };
 haxe.CallStack = function() { };
-haxe.CallStack.__name__ = true;
+haxe.CallStack.__name__ = ["haxe","CallStack"];
 haxe.CallStack.callStack = function() {
 	var oldValue = Error.prepareStackTrace;
 	Error.prepareStackTrace = function(error,callsites) {
@@ -501,36 +615,229 @@ haxe.CallStack.makeStack = function(s) {
 	} else return s;
 };
 haxe.Log = function() { };
-haxe.Log.__name__ = true;
+haxe.Log.__name__ = ["haxe","Log"];
 haxe.Log.trace = function(v,infos) {
 	js.Boot.__trace(v,infos);
 };
 haxe.ds = {};
+haxe.ds.BalancedTree = function() {
+};
+haxe.ds.BalancedTree.__name__ = ["haxe","ds","BalancedTree"];
+haxe.ds.BalancedTree.prototype = {
+	root: null
+	,set: function(key,value) {
+		this.root = this.setLoop(key,value,this.root);
+	}
+	,get: function(key) {
+		var node = this.root;
+		while(node != null) {
+			var c = this.compare(key,node.key);
+			if(c == 0) return node.value;
+			if(c < 0) node = node.left; else node = node.right;
+		}
+		return null;
+	}
+	,exists: function(key) {
+		var node = this.root;
+		while(node != null) {
+			var c = this.compare(key,node.key);
+			if(c == 0) return true; else if(c < 0) node = node.left; else node = node.right;
+		}
+		return false;
+	}
+	,keys: function() {
+		var ret = [];
+		this.keysLoop(this.root,ret);
+		return HxOverrides.iter(ret);
+	}
+	,setLoop: function(k,v,node) {
+		if(node == null) return new haxe.ds.TreeNode(null,k,v,null);
+		var c = this.compare(k,node.key);
+		if(c == 0) return new haxe.ds.TreeNode(node.left,k,v,node.right,node == null?0:node._height); else if(c < 0) {
+			var nl = this.setLoop(k,v,node.left);
+			return this.balance(nl,node.key,node.value,node.right);
+		} else {
+			var nr = this.setLoop(k,v,node.right);
+			return this.balance(node.left,node.key,node.value,nr);
+		}
+	}
+	,keysLoop: function(node,acc) {
+		if(node != null) {
+			this.keysLoop(node.left,acc);
+			acc.push(node.key);
+			this.keysLoop(node.right,acc);
+		}
+	}
+	,balance: function(l,k,v,r) {
+		var hl;
+		if(l == null) hl = 0; else hl = l._height;
+		var hr;
+		if(r == null) hr = 0; else hr = r._height;
+		if(hl > hr + 2) {
+			if((function($this) {
+				var $r;
+				var _this = l.left;
+				$r = _this == null?0:_this._height;
+				return $r;
+			}(this)) >= (function($this) {
+				var $r;
+				var _this1 = l.right;
+				$r = _this1 == null?0:_this1._height;
+				return $r;
+			}(this))) return new haxe.ds.TreeNode(l.left,l.key,l.value,new haxe.ds.TreeNode(l.right,k,v,r)); else return new haxe.ds.TreeNode(new haxe.ds.TreeNode(l.left,l.key,l.value,l.right.left),l.right.key,l.right.value,new haxe.ds.TreeNode(l.right.right,k,v,r));
+		} else if(hr > hl + 2) {
+			if((function($this) {
+				var $r;
+				var _this2 = r.right;
+				$r = _this2 == null?0:_this2._height;
+				return $r;
+			}(this)) > (function($this) {
+				var $r;
+				var _this3 = r.left;
+				$r = _this3 == null?0:_this3._height;
+				return $r;
+			}(this))) return new haxe.ds.TreeNode(new haxe.ds.TreeNode(l,k,v,r.left),r.key,r.value,r.right); else return new haxe.ds.TreeNode(new haxe.ds.TreeNode(l,k,v,r.left.left),r.left.key,r.left.value,new haxe.ds.TreeNode(r.left.right,r.key,r.value,r.right));
+		} else return new haxe.ds.TreeNode(l,k,v,r,(hl > hr?hl:hr) + 1);
+	}
+	,compare: function(k1,k2) {
+		return Reflect.compare(k1,k2);
+	}
+	,__class__: haxe.ds.BalancedTree
+};
+haxe.ds.TreeNode = function(l,k,v,r,h) {
+	if(h == null) h = -1;
+	this.left = l;
+	this.key = k;
+	this.value = v;
+	this.right = r;
+	if(h == -1) this._height = ((function($this) {
+		var $r;
+		var _this = $this.left;
+		$r = _this == null?0:_this._height;
+		return $r;
+	}(this)) > (function($this) {
+		var $r;
+		var _this1 = $this.right;
+		$r = _this1 == null?0:_this1._height;
+		return $r;
+	}(this))?(function($this) {
+		var $r;
+		var _this2 = $this.left;
+		$r = _this2 == null?0:_this2._height;
+		return $r;
+	}(this)):(function($this) {
+		var $r;
+		var _this3 = $this.right;
+		$r = _this3 == null?0:_this3._height;
+		return $r;
+	}(this))) + 1; else this._height = h;
+};
+haxe.ds.TreeNode.__name__ = ["haxe","ds","TreeNode"];
+haxe.ds.TreeNode.prototype = {
+	left: null
+	,right: null
+	,key: null
+	,value: null
+	,_height: null
+	,__class__: haxe.ds.TreeNode
+};
+haxe.ds.EnumValueMap = function() {
+	haxe.ds.BalancedTree.call(this);
+};
+haxe.ds.EnumValueMap.__name__ = ["haxe","ds","EnumValueMap"];
+haxe.ds.EnumValueMap.__interfaces__ = [IMap];
+haxe.ds.EnumValueMap.__super__ = haxe.ds.BalancedTree;
+haxe.ds.EnumValueMap.prototype = $extend(haxe.ds.BalancedTree.prototype,{
+	compare: function(k1,k2) {
+		var d = k1[1] - k2[1];
+		if(d != 0) return d;
+		var p1 = k1.slice(2);
+		var p2 = k2.slice(2);
+		if(p1.length == 0 && p2.length == 0) return 0;
+		return this.compareArgs(p1,p2);
+	}
+	,compareArgs: function(a1,a2) {
+		var ld = a1.length - a2.length;
+		if(ld != 0) return ld;
+		var _g1 = 0;
+		var _g = a1.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var d = this.compareArg(a1[i],a2[i]);
+			if(d != 0) return d;
+		}
+		return 0;
+	}
+	,compareArg: function(v1,v2) {
+		if(Reflect.isEnumValue(v1) && Reflect.isEnumValue(v2)) return this.compare(v1,v2); else if((v1 instanceof Array) && v1.__enum__ == null && ((v2 instanceof Array) && v2.__enum__ == null)) return this.compareArgs(v1,v2); else return Reflect.compare(v1,v2);
+	}
+	,__class__: haxe.ds.EnumValueMap
+});
 haxe.ds.IntMap = function() {
 	this.h = { };
 };
-haxe.ds.IntMap.__name__ = true;
+haxe.ds.IntMap.__name__ = ["haxe","ds","IntMap"];
 haxe.ds.IntMap.__interfaces__ = [IMap];
 haxe.ds.IntMap.prototype = {
-	set: function(key,value) {
+	h: null
+	,set: function(key,value) {
 		this.h[key] = value;
+	}
+	,get: function(key) {
+		return this.h[key];
 	}
 	,exists: function(key) {
 		return this.h.hasOwnProperty(key);
 	}
+	,keys: function() {
+		var a = [];
+		for( var key in this.h ) {
+		if(this.h.hasOwnProperty(key)) a.push(key | 0);
+		}
+		return HxOverrides.iter(a);
+	}
 	,__class__: haxe.ds.IntMap
 };
-haxe.ds.Option = { __ename__ : true, __constructs__ : ["Some","None"] };
+haxe.ds.ObjectMap = function() {
+	this.h = { };
+	this.h.__keys__ = { };
+};
+haxe.ds.ObjectMap.__name__ = ["haxe","ds","ObjectMap"];
+haxe.ds.ObjectMap.__interfaces__ = [IMap];
+haxe.ds.ObjectMap.prototype = {
+	h: null
+	,set: function(key,value) {
+		var id = key.__id__ || (key.__id__ = ++haxe.ds.ObjectMap.count);
+		this.h[id] = value;
+		this.h.__keys__[id] = key;
+	}
+	,get: function(key) {
+		return this.h[key.__id__];
+	}
+	,exists: function(key) {
+		return this.h.__keys__[key.__id__] != null;
+	}
+	,keys: function() {
+		var a = [];
+		for( var key in this.h.__keys__ ) {
+		if(this.h.hasOwnProperty(key)) a.push(this.h.__keys__[key]);
+		}
+		return HxOverrides.iter(a);
+	}
+	,__class__: haxe.ds.ObjectMap
+};
+haxe.ds.Option = { __ename__ : ["haxe","ds","Option"], __constructs__ : ["Some","None"] };
 haxe.ds.Option.Some = function(v) { var $x = ["Some",0,v]; $x.__enum__ = haxe.ds.Option; return $x; };
 haxe.ds.Option.None = ["None",1];
 haxe.ds.Option.None.__enum__ = haxe.ds.Option;
 haxe.ds.StringMap = function() {
 	this.h = { };
 };
-haxe.ds.StringMap.__name__ = true;
+haxe.ds.StringMap.__name__ = ["haxe","ds","StringMap"];
 haxe.ds.StringMap.__interfaces__ = [IMap];
 haxe.ds.StringMap.prototype = {
-	set: function(key,value) {
+	h: null
+	,set: function(key,value) {
 		this.h["$" + key] = value;
 	}
 	,get: function(key) {
@@ -539,11 +846,18 @@ haxe.ds.StringMap.prototype = {
 	,exists: function(key) {
 		return this.h.hasOwnProperty("$" + key);
 	}
+	,keys: function() {
+		var a = [];
+		for( var key in this.h ) {
+		if(this.h.hasOwnProperty(key)) a.push(key.substr(1));
+		}
+		return HxOverrides.iter(a);
+	}
 	,__class__: haxe.ds.StringMap
 };
 var js = {};
 js.Boot = function() { };
-js.Boot.__name__ = true;
+js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
 	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
 };
@@ -680,7 +994,7 @@ sui.Sui = function() {
 	this.grid = new sui.components.Grid();
 	this.el = this.grid.el;
 };
-sui.Sui.__name__ = true;
+sui.Sui.__name__ = ["sui","Sui"];
 sui.Sui.createArray = function(defaultValue,defaultElementValue,createControl,options) {
 	return new sui.controls.ArrayControl((function($this) {
 		var $r;
@@ -729,6 +1043,11 @@ sui.Sui.createDate = function(defaultValue,options) {
 		}
 	}
 };
+sui.Sui.createEnumMap = function(defaultValue,createKeyControl,createValueControl,options) {
+	return new sui.controls.MapControl(defaultValue,function() {
+		return new haxe.ds.EnumValueMap();
+	},createKeyControl,createValueControl,options);
+};
 sui.Sui.createFloat = function(defaultValue,options) {
 	if(defaultValue == null) defaultValue = 0.0;
 	{
@@ -771,9 +1090,24 @@ sui.Sui.createInt = function(defaultValue,options) {
 		return $r;
 	}(this))) return new sui.controls.NumberSelectControl(defaultValue,options); else if(null != options && options.min != null && options.max != null) return new sui.controls.IntRangeControl(defaultValue,options); else return new sui.controls.IntControl(defaultValue,options);
 };
+sui.Sui.createIntMap = function(defaultValue,createKeyControl,createValueControl,options) {
+	return new sui.controls.MapControl(defaultValue,function() {
+		return new haxe.ds.IntMap();
+	},createKeyControl,createValueControl,options);
+};
 sui.Sui.createLabel = function(defaultValue,label,callback) {
 	if(defaultValue == null) defaultValue = "";
 	return new sui.controls.LabelControl(defaultValue);
+};
+sui.Sui.createObjectMap = function(defaultValue,createKeyControl,createValueControl,options) {
+	return new sui.controls.MapControl(defaultValue,function() {
+		return new haxe.ds.ObjectMap();
+	},createKeyControl,createValueControl,options);
+};
+sui.Sui.createStringMap = function(defaultValue,createKeyControl,createValueControl,options) {
+	return new sui.controls.MapControl(defaultValue,function() {
+		return new haxe.ds.StringMap();
+	},createKeyControl,createValueControl,options);
 };
 sui.Sui.createText = function(defaultValue,options) {
 	if(defaultValue == null) defaultValue = "";
@@ -815,7 +1149,9 @@ sui.Sui.createTrigger = function(actionLabel,options) {
 	return new sui.controls.TriggerControl(actionLabel,options);
 };
 sui.Sui.prototype = {
-	array: function(label,defaultValue,defaultElementValue,createControl,options,callback) {
+	el: null
+	,grid: null
+	,array: function(label,defaultValue,defaultElementValue,createControl,options,callback) {
 		return this.control(label,sui.Sui.createArray(defaultValue,defaultElementValue,createControl,options),callback);
 	}
 	,bool: function(label,defaultValue,options,callback) {
@@ -828,6 +1164,9 @@ sui.Sui.prototype = {
 	}
 	,date: function(label,defaultValue,options,callback) {
 		return this.control(label,sui.Sui.createDate(defaultValue,options),callback);
+	}
+	,enumMap: function(label,defaultValue,createKeyControl,createValueControl,options,callback) {
+		return this.control(label,sui.Sui.createEnumMap(defaultValue,createKeyControl,createValueControl,options),callback);
 	}
 	,'float': function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = 0.0;
@@ -844,9 +1183,22 @@ sui.Sui.prototype = {
 		if(defaultValue == null) defaultValue = 0;
 		return this.control(label,sui.Sui.createInt(defaultValue,options),callback);
 	}
+	,intMap: function(label,defaultValue,createValueControl,options,callback) {
+		return this.control(label,sui.Sui.createIntMap(defaultValue,function(v) {
+			return sui.Sui.createInt(v);
+		},createValueControl,options),callback);
+	}
 	,label: function(defaultValue,label,callback) {
 		if(defaultValue == null) defaultValue = "";
 		return this.control(label,sui.Sui.createLabel(defaultValue),callback);
+	}
+	,objectMap: function(label,defaultValue,createKeyControl,createValueControl,options,callback) {
+		return this.control(label,sui.Sui.createObjectMap(defaultValue,createKeyControl,createValueControl,options),callback);
+	}
+	,stringMap: function(label,defaultValue,createValueControl,options,callback) {
+		return this.control(label,sui.Sui.createStringMap(defaultValue,function(v) {
+			return sui.Sui.createText(v);
+		},createValueControl,options),callback);
 	}
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
@@ -880,14 +1232,15 @@ sui.Sui.prototype = {
 };
 sui._Sui = {};
 sui._Sui.Anchor_Impl_ = function() { };
-sui._Sui.Anchor_Impl_.__name__ = true;
+sui._Sui.Anchor_Impl_.__name__ = ["sui","_Sui","Anchor_Impl_"];
 sui.components = {};
 sui.components.Grid = function() {
 	this.el = dots.Html.parseNodes("<table class=\"sui-grid\"></table>")[0];
 };
-sui.components.Grid.__name__ = true;
+sui.components.Grid.__name__ = ["sui","components","Grid"];
 sui.components.Grid.prototype = {
-	add: function(cell) {
+	el: null
+	,add: function(cell) {
 		var _g = this;
 		switch(cell[1]) {
 		case 0:
@@ -918,15 +1271,27 @@ sui.components.Grid.prototype = {
 	}
 	,__class__: sui.components.Grid
 };
-sui.components.CellContent = { __ename__ : true, __constructs__ : ["Single","VerticalPair","HorizontalPair"] };
+sui.components.CellContent = { __ename__ : ["sui","components","CellContent"], __constructs__ : ["Single","VerticalPair","HorizontalPair"] };
 sui.components.CellContent.Single = function(control) { var $x = ["Single",0,control]; $x.__enum__ = sui.components.CellContent; return $x; };
 sui.components.CellContent.VerticalPair = function(top,bottom) { var $x = ["VerticalPair",1,top,bottom]; $x.__enum__ = sui.components.CellContent; return $x; };
 sui.components.CellContent.HorizontalPair = function(left,right) { var $x = ["HorizontalPair",2,left,right]; $x.__enum__ = sui.components.CellContent; return $x; };
 sui.controls = {};
 sui.controls.IControl = function() { };
-sui.controls.IControl.__name__ = true;
+sui.controls.IControl.__name__ = ["sui","controls","IControl"];
 sui.controls.IControl.prototype = {
-	__class__: sui.controls.IControl
+	el: null
+	,defaultValue: null
+	,streams: null
+	,set: null
+	,get: null
+	,isEnabled: null
+	,isFocused: null
+	,disable: null
+	,enable: null
+	,focus: null
+	,blur: null
+	,reset: null
+	,__class__: sui.controls.IControl
 };
 sui.controls.ArrayControl = function(defaultValue,defaultElementValue,createElementControl,options) {
 	var _g = this;
@@ -965,10 +1330,20 @@ sui.controls.ArrayControl = function(defaultValue,defaultElementValue,createElem
 	if(options.autofocus) this.focus();
 	if(options.disabled) this.disable();
 };
-sui.controls.ArrayControl.__name__ = true;
+sui.controls.ArrayControl.__name__ = ["sui","controls","ArrayControl"];
 sui.controls.ArrayControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.ArrayControl.prototype = {
-	addControl: function(value) {
+	el: null
+	,ul: null
+	,addButton: null
+	,defaultValue: null
+	,defaultElementValue: null
+	,streams: null
+	,createElementControl: null
+	,length: null
+	,values: null
+	,elements: null
+	,addControl: function(value) {
 		var _g = this;
 		var o = { control : this.createElementControl(value), el : dots.Html.parseNodes("<li class=\"sui-array-item\">\n    <div class=\"sui-move\"><i class=\"sui-icon-mini sui-icon-up\"></i><i class=\"sui-icon-mini sui-icon-down\"></i></div>\n    <div class=\"sui-control-container\"></div>\n    <div class=\"sui-remove\"><i class=\"sui-icon sui-icon-remove\"></i></div>\n</li>")[0], index : this.length++};
 		this.ul.appendChild(o.el);
@@ -1105,10 +1480,15 @@ sui.controls.SingleInputControl = function(defaultValue,event,name,type,options)
 	if(options.autofocus) this.focus();
 	if(options.disabled) this.disable();
 };
-sui.controls.SingleInputControl.__name__ = true;
+sui.controls.SingleInputControl.__name__ = ["sui","controls","SingleInputControl"];
 sui.controls.SingleInputControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.SingleInputControl.prototype = {
-	setInput: function(v) {
+	el: null
+	,input: null
+	,defaultValue: null
+	,streams: null
+	,values: null
+	,setInput: function(v) {
 		throw new thx.core.error.AbstractMethod({ fileName : "SingleInputControl.hx", lineNumber : 64, className : "sui.controls.SingleInputControl", methodName : "setInput"});
 	}
 	,getInput: function() {
@@ -1157,7 +1537,7 @@ sui.controls.BaseDateControl = function(value,name,type,dateToString,options) {
 		return { label : HxOverrides.dateStr(o1), value : dateToString(o1)};
 	})).applyTo(this.input);
 };
-sui.controls.BaseDateControl.__name__ = true;
+sui.controls.BaseDateControl.__name__ = ["sui","controls","BaseDateControl"];
 sui.controls.BaseDateControl.toRFCDate = function(date) {
 	var y = date.getFullYear();
 	var m = StringTools.lpad("" + (date.getMonth() + 1),"0",2);
@@ -1198,7 +1578,8 @@ sui.controls.BaseDateControl.fromRFC = function(date) {
 };
 sui.controls.BaseDateControl.__super__ = sui.controls.SingleInputControl;
 sui.controls.BaseDateControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
-	setInput: function(v) {
+	dateToString: null
+	,setInput: function(v) {
 		this.input.value = this.dateToString(v);
 	}
 	,getInput: function() {
@@ -1215,7 +1596,7 @@ sui.controls.BaseTextControl = function(value,name,type,options) {
 	if(null != options.placeholder) this.input.setAttribute("placeholder","" + options.placeholder);
 	if(null != options.list) new sui.controls.DataList(this.el,options.list).applyTo(this.input); else if(null != options.values) sui.controls.DataList.fromArray(this.el,options.values).applyTo(this.input);
 };
-sui.controls.BaseTextControl.__name__ = true;
+sui.controls.BaseTextControl.__name__ = ["sui","controls","BaseTextControl"];
 sui.controls.BaseTextControl.__super__ = sui.controls.SingleInputControl;
 sui.controls.BaseTextControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
 	setInput: function(v) {
@@ -1229,7 +1610,7 @@ sui.controls.BaseTextControl.prototype = $extend(sui.controls.SingleInputControl
 sui.controls.BoolControl = function(value,options) {
 	sui.controls.SingleInputControl.call(this,value,"change","bool","checkbox",options);
 };
-sui.controls.BoolControl.__name__ = true;
+sui.controls.BoolControl.__name__ = ["sui","controls","BoolControl"];
 sui.controls.BoolControl.__super__ = sui.controls.SingleInputControl;
 sui.controls.BoolControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
 	setInput: function(v) {
@@ -1286,10 +1667,16 @@ sui.controls.DoubleInputControl = function(defaultValue,name,event1,type1,event2
 	if(options.disabled) this.disable();
 	if(!dots.Detect.supportsInput(type1)) this.input1.style.display = "none";
 };
-sui.controls.DoubleInputControl.__name__ = true;
+sui.controls.DoubleInputControl.__name__ = ["sui","controls","DoubleInputControl"];
 sui.controls.DoubleInputControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.DoubleInputControl.prototype = {
-	setInputs: function(v) {
+	el: null
+	,input1: null
+	,input2: null
+	,defaultValue: null
+	,streams: null
+	,values: null
+	,setInputs: function(v) {
 		this.setInput1(v);
 		this.setInput2(v);
 	}
@@ -1343,7 +1730,7 @@ sui.controls.ColorControl = function(value,options) {
 	if(null != options.list) new sui.controls.DataList(this.el,options.list).applyTo(this.input1).applyTo(this.input2); else if(null != options.values) sui.controls.DataList.fromArray(this.el,options.values).applyTo(this.input1).applyTo(this.input2);
 	this.setInputs(value);
 };
-sui.controls.ColorControl.__name__ = true;
+sui.controls.ColorControl.__name__ = ["sui","controls","ColorControl"];
 sui.controls.ColorControl.__super__ = sui.controls.DoubleInputControl;
 sui.controls.ColorControl.prototype = $extend(sui.controls.DoubleInputControl.prototype,{
 	setInput1: function(v) {
@@ -1365,25 +1752,31 @@ sui.controls.ControlStreams = function(value,focused,enabled) {
 	this.focused = focused;
 	this.enabled = enabled;
 };
-sui.controls.ControlStreams.__name__ = true;
+sui.controls.ControlStreams.__name__ = ["sui","controls","ControlStreams"];
 sui.controls.ControlStreams.prototype = {
-	__class__: sui.controls.ControlStreams
+	value: null
+	,focused: null
+	,enabled: null
+	,__class__: sui.controls.ControlStreams
 };
 sui.controls.ControlValues = function(defaultValue) {
 	this.value = new thx.stream.Value(defaultValue);
 	this.focused = new thx.stream.Value(false);
 	this.enabled = new thx.stream.Value(true);
 };
-sui.controls.ControlValues.__name__ = true;
+sui.controls.ControlValues.__name__ = ["sui","controls","ControlValues"];
 sui.controls.ControlValues.prototype = {
-	__class__: sui.controls.ControlValues
+	value: null
+	,focused: null
+	,enabled: null
+	,__class__: sui.controls.ControlValues
 };
 sui.controls.DataList = function(container,values) {
 	this.id = "sui-dl-" + ++sui.controls.DataList.nid;
 	var datalist = dots.Html.parse("<datalist id=\"" + this.id + "\" style=\"display:none\">" + values.map(sui.controls.DataList.toOption).join("") + "</datalist>");
 	container.appendChild(datalist);
 };
-sui.controls.DataList.__name__ = true;
+sui.controls.DataList.__name__ = ["sui","controls","DataList"];
 sui.controls.DataList.fromArray = function(container,values) {
 	return new sui.controls.DataList(container,values.map(function(v) {
 		return { value : v, label : v};
@@ -1393,7 +1786,8 @@ sui.controls.DataList.toOption = function(o) {
 	return "<option value=\"" + StringTools.htmlEscape(o.value) + "\">" + o.label + "</option>";
 };
 sui.controls.DataList.prototype = {
-	applyTo: function(el) {
+	id: null
+	,applyTo: function(el) {
 		el.setAttribute("list",this.id);
 		return this;
 	}
@@ -1402,7 +1796,7 @@ sui.controls.DataList.prototype = {
 sui.controls.DateControl = function(value,options) {
 	sui.controls.BaseDateControl.call(this,value,"date","date",sui.controls.BaseDateControl.toRFCDate,options);
 };
-sui.controls.DateControl.__name__ = true;
+sui.controls.DateControl.__name__ = ["sui","controls","DateControl"];
 sui.controls.DateControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateControl
@@ -1465,10 +1859,17 @@ sui.controls.SelectControl = function(defaultValue,name,options) {
 	if(options.autofocus) this.focus();
 	if(options.disabled) this.disable();
 };
-sui.controls.SelectControl.__name__ = true;
+sui.controls.SelectControl.__name__ = ["sui","controls","SelectControl"];
 sui.controls.SelectControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.SelectControl.prototype = {
-	addOption: function(label,value) {
+	el: null
+	,select: null
+	,defaultValue: null
+	,streams: null
+	,options: null
+	,values: null
+	,count: null
+	,addOption: function(label,value) {
 		var index = this.count++;
 		var option = dots.Html.parseNodes("<option>" + label + "</option>")[0];
 		this.options[index] = value;
@@ -1516,7 +1917,7 @@ sui.controls.SelectControl.prototype = {
 sui.controls.DateSelectControl = function(defaultValue,options) {
 	sui.controls.SelectControl.call(this,defaultValue,"select-date",options);
 };
-sui.controls.DateSelectControl.__name__ = true;
+sui.controls.DateSelectControl.__name__ = ["sui","controls","DateSelectControl"];
 sui.controls.DateSelectControl.__super__ = sui.controls.SelectControl;
 sui.controls.DateSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
 	__class__: sui.controls.DateSelectControl
@@ -1524,7 +1925,7 @@ sui.controls.DateSelectControl.prototype = $extend(sui.controls.SelectControl.pr
 sui.controls.DateTimeControl = function(value,options) {
 	sui.controls.BaseDateControl.call(this,value,"date-time","datetime-local",sui.controls.BaseDateControl.toRFCDateTimeNoSeconds,options);
 };
-sui.controls.DateTimeControl.__name__ = true;
+sui.controls.DateTimeControl.__name__ = ["sui","controls","DateTimeControl"];
 sui.controls.DateTimeControl.__super__ = sui.controls.BaseDateControl;
 sui.controls.DateTimeControl.prototype = $extend(sui.controls.BaseDateControl.prototype,{
 	__class__: sui.controls.DateTimeControl
@@ -1534,7 +1935,7 @@ sui.controls.EmailControl = function(value,options) {
 	if(null == options.placeholder) options.placeholder = "name@example.com";
 	sui.controls.BaseTextControl.call(this,value,"email","email",options);
 };
-sui.controls.EmailControl.__name__ = true;
+sui.controls.EmailControl.__name__ = ["sui","controls","EmailControl"];
 sui.controls.EmailControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.EmailControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.EmailControl
@@ -1553,7 +1954,7 @@ sui.controls.NumberControl = function(value,name,options) {
 		return { label : "" + Std.string(o1), value : "" + Std.string(o1)};
 	})).applyTo(this.input);
 };
-sui.controls.NumberControl.__name__ = true;
+sui.controls.NumberControl.__name__ = ["sui","controls","NumberControl"];
 sui.controls.NumberControl.__super__ = sui.controls.SingleInputControl;
 sui.controls.NumberControl.prototype = $extend(sui.controls.SingleInputControl.prototype,{
 	__class__: sui.controls.NumberControl
@@ -1561,7 +1962,7 @@ sui.controls.NumberControl.prototype = $extend(sui.controls.SingleInputControl.p
 sui.controls.FloatControl = function(value,options) {
 	sui.controls.NumberControl.call(this,value,"float",options);
 };
-sui.controls.FloatControl.__name__ = true;
+sui.controls.FloatControl.__name__ = ["sui","controls","FloatControl"];
 sui.controls.FloatControl.__super__ = sui.controls.NumberControl;
 sui.controls.FloatControl.prototype = $extend(sui.controls.NumberControl.prototype,{
 	setInput: function(v) {
@@ -1600,7 +2001,7 @@ sui.controls.NumberRangeControl = function(value,options) {
 	})).applyTo(this.input1).applyTo(this.input2);
 	this.setInputs(value);
 };
-sui.controls.NumberRangeControl.__name__ = true;
+sui.controls.NumberRangeControl.__name__ = ["sui","controls","NumberRangeControl"];
 sui.controls.NumberRangeControl.__super__ = sui.controls.DoubleInputControl;
 sui.controls.NumberRangeControl.prototype = $extend(sui.controls.DoubleInputControl.prototype,{
 	setInput1: function(v) {
@@ -1621,7 +2022,7 @@ sui.controls.FloatRangeControl = function(value,options) {
 	}
 	sui.controls.NumberRangeControl.call(this,value,options);
 };
-sui.controls.FloatRangeControl.__name__ = true;
+sui.controls.FloatRangeControl.__name__ = ["sui","controls","FloatRangeControl"];
 sui.controls.FloatRangeControl.__super__ = sui.controls.NumberRangeControl;
 sui.controls.FloatRangeControl.prototype = $extend(sui.controls.NumberRangeControl.prototype,{
 	getInput1: function() {
@@ -1635,7 +2036,7 @@ sui.controls.FloatRangeControl.prototype = $extend(sui.controls.NumberRangeContr
 sui.controls.IntControl = function(value,options) {
 	sui.controls.NumberControl.call(this,value,"int",options);
 };
-sui.controls.IntControl.__name__ = true;
+sui.controls.IntControl.__name__ = ["sui","controls","IntControl"];
 sui.controls.IntControl.__super__ = sui.controls.NumberControl;
 sui.controls.IntControl.prototype = $extend(sui.controls.NumberControl.prototype,{
 	setInput: function(v) {
@@ -1656,7 +2057,7 @@ sui.controls.IntRangeControl = function(value,options) {
 	}
 	sui.controls.NumberRangeControl.call(this,value,options);
 };
-sui.controls.IntRangeControl.__name__ = true;
+sui.controls.IntRangeControl.__name__ = ["sui","controls","IntRangeControl"];
 sui.controls.IntRangeControl.__super__ = sui.controls.NumberRangeControl;
 sui.controls.IntRangeControl.prototype = $extend(sui.controls.NumberRangeControl.prototype,{
 	getInput1: function() {
@@ -1679,10 +2080,15 @@ sui.controls.LabelControl = function(defaultValue) {
 		if(v) _g.el.classList.add("sui-disabled"); else _g.el.classList.remove("sui-disabled");
 	});
 };
-sui.controls.LabelControl.__name__ = true;
+sui.controls.LabelControl.__name__ = ["sui","controls","LabelControl"];
 sui.controls.LabelControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.LabelControl.prototype = {
-	set: function(v) {
+	el: null
+	,output: null
+	,defaultValue: null
+	,streams: null
+	,values: null
+	,set: function(v) {
 		this.output.innerHTML = v;
 		this.values.value.set(v);
 	}
@@ -1710,25 +2116,179 @@ sui.controls.LabelControl.prototype = {
 	}
 	,__class__: sui.controls.LabelControl
 };
+sui.controls.MapControl = function(defaultValue,createMap,createKeyControl,createValueControl,options) {
+	var _g = this;
+	var template = "<div class=\"sui-control sui-control-single sui-type-array\">\n<table class=\"sui-map\"><tbody></tbody></table>\n<div class=\"sui-array-add\"><i class=\"sui-icon sui-icon-add\"></i></div>\n</div>";
+	var t;
+	var _0 = options;
+	if(null == _0) t = null; else t = _0;
+	if(t != null) options = t; else options = { };
+	if(null == defaultValue) defaultValue = createMap();
+	this.defaultValue = defaultValue;
+	this.createMap = createMap;
+	this.createKeyControl = createKeyControl;
+	this.createValueControl = createValueControl;
+	this.elements = [];
+	this.length = 0;
+	this.values = new sui.controls.ControlValues(defaultValue);
+	this.streams = new sui.controls.ControlStreams(this.values.value,this.values.focused.debounce(0),this.values.enabled);
+	this.el = dots.Html.parseNodes(template)[0];
+	this.tbody = dots.Query.first("tbody",this.el);
+	this.addButton = dots.Query.first(".sui-icon-add",this.el);
+	thx.stream.dom.Dom.streamEvent(this.addButton,"click",false).subscribe(function(_) {
+		_g.addControl(null,null);
+	});
+	this.values.enabled.subscribe(function(v) {
+		if(v) _g.el.classList.add("sui-disabled"); else _g.el.classList.remove("sui-disabled");
+	});
+	this.values.focused.subscribe(function(v1) {
+		if(v1) _g.el.classList.add("sui-focused"); else _g.el.classList.remove("sui-focused");
+	});
+	thx.stream.EmitterBools.negate(this.values.enabled).subscribe(thx.stream.dom.Dom.subscribeToggleClass(this.el,"sui-disabled"));
+	this.values.enabled.subscribe(function(v2) {
+		_g.elements.map(function(_1) {
+			if(v2) {
+				_1.controlKey.enable();
+				return _1.controlValue.enable();
+			} else {
+				_1.controlKey.disable();
+				return _1.controlValue.disable();
+			}
+		});
+	});
+	this.setValue(defaultValue);
+	this.reset();
+	if(options.autofocus) this.focus();
+	if(options.disabled) this.disable();
+};
+sui.controls.MapControl.__name__ = ["sui","controls","MapControl"];
+sui.controls.MapControl.__interfaces__ = [sui.controls.IControl];
+sui.controls.MapControl.prototype = {
+	el: null
+	,tbody: null
+	,addButton: null
+	,defaultValue: null
+	,streams: null
+	,createMap: null
+	,createKeyControl: null
+	,createValueControl: null
+	,length: null
+	,values: null
+	,elements: null
+	,addControl: function(key,value) {
+		var _g = this;
+		var o = { controlKey : this.createKeyControl(key), controlValue : this.createValueControl(value), el : dots.Html.parseNodes("<tr class=\"sui-map-item\">\n<td class=\"sui-map-key\"></td>\n<td class=\"sui-map-value\"></td>\n<td class=\"sui-remove\"><i class=\"sui-icon sui-icon-remove\"></i></td>\n</tr>")[0], index : this.length++};
+		this.tbody.appendChild(o.el);
+		var removeElement = dots.Query.first(".sui-icon-remove",o.el);
+		var controlKeyContainer = dots.Query.first(".sui-map-key",o.el);
+		var controlValueContainer = dots.Query.first(".sui-map-value",o.el);
+		controlKeyContainer.appendChild(o.controlKey.el);
+		controlValueContainer.appendChild(o.controlValue.el);
+		thx.stream.dom.Dom.streamEvent(removeElement,"click",false).subscribe(function(_) {
+			_g.tbody.removeChild(o.el);
+			_g.elements.splice(o.index,1);
+			var _g2 = o.index;
+			var _g1 = _g.elements.length;
+			while(_g2 < _g1) {
+				var i = _g2++;
+				_g.elements[i].index--;
+			}
+			_g.length--;
+			_g.updateValue();
+		});
+		this.elements.push(o);
+		o.controlKey.streams.value.toNil().merge(o.controlValue.streams.value.toNil()).subscribe(function(_1) {
+			_g.updateValue();
+		});
+		o.controlKey.streams.focused.merge(o.controlValue.streams.focused).subscribe(thx.stream.dom.Dom.subscribeToggleClass(o.el,"sui-focus"));
+		o.controlKey.streams.focused.merge(o.controlValue.streams.focused).feed(this.values.focused);
+	}
+	,setValue: function(v) {
+		var _g = this;
+		thx.core.Iterators.map(v.keys(),function(_) {
+			return _g.addControl(_,v.get(_));
+		});
+	}
+	,getValue: function() {
+		var map = this.createMap();
+		this.elements.map(function(o) {
+			var k = o.controlKey.get();
+			var v = o.controlValue.get();
+			if(k == null || map.exists(k)) {
+				o.controlKey.el.classList.add("sui-invalid");
+				return;
+			}
+			o.controlKey.el.classList.remove("sui-invalid");
+			map.set(k,v);
+		});
+		return map;
+	}
+	,updateValue: function() {
+		this.values.value.set(this.getValue());
+	}
+	,set: function(v) {
+		this.clear();
+		this.setValue(v);
+		this.values.value.set(v);
+	}
+	,get: function() {
+		return this.values.value.get();
+	}
+	,isEnabled: function() {
+		return this.values.enabled.get();
+	}
+	,isFocused: function() {
+		return this.values.focused.get();
+	}
+	,disable: function() {
+		this.values.enabled.set(false);
+	}
+	,enable: function() {
+		this.values.enabled.set(true);
+	}
+	,focus: function() {
+		if(this.elements.length > 0) thx.core.Arrays.last(this.elements).controlValue.focus();
+	}
+	,blur: function() {
+		var el = window.document.activeElement;
+		(function(_) {
+			if(null == _) return null; else return el.blur();
+		})(thx.core.Arrays.first(this.elements.filter(function(_1) {
+			return _1.controlKey.el == el || _1.controlValue.el == el;
+		})));
+	}
+	,reset: function() {
+		this.set(this.defaultValue);
+	}
+	,clear: function() {
+		var _g = this;
+		this.length = 0;
+		this.elements.map(function(item) {
+			_g.tbody.removeChild(item.el);
+		});
+		this.elements = [];
+	}
+	,__class__: sui.controls.MapControl
+};
 sui.controls.NumberSelectControl = function(defaultValue,options) {
 	sui.controls.SelectControl.call(this,defaultValue,"select-number",options);
 };
-sui.controls.NumberSelectControl.__name__ = true;
+sui.controls.NumberSelectControl.__name__ = ["sui","controls","NumberSelectControl"];
 sui.controls.NumberSelectControl.__super__ = sui.controls.SelectControl;
 sui.controls.NumberSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
 	__class__: sui.controls.NumberSelectControl
 });
-sui.controls.DateKind = { __ename__ : true, __constructs__ : ["DateOnly","DateTime"] };
+sui.controls.DateKind = { __ename__ : ["sui","controls","DateKind"], __constructs__ : ["DateOnly","DateTime"] };
 sui.controls.DateKind.DateOnly = ["DateOnly",0];
 sui.controls.DateKind.DateOnly.__enum__ = sui.controls.DateKind;
 sui.controls.DateKind.DateTime = ["DateTime",1];
 sui.controls.DateKind.DateTime.__enum__ = sui.controls.DateKind;
-sui.controls.FloatKind = { __ename__ : true, __constructs__ : ["FloatNumber","FloatTime"] };
+sui.controls.FloatKind = { __ename__ : ["sui","controls","FloatKind"], __constructs__ : ["FloatNumber","FloatTime"] };
 sui.controls.FloatKind.FloatNumber = ["FloatNumber",0];
 sui.controls.FloatKind.FloatNumber.__enum__ = sui.controls.FloatKind;
 sui.controls.FloatKind.FloatTime = ["FloatTime",1];
 sui.controls.FloatKind.FloatTime.__enum__ = sui.controls.FloatKind;
-sui.controls.TextKind = { __ename__ : true, __constructs__ : ["TextEmail","TextPassword","TextSearch","TextTel","PlainText","TextUrl"] };
+sui.controls.TextKind = { __ename__ : ["sui","controls","TextKind"], __constructs__ : ["TextEmail","TextPassword","TextSearch","TextTel","PlainText","TextUrl"] };
 sui.controls.TextKind.TextEmail = ["TextEmail",0];
 sui.controls.TextKind.TextEmail.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextPassword = ["TextPassword",1];
@@ -1744,7 +2304,7 @@ sui.controls.TextKind.TextUrl.__enum__ = sui.controls.TextKind;
 sui.controls.PasswordControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","password",options);
 };
-sui.controls.PasswordControl.__name__ = true;
+sui.controls.PasswordControl.__name__ = ["sui","controls","PasswordControl"];
 sui.controls.PasswordControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.PasswordControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.PasswordControl
@@ -1753,7 +2313,7 @@ sui.controls.SearchControl = function(value,options) {
 	if(null == options) options = { };
 	sui.controls.BaseTextControl.call(this,value,"search","search",options);
 };
-sui.controls.SearchControl.__name__ = true;
+sui.controls.SearchControl.__name__ = ["sui","controls","SearchControl"];
 sui.controls.SearchControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.SearchControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.SearchControl
@@ -1762,7 +2322,7 @@ sui.controls.TelControl = function(value,options) {
 	if(null == options) options = { };
 	sui.controls.BaseTextControl.call(this,value,"tel","tel",options);
 };
-sui.controls.TelControl.__name__ = true;
+sui.controls.TelControl.__name__ = ["sui","controls","TelControl"];
 sui.controls.TelControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.TelControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.TelControl
@@ -1770,7 +2330,7 @@ sui.controls.TelControl.prototype = $extend(sui.controls.BaseTextControl.prototy
 sui.controls.TextControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","text",options);
 };
-sui.controls.TextControl.__name__ = true;
+sui.controls.TextControl.__name__ = ["sui","controls","TextControl"];
 sui.controls.TextControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.TextControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.TextControl
@@ -1778,7 +2338,7 @@ sui.controls.TextControl.prototype = $extend(sui.controls.BaseTextControl.protot
 sui.controls.TextSelectControl = function(defaultValue,options) {
 	sui.controls.SelectControl.call(this,defaultValue,"select-text",options);
 };
-sui.controls.TextSelectControl.__name__ = true;
+sui.controls.TextSelectControl.__name__ = ["sui","controls","TextSelectControl"];
 sui.controls.TextSelectControl.__super__ = sui.controls.SelectControl;
 sui.controls.TextSelectControl.prototype = $extend(sui.controls.SelectControl.prototype,{
 	__class__: sui.controls.TextSelectControl
@@ -1795,7 +2355,7 @@ sui.controls.TimeControl = function(value,options) {
 		return { label : sui.controls.TimeControl.timeToString(o1), value : sui.controls.TimeControl.timeToString(o1)};
 	})).applyTo(this.input);
 };
-sui.controls.TimeControl.__name__ = true;
+sui.controls.TimeControl.__name__ = ["sui","controls","TimeControl"];
 sui.controls.TimeControl.timeToString = function(t) {
 	var h = Math.floor(t / 3600000);
 	t -= h * 3600000;
@@ -1851,10 +2411,15 @@ sui.controls.TriggerControl = function(label,options) {
 	if(options.autofocus) this.focus();
 	if(options.disabled) this.disable();
 };
-sui.controls.TriggerControl.__name__ = true;
+sui.controls.TriggerControl.__name__ = ["sui","controls","TriggerControl"];
 sui.controls.TriggerControl.__interfaces__ = [sui.controls.IControl];
 sui.controls.TriggerControl.prototype = {
-	set: function(v) {
+	el: null
+	,button: null
+	,defaultValue: null
+	,streams: null
+	,values: null
+	,set: function(v) {
 		this.button.click();
 	}
 	,get: function() {
@@ -1888,18 +2453,18 @@ sui.controls.UrlControl = function(value,options) {
 	if(null == options.placeholder) options.placeholder = "http://example.com";
 	sui.controls.BaseTextControl.call(this,value,"url","url",options);
 };
-sui.controls.UrlControl.__name__ = true;
+sui.controls.UrlControl.__name__ = ["sui","controls","UrlControl"];
 sui.controls.UrlControl.__super__ = sui.controls.BaseTextControl;
 sui.controls.UrlControl.prototype = $extend(sui.controls.BaseTextControl.prototype,{
 	__class__: sui.controls.UrlControl
 });
 sui.macro = {};
 sui.macro.Embed = function() { };
-sui.macro.Embed.__name__ = true;
+sui.macro.Embed.__name__ = ["sui","macro","Embed"];
 var thx = {};
 thx.core = {};
 thx.core.Arrays = function() { };
-thx.core.Arrays.__name__ = true;
+thx.core.Arrays.__name__ = ["thx","core","Arrays"];
 thx.core.Arrays.after = function(array,element) {
 	return array.slice(HxOverrides.indexOf(array,element,0) + 1);
 };
@@ -2237,7 +2802,7 @@ thx.core.Arrays.unzip5 = function(array) {
 	return { _0 : a1, _1 : a2, _2 : a3, _3 : a4, _4 : a5};
 };
 thx.core.ArrayFloats = function() { };
-thx.core.ArrayFloats.__name__ = true;
+thx.core.ArrayFloats.__name__ = ["thx","core","ArrayFloats"];
 thx.core.ArrayFloats.average = function(arr) {
 	return thx.core.ArrayFloats.sum(arr) / arr.length;
 };
@@ -2262,7 +2827,7 @@ thx.core.ArrayFloats.sum = function(arr) {
 	},0.0);
 };
 thx.core.ArrayInts = function() { };
-thx.core.ArrayInts.__name__ = true;
+thx.core.ArrayInts.__name__ = ["thx","core","ArrayInts"];
 thx.core.ArrayInts.average = function(arr) {
 	return thx.core.ArrayInts.sum(arr) / arr.length;
 };
@@ -2282,7 +2847,7 @@ thx.core.ArrayInts.sum = function(arr) {
 	},0);
 };
 thx.core.ArrayStrings = function() { };
-thx.core.ArrayStrings.__name__ = true;
+thx.core.ArrayStrings.__name__ = ["thx","core","ArrayStrings"];
 thx.core.ArrayStrings.compact = function(arr) {
 	return arr.filter(function(v) {
 		return !thx.core.Strings.isEmpty(v);
@@ -2298,7 +2863,7 @@ thx.core.ArrayStrings.min = function(arr) {
 		if(v < min) return v; else return min;
 	},arr[0]);
 };
-thx.core.Either = { __ename__ : true, __constructs__ : ["Left","Right"] };
+thx.core.Either = { __ename__ : ["thx","core","Either"], __constructs__ : ["Left","Right"] };
 thx.core.Either.Left = function(value) { var $x = ["Left",0,value]; $x.__enum__ = thx.core.Either; return $x; };
 thx.core.Either.Right = function(value) { var $x = ["Right",1,value]; $x.__enum__ = thx.core.Either; return $x; };
 thx.core.Error = function(message,stack,pos) {
@@ -2319,20 +2884,22 @@ thx.core.Error = function(message,stack,pos) {
 	this.stackItems = stack;
 	this.pos = pos;
 };
-thx.core.Error.__name__ = true;
+thx.core.Error.__name__ = ["thx","core","Error"];
 thx.core.Error.fromDynamic = function(err,pos) {
 	if(js.Boot.__instanceof(err,thx.core.Error)) return err;
 	return new thx.core.Error("" + Std.string(err),null,pos);
 };
 thx.core.Error.__super__ = Error;
 thx.core.Error.prototype = $extend(Error.prototype,{
-	toString: function() {
+	pos: null
+	,stackItems: null
+	,toString: function() {
 		return this.message + "\nfrom: " + this.pos.className + "." + this.pos.methodName + "() at " + this.pos.lineNumber + "\n\n" + haxe.CallStack.toString(this.stackItems);
 	}
 	,__class__: thx.core.Error
 });
 thx.core.Floats = function() { };
-thx.core.Floats.__name__ = true;
+thx.core.Floats.__name__ = ["thx","core","Floats"];
 thx.core.Floats.ceil = function(f,decimals) {
 	var p = Math.pow(10,decimals);
 	return Math.ceil(f * p) / p;
@@ -2387,7 +2954,7 @@ thx.core.Floats.wrapCircular = function(v,max) {
 	return v;
 };
 thx.core.Functions0 = function() { };
-thx.core.Functions0.__name__ = true;
+thx.core.Functions0.__name__ = ["thx","core","Functions0"];
 thx.core.Functions0.after = function(callback,n) {
 	return function() {
 		if(--n == 0) callback();
@@ -2426,7 +2993,7 @@ thx.core.Functions0.timesi = function(n,callback) {
 	};
 };
 thx.core.Functions1 = function() { };
-thx.core.Functions1.__name__ = true;
+thx.core.Functions1.__name__ = ["thx","core","Functions1"];
 thx.core.Functions1.compose = function(fa,fb) {
 	return function(v) {
 		return fa(fb(v));
@@ -2478,7 +3045,7 @@ thx.core.Functions1.swapArguments = function(callback) {
 	};
 };
 thx.core.Functions2 = function() { };
-thx.core.Functions2.__name__ = true;
+thx.core.Functions2.__name__ = ["thx","core","Functions2"];
 thx.core.Functions2.memoize = function(callback,resolver) {
 	if(null == resolver) resolver = function(v1,v2) {
 		return "" + Std.string(v1) + ":" + Std.string(v2);
@@ -2498,7 +3065,7 @@ thx.core.Functions2.negate = function(callback) {
 	};
 };
 thx.core.Functions3 = function() { };
-thx.core.Functions3.__name__ = true;
+thx.core.Functions3.__name__ = ["thx","core","Functions3"];
 thx.core.Functions3.memoize = function(callback,resolver) {
 	if(null == resolver) resolver = function(v1,v2,v3) {
 		return "" + Std.string(v1) + ":" + Std.string(v2) + ":" + Std.string(v3);
@@ -2518,7 +3085,7 @@ thx.core.Functions3.negate = function(callback) {
 	};
 };
 thx.core.Functions = function() { };
-thx.core.Functions.__name__ = true;
+thx.core.Functions.__name__ = ["thx","core","Functions"];
 thx.core.Functions.constant = function(v) {
 	return function() {
 		return v;
@@ -2533,7 +3100,7 @@ thx.core.Functions.identity = function(value) {
 thx.core.Functions.noop = function() {
 };
 thx.core.Ints = function() { };
-thx.core.Ints.__name__ = true;
+thx.core.Ints.__name__ = ["thx","core","Ints"];
 thx.core.Ints.abs = function(v) {
 	if(v < 0) return -v; else return v;
 };
@@ -2596,13 +3163,104 @@ thx.core.Ints.wrapCircular = function(v,max) {
 	if(v < 0) v += max;
 	return v;
 };
-thx.core.Nil = { __ename__ : true, __constructs__ : ["nil"] };
+thx.core.Iterators = function() { };
+thx.core.Iterators.__name__ = ["thx","core","Iterators"];
+thx.core.Iterators.all = function(it,predicate) {
+	while( it.hasNext() ) {
+		var item = it.next();
+		if(!predicate(item)) return false;
+	}
+	return true;
+};
+thx.core.Iterators.any = function(it,predicate) {
+	while( it.hasNext() ) {
+		var item = it.next();
+		if(predicate(item)) return true;
+	}
+	return false;
+};
+thx.core.Iterators.eachPair = function(it,handler) {
+	thx.core.Arrays.eachPair(thx.core.Iterators.toArray(it),handler);
+};
+thx.core.Iterators.filter = function(it,predicate) {
+	return thx.core.Iterators.reduce(it,function(acc,item) {
+		if(predicate(item)) acc.push(item);
+		return acc;
+	},[]);
+};
+thx.core.Iterators.find = function(it,f) {
+	while( it.hasNext() ) {
+		var item = it.next();
+		if(f(item)) return item;
+	}
+	return null;
+};
+thx.core.Iterators.first = function(it) {
+	if(it.hasNext()) return it.next(); else return null;
+};
+thx.core.Iterators.isEmpty = function(it) {
+	return !it.hasNext();
+};
+thx.core.Iterators.isIterator = function(v) {
+	var fields;
+	if(Reflect.isObject(v) && null == Type.getClass(v)) fields = Reflect.fields(v); else fields = Type.getInstanceFields(Type.getClass(v));
+	if(!Lambda.has(fields,"next") || !Lambda.has(fields,"hasNext")) return false;
+	return Reflect.isFunction(Reflect.field(v,"next")) && Reflect.isFunction(Reflect.field(v,"hasNext"));
+};
+thx.core.Iterators.last = function(it) {
+	var buf = null;
+	while(it.hasNext()) buf = it.next();
+	return buf;
+};
+thx.core.Iterators.map = function(it,f) {
+	var acc = [];
+	while( it.hasNext() ) {
+		var v = it.next();
+		acc.push(f(v));
+	}
+	return acc;
+};
+thx.core.Iterators.mapi = function(it,f) {
+	var acc = [];
+	var i = 0;
+	while( it.hasNext() ) {
+		var v = it.next();
+		acc.push(f(v,i++));
+	}
+	return acc;
+};
+thx.core.Iterators.order = function(it,sort) {
+	var n = thx.core.Iterators.toArray(it);
+	n.sort(sort);
+	return n;
+};
+thx.core.Iterators.reduce = function(it,callback,initial) {
+	thx.core.Iterators.map(it,function(v) {
+		initial = callback(initial,v);
+	});
+	return initial;
+};
+thx.core.Iterators.reducei = function(it,callback,initial) {
+	thx.core.Iterators.mapi(it,function(v,i) {
+		initial = callback(initial,v,i);
+	});
+	return initial;
+};
+thx.core.Iterators.toArray = function(it) {
+	var items = [];
+	while( it.hasNext() ) {
+		var item = it.next();
+		items.push(item);
+	}
+	return items;
+};
+thx.core.Nil = { __ename__ : ["thx","core","Nil"], __constructs__ : ["nil"] };
 thx.core.Nil.nil = ["nil",0];
 thx.core.Nil.nil.__enum__ = thx.core.Nil;
 thx.core.Nulls = function() { };
-thx.core.Nulls.__name__ = true;
+thx.core.Nulls.__name__ = ["thx","core","Nulls"];
 thx.core.Options = function() { };
-thx.core.Options.__name__ = true;
+thx.core.Options.__name__ = ["thx","core","Options"];
 thx.core.Options.equals = function(a,b,eq) {
 	switch(a[1]) {
 	case 1:
@@ -2680,7 +3338,7 @@ thx.core.Options.toValue = function(option) {
 };
 thx.core._Result = {};
 thx.core._Result.Result_Impl_ = function() { };
-thx.core._Result.Result_Impl_.__name__ = true;
+thx.core._Result.Result_Impl_.__name__ = ["thx","core","_Result","Result_Impl_"];
 thx.core._Result.Result_Impl_.optionValue = function(this1) {
 	switch(this1[1]) {
 	case 1:
@@ -2734,7 +3392,7 @@ thx.core._Result.Result_Impl_.get_isFailure = function(this1) {
 	}
 };
 thx.core.Strings = function() { };
-thx.core.Strings.__name__ = true;
+thx.core.Strings.__name__ = ["thx","core","Strings"];
 thx.core.Strings.after = function(value,searchFor) {
 	var pos = value.indexOf(searchFor);
 	if(pos < 0) return ""; else return value.substring(pos + searchFor.length);
@@ -2916,7 +3574,7 @@ thx.core.Strings.wrapLine = function(s,columns,indent,newline) {
 	return indent + parts.join(newline + indent);
 };
 thx.core.Timer = function() { };
-thx.core.Timer.__name__ = true;
+thx.core.Timer.__name__ = ["thx","core","Timer"];
 thx.core.Timer.debounce = function(callback,delayms,leading) {
 	if(leading == null) leading = false;
 	var cancel = thx.core.Functions.noop;
@@ -3001,7 +3659,7 @@ thx.core.Timer.time = function() {
 };
 thx.core._Tuple = {};
 thx.core._Tuple.Tuple0_Impl_ = function() { };
-thx.core._Tuple.Tuple0_Impl_.__name__ = true;
+thx.core._Tuple.Tuple0_Impl_.__name__ = ["thx","core","_Tuple","Tuple0_Impl_"];
 thx.core._Tuple.Tuple0_Impl_._new = function() {
 	return thx.core.Nil.nil;
 };
@@ -3018,7 +3676,7 @@ thx.core._Tuple.Tuple0_Impl_.nilToTuple = function(v) {
 	return thx.core.Nil.nil;
 };
 thx.core._Tuple.Tuple1_Impl_ = function() { };
-thx.core._Tuple.Tuple1_Impl_.__name__ = true;
+thx.core._Tuple.Tuple1_Impl_.__name__ = ["thx","core","_Tuple","Tuple1_Impl_"];
 thx.core._Tuple.Tuple1_Impl_._new = function(_0) {
 	return _0;
 };
@@ -3032,7 +3690,7 @@ thx.core._Tuple.Tuple1_Impl_.toString = function(this1) {
 	return "Tuple1(" + Std.string(this1) + ")";
 };
 thx.core._Tuple.Tuple2_Impl_ = function() { };
-thx.core._Tuple.Tuple2_Impl_.__name__ = true;
+thx.core._Tuple.Tuple2_Impl_.__name__ = ["thx","core","_Tuple","Tuple2_Impl_"];
 thx.core._Tuple.Tuple2_Impl_._new = function(_0,_1) {
 	return { _0 : _0, _1 : _1};
 };
@@ -3058,7 +3716,7 @@ thx.core._Tuple.Tuple2_Impl_.toString = function(this1) {
 	return "Tuple2(" + Std.string(this1._0) + "," + Std.string(this1._1) + ")";
 };
 thx.core._Tuple.Tuple3_Impl_ = function() { };
-thx.core._Tuple.Tuple3_Impl_.__name__ = true;
+thx.core._Tuple.Tuple3_Impl_.__name__ = ["thx","core","_Tuple","Tuple3_Impl_"];
 thx.core._Tuple.Tuple3_Impl_._new = function(_0,_1,_2) {
 	return { _0 : _0, _1 : _1, _2 : _2};
 };
@@ -3078,7 +3736,7 @@ thx.core._Tuple.Tuple3_Impl_.toString = function(this1) {
 	return "Tuple3(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + ")";
 };
 thx.core._Tuple.Tuple4_Impl_ = function() { };
-thx.core._Tuple.Tuple4_Impl_.__name__ = true;
+thx.core._Tuple.Tuple4_Impl_.__name__ = ["thx","core","_Tuple","Tuple4_Impl_"];
 thx.core._Tuple.Tuple4_Impl_._new = function(_0,_1,_2,_3) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3};
 };
@@ -3098,7 +3756,7 @@ thx.core._Tuple.Tuple4_Impl_.toString = function(this1) {
 	return "Tuple4(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + "," + Std.string(this1._3) + ")";
 };
 thx.core._Tuple.Tuple5_Impl_ = function() { };
-thx.core._Tuple.Tuple5_Impl_.__name__ = true;
+thx.core._Tuple.Tuple5_Impl_.__name__ = ["thx","core","_Tuple","Tuple5_Impl_"];
 thx.core._Tuple.Tuple5_Impl_._new = function(_0,_1,_2,_3,_4) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3, _4 : _4};
 };
@@ -3118,7 +3776,7 @@ thx.core._Tuple.Tuple5_Impl_.toString = function(this1) {
 	return "Tuple5(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + "," + Std.string(this1._3) + "," + Std.string(this1._4) + ")";
 };
 thx.core._Tuple.Tuple6_Impl_ = function() { };
-thx.core._Tuple.Tuple6_Impl_.__name__ = true;
+thx.core._Tuple.Tuple6_Impl_.__name__ = ["thx","core","_Tuple","Tuple6_Impl_"];
 thx.core._Tuple.Tuple6_Impl_._new = function(_0,_1,_2,_3,_4,_5) {
 	return { _0 : _0, _1 : _1, _2 : _2, _3 : _3, _4 : _4, _5 : _5};
 };
@@ -3134,11 +3792,74 @@ thx.core._Tuple.Tuple6_Impl_.dropRight = function(this1) {
 thx.core._Tuple.Tuple6_Impl_.toString = function(this1) {
 	return "Tuple6(" + Std.string(this1._0) + "," + Std.string(this1._1) + "," + Std.string(this1._2) + "," + Std.string(this1._3) + "," + Std.string(this1._4) + "," + Std.string(this1._5) + ")";
 };
+thx.core.Types = function() { };
+thx.core.Types.__name__ = ["thx","core","Types"];
+thx.core.Types.isAnonymousObject = function(v) {
+	return Reflect.isObject(v) && null == Type.getClass(v);
+};
+thx.core.Types.sameType = function(a,b) {
+	return thx.core.Types.typeToString(Type["typeof"](a)) == thx.core.Types.typeToString(Type["typeof"](b));
+};
+thx.core.Types.typeInheritance = function(type) {
+	switch(type[1]) {
+	case 1:
+		return ["Int"];
+	case 2:
+		return ["Float"];
+	case 3:
+		return ["Bool"];
+	case 4:
+		return ["{}"];
+	case 5:
+		return ["Function"];
+	case 6:
+		var c = type[2];
+		var classes = [];
+		while(null != c) {
+			classes.push(c);
+			c = Type.getSuperClass(c);
+		}
+		return classes.map(Type.getClassName);
+	case 7:
+		var e = type[2];
+		return [Type.getEnumName(e)];
+	default:
+		throw "invalid type " + Std.string(type);
+	}
+};
+thx.core.Types.typeToString = function(type) {
+	switch(type[1]) {
+	case 1:
+		return "Int";
+	case 2:
+		return "Float";
+	case 3:
+		return "Bool";
+	case 4:
+		return "{}";
+	case 5:
+		return "Function";
+	case 6:
+		var c = type[2];
+		return Type.getClassName(c);
+	case 7:
+		var e = type[2];
+		return Type.getEnumName(e);
+	default:
+		throw "invalid type " + Std.string(type);
+	}
+};
+thx.core.Types.valueTypeInheritance = function(value) {
+	return thx.core.Types.typeInheritance(Type["typeof"](value));
+};
+thx.core.Types.valueTypeToString = function(value) {
+	return thx.core.Types.typeToString(Type["typeof"](value));
+};
 thx.core.error = {};
 thx.core.error.AbstractMethod = function(posInfo) {
 	thx.core.Error.call(this,"method " + posInfo.className + "." + posInfo.methodName + "() is abstract",null,posInfo);
 };
-thx.core.error.AbstractMethod.__name__ = true;
+thx.core.error.AbstractMethod.__name__ = ["thx","core","error","AbstractMethod"];
 thx.core.error.AbstractMethod.__super__ = thx.core.Error;
 thx.core.error.AbstractMethod.prototype = $extend(thx.core.Error.prototype,{
 	__class__: thx.core.error.AbstractMethod
@@ -3148,7 +3869,7 @@ thx.promise.Future = function() {
 	this.handlers = [];
 	this.state = haxe.ds.Option.None;
 };
-thx.promise.Future.__name__ = true;
+thx.promise.Future.__name__ = ["thx","promise","Future"];
 thx.promise.Future.all = function(arr) {
 	return thx.promise.Future.create(function(callback) {
 		var results = [];
@@ -3180,7 +3901,9 @@ thx.promise.Future.value = function(v) {
 	});
 };
 thx.promise.Future.prototype = {
-	delay: function(delayms) {
+	handlers: null
+	,state: null
+	,delay: function(delayms) {
 		if(null == delayms) return thx.promise.Future.flatMap(this.map(function(value) {
 			return thx.promise.Timer.immediateValue(value);
 		})); else return thx.promise.Future.flatMap(this.map(function(value1) {
@@ -3251,7 +3974,7 @@ thx.promise.Future.prototype = {
 	,__class__: thx.promise.Future
 };
 thx.promise.Futures = function() { };
-thx.promise.Futures.__name__ = true;
+thx.promise.Futures.__name__ = ["thx","promise","Futures"];
 thx.promise.Futures.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		var counter = 0;
@@ -3280,7 +4003,7 @@ thx.promise.Futures.log = function(future,prefix) {
 	});
 };
 thx.promise.FutureTuple6 = function() { };
-thx.promise.FutureTuple6.__name__ = true;
+thx.promise.FutureTuple6.__name__ = ["thx","promise","FutureTuple6"];
 thx.promise.FutureTuple6.mapTuple = function(future,callback) {
 	return future.map(function(t) {
 		return callback(t._0,t._1,t._2,t._3,t._4,t._5);
@@ -3302,7 +4025,7 @@ thx.promise.FutureTuple6.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple5 = function() { };
-thx.promise.FutureTuple5.__name__ = true;
+thx.promise.FutureTuple5.__name__ = ["thx","promise","FutureTuple5"];
 thx.promise.FutureTuple5.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -3336,7 +4059,7 @@ thx.promise.FutureTuple5.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple4 = function() { };
-thx.promise.FutureTuple4.__name__ = true;
+thx.promise.FutureTuple4.__name__ = ["thx","promise","FutureTuple4"];
 thx.promise.FutureTuple4.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -3370,7 +4093,7 @@ thx.promise.FutureTuple4.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple3 = function() { };
-thx.promise.FutureTuple3.__name__ = true;
+thx.promise.FutureTuple3.__name__ = ["thx","promise","FutureTuple3"];
 thx.promise.FutureTuple3.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -3404,7 +4127,7 @@ thx.promise.FutureTuple3.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureTuple2 = function() { };
-thx.promise.FutureTuple2.__name__ = true;
+thx.promise.FutureTuple2.__name__ = ["thx","promise","FutureTuple2"];
 thx.promise.FutureTuple2.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -3438,7 +4161,7 @@ thx.promise.FutureTuple2.tuple = function(future,callback) {
 	});
 };
 thx.promise.FutureNil = function() { };
-thx.promise.FutureNil.__name__ = true;
+thx.promise.FutureNil.__name__ = ["thx","promise","FutureNil"];
 thx.promise.FutureNil.join = function(p1,p2) {
 	return thx.promise.Future.create(function(callback) {
 		thx.promise.Futures.join(p1,p2).then(function(t) {
@@ -3448,7 +4171,7 @@ thx.promise.FutureNil.join = function(p1,p2) {
 };
 thx.promise._Promise = {};
 thx.promise._Promise.Promise_Impl_ = function() { };
-thx.promise._Promise.Promise_Impl_.__name__ = true;
+thx.promise._Promise.Promise_Impl_.__name__ = ["thx","promise","_Promise","Promise_Impl_"];
 thx.promise._Promise.Promise_Impl_.futureToPromise = function(future) {
 	return future.map(function(v) {
 		return thx.core.Either.Right(v);
@@ -3630,7 +4353,7 @@ thx.promise._Promise.Promise_Impl_.toString = function(this1) {
 	return "Promise";
 };
 thx.promise.Promises = function() { };
-thx.promise.Promises.__name__ = true;
+thx.promise.Promises.__name__ = ["thx","promise","Promises"];
 thx.promise.Promises.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		var hasError = false;
@@ -3669,7 +4392,7 @@ thx.promise.Promises.log = function(promise,prefix) {
 	});
 };
 thx.promise.PromiseTuple6 = function() { };
-thx.promise.PromiseTuple6.__name__ = true;
+thx.promise.PromiseTuple6.__name__ = ["thx","promise","PromiseTuple6"];
 thx.promise.PromiseTuple6.mapTuplePromise = function(promise,success) {
 	return thx.promise._Promise.Promise_Impl_.mapSuccessPromise(promise,function(t) {
 		return success(t._0,t._1,t._2,t._3,t._4,t._5);
@@ -3687,7 +4410,7 @@ thx.promise.PromiseTuple6.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple5 = function() { };
-thx.promise.PromiseTuple5.__name__ = true;
+thx.promise.PromiseTuple5.__name__ = ["thx","promise","PromiseTuple5"];
 thx.promise.PromiseTuple5.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3719,7 +4442,7 @@ thx.promise.PromiseTuple5.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple4 = function() { };
-thx.promise.PromiseTuple4.__name__ = true;
+thx.promise.PromiseTuple4.__name__ = ["thx","promise","PromiseTuple4"];
 thx.promise.PromiseTuple4.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3751,7 +4474,7 @@ thx.promise.PromiseTuple4.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple3 = function() { };
-thx.promise.PromiseTuple3.__name__ = true;
+thx.promise.PromiseTuple3.__name__ = ["thx","promise","PromiseTuple3"];
 thx.promise.PromiseTuple3.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3783,7 +4506,7 @@ thx.promise.PromiseTuple3.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseTuple2 = function() { };
-thx.promise.PromiseTuple2.__name__ = true;
+thx.promise.PromiseTuple2.__name__ = ["thx","promise","PromiseTuple2"];
 thx.promise.PromiseTuple2.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3815,7 +4538,7 @@ thx.promise.PromiseTuple2.tuple = function(promise,success,failure) {
 	}:failure);
 };
 thx.promise.PromiseNil = function() { };
-thx.promise.PromiseNil.__name__ = true;
+thx.promise.PromiseNil.__name__ = ["thx","promise","PromiseNil"];
 thx.promise.PromiseNil.join = function(p1,p2) {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,reject) {
 		thx.promise._Promise.Promise_Impl_.either(thx.promise.Promises.join(p1,p2),function(t) {
@@ -3826,7 +4549,7 @@ thx.promise.PromiseNil.join = function(p1,p2) {
 	});
 };
 thx.promise.Timer = function() { };
-thx.promise.Timer.__name__ = true;
+thx.promise.Timer.__name__ = ["thx","promise","Timer"];
 thx.promise.Timer.delay = function(delayms) {
 	return thx.promise.Timer.delayValue(thx.core.Nil.nil,delayms);
 };
@@ -3855,9 +4578,10 @@ thx.stream = {};
 thx.stream.Emitter = function(init) {
 	this.init = init;
 };
-thx.stream.Emitter.__name__ = true;
+thx.stream.Emitter.__name__ = ["thx","stream","Emitter"];
 thx.stream.Emitter.prototype = {
-	feed: function(value) {
+	init: null
+	,feed: function(value) {
 		var stream = new thx.stream.Stream(null);
 		stream.subscriber = function(r) {
 			switch(r[1]) {
@@ -4533,10 +5257,15 @@ thx.stream.Bus = function(distinctValuesOnly,equal) {
 		});
 	});
 };
-thx.stream.Bus.__name__ = true;
+thx.stream.Bus.__name__ = ["thx","stream","Bus"];
 thx.stream.Bus.__super__ = thx.stream.Emitter;
 thx.stream.Bus.prototype = $extend(thx.stream.Emitter.prototype,{
-	cancel: function() {
+	downStreams: null
+	,upStreams: null
+	,distinctValuesOnly: null
+	,equal: null
+	,value: null
+	,cancel: function() {
 		this.emit(thx.stream.StreamValue.End(true));
 	}
 	,clear: function() {
@@ -4610,7 +5339,7 @@ thx.stream.Bus.prototype = $extend(thx.stream.Emitter.prototype,{
 	,__class__: thx.stream.Bus
 });
 thx.stream.Emitters = function() { };
-thx.stream.Emitters.__name__ = true;
+thx.stream.Emitters.__name__ = ["thx","stream","Emitters"];
 thx.stream.Emitters.skipNull = function(emitter) {
 	return emitter.filter(function(value) {
 		return null != value;
@@ -4628,7 +5357,7 @@ thx.stream.Emitters.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterStrings = function() { };
-thx.stream.EmitterStrings.__name__ = true;
+thx.stream.EmitterStrings.__name__ = ["thx","stream","EmitterStrings"];
 thx.stream.EmitterStrings.match = function(emitter,pattern) {
 	return emitter.filter(function(s) {
 		return pattern.match(s);
@@ -4656,7 +5385,7 @@ thx.stream.EmitterStrings.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterInts = function() { };
-thx.stream.EmitterInts.__name__ = true;
+thx.stream.EmitterInts.__name__ = ["thx","stream","EmitterInts"];
 thx.stream.EmitterInts.average = function(emitter) {
 	return emitter.map((function() {
 		var sum = 0.0;
@@ -4743,7 +5472,7 @@ thx.stream.EmitterInts.unique = function(emitter) {
 	})());
 };
 thx.stream.EmitterFloats = function() { };
-thx.stream.EmitterFloats.__name__ = true;
+thx.stream.EmitterFloats.__name__ = ["thx","stream","EmitterFloats"];
 thx.stream.EmitterFloats.average = function(emitter) {
 	return emitter.map((function() {
 		var sum = 0.0;
@@ -4814,7 +5543,7 @@ thx.stream.EmitterFloats.sum = function(emitter) {
 	})());
 };
 thx.stream.EmitterOptions = function() { };
-thx.stream.EmitterOptions.__name__ = true;
+thx.stream.EmitterOptions.__name__ = ["thx","stream","EmitterOptions"];
 thx.stream.EmitterOptions.either = function(emitter,some,none,end) {
 	if(null == some) some = function(_) {
 	};
@@ -4850,14 +5579,14 @@ thx.stream.EmitterOptions.toValue = function(emitter) {
 	});
 };
 thx.stream.EmitterBools = function() { };
-thx.stream.EmitterBools.__name__ = true;
+thx.stream.EmitterBools.__name__ = ["thx","stream","EmitterBools"];
 thx.stream.EmitterBools.negate = function(emitter) {
 	return emitter.map(function(v) {
 		return !v;
 	});
 };
 thx.stream.EmitterEmitters = function() { };
-thx.stream.EmitterEmitters.__name__ = true;
+thx.stream.EmitterEmitters.__name__ = ["thx","stream","EmitterEmitters"];
 thx.stream.EmitterEmitters.flatMap = function(emitter) {
 	return new thx.stream.Emitter(function(stream) {
 		emitter.init(new thx.stream.Stream(function(r) {
@@ -4881,7 +5610,7 @@ thx.stream.EmitterEmitters.flatMap = function(emitter) {
 	});
 };
 thx.stream.EmitterArrays = function() { };
-thx.stream.EmitterArrays.__name__ = true;
+thx.stream.EmitterArrays.__name__ = ["thx","stream","EmitterArrays"];
 thx.stream.EmitterArrays.containerOf = function(emitter,value) {
 	return emitter.filter(function(arr) {
 		return HxOverrides.indexOf(arr,value,0) >= 0;
@@ -4910,7 +5639,7 @@ thx.stream.EmitterArrays.flatten = function(emitter) {
 	});
 };
 thx.stream.EmitterValues = function() { };
-thx.stream.EmitterValues.__name__ = true;
+thx.stream.EmitterValues.__name__ = ["thx","stream","EmitterValues"];
 thx.stream.EmitterValues.left = function(emitter) {
 	return emitter.map(function(v) {
 		return v._0;
@@ -4922,9 +5651,10 @@ thx.stream.EmitterValues.right = function(emitter) {
 	});
 };
 thx.stream.IStream = function() { };
-thx.stream.IStream.__name__ = true;
+thx.stream.IStream.__name__ = ["thx","stream","IStream"];
 thx.stream.IStream.prototype = {
-	__class__: thx.stream.IStream
+	cancel: null
+	,__class__: thx.stream.IStream
 };
 thx.stream.Stream = function(subscriber) {
 	this.subscriber = subscriber;
@@ -4932,10 +5662,14 @@ thx.stream.Stream = function(subscriber) {
 	this.finalized = false;
 	this.canceled = false;
 };
-thx.stream.Stream.__name__ = true;
+thx.stream.Stream.__name__ = ["thx","stream","Stream"];
 thx.stream.Stream.__interfaces__ = [thx.stream.IStream];
 thx.stream.Stream.prototype = {
-	addCleanUp: function(f) {
+	subscriber: null
+	,cleanUps: null
+	,finalized: null
+	,canceled: null
+	,addCleanUp: function(f) {
 		this.cleanUps.push(f);
 	}
 	,cancel: function() {
@@ -4958,7 +5692,7 @@ thx.stream.Stream.prototype = {
 	}
 	,__class__: thx.stream.Stream
 };
-thx.stream.StreamValue = { __ename__ : true, __constructs__ : ["Pulse","End"] };
+thx.stream.StreamValue = { __ename__ : ["thx","stream","StreamValue"], __constructs__ : ["Pulse","End"] };
 thx.stream.StreamValue.Pulse = function(value) { var $x = ["Pulse",0,value]; $x.__enum__ = thx.stream.StreamValue; return $x; };
 thx.stream.StreamValue.End = function(cancel) { var $x = ["End",1,cancel]; $x.__enum__ = thx.stream.StreamValue; return $x; };
 thx.stream.Value = function(value,equals) {
@@ -4975,7 +5709,7 @@ thx.stream.Value = function(value,equals) {
 		stream.pulse(_g.value);
 	});
 };
-thx.stream.Value.__name__ = true;
+thx.stream.Value.__name__ = ["thx","stream","Value"];
 thx.stream.Value.createOption = function(value,equals) {
 	var def;
 	if(null == value) def = haxe.ds.Option.None; else def = haxe.ds.Option.Some(value);
@@ -4985,7 +5719,11 @@ thx.stream.Value.createOption = function(value,equals) {
 };
 thx.stream.Value.__super__ = thx.stream.Emitter;
 thx.stream.Value.prototype = $extend(thx.stream.Emitter.prototype,{
-	get: function() {
+	value: null
+	,downStreams: null
+	,upStreams: null
+	,equals: null
+	,get: function() {
 		return this.value;
 	}
 	,clear: function() {
@@ -5028,7 +5766,7 @@ thx.stream.Value.prototype = $extend(thx.stream.Emitter.prototype,{
 });
 thx.stream.dom = {};
 thx.stream.dom.Dom = function() { };
-thx.stream.dom.Dom.__name__ = true;
+thx.stream.dom.Dom.__name__ = ["thx","stream","dom","Dom"];
 thx.stream.dom.Dom.ready = function() {
 	return thx.promise._Promise.Promise_Impl_.create(function(resolve,_) {
 		window.document.addEventListener("DOMContentLoaded",function(_1) {
@@ -5140,6 +5878,7 @@ thx.stream.dom.Dom.subscribeToggleVisibility = function(el) {
 		if(on) el.style.display = originalDisplay; else el.style.display = "none";
 	};
 };
+function $iterator(o) { if( o instanceof Array ) return function() { return HxOverrides.iter(o); }; return typeof(o.iterator) == 'function' ? $bind(o,o.iterator) : o.iterator; }
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 if(Array.prototype.indexOf) HxOverrides.indexOf = function(a,o,i) {
@@ -5155,8 +5894,8 @@ Math.isNaN = function(i1) {
 	return isNaN(i1);
 };
 String.prototype.__class__ = String;
-String.__name__ = true;
-Array.__name__ = true;
+String.__name__ = ["String"];
+Array.__name__ = ["Array"];
 Date.prototype.__class__ = Date;
 Date.__name__ = ["Date"];
 var Int = { __name__ : ["Int"]};
@@ -5257,6 +5996,7 @@ if(typeof(scope.performance.now) == "undefined") {
 }
 dots.Html.pattern = new EReg("[<]([^> ]+)","");
 dots.Query.doc = document;
+haxe.ds.ObjectMap.count = 0;
 sui._Sui.Anchor_Impl_.topLeft = "sui-top-left";
 sui._Sui.Anchor_Impl_.topRight = "sui-top-right";
 sui._Sui.Anchor_Impl_.bottomLeft = "sui-bottom-left";

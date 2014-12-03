@@ -201,9 +201,31 @@ class Sui {
         macro $e{sui}.float($v{id}, $e{variable}, function(v) $e{variable} = v);
       case TAbstract(_.toString() => "Int", _):
         macro $e{sui}.int($v{id}, $e{variable}, function(v) $e{variable} = v);
+      case TAbstract(_.toString() => "Map", args):
+        var createValueControl = bindType(args[1]);
+        switch args[0] {
+          case TInst(_.toString() => "Int", _):
+            macro $e{sui}.intMap(
+              $v{id},
+              $e{variable},
+              function(v) return $e{createValueControl}(v),
+              function(v) $e{variable} = cast v);
+          case TInst(_.toString() => "String", _):
+            macro $e{sui}.stringMap(
+              $v{id},
+              $e{variable},
+              function(v) return $e{createValueControl}(v),
+              function(v) $e{variable} = cast v);
+          // TODO enum, object
+          case _:
+            Context.error('unsupported map/key parameter ${args[0]}', variable.pos);
+        }
+      case TAbstract(_.toString() => t, e):
+        Context.error('unsupported abstract $t, $e', variable.pos);
       case TFun([],TAbstract(_.toString() => "Void",[])):
         macro $e{sui}.trigger($v{id}, $e{variable});
-      case _: Context.error('unsupported type $type', variable.pos);
+      case _:
+        Context.error('unsupported type $type', variable.pos);
     };
   }
 #if macro
@@ -222,9 +244,15 @@ class Sui {
         macro Sui.createFloat;
       case TAbstract(_.toString() => "Int", _):
         macro Sui.createInt;
+      case TAbstract(_.toString() => t, e):
+        Context.error('unsupported abstract $t, $e', Context.currentPos());
+//      case TAbstract(_.toString() => "Map", e):
+//        trace(e);
+//        macro Sui.createIntMap;
       case TFun([],TAbstract(_.toString() => "Void",[])):
         macro Sui.createTrigger;
-      case _: Context.error('unsupported type $type', Context.currentPos());
+      case _:
+        Context.error('unsupported type $type', Context.currentPos());
     };
   }
 #end

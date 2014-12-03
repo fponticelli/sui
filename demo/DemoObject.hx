@@ -9,18 +9,21 @@ class DemoObject {
     sui.bind(o.startedOn);
     sui.bind(o.scores);
     sui.bind(o.traceMe);
+    sui.bind(o.info);
     sui.attach();
   }
 
   public var scores : Array<Int>;
   public var name : String;
   public var startedOn : Date;
+  public var info : Map<String, String>;
   @:isVar public var enabled(get, set) : Bool;
 
   public function new() {
     this.scores = [1, 5, 10];
     this.name = "Sui";
     this.startedOn = Date.fromString("2014-11-09");
+    this.info = ["a" => "b"];
   }
 
   public function traceMe()
