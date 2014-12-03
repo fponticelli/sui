@@ -57,6 +57,9 @@ class Sui {
   public function int(?label : String, ?defaultValue = 0, ?options : OptionsKindInt, callback : Int -> Void)
     return control(label, createInt(defaultValue, options), callback);
 
+  public function intMap<T>(?label : String, ?defaultValue : IMap<Int, T>, createValueControl : T -> IControl<T>, ?options : Options, callback : IMap<Int, T> -> Void)
+    return control(label, createIntMap(defaultValue, function(v) return createInt(v), createValueControl, options), callback);
+
   public function label(?defaultValue = "", ?label : String, ?callback : String -> Void)
     return control(label, createLabel(defaultValue), callback);
 
