@@ -63,7 +63,8 @@ class Sui {
   public function label(?defaultValue = "", ?label : String, ?callback : String -> Void)
     return control(label, createLabel(defaultValue), callback);
 
-
+  public function stringMap<T>(?label : String, ?defaultValue : IMap<String, T>, createValueControl : T -> IControl<T>, ?options : Options, callback : IMap<String, T> -> Void)
+    return control(label, createStringMap(defaultValue, function(v) return createText(v), createValueControl, options), callback);
 
   public function text(?label : String, ?defaultValue = "", ?options : OptionsKindText, callback : String -> Void)
     return control(label, createText(defaultValue, options), callback);

@@ -1118,6 +1118,11 @@ sui.Sui.createDate = function(defaultValue,options) {
 		}
 	}
 };
+sui.Sui.createEnumMap = function(defaultValue,createKeyControl,createValueControl,options) {
+	return new sui.controls.MapControl(defaultValue,function() {
+		return new haxe.ds.EnumValueMap();
+	},createKeyControl,createValueControl,options);
+};
 sui.Sui.createFloat = function(defaultValue,options) {
 	if(defaultValue == null) defaultValue = 0.0;
 	{
@@ -1160,28 +1165,23 @@ sui.Sui.createInt = function(defaultValue,options) {
 		return $r;
 	}(this))) return new sui.controls.NumberSelectControl(defaultValue,options); else if(null != options && options.min != null && options.max != null) return new sui.controls.IntRangeControl(defaultValue,options); else return new sui.controls.IntControl(defaultValue,options);
 };
-sui.Sui.createLabel = function(defaultValue,label,callback) {
-	if(defaultValue == null) defaultValue = "";
-	return new sui.controls.LabelControl(defaultValue);
-};
 sui.Sui.createIntMap = function(defaultValue,createKeyControl,createValueControl,options) {
 	return new sui.controls.MapControl(defaultValue,function() {
 		return new haxe.ds.IntMap();
 	},createKeyControl,createValueControl,options);
 };
-sui.Sui.createStringMap = function(defaultValue,createKeyControl,createValueControl,options) {
-	return new sui.controls.MapControl(defaultValue,function() {
-		return new haxe.ds.StringMap();
-	},createKeyControl,createValueControl,options);
+sui.Sui.createLabel = function(defaultValue,label,callback) {
+	if(defaultValue == null) defaultValue = "";
+	return new sui.controls.LabelControl(defaultValue);
 };
 sui.Sui.createObjectMap = function(defaultValue,createKeyControl,createValueControl,options) {
 	return new sui.controls.MapControl(defaultValue,function() {
 		return new haxe.ds.ObjectMap();
 	},createKeyControl,createValueControl,options);
 };
-sui.Sui.createEnumMap = function(defaultValue,createKeyControl,createValueControl,options) {
+sui.Sui.createStringMap = function(defaultValue,createKeyControl,createValueControl,options) {
 	return new sui.controls.MapControl(defaultValue,function() {
-		return new haxe.ds.EnumValueMap();
+		return new haxe.ds.StringMap();
 	},createKeyControl,createValueControl,options);
 };
 sui.Sui.createText = function(defaultValue,options) {
@@ -1255,9 +1255,19 @@ sui.Sui.prototype = {
 		if(defaultValue == null) defaultValue = 0;
 		return this.control(label,sui.Sui.createInt(defaultValue,options),callback);
 	}
+	,intMap: function(label,defaultValue,createValueControl,options,callback) {
+		return this.control(label,sui.Sui.createIntMap(defaultValue,function(v) {
+			return sui.Sui.createInt(v);
+		},createValueControl,options),callback);
+	}
 	,label: function(defaultValue,label,callback) {
 		if(defaultValue == null) defaultValue = "";
 		return this.control(label,sui.Sui.createLabel(defaultValue),callback);
+	}
+	,stringMap: function(label,defaultValue,createValueControl,options,callback) {
+		return this.control(label,sui.Sui.createStringMap(defaultValue,function(v) {
+			return sui.Sui.createText(v);
+		},createValueControl,options),callback);
 	}
 	,text: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "";
