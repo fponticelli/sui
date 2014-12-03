@@ -1264,6 +1264,9 @@ sui.Sui.prototype = {
 		if(defaultValue == null) defaultValue = "";
 		return this.control(label,sui.Sui.createLabel(defaultValue),callback);
 	}
+	,objectMap: function(label,defaultValue,createKeyControl,createValueControl,options,callback) {
+		return this.control(label,sui.Sui.createObjectMap(defaultValue,createKeyControl,createValueControl,options),callback);
+	}
 	,stringMap: function(label,defaultValue,createValueControl,options,callback) {
 		return this.control(label,sui.Sui.createStringMap(defaultValue,function(v) {
 			return sui.Sui.createText(v);
