@@ -1,4 +1,5 @@
 (function () { "use strict";
+var $estr = function() { return js.Boot.__string_rec(this,''); };
 function $extend(from, fields) {
 	function Inherit() {} Inherit.prototype = from; var proto = new Inherit();
 	for (var name in fields) proto[name] = fields[name];
@@ -15,28 +16,40 @@ var DemoObject = function() {
 };
 DemoObject.__name__ = ["DemoObject"];
 DemoObject.main = function() {
-	var o = new DemoObject();
+	var demoObject = new DemoObject();
 	var sui1 = new sui.Sui();
-	sui1.text("name",o.name,null,function(v) {
-		o.name = v;
+	var sui1 = sui1;
+	var o = demoObject;
+	var folder = sui1.folder("demo object");
+	sui1.control("scores",(function(v) {
+		return sui.Sui.createArray(v,null,function(v1) {
+			return sui.Sui.createInt(v1);
+		},null);
+	})(o.scores),function(v2) {
+		o.scores = v2;
 	});
-	sui1.bool("enabled",o.get_enabled(),null,function(v1) {
-		o.set_enabled(v1);
+	sui1.control("name",sui.Sui.createText(o.name),function(v3) {
+		o.name = v3;
 	});
-	sui1.date("started on",o.startedOn,null,function(v2) {
-		o.startedOn = v2;
+	sui1.control("startedOn",sui.Sui.createDate(o.startedOn),function(v4) {
+		o.startedOn = v4;
 	});
-	sui1.array("scores",o.scores,null,function(v3) {
-		return sui.Sui.createInt(v3);
-	},null,function(v4) {
-		o.scores = v4;
+	sui1.control("info",(function(v5) {
+		return sui.Sui.createStringMap(v5,function(v6) {
+			return sui.Sui.createText(v6);
+		},function(v7) {
+			return sui.Sui.createText(v7);
+		});
+	})(o.info),function(v8) {
+		o.info = v8;
 	});
-	sui1.trigger("trace me",null,null,$bind(o,o.traceMe));
-	sui1.stringMap("info",o.info,function(v5) {
-		return sui.Sui.createText(v5);
-	},null,function(v6) {
-		o.info = v6;
+	sui1.control("enabled",sui.Sui.createBool(o.get_enabled()),function(v9) {
+		o.set_enabled(v9);
 	});
+	sui1.control(null,sui.Sui.createTrigger("traceMe"),function(_) {
+		o.traceMe();
+	});
+	folder;
 	sui1.attach();
 };
 DemoObject.prototype = {
@@ -49,13 +62,13 @@ DemoObject.prototype = {
 		var _g = this;
 		haxe.Log.trace(Reflect.fields(this).map(function(field) {
 			return "" + field + ": " + Std.string(Reflect.field(_g,field));
-		}).join(", "),{ fileName : "DemoObject.hx", lineNumber : 30, className : "DemoObject", methodName : "traceMe"});
+		}).join(", "),{ fileName : "DemoObject.hx", lineNumber : 33, className : "DemoObject", methodName : "traceMe"});
 	}
 	,get_enabled: function() {
 		return this.enabled;
 	}
 	,set_enabled: function(v) {
-		haxe.Log.trace("enabled set to " + (v == null?"null":"" + v),{ fileName : "DemoObject.hx", lineNumber : 38, className : "DemoObject", methodName : "set_enabled"});
+		haxe.Log.trace("enabled set to " + (v == null?"null":"" + v),{ fileName : "DemoObject.hx", lineNumber : 41, className : "DemoObject", methodName : "set_enabled"});
 		return this.enabled = v;
 	}
 	,__class__: DemoObject
@@ -324,20 +337,27 @@ StringTools.replace = function(s,sub,by) {
 };
 var ValueType = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] };
 ValueType.TNull = ["TNull",0];
+ValueType.TNull.toString = $estr;
 ValueType.TNull.__enum__ = ValueType;
 ValueType.TInt = ["TInt",1];
+ValueType.TInt.toString = $estr;
 ValueType.TInt.__enum__ = ValueType;
 ValueType.TFloat = ["TFloat",2];
+ValueType.TFloat.toString = $estr;
 ValueType.TFloat.__enum__ = ValueType;
 ValueType.TBool = ["TBool",3];
+ValueType.TBool.toString = $estr;
 ValueType.TBool.__enum__ = ValueType;
 ValueType.TObject = ["TObject",4];
+ValueType.TObject.toString = $estr;
 ValueType.TObject.__enum__ = ValueType;
 ValueType.TFunction = ["TFunction",5];
+ValueType.TFunction.toString = $estr;
 ValueType.TFunction.__enum__ = ValueType;
-ValueType.TClass = function(c) { var $x = ["TClass",6,c]; $x.__enum__ = ValueType; return $x; };
-ValueType.TEnum = function(e) { var $x = ["TEnum",7,e]; $x.__enum__ = ValueType; return $x; };
+ValueType.TClass = function(c) { var $x = ["TClass",6,c]; $x.__enum__ = ValueType; $x.toString = $estr; return $x; };
+ValueType.TEnum = function(e) { var $x = ["TEnum",7,e]; $x.__enum__ = ValueType; $x.toString = $estr; return $x; };
 ValueType.TUnknown = ["TUnknown",8];
+ValueType.TUnknown.toString = $estr;
 ValueType.TUnknown.__enum__ = ValueType;
 var Type = function() { };
 Type.__name__ = ["Type"];
@@ -516,11 +536,12 @@ dots.Query.childrenOf = function(children,parent) {
 var haxe = {};
 haxe.StackItem = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunction","Module","FilePos","Method","LocalFunction"] };
 haxe.StackItem.CFunction = ["CFunction",0];
+haxe.StackItem.CFunction.toString = $estr;
 haxe.StackItem.CFunction.__enum__ = haxe.StackItem;
-haxe.StackItem.Module = function(m) { var $x = ["Module",1,m]; $x.__enum__ = haxe.StackItem; return $x; };
-haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,line]; $x.__enum__ = haxe.StackItem; return $x; };
-haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; return $x; };
-haxe.StackItem.LocalFunction = function(v) { var $x = ["LocalFunction",4,v]; $x.__enum__ = haxe.StackItem; return $x; };
+haxe.StackItem.Module = function(m) { var $x = ["Module",1,m]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; };
+haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,line]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; };
+haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; };
+haxe.StackItem.LocalFunction = function(v) { var $x = ["LocalFunction",4,v]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; };
 haxe.CallStack = function() { };
 haxe.CallStack.__name__ = ["haxe","CallStack"];
 haxe.CallStack.callStack = function() {
@@ -827,8 +848,9 @@ haxe.ds.ObjectMap.prototype = {
 	,__class__: haxe.ds.ObjectMap
 };
 haxe.ds.Option = { __ename__ : ["haxe","ds","Option"], __constructs__ : ["Some","None"] };
-haxe.ds.Option.Some = function(v) { var $x = ["Some",0,v]; $x.__enum__ = haxe.ds.Option; return $x; };
+haxe.ds.Option.Some = function(v) { var $x = ["Some",0,v]; $x.__enum__ = haxe.ds.Option; $x.toString = $estr; return $x; };
 haxe.ds.Option.None = ["None",1];
+haxe.ds.Option.None.toString = $estr;
 haxe.ds.Option.None.__enum__ = haxe.ds.Option;
 haxe.ds.StringMap = function() {
 	this.h = { };
@@ -1272,9 +1294,9 @@ sui.components.Grid.prototype = {
 	,__class__: sui.components.Grid
 };
 sui.components.CellContent = { __ename__ : ["sui","components","CellContent"], __constructs__ : ["Single","VerticalPair","HorizontalPair"] };
-sui.components.CellContent.Single = function(control) { var $x = ["Single",0,control]; $x.__enum__ = sui.components.CellContent; return $x; };
-sui.components.CellContent.VerticalPair = function(top,bottom) { var $x = ["VerticalPair",1,top,bottom]; $x.__enum__ = sui.components.CellContent; return $x; };
-sui.components.CellContent.HorizontalPair = function(left,right) { var $x = ["HorizontalPair",2,left,right]; $x.__enum__ = sui.components.CellContent; return $x; };
+sui.components.CellContent.Single = function(control) { var $x = ["Single",0,control]; $x.__enum__ = sui.components.CellContent; $x.toString = $estr; return $x; };
+sui.components.CellContent.VerticalPair = function(top,bottom) { var $x = ["VerticalPair",1,top,bottom]; $x.__enum__ = sui.components.CellContent; $x.toString = $estr; return $x; };
+sui.components.CellContent.HorizontalPair = function(left,right) { var $x = ["HorizontalPair",2,left,right]; $x.__enum__ = sui.components.CellContent; $x.toString = $estr; return $x; };
 sui.controls = {};
 sui.controls.IControl = function() { };
 sui.controls.IControl.__name__ = ["sui","controls","IControl"];
@@ -2280,26 +2302,36 @@ sui.controls.NumberSelectControl.prototype = $extend(sui.controls.SelectControl.
 });
 sui.controls.DateKind = { __ename__ : ["sui","controls","DateKind"], __constructs__ : ["DateOnly","DateTime"] };
 sui.controls.DateKind.DateOnly = ["DateOnly",0];
+sui.controls.DateKind.DateOnly.toString = $estr;
 sui.controls.DateKind.DateOnly.__enum__ = sui.controls.DateKind;
 sui.controls.DateKind.DateTime = ["DateTime",1];
+sui.controls.DateKind.DateTime.toString = $estr;
 sui.controls.DateKind.DateTime.__enum__ = sui.controls.DateKind;
 sui.controls.FloatKind = { __ename__ : ["sui","controls","FloatKind"], __constructs__ : ["FloatNumber","FloatTime"] };
 sui.controls.FloatKind.FloatNumber = ["FloatNumber",0];
+sui.controls.FloatKind.FloatNumber.toString = $estr;
 sui.controls.FloatKind.FloatNumber.__enum__ = sui.controls.FloatKind;
 sui.controls.FloatKind.FloatTime = ["FloatTime",1];
+sui.controls.FloatKind.FloatTime.toString = $estr;
 sui.controls.FloatKind.FloatTime.__enum__ = sui.controls.FloatKind;
 sui.controls.TextKind = { __ename__ : ["sui","controls","TextKind"], __constructs__ : ["TextEmail","TextPassword","TextSearch","TextTel","PlainText","TextUrl"] };
 sui.controls.TextKind.TextEmail = ["TextEmail",0];
+sui.controls.TextKind.TextEmail.toString = $estr;
 sui.controls.TextKind.TextEmail.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextPassword = ["TextPassword",1];
+sui.controls.TextKind.TextPassword.toString = $estr;
 sui.controls.TextKind.TextPassword.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextSearch = ["TextSearch",2];
+sui.controls.TextKind.TextSearch.toString = $estr;
 sui.controls.TextKind.TextSearch.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextTel = ["TextTel",3];
+sui.controls.TextKind.TextTel.toString = $estr;
 sui.controls.TextKind.TextTel.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.PlainText = ["PlainText",4];
+sui.controls.TextKind.PlainText.toString = $estr;
 sui.controls.TextKind.PlainText.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextUrl = ["TextUrl",5];
+sui.controls.TextKind.TextUrl.toString = $estr;
 sui.controls.TextKind.TextUrl.__enum__ = sui.controls.TextKind;
 sui.controls.PasswordControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","password",options);
@@ -2864,8 +2896,8 @@ thx.core.ArrayStrings.min = function(arr) {
 	},arr[0]);
 };
 thx.core.Either = { __ename__ : ["thx","core","Either"], __constructs__ : ["Left","Right"] };
-thx.core.Either.Left = function(value) { var $x = ["Left",0,value]; $x.__enum__ = thx.core.Either; return $x; };
-thx.core.Either.Right = function(value) { var $x = ["Right",1,value]; $x.__enum__ = thx.core.Either; return $x; };
+thx.core.Either.Left = function(value) { var $x = ["Left",0,value]; $x.__enum__ = thx.core.Either; $x.toString = $estr; return $x; };
+thx.core.Either.Right = function(value) { var $x = ["Right",1,value]; $x.__enum__ = thx.core.Either; $x.toString = $estr; return $x; };
 thx.core.Error = function(message,stack,pos) {
 	Error.call(this,message);
 	this.message = message;
@@ -3256,6 +3288,7 @@ thx.core.Iterators.toArray = function(it) {
 };
 thx.core.Nil = { __ename__ : ["thx","core","Nil"], __constructs__ : ["nil"] };
 thx.core.Nil.nil = ["nil",0];
+thx.core.Nil.nil.toString = $estr;
 thx.core.Nil.nil.__enum__ = thx.core.Nil;
 thx.core.Nulls = function() { };
 thx.core.Nulls.__name__ = ["thx","core","Nulls"];
@@ -5693,8 +5726,8 @@ thx.stream.Stream.prototype = {
 	,__class__: thx.stream.Stream
 };
 thx.stream.StreamValue = { __ename__ : ["thx","stream","StreamValue"], __constructs__ : ["Pulse","End"] };
-thx.stream.StreamValue.Pulse = function(value) { var $x = ["Pulse",0,value]; $x.__enum__ = thx.stream.StreamValue; return $x; };
-thx.stream.StreamValue.End = function(cancel) { var $x = ["End",1,cancel]; $x.__enum__ = thx.stream.StreamValue; return $x; };
+thx.stream.StreamValue.Pulse = function(value) { var $x = ["Pulse",0,value]; $x.__enum__ = thx.stream.StreamValue; $x.toString = $estr; return $x; };
+thx.stream.StreamValue.End = function(cancel) { var $x = ["End",1,cancel]; $x.__enum__ = thx.stream.StreamValue; $x.toString = $estr; return $x; };
 thx.stream.Value = function(value,equals) {
 	var _g = this;
 	if(null == equals) this.equals = thx.core.Functions.equality; else this.equals = equals;

@@ -2,14 +2,10 @@ import sui.Sui;
 
 class DemoObject {
   public static function main() {
-    var o = new DemoObject(),
+    var demoObject = new DemoObject(),
         sui = new Sui();
-    sui.bind(o.name);
-    sui.bind(o.enabled);
-    sui.bind(o.startedOn);
-    sui.bind(o.scores);
-    sui.bind(o.traceMe);
-    sui.bind(o.info);
+
+    sui.bind(demoObject);
     sui.attach();
   }
 
