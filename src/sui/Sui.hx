@@ -229,7 +229,7 @@ class Sui {
     };
   }
 #if macro
-  public static function bindType(type : haxe.macro.Type) {
+  public static function bindType(type : haxe.macro.Type) : Expr {
     return switch type {
       case TInst(_.toString() => "String", _):
         macro Sui.createText;
@@ -244,6 +244,26 @@ class Sui {
         macro Sui.createFloat;
       case TAbstract(_.toString() => "Int", _):
         macro Sui.createInt;
+      case TAbstract(_.toString() => "Map", args):
+        var createKeyControl   = bindType(args[0]),
+            createValueControl = bindType(args[1]);
+        switch args[0] {
+          case TInst(_.toString() => "Int", _):
+            macro function(v) return Sui.createIntMap(
+              v,
+              function(v) return $e{createKeyControl}(v),
+              function(v) return $e{createValueControl}(v)
+            );
+          case TInst(_.toString() => "String", _):
+            macro function(v) return Sui.createStringMap(
+              v,
+              function(v) return $e{createKeyControl}(v),
+              function(v) return $e{createValueControl}(v)
+            );
+          // TODO enum, object
+          case _:
+            Context.error('unsupported map/key parameter ${args[0]}', Context.currentPos());
+        }
       case TAbstract(_.toString() => t, e):
         Context.error('unsupported abstract $t, $e', Context.currentPos());
 //      case TAbstract(_.toString() => "Map", e):
