@@ -195,6 +195,31 @@ class Sui {
         macro $e{sui}.array($v{id}, $e{variable}, null,
           function(v) return $e{f}(v),
           function(v) $e{variable} = v);
+      case TInst(cls, params):
+        var fields : Array<Expr> = [];
+        cls.get().fields.get().map(function(field) {
+          if(!field.isPublic) return;
+          var name = field.name;
+          switch field.kind {
+            case FVar(_, _):
+              var createControl = bindType(field.type);
+              // TODO remove cast
+              var expr = macro sui.control($v{field.name}, $e{createControl}(o.$name), function(v) o.$name = cast v);
+              fields.push(expr);
+            case FMethod(_):
+              var arity = thx.macro.MacroTypes.getArity(Context.follow(field.type));
+              if(arity != 0) return;
+              var expr = macro sui.control(Sui.createTrigger($v{name}), function(_) o.$name());
+              fields.push(expr);
+          }
+        });
+        macro {
+          var sui = $e{sui},
+              o = $e{variable};
+          var folder = sui.folder($v{id});
+          $b{fields};
+          folder;
+        };
       case TAbstract(_.toString() => "Bool", _):
         macro $e{sui}.bool($v{id}, $e{variable}, function(v) $e{variable} = v);
       case TAbstract(_.toString() => "Float", _):
