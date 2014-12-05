@@ -199,17 +199,19 @@ class Sui {
         var fields : Array<Expr> = [];
         cls.get().fields.get().map(function(field) {
           if(!field.isPublic) return;
-          var name = field.name;
+          var name = field.name,
+              label = name.humanize();
           switch field.kind {
             case FVar(_, _):
-              var createControl = bindType(field.type);
+              var createControl = bindType(field.type),
+                  T = haxe.macro.TypeTools.toComplexType(field.type);
               // TODO remove cast
-              var expr = macro sui.control($v{field.name}, $e{createControl}(o.$name), function(v) o.$name = cast v);
+              var expr = macro sui.control($v{label}, $e{createControl}(o.$name), function(v : $T) o.$name = v);
               fields.push(expr);
             case FMethod(_):
               var arity = thx.macro.MacroTypes.getArity(Context.follow(field.type));
               if(arity != 0) return;
-              var expr = macro sui.control(Sui.createTrigger($v{name}), function(_) o.$name());
+              var expr = macro sui.control(Sui.createTrigger($v{label}), function(_) o.$name());
               fields.push(expr);
           }
         });
