@@ -11,24 +11,18 @@ using thx.core.Arrays;
 using thx.core.Iterators;
 using thx.core.Nulls;
 
-#if (haxe_ver >= 3.200)
-import haxe.Constraints.IMap;
-#else
-import Map.IMap;
-#end
-
-class MapControl<TKey, TValue> implements IControl<IMap<TKey, TValue>> {
+class MapControl<TKey, TValue> implements IControl<Map<TKey, TValue>> {
   public var el(default, null) : Element;
   public var tbody(default, null) : Element;
   public var addButton(default, null) : Element;
-  public var defaultValue(default, null) : IMap<TKey, TValue>;
-  public var streams(default, null) : ControlStreams<IMap<TKey, TValue>>;
-  public var createMap(default, null) : Void -> IMap<TKey, TValue>;
+  public var defaultValue(default, null) : Map<TKey, TValue>;
+  public var streams(default, null) : ControlStreams<Map<TKey, TValue>>;
+  public var createMap(default, null) : Void -> Map<TKey, TValue>;
   public var createKeyControl(default, null) : TKey -> IControl<TKey>;
   public var createValueControl(default, null) : TValue -> IControl<TValue>;
   public var length(default, null) : Int;
 
-  var values : ControlValues<IMap<TKey, TValue>>;
+  var values : ControlValues<Map<TKey, TValue>>;
   var elements :  Array<{
     controlKey : IControl<TKey>,
     controlValue : IControl<TValue>,
@@ -36,7 +30,7 @@ class MapControl<TKey, TValue> implements IControl<IMap<TKey, TValue>> {
     index : Int
   }>;
 
-  public function new(?defaultValue : IMap<TKey, TValue>, createMap : Void -> IMap<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options) {
+  public function new(?defaultValue : Map<TKey, TValue>, createMap : Void -> Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options) {
     var template = '<div class="sui-control sui-control-single sui-type-array">
 <table class="sui-map"><tbody></tbody></table>
 <div class="sui-array-add"><i class="sui-icon sui-icon-add"></i></div>
@@ -144,10 +138,10 @@ class MapControl<TKey, TValue> implements IControl<IMap<TKey, TValue>> {
       .feed(values.focused);
   }
 
-  function setValue(v : IMap<TKey, TValue>)
+  function setValue(v : Map<TKey, TValue>)
     v.keys().pluck(addControl(_, v.get(_)));
 
-  function getValue() : IMap<TKey, TValue> {
+  function getValue() : Map<TKey, TValue> {
     var map = createMap();
     elements.map(function(o) {
       var k = o.controlKey.get(),
@@ -165,13 +159,13 @@ class MapControl<TKey, TValue> implements IControl<IMap<TKey, TValue>> {
   function updateValue()
     values.value.set(getValue());
 
-  public function set(v : IMap<TKey, TValue>) {
+  public function set(v : Map<TKey, TValue>) {
     clear();
     setValue(v);
     values.value.set(v);
   }
 
-  public function get() : IMap<TKey, TValue>
+  public function get() : Map<TKey, TValue>
     return values.value.get();
 
   public function isEnabled()
