@@ -51,11 +51,34 @@ class Sui {
   public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsKindFloat, callback : Float -> Void)
     return control(label, createFloat(defaultValue, options), callback);
 
-  public function folder(label : String) {
-    var sui = new Sui(),
+  public function folder(label : String, ?options : OptionsFolder) {
+    var collapsible = (options.collapsible).or(true),
+        collapsed = (options.collapsed).or(false),
+        sui = new Sui(),
         header = {
-          el : dots.Html.parse('<header class="sui-folder">$label</header>')
-        };
+          el : dots.Html.parse('<header class="sui-folder">
+<i class="sui-trigger-toggle sui-icon sui-icon-collapse"></i>
+$label</header>')
+        },
+        trigger = Query.first('.sui-trigger-toggle', header.el);
+
+    if(collapsible) {
+      if(collapsed) {
+        sui.grid.el.style.display = "none";
+      }
+
+      var collapse = trigger.streamClick()
+        .pluck(collapsed = !collapsed)
+        .negate();
+
+      collapse.subscribe(
+        sui.grid.el.subscribeToggleVisibility()
+          .join(trigger.subscribeSwapClass('sui-icon-collapse', 'sui-icon-expand'))
+      );
+    } else {
+      trigger.style.display = "none";
+    }
+
     sui.grid.el.classList.add("sui-grid-inner");
     grid.add(VerticalPair(header, sui.grid));
     return sui;
