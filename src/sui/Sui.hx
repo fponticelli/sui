@@ -6,7 +6,11 @@ import js.html.Element;
 import sui.components.Grid;
 import sui.controls.*;
 import sui.controls.Options;
+using thx.core.Functions;
 using thx.core.Nulls;
+using thx.stream.dom.Dom;
+using thx.stream.Emitter;
+using dots.Query;
 #else
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -206,19 +210,18 @@ class Sui {
               var createControl = bindType(field.type),
                   T = haxe.macro.TypeTools.toComplexType(field.type);
               // TODO remove cast
-              var expr = macro sui.control($v{label}, $e{createControl}(o.$name), function(v : $T) o.$name = v);
+              var expr = macro folder.control($v{label}, $e{createControl}(o.$name), function(v : $T) o.$name = v);
               fields.push(expr);
             case FMethod(_):
               var arity = thx.macro.MacroTypes.getArity(Context.follow(field.type));
               if(arity != 0) return;
-              var expr = macro sui.control(Sui.createTrigger($v{label}), function(_) o.$name());
+              var expr = macro folder.control(Sui.createTrigger($v{label}), function(_) o.$name());
               fields.push(expr);
           }
         });
         macro {
-          var sui = $e{sui},
-              o = $e{variable};
-          var folder = sui.folder($v{id});
+          var o = $e{variable},
+              folder = $e{sui}.folder($v{id});
           $b{fields};
           folder;
         };
