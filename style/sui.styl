@@ -21,7 +21,6 @@ box-shadow(args...)
 
 // components
 table.sui-grid
-  box-sizing border-box
   *
     box-sizing border-box
   border-collapse collapse
@@ -107,7 +106,6 @@ table.sui-grid
   -webkit-user-select none
   -o-user-select none
   user-select none
-  box-sizing border-box
   font-size 11px
   font-family $font-default
   line-height 18px
@@ -248,6 +246,8 @@ table.sui-grid
   .sui-map-item
     > td
       border-bottom 1px dotted $dark-border
+      &:first-child
+        border-left none
     &:last-child
       > td
         border-bottom none
@@ -305,7 +305,15 @@ table.sui-grid
 .sui-folder
   padding 0 6px
   font-weight bold
-  
+
+.sui-trigger-toggle
+  cursor pointer
+
+.sui-bottom-left
+.sui-bottom-right
+  .sui-trigger-toggle
+    transform rotate(180deg)
+
 .sui-grid-inner
   width 100%
-  margin-left 6px
+  border-left 6px solid $dark-background
