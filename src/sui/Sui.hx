@@ -128,6 +128,13 @@ $label</header>')
     };
   }
 
+  static public function collapsible(?label : String, ?collapsed = false, ?attachTo : Element, ?position : Anchor) {
+    var sui = new Sui(),
+        folder = sui.folder(label.or(""), { collapsible : true, collapsed : collapsed });
+    sui.attach(attachTo, position);
+    return folder;
+  }
+
   static public function createEnumMap<TKey, TValue>(?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
     return new MapControl(cast defaultValue, function() return cast new haxe.ds.EnumValueMap<TKey, TValue>(), createKeyControl, createValueControl, options);
 
