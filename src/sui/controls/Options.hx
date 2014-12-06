@@ -89,3 +89,8 @@ typedef OptionsTime = {> Options,
   ?list : Array<{ label : String, value : Float }>,
   ?values : Array<Float>
 }
+
+typedef OptionsFolder = {
+  ?collapsible : Bool,
+  ?collapsed : Bool
+}
