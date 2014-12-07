@@ -1,6 +1,7 @@
 using dots.Html;
 using dots.Query;
 
+import sui.Sui;
 import sui.components.*;
 import sui.controls.*;
 import sui.controls.MapControl;
@@ -10,7 +11,24 @@ import js.Browser;
 
 class DemoControls {
   public static function main() {
-    var ui = new sui.Sui();
+    var ui = new Sui();
+    ui.choice("chose one?", function(option : String) return switch option {
+        case "a":
+          var sui = new Sui();
+          sui.bool("bool", function(_){});
+          sui.text("text", function(_){});
+          return sui;
+        case "b":
+          var sui = new Sui();
+          sui.int("number", { min : 0, max : 10 }, function(_){});
+          return sui;
+        case _: null;
+      }, [
+        { value : "a", label : "A" },
+        { value : "b", label : "B" },
+        { value : "c", label : "C" }
+      ]);
+
     ui.bool("boolean", function(v) trace('bool: $v'));
     ui.date("date time", {
         kind : DateTime,

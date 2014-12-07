@@ -1,5 +1,4 @@
 (function () { "use strict";
-var $estr = function() { return js.Boot.__string_rec(this,''); };
 function $extend(from, fields) {
 	function Inherit() {} Inherit.prototype = from; var proto = new Inherit();
 	for (var name in fields) proto[name] = fields[name];
@@ -10,69 +9,87 @@ var DemoControls = function() { };
 DemoControls.__name__ = ["DemoControls"];
 DemoControls.main = function() {
 	var ui = new sui.Sui();
+	ui.choice("chose one?",function(option) {
+		switch(option) {
+		case "a":
+			var sui1 = new sui.Sui();
+			sui1.bool("bool",null,null,function(_) {
+			});
+			sui1.text("text",null,null,function(_1) {
+			});
+			return sui1;
+		case "b":
+			var sui11 = new sui.Sui();
+			sui11["int"]("number",null,{ min : 0, max : 10},function(_2) {
+			});
+			return sui11;
+		default:
+			return null;
+		}
+	},[{ value : "a", label : "A"},{ value : "b", label : "B"},{ value : "c", label : "C"}]);
 	ui.bool("boolean",null,null,function(v) {
-		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 14, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("bool: " + (v == null?"null":"" + v),{ fileName : "DemoControls.hx", lineNumber : 32, className : "DemoControls", methodName : "main"});
 	});
 	ui.date("date time",null,{ kind : sui.controls.DateKind.DateTime, list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02 16:01:00")},{ label : "other", value : HxOverrides.strDate("1974-06-09")},{ label : "today", value : new Date()}]},function(v1) {
-		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 18, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("date time: " + Std.string(v1),{ fileName : "DemoControls.hx", lineNumber : 36, className : "DemoControls", methodName : "main"});
 	});
 	ui.date("date",null,{ list : [{ label : "birthday", value : HxOverrides.strDate("1972-05-02")},{ label : "today", value : new Date()}]},function(v2) {
-		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 21, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("date: " + Std.string(v2),{ fileName : "DemoControls.hx", lineNumber : 39, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("email","",{ kind : sui.controls.TextKind.TextEmail},function(v3) {
-		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 24, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("email: " + v3,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("secret","",{ kind : sui.controls.TextKind.TextPassword, placeholder : "shhh"},function(v4) {
-		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 28, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("password: " + v4,{ fileName : "DemoControls.hx", lineNumber : 46, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("text","",{ placeholder : "placeholder"},function(v5) {
-		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 31, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("string: " + v5,{ fileName : "DemoControls.hx", lineNumber : 49, className : "DemoControls", methodName : "main"});
 	});
 	ui.text(null,"",{ placeholder : "libs", values : ["haxe","thx","sui"]},function(v6) {
-		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 35, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("string: " + v6,{ fileName : "DemoControls.hx", lineNumber : 53, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("time",82800000,{ kind : sui.controls.FloatKind.FloatTime, values : [0,60000,3600000]},function(t) {
-		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 39, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("time: " + t,{ fileName : "DemoControls.hx", lineNumber : 57, className : "DemoControls", methodName : "main"});
 	});
 	ui.color("color",null,{ list : [{ value : "#FF0000", label : "red"},{ value : "#00FF00", label : "blue"},{ value : "#0000FF", label : "green"}]},function(v7) {
-		haxe.Log.trace("color: " + v7,{ fileName : "DemoControls.hx", lineNumber : 42, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("color: " + v7,{ fileName : "DemoControls.hx", lineNumber : 60, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("float",null,null,function(v8) {
-		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 43, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("float: " + v8,{ fileName : "DemoControls.hx", lineNumber : 61, className : "DemoControls", methodName : "main"});
 	});
 	ui["float"]("float range",0.5,{ step : 0.01, min : 0.0, max : 1.0, values : [0,0.5,1]},function(v9) {
-		haxe.Log.trace("float range: " + v9,{ fileName : "DemoControls.hx", lineNumber : 49, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("float range: " + v9,{ fileName : "DemoControls.hx", lineNumber : 67, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int",null,{ list : [{ label : "one", value : 1},{ label : "two", value : 2},{ label : "three", value : 3}]},function(v10) {
-		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 52, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int: " + v10,{ fileName : "DemoControls.hx", lineNumber : 70, className : "DemoControls", methodName : "main"});
 	});
 	ui["int"]("int range",20,{ min : 10, max : 30},function(v11) {
-		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 56, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("int range: " + v11,{ fileName : "DemoControls.hx", lineNumber : 74, className : "DemoControls", methodName : "main"});
 	});
 	ui.label("temp").set("hello there");
 	ui.text("search","",{ kind : sui.controls.TextKind.TextSearch},function(v12) {
-		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 60, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("search: " + v12,{ fileName : "DemoControls.hx", lineNumber : 78, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("tel","",{ kind : sui.controls.TextKind.TextTel},function(v13) {
-		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 63, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("tel: " + v13,{ fileName : "DemoControls.hx", lineNumber : 81, className : "DemoControls", methodName : "main"});
 	});
 	ui.trigger("trigger",null,null,function() {
-		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 64, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("triggered",{ fileName : "DemoControls.hx", lineNumber : 82, className : "DemoControls", methodName : "main"});
 	});
 	ui.text("url","",{ kind : sui.controls.TextKind.TextUrl},function(v14) {
-		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 67, className : "DemoControls", methodName : "main"});
+		haxe.Log.trace("url: " + v14,{ fileName : "DemoControls.hx", lineNumber : 85, className : "DemoControls", methodName : "main"});
 	});
-	var sui1 = ui.folder("more details");
+	var sui2 = ui.folder("more details");
 	var obj_name = "Sui";
 	var obj_info = { age : 0.1};
-	sui1.text("name",obj_name,null,function(v15) {
+	sui2.text("name",obj_name,null,function(v15) {
 		obj_name = v15;
 	});
-	sui1["float"]("info.age",obj_info.age,null,function(v16) {
+	sui2["float"]("info.age",obj_info.age,null,function(v16) {
 		obj_info.age = v16;
 	});
 	var a = 12;
-	sui1["int"]("a",a,null,function(v17) {
+	sui2["int"]("a",a,null,function(v17) {
 		a = v17;
 	});
 	ui.attach();
@@ -400,27 +417,20 @@ StringTools.replace = function(s,sub,by) {
 };
 var ValueType = { __ename__ : ["ValueType"], __constructs__ : ["TNull","TInt","TFloat","TBool","TObject","TFunction","TClass","TEnum","TUnknown"] };
 ValueType.TNull = ["TNull",0];
-ValueType.TNull.toString = $estr;
 ValueType.TNull.__enum__ = ValueType;
 ValueType.TInt = ["TInt",1];
-ValueType.TInt.toString = $estr;
 ValueType.TInt.__enum__ = ValueType;
 ValueType.TFloat = ["TFloat",2];
-ValueType.TFloat.toString = $estr;
 ValueType.TFloat.__enum__ = ValueType;
 ValueType.TBool = ["TBool",3];
-ValueType.TBool.toString = $estr;
 ValueType.TBool.__enum__ = ValueType;
 ValueType.TObject = ["TObject",4];
-ValueType.TObject.toString = $estr;
 ValueType.TObject.__enum__ = ValueType;
 ValueType.TFunction = ["TFunction",5];
-ValueType.TFunction.toString = $estr;
 ValueType.TFunction.__enum__ = ValueType;
-ValueType.TClass = function(c) { var $x = ["TClass",6,c]; $x.__enum__ = ValueType; $x.toString = $estr; return $x; };
-ValueType.TEnum = function(e) { var $x = ["TEnum",7,e]; $x.__enum__ = ValueType; $x.toString = $estr; return $x; };
+ValueType.TClass = function(c) { var $x = ["TClass",6,c]; $x.__enum__ = ValueType; return $x; };
+ValueType.TEnum = function(e) { var $x = ["TEnum",7,e]; $x.__enum__ = ValueType; return $x; };
 ValueType.TUnknown = ["TUnknown",8];
-ValueType.TUnknown.toString = $estr;
 ValueType.TUnknown.__enum__ = ValueType;
 var Type = function() { };
 Type.__name__ = ["Type"];
@@ -599,12 +609,11 @@ dots.Query.childrenOf = function(children,parent) {
 var haxe = {};
 haxe.StackItem = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunction","Module","FilePos","Method","LocalFunction"] };
 haxe.StackItem.CFunction = ["CFunction",0];
-haxe.StackItem.CFunction.toString = $estr;
 haxe.StackItem.CFunction.__enum__ = haxe.StackItem;
-haxe.StackItem.Module = function(m) { var $x = ["Module",1,m]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; };
-haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,line]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; };
-haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; };
-haxe.StackItem.LocalFunction = function(v) { var $x = ["LocalFunction",4,v]; $x.__enum__ = haxe.StackItem; $x.toString = $estr; return $x; };
+haxe.StackItem.Module = function(m) { var $x = ["Module",1,m]; $x.__enum__ = haxe.StackItem; return $x; };
+haxe.StackItem.FilePos = function(s,file,line) { var $x = ["FilePos",2,s,file,line]; $x.__enum__ = haxe.StackItem; return $x; };
+haxe.StackItem.Method = function(classname,method) { var $x = ["Method",3,classname,method]; $x.__enum__ = haxe.StackItem; return $x; };
+haxe.StackItem.LocalFunction = function(v) { var $x = ["LocalFunction",4,v]; $x.__enum__ = haxe.StackItem; return $x; };
 haxe.CallStack = function() { };
 haxe.CallStack.__name__ = ["haxe","CallStack"];
 haxe.CallStack.callStack = function() {
@@ -911,9 +920,8 @@ haxe.ds.ObjectMap.prototype = {
 	,__class__: haxe.ds.ObjectMap
 };
 haxe.ds.Option = { __ename__ : ["haxe","ds","Option"], __constructs__ : ["Some","None"] };
-haxe.ds.Option.Some = function(v) { var $x = ["Some",0,v]; $x.__enum__ = haxe.ds.Option; $x.toString = $estr; return $x; };
+haxe.ds.Option.Some = function(v) { var $x = ["Some",0,v]; $x.__enum__ = haxe.ds.Option; return $x; };
 haxe.ds.Option.None = ["None",1];
-haxe.ds.Option.None.toString = $estr;
 haxe.ds.Option.None.__enum__ = haxe.ds.Option;
 haxe.ds.StringMap = function() {
 	this.h = { };
@@ -1128,6 +1136,22 @@ sui.Sui.createDate = function(defaultValue,options) {
 		}
 	}
 };
+sui.Sui.collapsible = function(label,collapsed,attachTo,position) {
+	if(collapsed == null) collapsed = false;
+	var sui1 = new sui.Sui();
+	var folder = sui1.folder((function($this) {
+		var $r;
+		var t;
+		{
+			var _0 = label;
+			if(null == _0) t = null; else t = _0;
+		}
+		$r = t != null?t:"";
+		return $r;
+	}(this)),{ collapsible : true, collapsed : collapsed});
+	sui1.attach(attachTo,position);
+	return folder;
+};
 sui.Sui.createEnumMap = function(defaultValue,createKeyControl,createValueControl,options) {
 	return new sui.controls.MapControl(defaultValue,function() {
 		return new haxe.ds.EnumValueMap();
@@ -1243,6 +1267,19 @@ sui.Sui.prototype = {
 		if(defaultValue == null) defaultValue = false;
 		return this.control(label,sui.Sui.createBool(defaultValue,options),callback);
 	}
+	,choice: function(label,createControl,list) {
+		var select = sui.Sui.createText(list[0].value,{ listonly : true, list : list});
+		var container = { el : dots.Html.parseNodes("<div class=\"sui-choice\">\n<header class=\"sui-choice-header\"></header>\n<div class=\"sui-choice-options\"></div>\n</div>")[0]};
+		var header = dots.Query.first(".sui-choice-header",container.el);
+		var options = dots.Query.first(".sui-choice-options",container.el);
+		header.appendChild(select.el);
+		select.streams.value.subscribe(function(value) {
+			var container1 = createControl(value);
+			options.innerHTML = "";
+			if(null == container1) null; else options.appendChild(container1.el);
+		});
+		this.grid.add(null == label?sui.components.CellContent.Single(container):sui.components.CellContent.HorizontalPair(new sui.controls.LabelControl(label),container));
+	}
 	,color: function(label,defaultValue,options,callback) {
 		if(defaultValue == null) defaultValue = "#AA0000";
 		return this.control(label,sui.Sui.createColor(defaultValue,options),callback);
@@ -1274,8 +1311,9 @@ sui.Sui.prototype = {
 		var header = { el : dots.Html.parseNodes("<header class=\"sui-folder\">\n<i class=\"sui-trigger-toggle sui-icon sui-icon-collapse\"></i>\n" + label + "</header>")[0]};
 		var trigger = dots.Query.first(".sui-trigger-toggle",header.el);
 		if(collapsible) {
+			header.el.classList.add("sui-collapsible");
 			if(collapsed) sui1.grid.el.style.display = "none";
-			var collapse = thx.stream.EmitterBools.negate(thx.stream.dom.Dom.streamEvent(trigger,"click",false).map(function(_) {
+			var collapse = thx.stream.EmitterBools.negate(thx.stream.dom.Dom.streamEvent(header.el,"click",false).map(function(_) {
 				return collapsed = !collapsed;
 			}));
 			collapse.subscribe(thx.core.Functions1.join(thx.stream.dom.Dom.subscribeToggleVisibility(sui1.grid.el),thx.stream.dom.Dom.subscribeSwapClass(trigger,"sui-icon-collapse","sui-icon-expand")));
@@ -1377,9 +1415,9 @@ sui.components.Grid.prototype = {
 	,__class__: sui.components.Grid
 };
 sui.components.CellContent = { __ename__ : ["sui","components","CellContent"], __constructs__ : ["Single","VerticalPair","HorizontalPair"] };
-sui.components.CellContent.Single = function(control) { var $x = ["Single",0,control]; $x.__enum__ = sui.components.CellContent; $x.toString = $estr; return $x; };
-sui.components.CellContent.VerticalPair = function(top,bottom) { var $x = ["VerticalPair",1,top,bottom]; $x.__enum__ = sui.components.CellContent; $x.toString = $estr; return $x; };
-sui.components.CellContent.HorizontalPair = function(left,right) { var $x = ["HorizontalPair",2,left,right]; $x.__enum__ = sui.components.CellContent; $x.toString = $estr; return $x; };
+sui.components.CellContent.Single = function(control) { var $x = ["Single",0,control]; $x.__enum__ = sui.components.CellContent; return $x; };
+sui.components.CellContent.VerticalPair = function(top,bottom) { var $x = ["VerticalPair",1,top,bottom]; $x.__enum__ = sui.components.CellContent; return $x; };
+sui.components.CellContent.HorizontalPair = function(left,right) { var $x = ["HorizontalPair",2,left,right]; $x.__enum__ = sui.components.CellContent; return $x; };
 sui.controls = {};
 sui.controls.IControl = function() { };
 sui.controls.IControl.__name__ = ["sui","controls","IControl"];
@@ -2385,36 +2423,26 @@ sui.controls.NumberSelectControl.prototype = $extend(sui.controls.SelectControl.
 });
 sui.controls.DateKind = { __ename__ : ["sui","controls","DateKind"], __constructs__ : ["DateOnly","DateTime"] };
 sui.controls.DateKind.DateOnly = ["DateOnly",0];
-sui.controls.DateKind.DateOnly.toString = $estr;
 sui.controls.DateKind.DateOnly.__enum__ = sui.controls.DateKind;
 sui.controls.DateKind.DateTime = ["DateTime",1];
-sui.controls.DateKind.DateTime.toString = $estr;
 sui.controls.DateKind.DateTime.__enum__ = sui.controls.DateKind;
 sui.controls.FloatKind = { __ename__ : ["sui","controls","FloatKind"], __constructs__ : ["FloatNumber","FloatTime"] };
 sui.controls.FloatKind.FloatNumber = ["FloatNumber",0];
-sui.controls.FloatKind.FloatNumber.toString = $estr;
 sui.controls.FloatKind.FloatNumber.__enum__ = sui.controls.FloatKind;
 sui.controls.FloatKind.FloatTime = ["FloatTime",1];
-sui.controls.FloatKind.FloatTime.toString = $estr;
 sui.controls.FloatKind.FloatTime.__enum__ = sui.controls.FloatKind;
 sui.controls.TextKind = { __ename__ : ["sui","controls","TextKind"], __constructs__ : ["TextEmail","TextPassword","TextSearch","TextTel","PlainText","TextUrl"] };
 sui.controls.TextKind.TextEmail = ["TextEmail",0];
-sui.controls.TextKind.TextEmail.toString = $estr;
 sui.controls.TextKind.TextEmail.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextPassword = ["TextPassword",1];
-sui.controls.TextKind.TextPassword.toString = $estr;
 sui.controls.TextKind.TextPassword.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextSearch = ["TextSearch",2];
-sui.controls.TextKind.TextSearch.toString = $estr;
 sui.controls.TextKind.TextSearch.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextTel = ["TextTel",3];
-sui.controls.TextKind.TextTel.toString = $estr;
 sui.controls.TextKind.TextTel.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.PlainText = ["PlainText",4];
-sui.controls.TextKind.PlainText.toString = $estr;
 sui.controls.TextKind.PlainText.__enum__ = sui.controls.TextKind;
 sui.controls.TextKind.TextUrl = ["TextUrl",5];
-sui.controls.TextKind.TextUrl.toString = $estr;
 sui.controls.TextKind.TextUrl.__enum__ = sui.controls.TextKind;
 sui.controls.PasswordControl = function(value,options) {
 	sui.controls.BaseTextControl.call(this,value,"text","password",options);
@@ -2979,8 +3007,8 @@ thx.core.ArrayStrings.min = function(arr) {
 	},arr[0]);
 };
 thx.core.Either = { __ename__ : ["thx","core","Either"], __constructs__ : ["Left","Right"] };
-thx.core.Either.Left = function(value) { var $x = ["Left",0,value]; $x.__enum__ = thx.core.Either; $x.toString = $estr; return $x; };
-thx.core.Either.Right = function(value) { var $x = ["Right",1,value]; $x.__enum__ = thx.core.Either; $x.toString = $estr; return $x; };
+thx.core.Either.Left = function(value) { var $x = ["Left",0,value]; $x.__enum__ = thx.core.Either; return $x; };
+thx.core.Either.Right = function(value) { var $x = ["Right",1,value]; $x.__enum__ = thx.core.Either; return $x; };
 thx.core.Error = function(message,stack,pos) {
 	Error.call(this,message);
 	this.message = message;
@@ -3371,7 +3399,6 @@ thx.core.Iterators.toArray = function(it) {
 };
 thx.core.Nil = { __ename__ : ["thx","core","Nil"], __constructs__ : ["nil"] };
 thx.core.Nil.nil = ["nil",0];
-thx.core.Nil.nil.toString = $estr;
 thx.core.Nil.nil.__enum__ = thx.core.Nil;
 thx.core.Nulls = function() { };
 thx.core.Nulls.__name__ = ["thx","core","Nulls"];
@@ -5809,8 +5836,8 @@ thx.stream.Stream.prototype = {
 	,__class__: thx.stream.Stream
 };
 thx.stream.StreamValue = { __ename__ : ["thx","stream","StreamValue"], __constructs__ : ["Pulse","End"] };
-thx.stream.StreamValue.Pulse = function(value) { var $x = ["Pulse",0,value]; $x.__enum__ = thx.stream.StreamValue; $x.toString = $estr; return $x; };
-thx.stream.StreamValue.End = function(cancel) { var $x = ["End",1,cancel]; $x.__enum__ = thx.stream.StreamValue; $x.toString = $estr; return $x; };
+thx.stream.StreamValue.Pulse = function(value) { var $x = ["Pulse",0,value]; $x.__enum__ = thx.stream.StreamValue; return $x; };
+thx.stream.StreamValue.End = function(cancel) { var $x = ["End",1,cancel]; $x.__enum__ = thx.stream.StreamValue; return $x; };
 thx.stream.Value = function(value,equals) {
 	var _g = this;
 	if(null == equals) this.equals = thx.core.Functions.equality; else this.equals = equals;
@@ -6054,7 +6081,7 @@ if(Array.prototype.filter == null) Array.prototype.filter = function(f1) {
 	}
 	return a1;
 };
-dots.Dom.addCss(".sui-icon-add,.sui-icon-collapse,.sui-icon-down,.sui-icon-expand,.sui-icon-remove,.sui-icon-up{background-repeat:no-repeat}.sui-icon-add{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H35V19c0-1.657-1.343-3-3-3s-3%201.343-3%203v10H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h10v10c0%201.657%201.343%203%203%203s3-1.343%203-3V35h10c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-collapse{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M52.16%2038.918l-18-18C33.612%2020.352%2032.847%2020%2032%2020h-.014c-.848%200-1.613.352-2.16.918l-18%2018%20.008.007c-.516.54-.834%201.27-.834%202.075%200%201.657%201.343%203%203%203%20.91%200%201.725-.406%202.275-1.046l15.718-15.718L47.917%2043.16c.54.52%201.274.84%202.083.84%201.657%200%203-1.343%203-3%200-.81-.32-1.542-.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-down{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M53%2023c0-1.657-1.343-3-3-3-.81%200-1.542.32-2.082.84L31.992%2036.764%2016.275%2021.046C15.725%2020.406%2014.91%2020%2014%2020c-1.657%200-3%201.343-3%203%200%20.805.318%201.536.835%202.075l-.008.008%2018%2018c.547.565%201.312.917%202.16.917H32c.85%200%201.613-.352%202.16-.918l18-18c.52-.54.84-1.273.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-expand{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M53%2023c0-1.657-1.343-3-3-3-.81%200-1.542.32-2.082.84L31.992%2036.764%2016.275%2021.046C15.725%2020.406%2014.91%2020%2014%2020c-1.657%200-3%201.343-3%203%200%20.805.318%201.536.835%202.075l-.008.008%2018%2018c.547.565%201.312.917%202.16.917H32c.85%200%201.613-.352%202.16-.918l18-18c.52-.54.84-1.273.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-remove{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h26c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-up{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M52.16%2038.918l-18-18C33.612%2020.352%2032.847%2020%2032%2020h-.014c-.848%200-1.613.352-2.16.918l-18%2018%20.008.007c-.516.54-.834%201.27-.834%202.075%200%201.657%201.343%203%203%203%20.91%200%201.725-.406%202.275-1.046l15.718-15.718L47.917%2043.16c.54.52%201.274.84%202.083.84%201.657%200%203-1.343%203-3%200-.81-.32-1.542-.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}table.sui-grid{border-collapse:collapse;}table.sui-grid *{box-sizing:border-box}table.sui-grid td{border-bottom:1px solid #ddd;margin:0;padding:0}table.sui-grid tr:first-child td{border-top:1px solid #ddd}table.sui-grid td:first-child{border-left:1px solid #ddd}table.sui-grid td:last-child{border-right:1px solid #ddd}table.sui-grid td.sui-top,table.sui-grid td.sui-left{background-color:#fff}table.sui-grid td.sui-bottom,table.sui-grid td.sui-right{background-color:#f6f6f6}.sui-bottom-left,.sui-bottom-right,.sui-top-left,.sui-top-right{position:absolute;background-color:#fff}.sui-top-right{top:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-top-right.sui-grid tr:first-child td{border-top:none}.sui-top-right.sui-grid td:last-child{border-right:none}.sui-top-left{top:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-top-left.sui-grid tr:first-child td{border-top:none}.sui-top-left.sui-grid td:last-child{border-left:none}.sui-bottom-right{bottom:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-right.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-right.sui-grid td:last-child{border-right:none}.sui-bottom-left{bottom:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-left.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-left.sui-grid td:last-child{border-left:none}.sui-fill{position:absolute;width:100%;max-height:100%;top:0;left:0}.sui-append{width:100%}.sui-control,.sui-folder{-moz-user-select:-moz-none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;user-select:none;font-size:11px;font-family:Helvetica,\"Nimbus Sans L\",\"Liberation Sans\",Arial,sans-serif;line-height:18px;vertical-align:middle;}.sui-control *,.sui-folder *{box-sizing:border-box;margin:0;padding:0}.sui-control button,.sui-folder button{line-height:18px;vertical-align:middle}.sui-control input,.sui-folder input{line-height:18px;vertical-align:middle;border:none;background-color:#f6f6f6}.sui-control button:hover,.sui-folder button:hover{background-color:#fafafa;border:1px solid #ddd}.sui-control button:focus,.sui-folder button:focus{background-color:#fafafa;border:1px solid #aaa;outline:#eee solid 2px}.sui-control input:focus,.sui-folder input:focus{outline:#eee solid 2px;$outline-offset:-2px;background-color:#fafafa}.sui-control output,.sui-folder output{padding:0 6px;background-color:#fff}.sui-control input[type=\"number\"],.sui-folder input[type=\"number\"],.sui-control input[type=\"date\"],.sui-folder input[type=\"date\"],.sui-control input[type=\"datetime-local\"],.sui-folder input[type=\"datetime-local\"],.sui-control input[type=\"time\"],.sui-folder input[type=\"time\"]{text-align:right}.sui-control input[type=\"number\"],.sui-folder input[type=\"number\"]{font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace}.sui-control input,.sui-folder input{padding:0 6px}.sui-control input[type=\"color\"],.sui-folder input[type=\"color\"],.sui-control input[type=\"checkbox\"],.sui-folder input[type=\"checkbox\"]{padding:0;margin:0}.sui-control input[type=\"range\"],.sui-folder input[type=\"range\"]{margin:0 8px;min-height:19px}.sui-control button,.sui-folder button{background-color:#eee;border:1px solid #aaa;border-radius:4px}.sui-control.sui-control-single input,.sui-folder.sui-control-single input,.sui-control.sui-control-single output,.sui-folder.sui-control-single output,.sui-control.sui-control-single button,.sui-folder.sui-control-single button{width:100%}.sui-control.sui-control-single input[type=\"checkbox\"],.sui-folder.sui-control-single input[type=\"checkbox\"]{width:initial}.sui-control.sui-control-double input,.sui-folder.sui-control-double input,.sui-control.sui-control-double output,.sui-folder.sui-control-double output,.sui-control.sui-control-double button,.sui-folder.sui-control-double button{width:50%}.sui-control.sui-control-double .input1,.sui-folder.sui-control-double .input1{width:calc(100% - 7em)}.sui-control.sui-control-double .input2,.sui-folder.sui-control-double .input2{width:7em}.sui-control.sui-control-double .input1[type=\"range\"],.sui-folder.sui-control-double .input1[type=\"range\"]{width:calc(100% - 7em - 16px)}.sui-control.sui-type-bool,.sui-folder.sui-type-bool{text-align:center}.sui-control.sui-invalid,.sui-folder.sui-invalid{border-left:4px solid #d00}.sui-array{list-style:none;}.sui-array .sui-array-item{border-bottom:1px dotted #aaa;position:relative;}.sui-array .sui-array-item .sui-icon,.sui-array .sui-array-item .sui-icon-mini{opacity:.1}.sui-array .sui-array-item .sui-array-add .sui-icon,.sui-array .sui-array-item .sui-array-add .sui-icon-mini{opacity:.2}.sui-array .sui-array-item > *{vertical-align:top}.sui-array .sui-array-item:first-child > .sui-move > .sui-icon-up{visibility:hidden}.sui-array .sui-array-item:last-child{border-bottom:none;}.sui-array .sui-array-item:last-child > .sui-move > .sui-icon-down{visibility:hidden}.sui-array .sui-array-item > div{display:inline-block}.sui-array .sui-array-item .sui-move{position:absolute;width:8px;height:100%;}.sui-array .sui-array-item .sui-move .sui-icon-mini{display:block;position:absolute}.sui-array .sui-array-item .sui-move .sui-icon-up{top:0;left:1px}.sui-array .sui-array-item .sui-move .sui-icon-down{bottom:0;left:1px}.sui-array .sui-array-item .sui-control-container{margin:0 14px 0 10px;width:calc(100% - 24px)}.sui-array .sui-array-item .sui-remove{width:12px;position:absolute;right:1px;top:0}.sui-array .sui-array-item .sui-icon-remove,.sui-array .sui-array-item .sui-icon-up,.sui-array .sui-array-item .sui-icon-down{cursor:pointer}.sui-array .sui-array-item.sui-focus > .sui-move .sui-icon,.sui-array .sui-array-item.sui-focus > .sui-remove .sui-icon,.sui-array .sui-array-item.sui-focus > .sui-move .sui-icon-mini,.sui-array .sui-array-item.sui-focus > .sui-remove .sui-icon-mini{opacity:.4}.sui-array ~ .sui-control{margin-bottom:0}.sui-map{border-collapse:collapse;}.sui-map .sui-map-item > td{border-bottom:1px dotted #aaa;}.sui-map .sui-map-item > td:first-child{border-left:none}.sui-map .sui-map-item:last-child > td{border-bottom:none}.sui-map .sui-map-item .sui-icon{opacity:.1}.sui-map .sui-map-item .sui-array-add .sui-icon{opacity:.2}.sui-map .sui-map-item .sui-remove{width:14px;text-align:right;padding:0 1px}.sui-map .sui-map-item .sui-icon-remove{cursor:pointer}.sui-map .sui-map-item.sui-focus > .sui-remove .sui-icon{opacity:.4}.sui-disabled .sui-icon,.sui-disabled .sui-icon-mini,.sui-disabled .sui-icon:hover,.sui-disabled .sui-icon-mini:hover{opacity:.05 !important;cursor:default}.sui-array-add{text-align:right;}.sui-array-add .sui-icon,.sui-array-add .sui-icon-mini{margin-right:1px;opacity:.2;cursor:pointer}.sui-icon,.sui-icon-mini{display:inline-block;opacity:.4;vertical-align:middle;}.sui-icon:hover,.sui-icon-mini:hover{opacity:.8 !important}.sui-icon{width:12px;height:12px;background-size:12px 12px}.sui-icon-mini{width:8px;height:8px;background-size:8px 8px}.sui-folder{padding:0 6px;font-weight:bold}.sui-trigger-toggle{cursor:pointer}.sui-bottom-left .sui-trigger-toggle,.sui-bottom-right .sui-trigger-toggle{transform:rotate(180deg)}.sui-grid-inner{width:100%;border-left:6px solid #f6f6f6}");
+dots.Dom.addCss(".sui-icon-add,.sui-icon-collapse,.sui-icon-down,.sui-icon-expand,.sui-icon-remove,.sui-icon-up{background-repeat:no-repeat}.sui-icon-add{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H35V19c0-1.657-1.343-3-3-3s-3%201.343-3%203v10H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h10v10c0%201.657%201.343%203%203%203s3-1.343%203-3V35h10c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-collapse{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M52.16%2038.918l-18-18C33.612%2020.352%2032.847%2020%2032%2020h-.014c-.848%200-1.613.352-2.16.918l-18%2018%20.008.007c-.516.54-.834%201.27-.834%202.075%200%201.657%201.343%203%203%203%20.91%200%201.725-.406%202.275-1.046l15.718-15.718L47.917%2043.16c.54.52%201.274.84%202.083.84%201.657%200%203-1.343%203-3%200-.81-.32-1.542-.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-down{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M53%2023c0-1.657-1.343-3-3-3-.81%200-1.542.32-2.082.84L31.992%2036.764%2016.275%2021.046C15.725%2020.406%2014.91%2020%2014%2020c-1.657%200-3%201.343-3%203%200%20.805.318%201.536.835%202.075l-.008.008%2018%2018c.547.565%201.312.917%202.16.917H32c.85%200%201.613-.352%202.16-.918l18-18c.52-.54.84-1.273.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-expand{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M53%2023c0-1.657-1.343-3-3-3-.81%200-1.542.32-2.082.84L31.992%2036.764%2016.275%2021.046C15.725%2020.406%2014.91%2020%2014%2020c-1.657%200-3%201.343-3%203%200%20.805.318%201.536.835%202.075l-.008.008%2018%2018c.547.565%201.312.917%202.16.917H32c.85%200%201.613-.352%202.16-.918l18-18c.52-.54.84-1.273.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-remove{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M45%2029H19c-1.657%200-3%201.343-3%203s1.343%203%203%203h26c1.657%200%203-1.343%203-3s-1.343-3-3-3zM32%200C14.327%200%200%2014.327%200%2032s14.327%2032%2032%2032%2032-14.327%2032-32S49.673%200%2032%200zm0%2058C17.64%2058%206%2046.36%206%2032S17.64%206%2032%206s26%2011.64%2026%2026-11.64%2026-26%2026z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-icon-up{background-image:url(\"data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M52.16%2038.918l-18-18C33.612%2020.352%2032.847%2020%2032%2020h-.014c-.848%200-1.613.352-2.16.918l-18%2018%20.008.007c-.516.54-.834%201.27-.834%202.075%200%201.657%201.343%203%203%203%20.91%200%201.725-.406%202.275-1.046l15.718-15.718L47.917%2043.16c.54.52%201.274.84%202.083.84%201.657%200%203-1.343%203-3%200-.81-.32-1.542-.84-2.082z%22%20enable-background%3D%22new%22%2F%3E%3C%2Fsvg%3E\")}.sui-grid{border-collapse:collapse;}.sui-grid *{box-sizing:border-box}.sui-grid td{border-bottom:1px solid #ddd;margin:0;padding:0}.sui-grid tr:first-child td{border-top:1px solid #ddd}.sui-grid td:first-child{border-left:1px solid #ddd}.sui-grid td:last-child{border-right:1px solid #ddd}.sui-grid td.sui-top,.sui-grid td.sui-left{background-color:#fff}.sui-grid td.sui-bottom,.sui-grid td.sui-right{background-color:#f6f6f6}.sui-bottom-left,.sui-bottom-right,.sui-top-left,.sui-top-right{position:absolute;background-color:#fff}.sui-top-right{top:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-top-right.sui-grid tr:first-child td{border-top:none}.sui-top-right.sui-grid td:last-child{border-right:none}.sui-top-left{top:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-top-left.sui-grid tr:first-child td{border-top:none}.sui-top-left.sui-grid td:last-child{border-left:none}.sui-bottom-right{bottom:0;right:0;-webkit-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:-1px 1px 6px rgba(0,0,0,0.1);box-shadow:-1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-right.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-right.sui-grid td:last-child{border-right:none}.sui-bottom-left{bottom:0;left:0;-webkit-box-shadow:1px 1px 6px rgba(0,0,0,0.1);-moz-box-shadow:1px 1px 6px rgba(0,0,0,0.1);box-shadow:1px 1px 6px rgba(0,0,0,0.1);}.sui-bottom-left.sui-grid tr:first-child td{border-bottom:none}.sui-bottom-left.sui-grid td:last-child{border-left:none}.sui-fill{position:absolute;width:100%;max-height:100%;top:0;left:0}.sui-append{width:100%}.sui-control,.sui-folder{-moz-user-select:-moz-none;-khtml-user-select:none;-webkit-user-select:none;-o-user-select:none;user-select:none;font-size:11px;font-family:Helvetica,\"Nimbus Sans L\",\"Liberation Sans\",Arial,sans-serif;line-height:18px;vertical-align:middle;}.sui-control *,.sui-folder *{box-sizing:border-box;margin:0;padding:0}.sui-control button,.sui-folder button{line-height:18px;vertical-align:middle}.sui-control input,.sui-folder input{line-height:18px;vertical-align:middle;border:none;background-color:#f6f6f6;max-width:16em}.sui-control button:hover,.sui-folder button:hover{background-color:#fafafa;border:1px solid #ddd}.sui-control button:focus,.sui-folder button:focus{background-color:#fafafa;border:1px solid #aaa;outline:#eee solid 2px}.sui-control input:focus,.sui-folder input:focus{outline:#eee solid 2px;$outline-offset:-2px;background-color:#fafafa}.sui-control output,.sui-folder output{padding:0 6px;background-color:#fff}.sui-control input[type=\"number\"],.sui-folder input[type=\"number\"],.sui-control input[type=\"date\"],.sui-folder input[type=\"date\"],.sui-control input[type=\"datetime-local\"],.sui-folder input[type=\"datetime-local\"],.sui-control input[type=\"time\"],.sui-folder input[type=\"time\"]{text-align:right}.sui-control input[type=\"number\"],.sui-folder input[type=\"number\"]{font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace}.sui-control input,.sui-folder input{padding:0 6px}.sui-control input[type=\"color\"],.sui-folder input[type=\"color\"],.sui-control input[type=\"checkbox\"],.sui-folder input[type=\"checkbox\"]{padding:0;margin:0}.sui-control input[type=\"range\"],.sui-folder input[type=\"range\"]{margin:0 8px;min-height:19px}.sui-control button,.sui-folder button{background-color:#eee;border:1px solid #aaa;border-radius:4px}.sui-control.sui-control-single input,.sui-folder.sui-control-single input,.sui-control.sui-control-single output,.sui-folder.sui-control-single output,.sui-control.sui-control-single button,.sui-folder.sui-control-single button{width:100%}.sui-control.sui-control-single input[type=\"checkbox\"],.sui-folder.sui-control-single input[type=\"checkbox\"]{width:initial}.sui-control.sui-control-double input,.sui-folder.sui-control-double input,.sui-control.sui-control-double output,.sui-folder.sui-control-double output,.sui-control.sui-control-double button,.sui-folder.sui-control-double button{width:50%}.sui-control.sui-control-double .input1,.sui-folder.sui-control-double .input1{width:calc(100% - 7em);max-width:8em}.sui-control.sui-control-double .input2,.sui-folder.sui-control-double .input2{width:7em}.sui-control.sui-control-double .input1[type=\"range\"],.sui-folder.sui-control-double .input1[type=\"range\"]{width:calc(100% - 7em - 16px)}.sui-control.sui-type-bool,.sui-folder.sui-type-bool{text-align:center}.sui-control.sui-invalid,.sui-folder.sui-invalid{border-left:4px solid #d00}.sui-array{list-style:none;}.sui-array .sui-array-item{border-bottom:1px dotted #aaa;position:relative;}.sui-array .sui-array-item .sui-icon,.sui-array .sui-array-item .sui-icon-mini{opacity:.1}.sui-array .sui-array-item .sui-array-add .sui-icon,.sui-array .sui-array-item .sui-array-add .sui-icon-mini{opacity:.2}.sui-array .sui-array-item > *{vertical-align:top}.sui-array .sui-array-item:first-child > .sui-move > .sui-icon-up{visibility:hidden}.sui-array .sui-array-item:last-child{border-bottom:none;}.sui-array .sui-array-item:last-child > .sui-move > .sui-icon-down{visibility:hidden}.sui-array .sui-array-item > div{display:inline-block}.sui-array .sui-array-item .sui-move{position:absolute;width:8px;height:100%;}.sui-array .sui-array-item .sui-move .sui-icon-mini{display:block;position:absolute}.sui-array .sui-array-item .sui-move .sui-icon-up{top:0;left:1px}.sui-array .sui-array-item .sui-move .sui-icon-down{bottom:0;left:1px}.sui-array .sui-array-item .sui-control-container{margin:0 14px 0 10px;width:calc(100% - 24px)}.sui-array .sui-array-item .sui-remove{width:12px;position:absolute;right:1px;top:0}.sui-array .sui-array-item .sui-icon-remove,.sui-array .sui-array-item .sui-icon-up,.sui-array .sui-array-item .sui-icon-down{cursor:pointer}.sui-array .sui-array-item.sui-focus > .sui-move .sui-icon,.sui-array .sui-array-item.sui-focus > .sui-remove .sui-icon,.sui-array .sui-array-item.sui-focus > .sui-move .sui-icon-mini,.sui-array .sui-array-item.sui-focus > .sui-remove .sui-icon-mini{opacity:.4}.sui-array ~ .sui-control{margin-bottom:0}.sui-map{border-collapse:collapse;}.sui-map .sui-map-item > td{border-bottom:1px dotted #aaa;}.sui-map .sui-map-item > td:first-child{border-left:none}.sui-map .sui-map-item:last-child > td{border-bottom:none}.sui-map .sui-map-item .sui-icon{opacity:.1}.sui-map .sui-map-item .sui-array-add .sui-icon{opacity:.2}.sui-map .sui-map-item .sui-remove{width:14px;text-align:right;padding:0 1px}.sui-map .sui-map-item .sui-icon-remove{cursor:pointer}.sui-map .sui-map-item.sui-focus > .sui-remove .sui-icon{opacity:.4}.sui-disabled .sui-icon,.sui-disabled .sui-icon-mini,.sui-disabled .sui-icon:hover,.sui-disabled .sui-icon-mini:hover{opacity:.05 !important;cursor:default}.sui-array-add{text-align:right;}.sui-array-add .sui-icon,.sui-array-add .sui-icon-mini{margin-right:1px;opacity:.2;cursor:pointer}.sui-icon,.sui-icon-mini{display:inline-block;opacity:.4;vertical-align:middle;}.sui-icon:hover,.sui-icon-mini:hover{opacity:.8 !important}.sui-icon{width:12px;height:12px;background-size:12px 12px}.sui-icon-mini{width:8px;height:8px;background-size:8px 8px}.sui-folder{padding:0 6px;font-weight:bold}.sui-collapsible{cursor:pointer}.sui-bottom-left .sui-trigger-toggle,.sui-bottom-right .sui-trigger-toggle{transform:rotate(180deg)}.sui-choice-options > .sui-grid,.sui-grid-inner{width:100%}.sui-choice-options > .sui-grid > tr > td:first-child,.sui-choice-options > .sui-grid > tbody > tr > td:first-child{border-left:none}.sui-choice-options > .sui-grid > tr:last-child > td,.sui-choice-options > .sui-grid > tbody > tr:last-child > td{border-bottom:none}.sui-grid-inner{border-left:6px solid #f6f6f6}.sui-choice-header select{width:100%}");
 
       // Production steps of ECMA-262, Edition 5, 15.4.4.21
       // Reference: http://es5.github.io/#x15.4.4.21
