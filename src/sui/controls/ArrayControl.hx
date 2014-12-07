@@ -179,6 +179,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
   public function blur() {
     var el = js.Browser.document.activeElement;
     elements
+      // TODO el could just contain _.control.el
       .filterPluck(_.control.el == el)
       .first().with(el.blur());
   }

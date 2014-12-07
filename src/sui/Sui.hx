@@ -266,7 +266,6 @@ $label</header>')
             case FVar(_, _):
               var createControl = bindType(field.type),
                   T = haxe.macro.TypeTools.toComplexType(field.type);
-              // TODO remove cast
               var expr = macro folder.control($v{label}, $e{createControl}(o.$name), function(v : $T) o.$name = v);
               fields.push(expr);
             case FMethod(_):

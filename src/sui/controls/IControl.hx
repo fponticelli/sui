@@ -2,7 +2,7 @@ package sui.controls;
 
 import js.html.Element;
 
-interface  IControl<T> {
+interface IControl<T> {
   public var el(default, null) : Element;
   public var defaultValue(default, null) : T;
   public var streams(default, null) : ControlStreams<T>;
