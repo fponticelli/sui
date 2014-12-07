@@ -63,11 +63,13 @@ $label</header>')
         trigger = Query.first('.sui-trigger-toggle', header.el);
 
     if(collapsible) {
+      header.el.classList.add('sui-collapsible');
+
       if(collapsed) {
         sui.grid.el.style.display = "none";
       }
 
-      var collapse = trigger.streamClick()
+      var collapse = header.el.streamClick()
         .pluck(collapsed = !collapsed)
         .negate();
 
