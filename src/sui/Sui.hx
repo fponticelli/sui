@@ -325,6 +325,31 @@ $label</header>')
       case TInst(_.toString() => "Array", t):
         var f = bindType(t[0]);
         macro function(v) return Sui.createArray(v, null, function(v) return $e{f}(v), null);
+      case TInst(cls, params):
+        var fields : Array<Expr> = [];
+        cls.get().fields.get().map(function(field) {
+          if(!field.isPublic) return;
+          var name = field.name,
+              label = name.humanize();
+          switch field.kind {
+            case FVar(_, _):
+              var createControl = bindType(field.type),
+                  T = haxe.macro.TypeTools.toComplexType(field.type);
+              // TODO remove cast
+              var expr = macro sui.control($v{label}, $e{createControl}(o.$name), function(v : $T) o.$name = v);
+              fields.push(expr);
+            case FMethod(_):
+              var arity = thx.macro.MacroTypes.getArity(Context.follow(field.type));
+              if(arity != 0) return;
+              var expr = macro sui.control(Sui.createTrigger($v{label}), function(_) o.$name());
+              fields.push(expr);
+          }
+        });
+        macro function(o) {
+          var sui = new Sui();
+          $b{fields};
+          return sui;
+        };
       case TAbstract(_.toString() => "Bool", _):
         macro Sui.createBool;
       case TAbstract(_.toString() => "Float", _):
