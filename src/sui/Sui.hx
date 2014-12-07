@@ -6,11 +6,13 @@ import js.html.Element;
 import sui.components.Grid;
 import sui.controls.*;
 import sui.controls.Options;
+using thx.core.Arrays;
 using thx.core.Functions;
 using thx.core.Nulls;
 using thx.stream.dom.Dom;
 using thx.stream.Emitter;
 using dots.Query;
+using dots.Html;
 #else
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -38,6 +40,29 @@ class Sui {
 
   public function bool(?label : String, ?defaultValue = false, ?options : Options, callback : Bool -> Void)
     return control(label, createBool(defaultValue, options), callback);
+
+  public function choice(?label : String, createControl : String -> WithElement, list : Array<{ value : String, label : String }>) {
+    var select = createText(list[0].value, {
+          listonly : true,
+          list : list
+        }),
+        container = {
+          el : Html.parse('<div class="sui-choice">
+<header class="sui-choice-header"></header>
+<div class="sui-choice-options"></div>
+</div>')
+        },
+        header = Query.first(".sui-choice-header", container.el),
+        options = Query.first(".sui-choice-options", container.el);
+    header.appendChild(select.el);
+    select.streams.value.subscribe(function(value) {
+      var container = createControl(value);
+      options.innerHTML = "";
+      container.with(options.appendChild(container.el));
+    });
+    grid.add(null == label ? Single(container) : HorizontalPair(new LabelControl(label), container));
+
+  }
 
   public function color(?label : String, ?defaultValue = "#AA0000", ?options : OptionsColor, callback : String -> Void)
     return control(label, createColor(defaultValue, options), callback);
