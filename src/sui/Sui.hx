@@ -233,7 +233,7 @@ $label</header>')
 #end
 
   // label (readonly?)
-  macro public function bind(sui : ExprOf<Sui>, variable : Expr) {
+  macro public function bind(sui : ExprOf<Sui>, variable : Expr, ?options : Expr) {
     //trace(sui);
     var id = switch variable.expr {
             case EField(e, field):
@@ -248,9 +248,9 @@ $label</header>')
 
     return switch type {
       case TInst(_.toString() => "String", _):
-        macro $e{sui}.text($v{id}, $e{variable}, function(v) $e{variable} = v);
+        macro $e{sui}.text($v{id}, $e{variable}, $e{options}, function(v) $e{variable} = v);
       case TInst(_.toString() => "Date", _):
-        macro $e{sui}.date($v{id}, $e{variable}, function(v) $e{variable} = v);
+        macro $e{sui}.date($v{id}, $e{variable}, $e{options}, function(v) $e{variable} = v);
       case TInst(_.toString() => "Array", t):
         var f = bindType(t[0]);
         macro $e{sui}.array($v{id}, $e{variable}, null,
@@ -282,11 +282,11 @@ $label</header>')
           folder;
         };
       case TAbstract(_.toString() => "Bool", _):
-        macro $e{sui}.bool($v{id}, $e{variable}, function(v) $e{variable} = v);
+        macro $e{sui}.bool($v{id}, $e{variable}, $e{options}, function(v) $e{variable} = v);
       case TAbstract(_.toString() => "Float", _):
-        macro $e{sui}.float($v{id}, $e{variable}, function(v) $e{variable} = v);
+        macro $e{sui}.float($v{id}, $e{variable}, $e{options}, function(v) $e{variable} = v);
       case TAbstract(_.toString() => "Int", _):
-        macro $e{sui}.int($v{id}, $e{variable}, function(v) $e{variable} = v);
+        macro $e{sui}.int($v{id}, $e{variable}, $e{options}, function(v) $e{variable} = v);
       case TAbstract(_.toString() => "Map", args):
         var createValueControl = bindType(args[1]);
         switch args[0] {
