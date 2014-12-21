@@ -20,9 +20,7 @@ import haxe.macro.ExprTools;
 using thx.core.Strings;
 #end
 
-#if (haxe_ver >= 3.200)
-import haxe.Constraints.Map;
-#else
+#if (haxe_ver < "3.2")
 import Map.Map;
 #end
 
@@ -70,8 +68,8 @@ class Sui {
   public function date(?label : String, ?defaultValue : Date, ?options : OptionsKindDate, callback : Date -> Void)
     return control(label, createDate(defaultValue, options), callback);
 
-  public function enumMap<TKey, TValue>(?label : String, ?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options, callback : Map<TKey, TValue> -> Void)
-    return control(label, createEnumMap(defaultValue, createKeyControl, createValueControl, options), callback);
+//  public function enumMap<TKey, TValue>(?label : String, ?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options, callback : Map<TKey, TValue> -> Void)
+//    return control(label, createEnumMap(defaultValue, createKeyControl, createValueControl, options), callback);
 
   public function float(?label : String, ?defaultValue = 0.0, ?options : OptionsKindFloat, callback : Float -> Void)
     return control(label, createFloat(defaultValue, options), callback);
@@ -162,8 +160,8 @@ $label</header>')
     return folder;
   }
 
-  static public function createEnumMap<TKey, TValue>(?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
-    return new MapControl(cast defaultValue, function() return cast new haxe.ds.EnumValueMap<TKey, TValue>(), createKeyControl, createValueControl, options);
+//  static public function createEnumMap<TKey, TValue>(?defaultValue : Map<TKey, TValue>, createKeyControl : TKey -> IControl<TKey>, createValueControl : TValue -> IControl<TValue>, ?options : Options)
+//    return new MapControl(cast defaultValue, function() return cast new haxe.ds.EnumValueMap<TKey, TValue>(), createKeyControl, createValueControl, options);
 
   static public function createFloat(?defaultValue = 0.0, ?options : OptionsKindFloat)
     return switch [(options.listonly).or(false), (options.kind).or(FloatNumber)] {
