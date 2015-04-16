@@ -1,7 +1,7 @@
 package sui.controls;
 
 import js.html.ButtonElement;
-import js.html.Element;
+import js.html.DOMElement as Element;
 import sui.controls.Options;
 import dots.Html;
 import dots.Query;
