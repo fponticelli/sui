@@ -2,7 +2,7 @@ package sui.components;
 
 import dots.Html;
 import dots.Query;
-import js.html.Element;
+import js.html.DOMElement as Element;
 import sui.controls.IControl;
 using thx.core.Arrays;
 

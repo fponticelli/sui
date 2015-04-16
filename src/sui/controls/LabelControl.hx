@@ -2,7 +2,7 @@ package sui.controls;
 
 import dots.Html;
 import dots.Query;
-import js.html.Element;
+import js.html.DOMElement as Element;
 
 class LabelControl implements IControl<String> {
   public var el(default, null) : Element;

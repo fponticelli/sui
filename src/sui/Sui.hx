@@ -2,7 +2,7 @@ package sui;
 
 #if !macro
 import js.Browser;
-import js.html.Element;
+import js.html.DOMElement as Element;
 import sui.components.Grid;
 import sui.controls.*;
 import sui.controls.Options;

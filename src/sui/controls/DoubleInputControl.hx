@@ -2,7 +2,7 @@ package sui.controls;
 
 import dots.Html;
 import dots.Query;
-import js.html.Element;
+import js.html.DOMElement as Element;
 import js.html.InputElement;
 import thx.core.error.AbstractMethod;
 using thx.stream.dom.Dom;

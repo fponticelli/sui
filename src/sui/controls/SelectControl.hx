@@ -1,6 +1,6 @@
 package sui.controls;
 
-import js.html.Element;
+import js.html.DOMElement as Element;
 import js.html.SelectElement;
 import dots.Html;
 import dots.Query;
