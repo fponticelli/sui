@@ -1,14 +1,14 @@
 package sui.controls;
 
 import js.html.ButtonElement;
-import js.html.Element;
+import js.html.DOMElement as Element;
 import sui.controls.Options;
 import dots.Html;
 import dots.Query;
 using thx.stream.dom.Dom;
 using thx.stream.Emitter;
-using thx.core.Arrays;
-using thx.core.Nulls;
+using thx.Arrays;
+using thx.Nulls;
 
 class ArrayControl<T> implements IControl<Array<T>> {
   public var el(default, null) : Element;

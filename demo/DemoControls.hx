@@ -12,6 +12,7 @@ import js.Browser;
 class DemoControls {
   public static function main() {
     var ui = new Sui();
+/*
     ui.choice("chose one?", function(option : String) return switch option {
         case "a":
           var sui = new Sui();
@@ -28,7 +29,7 @@ class DemoControls {
         { value : "b", label : "B" },
         { value : "c", label : "C" }
       ]);
-
+*/
     ui.bool("boolean", function(v) trace('bool: $v'));
     ui.date("date time", {
         kind : DateTime,

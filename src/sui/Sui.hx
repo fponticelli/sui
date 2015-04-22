@@ -2,13 +2,13 @@ package sui;
 
 #if !macro
 import js.Browser;
-import js.html.Element;
+import js.html.DOMElement as Element;
 import sui.components.Grid;
 import sui.controls.*;
 import sui.controls.Options;
-using thx.core.Arrays;
-using thx.core.Functions;
-using thx.core.Nulls;
+using thx.Arrays;
+using thx.Functions;
+using thx.Nulls;
 using thx.stream.dom.Dom;
 using thx.stream.Emitter;
 using dots.Query;
@@ -17,7 +17,7 @@ using dots.Html;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
-using thx.core.Strings;
+using thx.Strings;
 #end
 
 #if (haxe_ver < "3.2")
@@ -39,28 +39,8 @@ class Sui {
   public function bool(?label : String, ?defaultValue = false, ?options : Options, callback : Bool -> Void)
     return control(label, createBool(defaultValue, options), callback);
 
-  public function choice(?label : String, createControl : String -> WithElement, list : Array<{ value : String, label : String }>) {
-    var select = createText(list[0].value, {
-          listonly : true,
-          list : list
-        }),
-        container = {
-          el : Html.parse('<div class="sui-choice">
-<header class="sui-choice-header"></header>
-<div class="sui-choice-options"></div>
-</div>')
-        },
-        header = Query.first(".sui-choice-header", container.el),
-        options = Query.first(".sui-choice-options", container.el);
-    header.appendChild(select.el);
-    select.streams.value.subscribe(function(value) {
-      var container = createControl(value);
-      options.innerHTML = "";
-      container.with(options.appendChild(container.el));
-    });
-    grid.add(null == label ? Single(container) : HorizontalPair(new LabelControl(label), container));
-
-  }
+//  public function choice(?label : String, ?defaultValue : String, createControl : String -> WithElement, list : Array<{ value : String, label : String }>)
+//    return control(label, createChoice(defaultValue, createControl, list), callback);
 
   public function color(?label : String, ?defaultValue = "#AA0000", ?options : OptionsColor, callback : String -> Void)
     return control(label, createColor(defaultValue, options), callback);
@@ -136,7 +116,27 @@ $label</header>')
 
   static public function createBool(?defaultValue = false, ?options : Options)
     return new BoolControl(defaultValue, options);
-
+/*
+  public function createChoice(?defaultValue : String, createControl : String -> WithElement, list : Array<{ value : String, label : String }>) {
+    var select = createText((defaultValue).or(list[0].value), {
+          listonly : true,
+          list : list
+        }),
+        el = Html.parse('<div class="sui-choice">
+<header class="sui-choice-header"></header>
+<div class="sui-choice-options"></div>
+</div>'),
+        header = Query.first(".sui-choice-header", el),
+        options = Query.first(".sui-choice-options", el);
+    header.appendChild(select.el);
+    select.streams.value.subscribe(function(value) {
+      var container = createControl(value);
+      options.innerHTML = "";
+      container.with(options.appendChild(container.el));
+    });
+    return new MultiControl();
+  }
+*/
   static public function createColor(?defaultValue = "#AA0000", ?options : OptionsColor)
     return new ColorControl(defaultValue, options);
 
@@ -306,8 +306,13 @@ $label</header>')
         }
       case TAbstract(_.toString() => t, e):
         Context.error('unsupported abstract $t, $e', variable.pos);
+      case TEnum(t, params):
+        var T = haxe.macro.TypeTools.toComplexType(type);
+        macro function(v : $T) {
+          return new MultiControl();
+        };
       case TFun([],TAbstract(_.toString() => "Void",[])):
-        macro $e{sui}.trigger($v{id}, $e{variable});
+        macro $e{sui}.trigger($v{id}, $e{variable}, $e{options});
       case _:
         Context.error('unsupported type $type', variable.pos);
     };
@@ -375,9 +380,12 @@ $label</header>')
         }
       case TAbstract(_.toString() => t, e):
         Context.error('unsupported abstract $t, $e', Context.currentPos());
-//      case TAbstract(_.toString() => "Map", e):
-//        trace(e);
-//        macro Sui.createIntMap;
+      case TEnum(t, params):
+        var T = haxe.macro.TypeTools.toComplexType(type);
+        macro function(v : $T) {
+          var controls = [];
+          return new sui.controls.MultiControl(v, null, controls);
+        };
       case TFun([],TAbstract(_.toString() => "Void",[])):
         macro Sui.createTrigger;
       case _:

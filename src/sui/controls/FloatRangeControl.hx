@@ -1,7 +1,7 @@
 package sui.controls;
 
 import sui.controls.Options;
-using thx.core.Floats;
+using thx.Floats;
 
 class FloatRangeControl extends NumberRangeControl<Float> {
   public function new(value : Float, ?options : OptionsNumber<Float>) {

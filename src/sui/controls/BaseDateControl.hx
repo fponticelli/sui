@@ -2,8 +2,8 @@ package sui.controls;
 
 using StringTools;
 import sui.controls.Options;
-using thx.core.Nulls;
-using thx.core.Strings;
+using thx.Nulls;
+using thx.Strings;
 
 class BaseDateControl extends SingleInputControl<Date> {
   var dateToString : Date -> String;

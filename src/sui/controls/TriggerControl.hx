@@ -2,9 +2,9 @@ package sui.controls;
 
 import dots.Html;
 import dots.Query;
-import js.html.Element;
+import js.html.DOMElement as Element;
 import js.html.ButtonElement;
-import thx.core.Nil;
+import thx.Nil;
 using thx.stream.dom.Dom;
 
 class TriggerControl implements IControl<Nil> {

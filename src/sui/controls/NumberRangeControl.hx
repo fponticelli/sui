@@ -1,7 +1,7 @@
 package sui.controls;
 
 import sui.controls.Options;
-using thx.core.Floats;
+using thx.Floats;
 
 class NumberRangeControl<T : Float> extends DoubleInputControl<T> {
   public function new(value : T, ?options : OptionsNumber<T>) {

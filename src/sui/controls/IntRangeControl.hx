@@ -1,7 +1,7 @@
 package sui.controls;
 
 import sui.controls.Options;
-using thx.core.Ints;
+using thx.Ints;
 
 class IntRangeControl extends NumberRangeControl<Int> {
   public function new(value : Int, ?options : OptionsNumber<Int>) {

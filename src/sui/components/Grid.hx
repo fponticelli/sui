@@ -2,12 +2,12 @@ package sui.components;
 
 import dots.Html;
 import dots.Query;
-import js.html.Element;
+import js.html.DOMElement;
 import sui.controls.IControl;
-using thx.core.Arrays;
+using thx.Arrays;
 
 class Grid {
-  public var el(default, null) : Element;
+  public var el(default, null) : DOMElement;
 
   public function new() {
     el = Html.parse('<table class="sui-grid"></table>');
@@ -32,7 +32,7 @@ class Grid {
 }
 
 typedef WithElement = {
-  public var el(default, null) : Element;
+  public var el(default, null) : DOMElement;
 }
 
 enum CellContent {

@@ -1,6 +1,6 @@
 package sui.controls;
 
-import js.html.Element;
+import js.html.DOMElement as Element;
 
 interface IControl<T> {
   public var el(default, null) : Element;
