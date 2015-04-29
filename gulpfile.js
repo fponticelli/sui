@@ -1,13 +1,14 @@
-var gulp      = require('gulp'),
-    seq       = require('gulp-run-sequence'),
+var gulp      = require('gulp');
+    seq       = require('run-sequence'),
+    connect   = require('gulp-connect');
+    exec      = require('gulp-exec'),
     stylus    = require('gulp-stylus'),
-    connect   = require('gulp-connect'),
+    svgSprite = require('gulp-svg-sprite'),
     nib       = require('nib'),
-    svgSprite = require("gulp-svg-sprites"),
-    execSync  = require('exec-sync'),
+/*
     Iconizr   = require('iconizr'),
     tmp       = "assets/tmp";
-
+*/
 gulp.task('connect', function () {
   connect.server({
     root: ['bin'],
@@ -26,6 +27,21 @@ gulp.task('js', function () {
     .pipe(connect.reload());
 });
 
+gulp.task('icons', function () {
+  var config = {
+    mode : {
+      css : {
+        render : {
+          css : true
+        }
+      }
+    }
+  };
+  gulp.src('**/*.svg', {cwd: 'assets/icons'})
+    .pipe(svgSprite(config))
+    .pipe(gulp.dest('.'));
+});
+/*
 gulp.task('icons', function (cb) {
   var options = {
         render : {
@@ -52,15 +68,17 @@ gulp.task('icons', function (cb) {
 
   Iconizr.createIconKit('assets/icons', tmp, options, callback);
 });
+*/
 
 gulp.task('build', function(cb) {
   seq("stylus", "haxe", cb);
 });
 
-gulp.task('haxe', function() {
-  execSync("haxe build.hxml");
+gulp.task('haxe', function(cb) {
+  exec("haxe build.hxml", function(err, stdout, stderr) {
+    cb(err);
+  });
 });
-
 gulp.task('stylus', function() {
   return gulp.src('./style/sui.styl')
     .pipe(stylus({
@@ -70,6 +88,7 @@ gulp.task('stylus', function() {
     .pipe(gulp.dest('./css'));
 });
 
+/*
 gulp.task('watch', function () {
   gulp.watch(['./assets/icons/*.svg'], function(cb) { seq('icons', 'build', cb); });
   gulp.watch(['./bin/*.html'], ['html']);
@@ -80,3 +99,4 @@ gulp.task('watch', function () {
 gulp.task('default', function (cb) {
   seq(['connect', 'icons'], ['build', 'watch'], cb);
 });
+*/
