@@ -15,16 +15,15 @@
   "author": "Franco Ponticelli",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^1.2.2"
+    "canvas": "^1.2.2",
+    "stylus": "^0.51.1"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-connect": "^2.2.0",
     "gulp-exec": "^2.1.1",
     "gulp-stylus": "^2.0.1",
-    "gulp-svg-sprite": "^1.1.2",
     "nib": "^1.1.0",
-    "run-sequence": "^1.1.0",
-    "vinyl": "^0.4.6"
+    "run-sequence": "^1.1.0"
   }
 }
