@@ -1,7 +1,7 @@
 var gulp      = require('gulp');
     seq       = require('run-sequence'),
     connect   = require('gulp-connect');
-    exec      = require('gulp-exec'),
+    exec      = require('child_process').exec,
     url       = require('stylus').url,
     stylus    = require('gulp-stylus'),
     nib       = require('nib');
