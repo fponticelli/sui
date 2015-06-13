@@ -8,6 +8,7 @@ import dots.Query;
 using thx.stream.dom.Dom;
 using thx.stream.Emitter;
 using thx.Arrays;
+using thx.Functions;
 using thx.Nulls;
 
 class ArrayControl<T> implements IControl<Array<T>> {
@@ -65,7 +66,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
       .subscribe(el.subscribeToggleClass("sui-disabled"));
 
     values.enabled.subscribe(function(v) {
-      elements.pluck(v ? _.control.enable() : _.control.disable());
+      elements.map.fn(v ? _.control.enable() : _.control.disable());
     });
 
     setValue(defaultValue);
@@ -143,10 +144,10 @@ class ArrayControl<T> implements IControl<Array<T>> {
   }
 
   function setValue(v : Array<T>)
-    v.pluck(addControl(_));
+    v.map.fn(addControl(_));
 
   function getValue()
-    return elements.pluck(_.control.get());
+    return elements.map.fn(_.control.get());
 
   function updateValue()
     values.value.set(getValue());
@@ -180,7 +181,7 @@ class ArrayControl<T> implements IControl<Array<T>> {
     var el = js.Browser.document.activeElement;
     elements
       // TODO el could just contain _.control.el
-      .filterPluck(_.control.el == el)
+      .filter.fn(_.control.el == el)
       .first().with(el.blur());
   }
 

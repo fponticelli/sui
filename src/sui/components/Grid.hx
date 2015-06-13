@@ -5,6 +5,7 @@ import dots.Query;
 import js.html.DOMElement;
 import sui.controls.IControl;
 using thx.Arrays;
+using thx.Functions;
 
 class Grid {
   public var el(default, null) : DOMElement;
@@ -27,7 +28,7 @@ class Grid {
       var containers = Html.parseArray('<tr class="sui-vertical sui-top"><td colspan="2"></td></tr><tr class="sui-vertical sui-bottom"><td colspan="2"></td></tr>');
       Query.first("td", containers[0]).appendChild(top.el);
       Query.first("td", containers[1]).appendChild(bottom.el);
-      containers.pluck(el.appendChild(_));
+      containers.map.fn(el.appendChild(_));
   }
 }
 

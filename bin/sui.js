@@ -863,7 +863,7 @@ js_Boot.__isNativeObj = function(o) {
 	return js_Boot.__nativeClassName(o) != null;
 };
 js_Boot.__resolveNativeClass = function(name) {
-	if(typeof window != "undefined") return window[name]; else return global[name];
+	return (Function("return typeof " + name + " != \"undefined\" ? " + name + " : null"))();
 };
 var sui_Sui = function() {
 	this.grid = new sui_components_Grid();
@@ -2607,6 +2607,16 @@ thx_Arrays.extract = function(a,predicate) {
 	}
 	return null;
 };
+thx_Arrays.filterNull = function(a) {
+	var arr = [];
+	var _g = 0;
+	while(_g < a.length) {
+		var v = a[_g];
+		++_g;
+		if(null != v) arr.push(v);
+	}
+	return arr;
+};
 thx_Arrays.find = function(array,predicate) {
 	var _g = 0;
 	while(_g < array.length) {
@@ -2785,46 +2795,6 @@ thx_Arrays.rotate = function(arr) {
 	}
 	return result;
 };
-thx_Arrays.zip = function(array1,array2) {
-	var length = thx_Ints.min(array1.length,array2.length);
-	var array = [];
-	var _g = 0;
-	while(_g < length) {
-		var i = _g++;
-		array.push({ _0 : array1[i], _1 : array2[i]});
-	}
-	return array;
-};
-thx_Arrays.zip3 = function(array1,array2,array3) {
-	var length = thx_ArrayInts.min([array1.length,array2.length,array3.length]);
-	var array = [];
-	var _g = 0;
-	while(_g < length) {
-		var i = _g++;
-		array.push({ _0 : array1[i], _1 : array2[i], _2 : array3[i]});
-	}
-	return array;
-};
-thx_Arrays.zip4 = function(array1,array2,array3,array4) {
-	var length = thx_ArrayInts.min([array1.length,array2.length,array3.length,array4.length]);
-	var array = [];
-	var _g = 0;
-	while(_g < length) {
-		var i = _g++;
-		array.push({ _0 : array1[i], _1 : array2[i], _2 : array3[i], _3 : array4[i]});
-	}
-	return array;
-};
-thx_Arrays.zip5 = function(array1,array2,array3,array4,array5) {
-	var length = thx_ArrayInts.min([array1.length,array2.length,array3.length,array4.length,array5.length]);
-	var array = [];
-	var _g = 0;
-	while(_g < length) {
-		var i = _g++;
-		array.push({ _0 : array1[i], _1 : array2[i], _2 : array3[i], _3 : array4[i], _4 : array5[i]});
-	}
-	return array;
-};
 thx_Arrays.unzip = function(array) {
 	var a1 = [];
 	var a2 = [];
@@ -2872,6 +2842,46 @@ thx_Arrays.unzip5 = function(array) {
 		a5.push(t._4);
 	});
 	return { _0 : a1, _1 : a2, _2 : a3, _3 : a4, _4 : a5};
+};
+thx_Arrays.zip = function(array1,array2) {
+	var length = thx_Ints.min(array1.length,array2.length);
+	var array = [];
+	var _g = 0;
+	while(_g < length) {
+		var i = _g++;
+		array.push({ _0 : array1[i], _1 : array2[i]});
+	}
+	return array;
+};
+thx_Arrays.zip3 = function(array1,array2,array3) {
+	var length = thx_ArrayInts.min([array1.length,array2.length,array3.length]);
+	var array = [];
+	var _g = 0;
+	while(_g < length) {
+		var i = _g++;
+		array.push({ _0 : array1[i], _1 : array2[i], _2 : array3[i]});
+	}
+	return array;
+};
+thx_Arrays.zip4 = function(array1,array2,array3,array4) {
+	var length = thx_ArrayInts.min([array1.length,array2.length,array3.length,array4.length]);
+	var array = [];
+	var _g = 0;
+	while(_g < length) {
+		var i = _g++;
+		array.push({ _0 : array1[i], _1 : array2[i], _2 : array3[i], _3 : array4[i]});
+	}
+	return array;
+};
+thx_Arrays.zip5 = function(array1,array2,array3,array4,array5) {
+	var length = thx_ArrayInts.min([array1.length,array2.length,array3.length,array4.length,array5.length]);
+	var array = [];
+	var _g = 0;
+	while(_g < length) {
+		var i = _g++;
+		array.push({ _0 : array1[i], _1 : array2[i], _2 : array3[i], _3 : array4[i], _4 : array5[i]});
+	}
+	return array;
 };
 var thx_ArrayFloats = function() { };
 thx_ArrayFloats.__name__ = ["thx","ArrayFloats"];
@@ -3377,6 +3387,104 @@ thx_Iterators.toArray = function(it) {
 	}
 	return items;
 };
+thx_Iterators.unzip = function(it) {
+	var a1 = [];
+	var a2 = [];
+	thx_Iterators.map(it,function(t) {
+		a1.push(t._0);
+		a2.push(t._1);
+	});
+	return { _0 : a1, _1 : a2};
+};
+thx_Iterators.unzip3 = function(it) {
+	var a1 = [];
+	var a2 = [];
+	var a3 = [];
+	thx_Iterators.map(it,function(t) {
+		a1.push(t._0);
+		a2.push(t._1);
+		a3.push(t._2);
+	});
+	return { _0 : a1, _1 : a2, _2 : a3};
+};
+thx_Iterators.unzip4 = function(it) {
+	var a1 = [];
+	var a2 = [];
+	var a3 = [];
+	var a4 = [];
+	thx_Iterators.map(it,function(t) {
+		a1.push(t._0);
+		a2.push(t._1);
+		a3.push(t._2);
+		a4.push(t._3);
+	});
+	return { _0 : a1, _1 : a2, _2 : a3, _3 : a4};
+};
+thx_Iterators.unzip5 = function(it) {
+	var a1 = [];
+	var a2 = [];
+	var a3 = [];
+	var a4 = [];
+	var a5 = [];
+	thx_Iterators.map(it,function(t) {
+		a1.push(t._0);
+		a2.push(t._1);
+		a3.push(t._2);
+		a4.push(t._3);
+		a5.push(t._4);
+	});
+	return { _0 : a1, _1 : a2, _2 : a3, _3 : a4, _4 : a5};
+};
+thx_Iterators.zip = function(it1,it2) {
+	var array = [];
+	while(it1.hasNext() && it2.hasNext()) array.push((function($this) {
+		var $r;
+		var _0 = it1.next();
+		var _1 = it2.next();
+		$r = { _0 : _0, _1 : _1};
+		return $r;
+	}(this)));
+	return array;
+};
+thx_Iterators.zip3 = function(it1,it2,it3) {
+	var array = [];
+	while(it1.hasNext() && it2.hasNext() && it3.hasNext()) array.push((function($this) {
+		var $r;
+		var _0 = it1.next();
+		var _1 = it2.next();
+		var _2 = it3.next();
+		$r = { _0 : _0, _1 : _1, _2 : _2};
+		return $r;
+	}(this)));
+	return array;
+};
+thx_Iterators.zip4 = function(it1,it2,it3,it4) {
+	var array = [];
+	while(it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext()) array.push((function($this) {
+		var $r;
+		var _0 = it1.next();
+		var _1 = it2.next();
+		var _2 = it3.next();
+		var _3 = it4.next();
+		$r = { _0 : _0, _1 : _1, _2 : _2, _3 : _3};
+		return $r;
+	}(this)));
+	return array;
+};
+thx_Iterators.zip5 = function(it1,it2,it3,it4,it5) {
+	var array = [];
+	while(it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext()) array.push((function($this) {
+		var $r;
+		var _0 = it1.next();
+		var _1 = it2.next();
+		var _2 = it3.next();
+		var _3 = it4.next();
+		var _4 = it5.next();
+		$r = { _0 : _0, _1 : _1, _2 : _2, _3 : _3, _4 : _4};
+		return $r;
+	}(this)));
+	return array;
+};
 var thx_Nil = { __ename__ : ["thx","Nil"], __constructs__ : ["nil"] };
 thx_Nil.nil = ["nil",0];
 thx_Nil.nil.toString = $estr;
@@ -3535,6 +3643,13 @@ thx_Strings.compare = function(a,b) {
 };
 thx_Strings.contains = function(s,test) {
 	return s.indexOf(test) >= 0;
+};
+thx_Strings.containsAny = function(s,tests) {
+	return thx_Arrays.any(tests,(function(f,s1) {
+		return function(a1) {
+			return f(s1,a1);
+		};
+	})(thx_Strings.contains,s));
 };
 thx_Strings.dasherize = function(s) {
 	return StringTools.replace(s,"_","-");
@@ -4163,7 +4278,7 @@ thx_promise_Future.prototype = {
 				break;
 			case 0:
 				var r = _g[2];
-				throw new thx_Error("future was already \"" + Std.string(r) + "\", can't apply the new state \"" + Std.string(newstate) + "\"",null,{ fileName : "Future.hx", lineNumber : 108, className : "thx.promise.Future", methodName : "setState"});
+				throw new thx_Error("future was already \"" + Std.string(r) + "\", can't apply the new state \"" + Std.string(newstate) + "\"",null,{ fileName : "Future.hx", lineNumber : 110, className : "thx.promise.Future", methodName : "setState"});
 				break;
 			}
 		}
@@ -4213,7 +4328,7 @@ thx_promise_Futures.join = function(p1,p2) {
 thx_promise_Futures.log = function(future,prefix) {
 	if(prefix == null) prefix = "";
 	return future.then(function(r) {
-		haxe_Log.trace("" + prefix + " VALUE: " + Std.string(r),{ fileName : "Future.hx", lineNumber : 155, className : "thx.promise.Futures", methodName : "log"});
+		haxe_Log.trace("" + prefix + " VALUE: " + Std.string(r),{ fileName : "Future.hx", lineNumber : 157, className : "thx.promise.Futures", methodName : "log"});
 	});
 };
 var thx_promise_FutureTuple6 = function() { };
@@ -4590,6 +4705,11 @@ thx_promise__$Promise_Promise_$Impl_$.mapSuccessPromise = function(this1,success
 		return thx_promise__$Promise_Promise_$Impl_$.error(err);
 	});
 };
+thx_promise__$Promise_Promise_$Impl_$.mapNull = function(this1,handler) {
+	return thx_promise__$Promise_Promise_$Impl_$.mapSuccessPromise(this1,function(v) {
+		if(null == v) return handler(); else return thx_promise__$Promise_Promise_$Impl_$.value(v);
+	});
+};
 thx_promise__$Promise_Promise_$Impl_$.success = function(this1,success) {
 	return thx_promise__$Promise_Promise_$Impl_$.either(this1,success,function(_) {
 	});
@@ -4636,9 +4756,9 @@ thx_promise_Promises.join = function(p1,p2) {
 thx_promise_Promises.log = function(promise,prefix) {
 	if(prefix == null) prefix = "";
 	return thx_promise__$Promise_Promise_$Impl_$.either(promise,function(r) {
-		haxe_Log.trace("" + prefix + " SUCCESS: " + Std.string(r),{ fileName : "Promise.hx", lineNumber : 202, className : "thx.promise.Promises", methodName : "log"});
+		haxe_Log.trace("" + prefix + " SUCCESS: " + Std.string(r),{ fileName : "Promise.hx", lineNumber : 210, className : "thx.promise.Promises", methodName : "log"});
 	},function(e) {
-		haxe_Log.trace("" + prefix + " ERROR: " + e.toString(),{ fileName : "Promise.hx", lineNumber : 203, className : "thx.promise.Promises", methodName : "log"});
+		haxe_Log.trace("" + prefix + " ERROR: " + e.toString(),{ fileName : "Promise.hx", lineNumber : 211, className : "thx.promise.Promises", methodName : "log"});
 	});
 };
 var thx_promise_PromiseTuple6 = function() { };
@@ -4810,7 +4930,7 @@ thx_promise_PromiseAPlus.__name__ = ["thx","promise","PromiseAPlus"];
 thx_promise_PromiseAPlus.promise = function(p) {
 	return thx_promise__$Promise_Promise_$Impl_$.create(function(resolve,reject) {
 		p.then(resolve,function(e) {
-			reject(thx_Error.fromDynamic(e,{ fileName : "Promise.hx", lineNumber : 352, className : "thx.promise.PromiseAPlus", methodName : "promise"}));
+			reject(thx_Error.fromDynamic(e,{ fileName : "Promise.hx", lineNumber : 360, className : "thx.promise.PromiseAPlus", methodName : "promise"}));
 		});
 	});
 };
@@ -4826,7 +4946,7 @@ thx_promise_PromiseAPlusVoid.promise = function(p) {
 		p.then(function() {
 			resolve(thx_Nil.nil);
 		},function(e) {
-			reject(thx_Error.fromDynamic(e,{ fileName : "Promise.hx", lineNumber : 364, className : "thx.promise.PromiseAPlusVoid", methodName : "promise"}));
+			reject(thx_Error.fromDynamic(e,{ fileName : "Promise.hx", lineNumber : 372, className : "thx.promise.PromiseAPlusVoid", methodName : "promise"}));
 		});
 	});
 };
@@ -5626,6 +5746,36 @@ thx_stream_Bus.prototype = $extend(thx_stream_Emitter.prototype,{
 	}
 	,__class__: thx_stream_Bus
 });
+var thx_stream_EagerEmitter = function(init) {
+	var _g = this;
+	thx_stream_Emitter.call(this,init);
+	this.stack = [];
+	this.conclusion = -1;
+	this.subscribe(function(p) {
+		_g.stack.push(p);
+	},function(c) {
+		if(c) _g.conclusion = 1; else _g.conclusion = 0;
+	});
+};
+thx_stream_EagerEmitter.__name__ = ["thx","stream","EagerEmitter"];
+thx_stream_EagerEmitter.__super__ = thx_stream_Emitter;
+thx_stream_EagerEmitter.prototype = $extend(thx_stream_Emitter.prototype,{
+	stack: null
+	,conclusion: null
+	,sign: function(subscriber) {
+		var stream = thx_stream_Emitter.prototype.sign.call(this,subscriber);
+		var _g = 0;
+		var _g1 = this.stack;
+		while(_g < _g1.length) {
+			var v = _g1[_g];
+			++_g;
+			subscriber(thx_stream_StreamValue.Pulse(v));
+		}
+		if(this.conclusion >= 0) subscriber(thx_stream_StreamValue.End(this.conclusion == 1));
+		return stream;
+	}
+	,__class__: thx_stream_EagerEmitter
+});
 var thx_stream_Emitters = function() { };
 thx_stream_Emitters.__name__ = ["thx","stream","Emitters"];
 thx_stream_Emitters.skipNull = function(emitter) {
@@ -5671,6 +5821,11 @@ thx_stream_EmitterStrings.unique = function(emitter) {
 			}
 		};
 	})());
+};
+thx_stream_EmitterStrings.join = function(emitter,sep) {
+	return emitter.reduce("",function(acc,v) {
+		return acc + sep + v;
+	});
 };
 var thx_stream_EmitterInts = function() { };
 thx_stream_EmitterInts.__name__ = ["thx","stream","EmitterInts"];
@@ -6296,11 +6451,11 @@ thx_Floats.pattern_parse = new EReg("^(\\+|-)?\\d+(\\.\\d+)?(e-?\\d+)?$","");
 thx_Ints.pattern_parse = new EReg("^[+-]?(\\d+|0x[0-9A-F]+)$","i");
 thx_Ints.BASE = "0123456789abcdefghijklmnopqrstuvwxyz";
 thx_Strings.UCWORDS = new EReg("[^a-zA-Z]([a-z])","g");
-thx_Strings.UCWORDSWS = new EReg("\\s[a-z]","g");
+thx_Strings.UCWORDSWS = new EReg("[ \t\r\n][a-z]","g");
 thx_Strings.ALPHANUM = new EReg("^[a-z0-9]+$","i");
 thx_Strings.DIGITS = new EReg("^[0-9]+$","");
-thx_Strings.STRIPTAGS = new EReg("</?[a-z]+[^>]*?/?>","gi");
-thx_Strings.WSG = new EReg("\\s+","g");
+thx_Strings.STRIPTAGS = new EReg("</?[a-z]+[^>]*>","gi");
+thx_Strings.WSG = new EReg("[ \t\r\n]+","g");
 thx_Strings.SPLIT_LINES = new EReg("\r\n|\n\r|\n|\r","g");
 thx_Timer.FRAME_RATE = Math.round(16.6666666666666679);
 thx_promise__$Promise_Promise_$Impl_$.nil = thx_promise__$Promise_Promise_$Impl_$.value(thx_Nil.nil);
