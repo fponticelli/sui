@@ -8,7 +8,9 @@
 -lib thx.stream.dom
 -D sui_embed_css=1
 #-D analyzer
+
 --next
+
 -js bin/controls.js
 -main DemoControls
 -cp src

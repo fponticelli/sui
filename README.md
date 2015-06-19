@@ -20,6 +20,8 @@ ui.trigger("trigger", function() trace("triggered"));
 ui.attach();
 ```
 
+[A live sample of some of the available controls](https://rawgit.com/fponticelli/sui/master/bin/controls.html).
+
 ## TODO
 
 ### API
