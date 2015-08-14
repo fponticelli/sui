@@ -4,6 +4,7 @@ import js.html.DOMElement as Element;
 using thx.stream.Emitter;
 using thx.Arrays;
 using thx.Nulls;
+using thx.Functions;
 
 class MultiControl<T> implements IControl<T> {
   public var el(default, null) : Element;
@@ -19,10 +20,10 @@ class MultiControl<T> implements IControl<T> {
     this.controls = controls;
     values = new ControlValues(defaultValue);
     streams = new ControlStreams(values.value, values.focused, values.enabled);
-    controls.pluck(_.streams.focused.feed(values.focused));
+    controls.map.fn(_.streams.focused.feed(values.focused));
 
     streams.enabled.subscribe(function(value) {
-      controls.pluck(value ? _.enable() : _.disable());
+      controls.map.fn(value ? _.enable() : _.disable());
     });
   }
 
@@ -51,7 +52,7 @@ class MultiControl<T> implements IControl<T> {
     var el = js.Browser.document.activeElement;
     controls
       // TODO el could just contain _.el
-      .filterPluck(_.el == el)
+      .filter.fn(_.el == el)
       .first().with(el.blur());
   }
 

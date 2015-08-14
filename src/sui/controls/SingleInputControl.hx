@@ -49,7 +49,7 @@ class SingleInputControl<T> implements IControl<T> {
 
     input.streamFocus().feed(values.focused);
     input.streamEvent(event)
-      .pluck(getInput())
+      .map(function(_) return getInput())
       .feed(values.value);
 
     if(!options.allownull)

@@ -10,6 +10,7 @@ using thx.stream.Emitter;
 using thx.Arrays;
 using thx.Iterators;
 using thx.Nulls;
+using thx.Functions;
 
 class MapControl<TKey, TValue> implements IControl<Map<TKey, TValue>> {
   public var el(default, null) : Element;
@@ -71,7 +72,7 @@ class MapControl<TKey, TValue> implements IControl<Map<TKey, TValue>> {
       .subscribe(el.subscribeToggleClass("sui-disabled"));
 
     values.enabled.subscribe(function(v) {
-      elements.pluck(if(v){
+      elements.map.fn(if(v){
           _.controlKey.enable();
           _.controlValue.enable();
         } else {
@@ -139,7 +140,7 @@ class MapControl<TKey, TValue> implements IControl<Map<TKey, TValue>> {
   }
 
   function setValue(v : Map<TKey, TValue>)
-    v.keys().pluck(addControl(_, v.get(_)));
+    v.keys().map.fn(addControl(_, v.get(_)));
 
   function getValue() : Map<TKey, TValue> {
     var map = createMap();
@@ -187,7 +188,7 @@ class MapControl<TKey, TValue> implements IControl<Map<TKey, TValue>> {
   public function blur() {
     var el = js.Browser.document.activeElement;
     elements
-      .filterPluck(_.controlKey.el == el || _.controlValue.el == el)
+      .filter.fn(_.controlKey.el == el || _.controlValue.el == el)
       .first().with(el.blur());
   }
 

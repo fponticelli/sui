@@ -122,18 +122,42 @@ HxOverrides.dateStr = function(date) {
 	var s = date.getSeconds();
 	return date.getFullYear() + "-" + (m < 10?"0" + m:"" + m) + "-" + (d < 10?"0" + d:"" + d) + " " + (h < 10?"0" + h:"" + h) + ":" + (mi < 10?"0" + mi:"" + mi) + ":" + (s < 10?"0" + s:"" + s);
 };
+HxOverrides.strDate = function(s) {
+	var _g = s.length;
+	switch(_g) {
+	case 8:
+		var k = s.split(":");
+		var d = new Date();
+		d.setTime(0);
+		d.setUTCHours(k[0]);
+		d.setUTCMinutes(k[1]);
+		d.setUTCSeconds(k[2]);
+		return d;
+	case 10:
+		var k1 = s.split("-");
+		return new Date(k1[0],k1[1] - 1,k1[2],0,0,0);
+	case 19:
+		var k2 = s.split(" ");
+		var y = k2[0].split("-");
+		var t = k2[1].split(":");
+		return new Date(y[0],y[1] - 1,y[2],t[0],t[1],t[2]);
+	default:
+		throw new js__$Boot_HaxeError("Invalid date format : " + s);
+	}
+};
 HxOverrides.cca = function(s,index) {
 	var x = s.charCodeAt(index);
 	if(x != x) return undefined;
 	return x;
 };
 HxOverrides.substr = function(s,pos,len) {
-	if(pos != null && pos != 0 && len != null && len < 0) return "";
-	if(len == null) len = s.length;
+	if(len == null) len = s.length; else if(len < 0) {
+		if(pos == 0) len = s.length + len; else return "";
+	}
 	if(pos < 0) {
 		pos = s.length + pos;
 		if(pos < 0) pos = 0;
-	} else if(len < 0) len = s.length + len - pos;
+	}
 	return s.substr(pos,len);
 };
 HxOverrides.indexOf = function(a,obj,i) {
@@ -284,6 +308,11 @@ StringTools.trim = function(s) {
 StringTools.lpad = function(s,c,l) {
 	if(c.length <= 0) return s;
 	while(s.length < l) s = c + s;
+	return s;
+};
+StringTools.rpad = function(s,c,l) {
+	if(c.length <= 0) return s;
+	while(s.length < l) s = s + c;
 	return s;
 };
 StringTools.replace = function(s,sub,by) {
@@ -638,6 +667,14 @@ var haxe_Log = function() { };
 haxe_Log.__name__ = ["haxe","Log"];
 haxe_Log.trace = function(v,infos) {
 	js_Boot.__trace(v,infos);
+};
+var haxe_Utf8 = function() { };
+haxe_Utf8.__name__ = ["haxe","Utf8"];
+haxe_Utf8.compare = function(a,b) {
+	if(a > b) return 1; else if(a == b) return 0; else return -1;
+};
+haxe_Utf8.sub = function(s,pos,len) {
+	return HxOverrides.substr(s,pos,len);
 };
 var haxe_ds_IntMap = function() {
 	this.h = { };
@@ -2316,7 +2353,11 @@ sui_controls_MapControl.prototype = {
 	}
 	,setValue: function(v) {
 		var _g = this;
-		thx_Iterators.map(v.keys(),function(_) {
+		((function(_e) {
+			return function(f) {
+				return thx_Iterators.map(_e,f);
+			};
+		})(v.keys()))(function(_) {
 			_g.addControl(_,v.get(_));
 			return;
 		});
@@ -2363,12 +2404,7 @@ sui_controls_MapControl.prototype = {
 	}
 	,blur: function() {
 		var el = window.document.activeElement;
-		(function(_) {
-			if(null == _) null; else el.blur();
-			return;
-		})(thx_Arrays.first(this.elements.filter(function(_1) {
-			return _1.controlKey.el == el || _1.controlValue.el == el;
-		})));
+		el.blur();
 	}
 	,reset: function() {
 		this.set(this.defaultValue);
@@ -2428,19 +2464,11 @@ sui_controls_MultiControl.prototype = {
 		this.values.enabled.set(true);
 	}
 	,focus: function() {
-		(function(_) {
-			if(null == _) null; else _.focus();
-			return;
-		})(this.controls[0]);
+		this.controls[0].focus();
 	}
 	,blur: function() {
 		var el = window.document.activeElement;
-		(function(_) {
-			if(null == _) null; else el.blur();
-			return;
-		})(thx_Arrays.first(this.controls.filter(function(_1) {
-			return _1.el == el;
-		})));
+		el.blur();
 	}
 	,reset: function() {
 		this.set(this.defaultValue);
@@ -2655,18 +2683,18 @@ thx_Arrays.after = function(array,element) {
 thx_Arrays.all = function(arr,predicate) {
 	var _g = 0;
 	while(_g < arr.length) {
-		var item = arr[_g];
+		var element = arr[_g];
 		++_g;
-		if(!predicate(item)) return false;
+		if(!predicate(element)) return false;
 	}
 	return true;
 };
 thx_Arrays.any = function(arr,predicate) {
 	var _g = 0;
 	while(_g < arr.length) {
-		var item = arr[_g];
+		var element = arr[_g];
 		++_g;
-		if(predicate(item)) return true;
+		if(predicate(element)) return true;
 	}
 	return false;
 };
@@ -2677,6 +2705,18 @@ thx_Arrays.at = function(arr,indexes) {
 };
 thx_Arrays.before = function(array,element) {
 	return array.slice(0,HxOverrides.indexOf(array,element,0));
+};
+thx_Arrays.commonsFromStart = function(self,other,equality) {
+	if(null == equality) equality = thx_Functions.equality;
+	var count = 0;
+	var _g = 0;
+	var _g1 = thx_Arrays.zip(self,other);
+	while(_g < _g1.length) {
+		var pair = _g1[_g];
+		++_g;
+		if(equality(pair._0,pair._1)) count++; else break;
+	}
+	return self.slice(0,count);
 };
 thx_Arrays.compact = function(arr) {
 	return arr.filter(function(v) {
@@ -2816,9 +2856,9 @@ thx_Arrays.filterNull = function(a) {
 thx_Arrays.find = function(array,predicate) {
 	var _g = 0;
 	while(_g < array.length) {
-		var item = array[_g];
+		var element = array[_g];
 		++_g;
-		if(predicate(item)) return item;
+		if(predicate(element)) return element;
 	}
 	return null;
 };
@@ -2856,30 +2896,26 @@ thx_Arrays.groupByAppend = function(arr,resolver,map) {
 	});
 	return map;
 };
+thx_Arrays.hasElements = function(array) {
+	return null != array && array.length > 0;
+};
 thx_Arrays.head = function(array) {
 	return array[0];
 };
-thx_Arrays.ifEmpty = function(value,alt) {
-	if(null != value && 0 != value.length) return value; else return alt;
+thx_Arrays.ifEmpty = function(array,alt) {
+	if(null != array && 0 != array.length) return array; else return alt;
 };
 thx_Arrays.initial = function(array) {
 	return array.slice(0,array.length - 1);
 };
 thx_Arrays.isEmpty = function(array) {
-	return array.length == 0;
+	return null == array || array.length == 0;
 };
 thx_Arrays.last = function(array) {
 	return array[array.length - 1];
 };
 thx_Arrays.mapi = function(array,callback) {
-	var r = [];
-	var _g1 = 0;
-	var _g = array.length;
-	while(_g1 < _g) {
-		var i = _g1++;
-		r.push(callback(array[i],i));
-	}
-	return r;
+	return array.map(callback);
 };
 thx_Arrays.mapRight = function(array,callback) {
 	var i = array.length;
@@ -2895,9 +2931,9 @@ thx_Arrays.order = function(array,sort) {
 thx_Arrays.pull = function(array,toRemove,equality) {
 	var _g = 0;
 	while(_g < toRemove.length) {
-		var item = toRemove[_g];
+		var element = toRemove[_g];
 		++_g;
-		thx_Arrays.removeAll(array,item,equality);
+		thx_Arrays.removeAll(array,element,equality);
 	}
 };
 thx_Arrays.pushIf = function(array,condition,value) {
@@ -3211,27 +3247,27 @@ thx_Dates.create = function(year,month,day,hour,minute,second) {
 			month = 11;
 			year -= 1;
 		}
-		day = thx_Dates.numDaysInMonth(month,year);
+		day = thx_Dates.daysInMonth(year,month);
 	}
 	year += Math.floor(month / 12);
 	month = month % 12;
 	if(month < 0) month += 12;
-	var daysInMonth = thx_Dates.numDaysInMonth(month,year);
-	while(day > daysInMonth) {
-		if(day > daysInMonth) {
-			day -= daysInMonth;
+	var days = thx_Dates.daysInMonth(year,month);
+	while(day > days) {
+		if(day > days) {
+			day -= days;
 			month++;
 		}
 		if(month > 11) {
 			month -= 12;
 			year++;
 		}
-		daysInMonth = thx_Dates.numDaysInMonth(month,year);
+		days = thx_Dates.daysInMonth(year,month);
 	}
 	return new Date(year,month,day,hour,minute,second);
 };
 thx_Dates.daysRange = function(start,end) {
-	if(end.getTime() < start.getTime()) return [];
+	if(thx_Dates.compare(end,start) < 0) return [];
 	var days = [];
 	while(!thx_Dates.sameDay(start,end)) {
 		days.push(start);
@@ -3243,17 +3279,34 @@ thx_Dates.daysRange = function(start,end) {
 thx_Dates.equals = function(self,other) {
 	return self.getTime() == other.getTime();
 };
+thx_Dates.nearEquals = function(self,other,units,period) {
+	if(units == null) units = 1;
+	if(null == period) period = thx_TimePeriod.Second;
+	if(units < 0) units = -units;
+	var min = thx_Dates.jump(self,period,-units);
+	var max = thx_Dates.jump(self,period,units);
+	return thx_Dates.compare(min,other) <= 0 && thx_Dates.compare(max,other) >= 0;
+};
+thx_Dates.greater = function(self,other) {
+	return thx_Dates.compare(self,other) > 0;
+};
 thx_Dates.more = function(self,other) {
-	return self.getTime() > other.getTime();
+	return thx_Dates.compare(self,other) > 0;
 };
 thx_Dates.less = function(self,other) {
-	return self.getTime() < other.getTime();
+	return thx_Dates.compare(self,other) < 0;
+};
+thx_Dates.greaterEquals = function(self,other) {
+	return thx_Dates.compare(self,other) >= 0;
 };
 thx_Dates.moreEqual = function(self,other) {
-	return self.getTime() >= other.getTime();
+	return thx_Dates.compare(self,other) >= 0;
+};
+thx_Dates.lessEquals = function(self,other) {
+	return thx_Dates.compare(self,other) <= 0;
 };
 thx_Dates.lessEqual = function(self,other) {
-	return self.getTime() <= other.getTime();
+	return thx_Dates.compare(self,other) <= 0;
 };
 thx_Dates.isLeapYear = function(year) {
 	if(year % 4 != 0) return false;
@@ -3263,7 +3316,7 @@ thx_Dates.isLeapYear = function(year) {
 thx_Dates.isInLeapYear = function(d) {
 	return thx_Dates.isLeapYear(d.getFullYear());
 };
-thx_Dates.numDaysInMonth = function(month,year) {
+thx_Dates.daysInMonth = function(year,month) {
 	switch(month) {
 	case 0:case 2:case 4:case 6:case 7:case 9:case 11:
 		return 31;
@@ -3276,14 +3329,17 @@ thx_Dates.numDaysInMonth = function(month,year) {
 		throw new js__$Boot_HaxeError("Invalid month \"" + month + "\".  Month should be a number, Jan=0, Dec=11");
 	}
 };
+thx_Dates.numDaysInMonth = function(month,year) {
+	return thx_Dates.daysInMonth(year,month);
+};
 thx_Dates.numDaysInThisMonth = function(d) {
-	return thx_Dates.numDaysInMonth(d.getMonth(),d.getFullYear());
+	return thx_Dates.daysInMonth(d.getFullYear(),d.getMonth());
 };
 thx_Dates.sameYear = function(self,other) {
 	return self.getFullYear() == other.getFullYear();
 };
 thx_Dates.sameMonth = function(self,other) {
-	return thx_Dates.sameYear(self,other) && self.getFullYear() == other.getFullYear();
+	return thx_Dates.sameYear(self,other) && self.getMonth() == other.getMonth();
 };
 thx_Dates.sameDay = function(self,other) {
 	return thx_Dates.sameMonth(self,other) && self.getDate() == other.getDate();
@@ -3295,22 +3351,28 @@ thx_Dates.sameMinute = function(self,other) {
 	return thx_Dates.sameHour(self,other) && self.getMinutes() == other.getMinutes();
 };
 thx_Dates.snapNext = function(date,period) {
-	var t = thx_Timestamps.snapNext(date.getTime(),period);
-	var d = new Date();
-	d.setTime(t);
-	return d;
+	{
+		var this1 = thx__$Timestamp_Timestamp_$Impl_$.snapNext(date.getTime(),period);
+		var d = new Date();
+		d.setTime(this1);
+		return d;
+	}
 };
 thx_Dates.snapPrev = function(date,period) {
-	var t = thx_Timestamps.snapPrev(date.getTime(),period);
-	var d = new Date();
-	d.setTime(t);
-	return d;
+	{
+		var this1 = thx__$Timestamp_Timestamp_$Impl_$.snapPrev(date.getTime(),period);
+		var d = new Date();
+		d.setTime(this1);
+		return d;
+	}
 };
 thx_Dates.snapTo = function(date,period) {
-	var t = thx_Timestamps.snapTo(date.getTime(),period);
-	var d = new Date();
-	d.setTime(t);
-	return d;
+	{
+		var this1 = thx__$Timestamp_Timestamp_$Impl_$.snapTo(date.getTime(),period);
+		var d = new Date();
+		d.setTime(this1);
+		return d;
+	}
 };
 thx_Dates.jump = function(date,period,amount) {
 	var sec = date.getSeconds();
@@ -3394,6 +3456,24 @@ thx_Dates.prevDay = function(d) {
 thx_Dates.nextDay = function(d) {
 	return thx_Dates.jump(d,thx_TimePeriod.Day,1);
 };
+thx_Dates.prevHour = function(d) {
+	return thx_Dates.jump(d,thx_TimePeriod.Hour,-1);
+};
+thx_Dates.nextHour = function(d) {
+	return thx_Dates.jump(d,thx_TimePeriod.Hour,1);
+};
+thx_Dates.prevMinute = function(d) {
+	return thx_Dates.jump(d,thx_TimePeriod.Minute,-1);
+};
+thx_Dates.nextMinute = function(d) {
+	return thx_Dates.jump(d,thx_TimePeriod.Minute,1);
+};
+thx_Dates.prevSecond = function(d) {
+	return thx_Dates.jump(d,thx_TimePeriod.Second,-1);
+};
+thx_Dates.nextSecond = function(d) {
+	return thx_Dates.jump(d,thx_TimePeriod.Second,1);
+};
 thx_Dates.withYear = function(date,year) {
 	return thx_Dates.create(year,date.getMonth(),date.getDate(),date.getHours(),date.getMinutes(),date.getSeconds());
 };
@@ -3412,182 +3492,6 @@ thx_Dates.withMinute = function(date,minute) {
 thx_Dates.withSecond = function(date,second) {
 	return thx_Dates.create(date.getFullYear(),date.getMonth(),date.getDate(),date.getHours(),date.getMinutes(),second);
 };
-var thx_Timestamps = function() { };
-thx_Timestamps.__name__ = ["thx","Timestamps"];
-thx_Timestamps.create = function(year,month,day,hour,minute,second) {
-	return thx_Dates.create(year,month,day,hour,minute,second).getTime();
-};
-thx_Timestamps.snapNext = function(time,period) {
-	switch(period[1]) {
-	case 0:
-		return Math.ceil(time / 1000.0) * 1000.0;
-	case 1:
-		return Math.ceil(time / 60000.0) * 60000.0;
-	case 2:
-		return Math.ceil(time / 3600000.0) * 3600000.0;
-	case 3:
-		var d;
-		var d1 = new Date();
-		d1.setTime(time);
-		d = d1;
-		return thx_Timestamps.create(d.getFullYear(),d.getMonth(),d.getDate() + 1,0,0,0);
-	case 4:
-		var d2;
-		var d3 = new Date();
-		d3.setTime(time);
-		d2 = d3;
-		var wd = d2.getDay();
-		return thx_Timestamps.create(d2.getFullYear(),d2.getMonth(),d2.getDate() + 7 - wd,0,0,0);
-	case 5:
-		var d4;
-		var d5 = new Date();
-		d5.setTime(time);
-		d4 = d5;
-		return thx_Timestamps.create(d4.getFullYear(),d4.getMonth() + 1,1,0,0,0);
-	case 6:
-		var d6;
-		var d7 = new Date();
-		d7.setTime(time);
-		d6 = d7;
-		return thx_Timestamps.create(d6.getFullYear() + 1,0,1,0,0,0);
-	}
-};
-thx_Timestamps.snapPrev = function(time,period) {
-	switch(period[1]) {
-	case 0:
-		return Math.floor(time / 1000.0) * 1000.0;
-	case 1:
-		return Math.floor(time / 60000.0) * 60000.0;
-	case 2:
-		return Math.floor(time / 3600000.0) * 3600000.0;
-	case 3:
-		var d;
-		var d1 = new Date();
-		d1.setTime(time);
-		d = d1;
-		return thx_Timestamps.create(d.getFullYear(),d.getMonth(),d.getDate(),0,0,0);
-	case 4:
-		var d2;
-		var d3 = new Date();
-		d3.setTime(time);
-		d2 = d3;
-		var wd = d2.getDay();
-		return thx_Timestamps.create(d2.getFullYear(),d2.getMonth(),d2.getDate() - wd,0,0,0);
-	case 5:
-		var d4;
-		var d5 = new Date();
-		d5.setTime(time);
-		d4 = d5;
-		return thx_Timestamps.create(d4.getFullYear(),d4.getMonth(),1,0,0,0);
-	case 6:
-		var d6;
-		var d7 = new Date();
-		d7.setTime(time);
-		d6 = d7;
-		return thx_Timestamps.create(d6.getFullYear(),0,1,0,0,0);
-	}
-};
-thx_Timestamps.snapTo = function(time,period) {
-	switch(period[1]) {
-	case 0:
-		return Math.round(time / 1000.0) * 1000.0;
-	case 1:
-		return Math.round(time / 60000.0) * 60000.0;
-	case 2:
-		return Math.round(time / 3600000.0) * 3600000.0;
-	case 3:
-		var d;
-		var d1 = new Date();
-		d1.setTime(time);
-		d = d1;
-		var mod;
-		if(d.getHours() >= 12) mod = 1; else mod = 0;
-		return thx_Timestamps.create(d.getFullYear(),d.getMonth(),d.getDate() + mod,0,0,0);
-	case 4:
-		var d2;
-		var d3 = new Date();
-		d3.setTime(time);
-		d2 = d3;
-		var wd = d2.getDay();
-		var mod1;
-		if(wd < 3) mod1 = -wd; else if(wd > 3) mod1 = 7 - wd; else if(d2.getHours() < 12) mod1 = -wd; else mod1 = 7 - wd;
-		return thx_Timestamps.create(d2.getFullYear(),d2.getMonth(),d2.getDate() + mod1,0,0,0);
-	case 5:
-		var d4;
-		var d5 = new Date();
-		d5.setTime(time);
-		d4 = d5;
-		var mod2;
-		if(d4.getDate() > Math.round(DateTools.getMonthDays(d4) / 2)) mod2 = 1; else mod2 = 0;
-		return thx_Timestamps.create(d4.getFullYear(),d4.getMonth() + mod2,1,0,0,0);
-	case 6:
-		var d6;
-		var d7 = new Date();
-		d7.setTime(time);
-		d6 = d7;
-		var mod3;
-		if(time > new Date(d6.getFullYear(),6,2,0,0,0).getTime()) mod3 = 1; else mod3 = 0;
-		return thx_Timestamps.create(d6.getFullYear() + mod3,0,1,0,0,0);
-	}
-};
-thx_Timestamps.snapToWeekDay = function(time,day,firstDayOfWk) {
-	return thx_Dates.snapToWeekDay((function($this) {
-		var $r;
-		var d = new Date();
-		d.setTime(time);
-		$r = d;
-		return $r;
-	}(this)),day,firstDayOfWk).getTime();
-};
-thx_Timestamps.snapNextWeekDay = function(time,day) {
-	return thx_Dates.snapNextWeekDay((function($this) {
-		var $r;
-		var d = new Date();
-		d.setTime(time);
-		$r = d;
-		return $r;
-	}(this)),day).getTime();
-};
-thx_Timestamps.snapPrevWeekDay = function(time,day) {
-	return thx_Dates.snapPrevWeekDay((function($this) {
-		var $r;
-		var d = new Date();
-		d.setTime(time);
-		$r = d;
-		return $r;
-	}(this)),day).getTime();
-};
-thx_Timestamps.r = function(t,v) {
-	return Math.round(t / v) * v;
-};
-thx_Timestamps.f = function(t,v) {
-	return Math.floor(t / v) * v;
-};
-thx_Timestamps.c = function(t,v) {
-	return Math.ceil(t / v) * v;
-};
-var thx_TimePeriod = { __ename__ : ["thx","TimePeriod"], __constructs__ : ["Second","Minute","Hour","Day","Week","Month","Year"] };
-thx_TimePeriod.Second = ["Second",0];
-thx_TimePeriod.Second.toString = $estr;
-thx_TimePeriod.Second.__enum__ = thx_TimePeriod;
-thx_TimePeriod.Minute = ["Minute",1];
-thx_TimePeriod.Minute.toString = $estr;
-thx_TimePeriod.Minute.__enum__ = thx_TimePeriod;
-thx_TimePeriod.Hour = ["Hour",2];
-thx_TimePeriod.Hour.toString = $estr;
-thx_TimePeriod.Hour.__enum__ = thx_TimePeriod;
-thx_TimePeriod.Day = ["Day",3];
-thx_TimePeriod.Day.toString = $estr;
-thx_TimePeriod.Day.__enum__ = thx_TimePeriod;
-thx_TimePeriod.Week = ["Week",4];
-thx_TimePeriod.Week.toString = $estr;
-thx_TimePeriod.Week.__enum__ = thx_TimePeriod;
-thx_TimePeriod.Month = ["Month",5];
-thx_TimePeriod.Month.toString = $estr;
-thx_TimePeriod.Month.__enum__ = thx_TimePeriod;
-thx_TimePeriod.Year = ["Year",6];
-thx_TimePeriod.Year.toString = $estr;
-thx_TimePeriod.Year.__enum__ = thx_TimePeriod;
 var thx_Dynamics = function() { };
 thx_Dynamics.__name__ = ["thx","Dynamics"];
 thx_Dynamics.equals = function(a,b) {
@@ -3782,7 +3686,7 @@ thx_Dynamics.compare = function(a,b) {
 			case "Date":
 				return thx_Dates.compare(a,b);
 			default:
-				if(Object.prototype.hasOwnProperty.call(a,"compare")) return Reflect.callMethod(a,Reflect.field(a,"compare"),[b]); else return thx_Strings.compare(Std.string(a),Std.string(b));
+				if(Object.prototype.hasOwnProperty.call(a,"compare")) return Reflect.callMethod(a,Reflect.field(a,"compare"),[b]); else return haxe_Utf8.compare(Std.string(a),Std.string(b));
 			}
 			break;
 		case 7:
@@ -3978,9 +3882,19 @@ thx_Floats.interpolateAngleCCW = function(f,a,b,turn) {
 	if(b > a) b -= turn;
 	return thx_Floats.wrapCircular(thx_Floats.interpolate(f,a,b),turn);
 };
+thx_Floats.max = function(a,b) {
+	if(a > b) return a; else return b;
+};
+thx_Floats.min = function(a,b) {
+	if(a < b) return a; else return b;
+};
 thx_Floats.nearEquals = function(a,b,tollerance) {
 	if(tollerance == null) tollerance = 10e-10;
-	return Math.abs(a - b) <= tollerance;
+	if(isFinite(a)) return Math.abs(a - b) <= tollerance;
+	if(isNaN(a)) return isNaN(b);
+	if(isNaN(b)) return false;
+	if(!isFinite(b)) return a > 0 == b > 0;
+	return false;
 };
 thx_Floats.nearEqualAngles = function(a,b,turn,tollerance) {
 	if(tollerance == null) tollerance = 10e-10;
@@ -4190,6 +4104,19 @@ thx_Ints.isEven = function(v) {
 thx_Ints.isOdd = function(v) {
 	return v % 2 != 0;
 };
+thx_Ints.lpad = function(v,pad,len) {
+	if(pad == null) pad = "0";
+	var neg = false;
+	if(v < 0) {
+		neg = true;
+		v = -v;
+	}
+	return (neg?"-":"") + StringTools.lpad("" + v,pad,len);
+};
+thx_Ints.rpad = function(v,pad,len) {
+	if(pad == null) pad = "0";
+	return StringTools.rpad("" + v,pad,len);
+};
 thx_Ints.max = function(a,b) {
 	if(a > b) return a; else return b;
 };
@@ -4197,6 +4124,9 @@ thx_Ints.min = function(a,b) {
 	if(a < b) return a; else return b;
 };
 thx_Ints.parse = function(s,base) {
+	if(null == base) {
+		if(s.substring(0,2) == "0x") base = 16; else base = 10;
+	}
 	var v = parseInt(s,base);
 	if(isNaN(v)) return null; else return v;
 };
@@ -4243,6 +4173,9 @@ thx_Iterables.eachPair = function(it,handler) {
 	thx_Iterators.eachPair($iterator(it)(),handler);
 	return;
 };
+thx_Iterables.equals = function(a,b,equality) {
+	return thx_Iterators.equals($iterator(a)(),$iterator(b)(),equality);
+};
 thx_Iterables.filter = function(it,predicate) {
 	return thx_Iterators.filter($iterator(it)(),predicate);
 };
@@ -4254,6 +4187,9 @@ thx_Iterables.first = function(it) {
 };
 thx_Iterables.last = function(it) {
 	return thx_Iterators.last($iterator(it)());
+};
+thx_Iterables.hasElements = function(it) {
+	return thx_Iterators.hasElements($iterator(it)());
 };
 thx_Iterables.isEmpty = function(it) {
 	return thx_Iterators.isEmpty($iterator(it)());
@@ -4310,36 +4246,54 @@ var thx_Iterators = function() { };
 thx_Iterators.__name__ = ["thx","Iterators"];
 thx_Iterators.all = function(it,predicate) {
 	while( it.hasNext() ) {
-		var item = it.next();
-		if(!predicate(item)) return false;
+		var element = it.next();
+		if(!predicate(element)) return false;
 	}
 	return true;
 };
 thx_Iterators.any = function(it,predicate) {
 	while( it.hasNext() ) {
-		var item = it.next();
-		if(predicate(item)) return true;
+		var element = it.next();
+		if(predicate(element)) return true;
 	}
 	return false;
+};
+thx_Iterators.equals = function(a,b,equality) {
+	if(null == equality) equality = thx_Functions.equality;
+	var ae;
+	var be;
+	var an;
+	var bn;
+	while(true) {
+		an = a.hasNext();
+		bn = b.hasNext();
+		if(!an && !bn) return true;
+		if(!an || !bn) return false;
+		if(!equality(a.next(),b.next())) return false;
+	}
+	return true;
 };
 thx_Iterators.eachPair = function(it,handler) {
 	thx_Arrays.eachPair(thx_Iterators.toArray(it),handler);
 };
 thx_Iterators.filter = function(it,predicate) {
-	return thx_Iterators.reduce(it,function(acc,item) {
-		if(predicate(item)) acc.push(item);
+	return thx_Iterators.reduce(it,function(acc,element) {
+		if(predicate(element)) acc.push(element);
 		return acc;
 	},[]);
 };
 thx_Iterators.find = function(it,f) {
 	while( it.hasNext() ) {
-		var item = it.next();
-		if(f(item)) return item;
+		var element = it.next();
+		if(f(element)) return element;
 	}
 	return null;
 };
 thx_Iterators.first = function(it) {
 	if(it.hasNext()) return it.next(); else return null;
+};
+thx_Iterators.hasElements = function(it) {
+	return it.hasNext();
 };
 thx_Iterators.isEmpty = function(it) {
 	return !it.hasNext();
@@ -4390,12 +4344,12 @@ thx_Iterators.reducei = function(it,callback,initial) {
 	return initial;
 };
 thx_Iterators.toArray = function(it) {
-	var items = [];
+	var elements = [];
 	while( it.hasNext() ) {
-		var item = it.next();
-		items.push(item);
+		var element = it.next();
+		elements.push(element);
 	}
-	return items;
+	return elements;
 };
 thx_Iterators.unzip = function(it) {
 	var a1 = [];
@@ -4545,7 +4499,25 @@ thx_Objects.exists = function(o,name) {
 thx_Objects.fields = function(o) {
 	return Reflect.fields(o);
 };
-thx_Objects.merge = function(to,from,replacef) {
+thx_Objects.combine = function(first,second) {
+	var to = { };
+	var _g = 0;
+	var _g1 = Reflect.fields(first);
+	while(_g < _g1.length) {
+		var field = _g1[_g];
+		++_g;
+		Reflect.setField(to,field,Reflect.field(first,field));
+	}
+	var _g2 = 0;
+	var _g11 = Reflect.fields(second);
+	while(_g2 < _g11.length) {
+		var field1 = _g11[_g2];
+		++_g2;
+		Reflect.setField(to,field1,Reflect.field(second,field1));
+	}
+	return to;
+};
+thx_Objects.assign = function(to,from,replacef) {
 	if(null == replacef) replacef = function(field,oldv,newv) {
 		return newv;
 	};
@@ -4821,21 +4793,28 @@ thx_Strings.after = function(value,searchFor) {
 	var pos = value.indexOf(searchFor);
 	if(pos < 0) return ""; else return value.substring(pos + searchFor.length);
 };
+thx_Strings.afterLast = function(value,searchFor) {
+	var pos = value.lastIndexOf(searchFor);
+	if(pos < 0) return ""; else return value.substring(pos + searchFor.length);
+};
 thx_Strings.capitalize = function(s) {
-	return s.substring(0,1).toUpperCase() + s.substring(1);
+	return HxOverrides.substr(s,0,1).toUpperCase() + HxOverrides.substr(s,1,s.length - 1);
 };
 thx_Strings.capitalizeWords = function(value,whiteSpaceOnly) {
 	if(whiteSpaceOnly == null) whiteSpaceOnly = false;
-	if(whiteSpaceOnly) return thx_Strings.UCWORDSWS.map(value.substring(0,1).toUpperCase() + value.substring(1),thx_Strings.upperMatch); else return thx_Strings.UCWORDS.map(value.substring(0,1).toUpperCase() + value.substring(1),thx_Strings.upperMatch);
+	if(whiteSpaceOnly) return thx_Strings.UCWORDSWS.map(HxOverrides.substr(value,0,1).toUpperCase() + HxOverrides.substr(value,1,value.length - 1),thx_Strings.upperMatch); else return thx_Strings.UCWORDS.map(HxOverrides.substr(value,0,1).toUpperCase() + HxOverrides.substr(value,1,value.length - 1),thx_Strings.upperMatch);
 };
 thx_Strings.collapse = function(value) {
 	return thx_Strings.WSG.replace(StringTools.trim(value)," ");
 };
 thx_Strings.compare = function(a,b) {
-	if(a < b) return -1; else if(a > b) return 1; else return 0;
+	return haxe_Utf8.compare(a,b);
 };
 thx_Strings.contains = function(s,test) {
 	return s.indexOf(test) >= 0;
+};
+thx_Strings.count = function(s,test) {
+	return s.split(test).length - 1;
 };
 thx_Strings.containsAny = function(s,tests) {
 	return thx_Arrays.any(tests,(function(f,s1) {
@@ -4848,21 +4827,28 @@ thx_Strings.dasherize = function(s) {
 	return StringTools.replace(s,"_","-");
 };
 thx_Strings.ellipsis = function(s,maxlen,symbol) {
-	if(symbol == null) symbol = "...";
+	if(symbol == null) symbol = "…";
 	if(maxlen == null) maxlen = 20;
-	if(s.length > maxlen) return s.substring(0,symbol.length > maxlen - symbol.length?symbol.length:maxlen - symbol.length) + symbol; else return s;
+	var sl = s.length;
+	var symboll = symbol.length;
+	if(sl > maxlen) {
+		if(maxlen < symboll) return HxOverrides.substr(symbol,symboll - maxlen,maxlen); else return HxOverrides.substr(s,0,maxlen - symboll) + symbol;
+	} else return s;
 };
 thx_Strings.filter = function(s,predicate) {
 	return s.split("").filter(predicate).join("");
 };
 thx_Strings.filterCharcode = function(s,predicate) {
-	return thx_Strings.toCharcodeArray(s).filter(predicate).map(function(i) {
+	return thx_Strings.toCharcodes(s).filter(predicate).map(function(i) {
 		return String.fromCharCode(i);
 	}).join("");
 };
 thx_Strings.from = function(value,searchFor) {
 	var pos = value.indexOf(searchFor);
 	if(pos < 0) return ""; else return value.substring(pos);
+};
+thx_Strings.hasContent = function(value) {
+	return value != null && value.length > 0;
 };
 thx_Strings.humanize = function(s) {
 	return StringTools.replace(thx_Strings.underscore(s),"_"," ");
@@ -4887,8 +4873,7 @@ thx_Strings.isEmpty = function(value) {
 };
 thx_Strings.random = function(value,length) {
 	if(length == null) length = 1;
-	var pos = Math.floor((value.length - length + 1) * Math.random());
-	return HxOverrides.substr(value,pos,length);
+	return haxe_Utf8.sub(value,Math.floor((value.length - length + 1) * Math.random()),length);
 };
 thx_Strings.iterator = function(s) {
 	var _this = s.split("");
@@ -4938,7 +4923,7 @@ thx_Strings.surround = function(s,left,right) {
 thx_Strings.toArray = function(s) {
 	return s.split("");
 };
-thx_Strings.toCharcodeArray = function(s) {
+thx_Strings.toCharcodes = function(s) {
 	return thx_Strings.map(s,function(s1) {
 		return HxOverrides.cca(s1,0);
 	});
@@ -4946,8 +4931,8 @@ thx_Strings.toCharcodeArray = function(s) {
 thx_Strings.toChunks = function(s,len) {
 	var chunks = [];
 	while(s.length > 0) {
-		chunks.push(s.substring(0,len));
-		s = s.substring(len);
+		chunks.push(HxOverrides.substr(s,0,len));
+		s = HxOverrides.substr(s,len,s.length - len);
 	}
 	return chunks;
 };
@@ -5023,6 +5008,28 @@ thx_Strings.wrapLine = function(s,columns,indent,newline) {
 	}
 	return indent + parts.join(newline + indent);
 };
+var thx_TimePeriod = { __ename__ : ["thx","TimePeriod"], __constructs__ : ["Second","Minute","Hour","Day","Week","Month","Year"] };
+thx_TimePeriod.Second = ["Second",0];
+thx_TimePeriod.Second.toString = $estr;
+thx_TimePeriod.Second.__enum__ = thx_TimePeriod;
+thx_TimePeriod.Minute = ["Minute",1];
+thx_TimePeriod.Minute.toString = $estr;
+thx_TimePeriod.Minute.__enum__ = thx_TimePeriod;
+thx_TimePeriod.Hour = ["Hour",2];
+thx_TimePeriod.Hour.toString = $estr;
+thx_TimePeriod.Hour.__enum__ = thx_TimePeriod;
+thx_TimePeriod.Day = ["Day",3];
+thx_TimePeriod.Day.toString = $estr;
+thx_TimePeriod.Day.__enum__ = thx_TimePeriod;
+thx_TimePeriod.Week = ["Week",4];
+thx_TimePeriod.Week.toString = $estr;
+thx_TimePeriod.Week.__enum__ = thx_TimePeriod;
+thx_TimePeriod.Month = ["Month",5];
+thx_TimePeriod.Month.toString = $estr;
+thx_TimePeriod.Month.__enum__ = thx_TimePeriod;
+thx_TimePeriod.Year = ["Year",6];
+thx_TimePeriod.Year.toString = $estr;
+thx_TimePeriod.Year.__enum__ = thx_TimePeriod;
 var thx_Timer = function() { };
 thx_Timer.__name__ = ["thx","Timer"];
 thx_Timer.debounce = function(callback,delayms,leading) {
@@ -5107,6 +5114,178 @@ thx_Timer.clear = function(id) {
 };
 thx_Timer.time = function() {
 	return performance.now();
+};
+var thx__$Timestamp_Timestamp_$Impl_$ = {};
+thx__$Timestamp_Timestamp_$Impl_$.__name__ = ["thx","_Timestamp","Timestamp_Impl_"];
+thx__$Timestamp_Timestamp_$Impl_$.create = function(year,month,day,hour,minute,second) {
+	return thx_Dates.create(year,month,day,hour,minute,second).getTime();
+};
+thx__$Timestamp_Timestamp_$Impl_$.fromDate = function(d) {
+	return d.getTime();
+};
+thx__$Timestamp_Timestamp_$Impl_$.fromString = function(s) {
+	return HxOverrides.strDate(s).getTime();
+};
+thx__$Timestamp_Timestamp_$Impl_$.toDate = function(this1) {
+	var d = new Date();
+	d.setTime(this1);
+	return d;
+};
+thx__$Timestamp_Timestamp_$Impl_$.toString = function(this1) {
+	var _this;
+	var d = new Date();
+	d.setTime(this1);
+	_this = d;
+	return HxOverrides.dateStr(_this);
+};
+thx__$Timestamp_Timestamp_$Impl_$.snapNext = function(this1,period) {
+	switch(period[1]) {
+	case 0:
+		return Math.ceil(this1 / 1000.0) * 1000.0;
+	case 1:
+		return Math.ceil(this1 / 60000.0) * 60000.0;
+	case 2:
+		return Math.ceil(this1 / 3600000.0) * 3600000.0;
+	case 3:
+		var d;
+		var d1 = new Date();
+		d1.setTime(this1);
+		d = d1;
+		var year = d.getFullYear();
+		var month = d.getMonth();
+		var day = d.getDate() + 1;
+		return thx_Dates.create(year,month,day,0,0,0).getTime();
+	case 4:
+		var d2;
+		var d3 = new Date();
+		d3.setTime(this1);
+		d2 = d3;
+		var wd = d2.getDay();
+		var year1 = d2.getFullYear();
+		var month1 = d2.getMonth();
+		var day1 = d2.getDate() + 7 - wd;
+		return thx_Dates.create(year1,month1,day1,0,0,0).getTime();
+	case 5:
+		var d4;
+		var d5 = new Date();
+		d5.setTime(this1);
+		d4 = d5;
+		var year2 = d4.getFullYear();
+		var month2 = d4.getMonth() + 1;
+		return thx_Dates.create(year2,month2,1,0,0,0).getTime();
+	case 6:
+		var d6;
+		var d7 = new Date();
+		d7.setTime(this1);
+		d6 = d7;
+		var year3 = d6.getFullYear() + 1;
+		return thx_Dates.create(year3,0,1,0,0,0).getTime();
+	}
+};
+thx__$Timestamp_Timestamp_$Impl_$.snapPrev = function(this1,period) {
+	switch(period[1]) {
+	case 0:
+		return Math.floor(this1 / 1000.0) * 1000.0;
+	case 1:
+		return Math.floor(this1 / 60000.0) * 60000.0;
+	case 2:
+		return Math.floor(this1 / 3600000.0) * 3600000.0;
+	case 3:
+		var d;
+		var d1 = new Date();
+		d1.setTime(this1);
+		d = d1;
+		var year = d.getFullYear();
+		var month = d.getMonth();
+		var day = d.getDate();
+		return thx_Dates.create(year,month,day,0,0,0).getTime();
+	case 4:
+		var d2;
+		var d3 = new Date();
+		d3.setTime(this1);
+		d2 = d3;
+		var wd = d2.getDay();
+		var year1 = d2.getFullYear();
+		var month1 = d2.getMonth();
+		var day1 = d2.getDate() - wd;
+		return thx_Dates.create(year1,month1,day1,0,0,0).getTime();
+	case 5:
+		var d4;
+		var d5 = new Date();
+		d5.setTime(this1);
+		d4 = d5;
+		var year2 = d4.getFullYear();
+		var month2 = d4.getMonth();
+		return thx_Dates.create(year2,month2,1,0,0,0).getTime();
+	case 6:
+		var d6;
+		var d7 = new Date();
+		d7.setTime(this1);
+		d6 = d7;
+		var year3 = d6.getFullYear();
+		return thx_Dates.create(year3,0,1,0,0,0).getTime();
+	}
+};
+thx__$Timestamp_Timestamp_$Impl_$.snapTo = function(this1,period) {
+	switch(period[1]) {
+	case 0:
+		return Math.round(this1 / 1000.0) * 1000.0;
+	case 1:
+		return Math.round(this1 / 60000.0) * 60000.0;
+	case 2:
+		return Math.round(this1 / 3600000.0) * 3600000.0;
+	case 3:
+		var d;
+		var d1 = new Date();
+		d1.setTime(this1);
+		d = d1;
+		var mod;
+		if(d.getHours() >= 12) mod = 1; else mod = 0;
+		var year = d.getFullYear();
+		var month = d.getMonth();
+		var day = d.getDate() + mod;
+		return thx_Dates.create(year,month,day,0,0,0).getTime();
+	case 4:
+		var d2;
+		var d3 = new Date();
+		d3.setTime(this1);
+		d2 = d3;
+		var wd = d2.getDay();
+		var mod1;
+		if(wd < 3) mod1 = -wd; else if(wd > 3) mod1 = 7 - wd; else if(d2.getHours() < 12) mod1 = -wd; else mod1 = 7 - wd;
+		var year1 = d2.getFullYear();
+		var month1 = d2.getMonth();
+		var day1 = d2.getDate() + mod1;
+		return thx_Dates.create(year1,month1,day1,0,0,0).getTime();
+	case 5:
+		var d4;
+		var d5 = new Date();
+		d5.setTime(this1);
+		d4 = d5;
+		var mod2;
+		if(d4.getDate() > Math.round(DateTools.getMonthDays(d4) / 2)) mod2 = 1; else mod2 = 0;
+		var year2 = d4.getFullYear();
+		var month2 = d4.getMonth() + mod2;
+		return thx_Dates.create(year2,month2,1,0,0,0).getTime();
+	case 6:
+		var d6;
+		var d7 = new Date();
+		d7.setTime(this1);
+		d6 = d7;
+		var mod3;
+		if(this1 > new Date(d6.getFullYear(),6,2,0,0,0).getTime()) mod3 = 1; else mod3 = 0;
+		var year3 = d6.getFullYear() + mod3;
+		return thx_Dates.create(year3,0,1,0,0,0).getTime();
+	}
+};
+thx__$Timestamp_Timestamp_$Impl_$.r = function(t,v) {
+	return Math.round(t / v) * v;
+};
+thx__$Timestamp_Timestamp_$Impl_$.f = function(t,v) {
+	return Math.floor(t / v) * v;
+};
+thx__$Timestamp_Timestamp_$Impl_$.c = function(t,v) {
+	return Math.ceil(t / v) * v;
 };
 var thx__$Tuple_Tuple0_$Impl_$ = {};
 thx__$Tuple_Tuple0_$Impl_$.__name__ = ["thx","_Tuple","Tuple0_Impl_"];
@@ -5346,6 +5525,12 @@ thx_Types.valueTypeInheritance = function(value) {
 thx_Types.valueTypeToString = function(value) {
 	return thx_Types.toString(Type["typeof"](value));
 };
+thx_Types.anyValueToString = function(value) {
+	if(js_Boot.__instanceof(value,ValueType)) return thx_Types.toString(value);
+	if(js_Boot.__instanceof(value,Class)) return Type.getClassName(value);
+	if(js_Boot.__instanceof(value,Enum)) return Type.getEnumName(value);
+	return thx_Types.valueTypeToString(value);
+};
 var thx_error_AbstractMethod = function(posInfo) {
 	thx_Error.call(this,"method " + posInfo.className + "." + posInfo.methodName + "() is abstract",null,posInfo);
 };
@@ -5391,7 +5576,7 @@ thx_promise_Future.all = function(arr) {
 	return thx_promise_Future.create(function(callback) {
 		var results = [];
 		var counter = 0;
-		thx_Arrays.mapi(arr,function(p,i) {
+		arr.map(function(p,i) {
 			p.then(function(value) {
 				results[i] = value;
 				counter++;
@@ -5715,10 +5900,11 @@ thx_promise__$Promise_Promise_$Impl_$.futureToPromise = function(future) {
 };
 thx_promise__$Promise_Promise_$Impl_$.sequence = function(arr) {
 	return thx_promise__$Promise_Promise_$Impl_$.create(function(resolve,reject) {
+		arr = arr.slice();
 		var poll;
 		var poll1 = null;
 		poll1 = function(_) {
-			if(arr.length == 0) resolve(thx_promise__$Promise_Promise_$Impl_$.nil); else thx_promise__$Promise_Promise_$Impl_$.mapFailure(thx_promise__$Promise_Promise_$Impl_$.mapSuccess(arr.shift(),poll1),reject);
+			if(null == arr || arr.length == 0) resolve(thx_promise__$Promise_Promise_$Impl_$.nil); else thx_promise__$Promise_Promise_$Impl_$.mapFailure(thx_promise__$Promise_Promise_$Impl_$.mapSuccess(arr.shift(),poll1),reject);
 		};
 		poll = poll1;
 		poll(null);
@@ -5737,7 +5923,7 @@ thx_promise__$Promise_Promise_$Impl_$.all = function(arr) {
 		var results = [];
 		var counter = 0;
 		var hasError = false;
-		thx_Arrays.mapi(arr,function(p,i) {
+		arr.map(function(p,i) {
 			thx_promise__$Promise_Promise_$Impl_$.either(p,function(value) {
 				if(hasError) return;
 				results[i] = value;
@@ -5762,6 +5948,9 @@ thx_promise__$Promise_Promise_$Impl_$.create = function(callback) {
 };
 thx_promise__$Promise_Promise_$Impl_$.createFulfill = function(callback) {
 	return thx_promise_Future.create(callback);
+};
+thx_promise__$Promise_Promise_$Impl_$.fail = function(message,pos) {
+	return thx_promise__$Promise_Promise_$Impl_$.error(new thx_Error(message,null,pos));
 };
 thx_promise__$Promise_Promise_$Impl_$.error = function(err) {
 	return thx_promise__$Promise_Promise_$Impl_$.create(function(_,reject) {
@@ -5952,9 +6141,9 @@ thx_promise_Promises.join = function(p1,p2) {
 thx_promise_Promises.log = function(promise,prefix) {
 	if(prefix == null) prefix = "";
 	return thx_promise__$Promise_Promise_$Impl_$.either(promise,function(r) {
-		haxe_Log.trace("" + prefix + " SUCCESS: " + Std.string(r),{ fileName : "Promise.hx", lineNumber : 210, className : "thx.promise.Promises", methodName : "log"});
+		haxe_Log.trace("" + prefix + " SUCCESS: " + Std.string(r),{ fileName : "Promise.hx", lineNumber : 214, className : "thx.promise.Promises", methodName : "log"});
 	},function(e) {
-		haxe_Log.trace("" + prefix + " ERROR: " + e.toString(),{ fileName : "Promise.hx", lineNumber : 211, className : "thx.promise.Promises", methodName : "log"});
+		haxe_Log.trace("" + prefix + " ERROR: " + e.toString(),{ fileName : "Promise.hx", lineNumber : 215, className : "thx.promise.Promises", methodName : "log"});
 	});
 };
 var thx_promise_PromiseTuple6 = function() { };
@@ -6126,7 +6315,7 @@ thx_promise_PromiseAPlus.__name__ = ["thx","promise","PromiseAPlus"];
 thx_promise_PromiseAPlus.promise = function(p) {
 	return thx_promise__$Promise_Promise_$Impl_$.create(function(resolve,reject) {
 		p.then(resolve,function(e) {
-			reject(thx_Error.fromDynamic(e,{ fileName : "Promise.hx", lineNumber : 360, className : "thx.promise.PromiseAPlus", methodName : "promise"}));
+			reject(thx_Error.fromDynamic(e,{ fileName : "Promise.hx", lineNumber : 364, className : "thx.promise.PromiseAPlus", methodName : "promise"}));
 		});
 	});
 };
@@ -6142,7 +6331,7 @@ thx_promise_PromiseAPlusVoid.promise = function(p) {
 		p.then(function() {
 			resolve(thx_Nil.nil);
 		},function(e) {
-			reject(thx_Error.fromDynamic(e,{ fileName : "Promise.hx", lineNumber : 372, className : "thx.promise.PromiseAPlusVoid", methodName : "promise"}));
+			reject(thx_Error.fromDynamic(e,{ fileName : "Promise.hx", lineNumber : 376, className : "thx.promise.PromiseAPlusVoid", methodName : "promise"}));
 		});
 	});
 };
@@ -6421,24 +6610,56 @@ thx_stream_Emitter.prototype = {
 	,mapFuture: function(f) {
 		var _g = this;
 		return new thx_stream_Emitter(function(stream) {
-			_g.init(new thx_stream_Stream(function(r) {
-				switch(r[1]) {
-				case 0:
-					var v = r[2];
-					f(v).then($bind(stream,stream.pulse));
-					break;
-				case 1:
-					switch(r[2]) {
-					case true:
-						stream.cancel();
+			var queue = [];
+			var pos = 0;
+			var poll = function() {
+				while(queue[pos] != null) {
+					var r = queue[pos];
+					queue[pos++] = null;
+					switch(r[1]) {
+					case 0:
+						var v = r[2];
+						stream.pulse(v);
 						break;
-					case false:
-						stream.end();
+					case 1:
+						switch(r[2]) {
+						case true:
+							stream.cancel();
+							break;
+						case false:
+							stream.end();
+							break;
+						}
 						break;
 					}
+				}
+			};
+			var resolve = function(r1) {
+				switch(r1[1]) {
+				case 0:
+					var v1 = r1[2];
+					var index = queue.length;
+					queue.push(null);
+					f(v1).then(function(o) {
+						queue[index] = thx_stream_StreamValue.Pulse(o);
+						poll();
+					});
+					break;
+				case 1:
+					var c = r1[2];
+					queue.push(thx_stream_StreamValue.End(c));
+					poll();
 					break;
 				}
-			}));
+			};
+			_g.init(new thx_stream_Stream(resolve));
+		});
+	}
+	,mapPromise: function(f) {
+		return this.mapFuture(function(v) {
+			return thx_promise_Future.create(function(resolve) {
+				thx_promise__$Promise_Promise_$Impl_$.throwFailure(thx_promise__$Promise_Promise_$Impl_$.success(f(v),resolve));
+			});
 		});
 	}
 	,toOption: function() {
@@ -6474,26 +6695,63 @@ thx_stream_Emitter.prototype = {
 	,filterFuture: function(f) {
 		var _g = this;
 		return new thx_stream_Emitter(function(stream) {
-			_g.init(new thx_stream_Stream(function(r) {
-				switch(r[1]) {
-				case 0:
-					var v = r[2];
-					f(v).then(function(c) {
-						if(c) stream.pulse(v);
-					});
-					break;
-				case 1:
-					switch(r[2]) {
-					case true:
-						stream.cancel();
+			var queue = [];
+			var pos = 0;
+			var poll = function() {
+				while(queue[pos] != null) {
+					var r = queue[pos];
+					queue[pos++] = null;
+					switch(r[1]) {
+					case 0:
+						switch(r[2][1]) {
+						case 0:
+							var v = r[2][2];
+							stream.pulse(v);
+							break;
+						case 1:
+							switch(r[2][2]) {
+							case true:
+								stream.cancel();
+								break;
+							case false:
+								stream.end();
+								break;
+							}
+							break;
+						}
 						break;
-					case false:
-						stream.end();
+					case 1:
 						break;
 					}
-					break;
 				}
-			}));
+			};
+			var resolve = function(r1) {
+				{
+					var other = r1;
+					switch(r1[1]) {
+					case 0:
+						var v1 = r1[2];
+						var index = queue.length;
+						queue.push(null);
+						f(v1).then(function(c) {
+							if(c) queue[index] = haxe_ds_Option.Some(r1); else queue[index] = haxe_ds_Option.None;
+							poll();
+						});
+						break;
+					default:
+						queue.push(haxe_ds_Option.Some(other));
+						poll();
+					}
+				}
+			};
+			_g.init(new thx_stream_Stream(resolve));
+		});
+	}
+	,filterPromise: function(f) {
+		return this.filterFuture(function(v) {
+			return thx_promise_Future.create(function(resolve) {
+				thx_promise__$Promise_Promise_$Impl_$.throwFailure(thx_promise__$Promise_Promise_$Impl_$.success(f(v),resolve));
+			});
 		});
 	}
 	,first: function() {
@@ -6990,6 +7248,14 @@ thx_stream_Emitters.unique = function(emitter) {
 		};
 	})());
 };
+thx_stream_Emitters.toPromise = function(emitter) {
+	return thx_promise__$Promise_Promise_$Impl_$.create(function(resolve,reject) {
+		var arr = [];
+		emitter.subscribe($arrayPushClosure(arr),function(c) {
+			if(c) reject(new thx_Error("stream has been canceled",null,{ fileName : "Emitter.hx", lineNumber : 545, className : "thx.stream.Emitters", methodName : "toPromise"})); else resolve(arr);
+		});
+	});
+};
 var thx_stream_EmitterBytes = function() { };
 thx_stream_EmitterBytes.__name__ = ["thx","stream","EmitterBytes"];
 thx_stream_EmitterBytes.toPromise = function(emitter) {
@@ -6998,7 +7264,7 @@ thx_stream_EmitterBytes.toPromise = function(emitter) {
 		emitter.subscribe(function(b) {
 			buf.addBytes(b,0,b.length);
 		},function(cancel) {
-			if(cancel) reject(new thx_Error("Data stream has been cancelled",null,{ fileName : "Emitter.hx", lineNumber : 478, className : "thx.stream.EmitterBytes", methodName : "toPromise"})); else resolve(buf.getBytes());
+			if(cancel) reject(new thx_Error("Data stream has been cancelled",null,{ fileName : "Emitter.hx", lineNumber : 559, className : "thx.stream.EmitterBytes", methodName : "toPromise"})); else resolve(buf.getBytes());
 		});
 	});
 };
@@ -7033,6 +7299,11 @@ thx_stream_EmitterStrings.unique = function(emitter) {
 thx_stream_EmitterStrings.join = function(emitter,sep) {
 	return emitter.reduce("",function(acc,v) {
 		return acc + sep + v;
+	});
+};
+thx_stream_EmitterStrings.filterEmpty = function(emitter) {
+	return emitter.filter(function(v) {
+		return !thx_Strings.isEmpty(v);
 	});
 };
 var thx_stream_EmitterInts = function() { };
@@ -7542,6 +7813,7 @@ thx_stream_dom_Dom.subscribeToggleVisibility = function(el) {
 function $iterator(o) { if( o instanceof Array ) return function() { return HxOverrides.iter(o); }; return typeof(o.iterator) == 'function' ? $bind(o,o.iterator) : o.iterator; }
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
+function $arrayPushClosure(a) { return function(x) { a.push(x); }; }
 if(Array.prototype.indexOf) HxOverrides.indexOf = function(a,o,i) {
 	return Array.prototype.indexOf.call(a,o,i);
 };
@@ -7661,7 +7933,7 @@ sui_controls_DataList.nid = 0;
 thx_Floats.TOLERANCE = 10e-5;
 thx_Floats.EPSILON = 10e-10;
 thx_Floats.pattern_parse = new EReg("^(\\+|-)?\\d+(\\.\\d+)?(e-?\\d+)?$","");
-thx_Ints.pattern_parse = new EReg("^[+-]?(\\d+|0x[0-9A-F]+)$","i");
+thx_Ints.pattern_parse = new EReg("^\\s*[+-]?(\\d+|0x[0-9A-F]+)","i");
 thx_Ints.BASE = "0123456789abcdefghijklmnopqrstuvwxyz";
 thx_Strings.UCWORDS = new EReg("[^a-zA-Z]([a-z])","g");
 thx_Strings.UCWORDSWS = new EReg("[ \t\r\n][a-z]","g");

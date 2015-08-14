@@ -54,13 +54,13 @@ class DoubleInputControl<T> implements IControl<T> {
       .merge(input2.streamFocus())
       .feed(values.focused);
     input1.streamEvent(event1)
-      .pluck(getInput1())
+      .map(function(_) return getInput1())
       .subscribe(function(v) {
         setInput2(v);
         values.value.set(v);
       });
     input2.streamEvent(event2)
-      .pluck(getInput2())
+      .map(function(_) return getInput2())
       .filter(filter)
       .subscribe(function(v) {
         setInput1(v);

@@ -8,6 +8,7 @@ import sui.controls.Options;
 using thx.Arrays;
 using thx.Nulls;
 using thx.stream.dom.Dom;
+using thx.Functions;
 
 class SelectControl<T> implements IControl<T> {
   public var el(default, null) : Element;
@@ -53,14 +54,14 @@ class SelectControl<T> implements IControl<T> {
 
     (options.allownull ? [{ label : (options.labelfornull).or("- none -"), value : null }] : []).concat(
     (options.list)
-      .or(options.values.pluck({ value : _, label : Std.string(_) })))
-      .pluck(addOption(_.label, _.value));
+      .or(options.values.map.fn({ value : _, label : Std.string(_) })))
+      .map.fn(addOption(_.label, _.value));
 
     setInput(defaultValue);
 
     select.streamFocus().feed(values.focused);
     select.streamEvent("change")
-      .pluck(getInput())
+      .map(function(_) return getInput())
       .feed(values.value);
 
     if(options.autofocus)

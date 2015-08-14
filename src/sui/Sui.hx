@@ -73,7 +73,7 @@ $label</header>')
       }
 
       var collapse = header.el.streamClick()
-        .pluck(collapsed = !collapsed)
+        .map(function(_) return collapsed = !collapsed)
         .negate();
 
       collapse.subscribe(
