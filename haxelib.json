@@ -5,8 +5,8 @@
   "classPath": "src",
   "tags": ["ui", "js"],
   "description": "Fixes and updated package for thx.core",
-  "releasenote": "Added options to Sui.bind().",
-  "version": "0.4.1",
+  "releasenote": "Fixed compatibility issues with thx.core and some improvements.",
+  "version": "0.5.0",
   "contributors": ["fponticelli"],
   "dependencies": {
     "thx.core": "",
