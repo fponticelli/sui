@@ -21,6 +21,14 @@ ui.attach();
 ```
 
 [A live sample of some of the available controls](https://rawgit.com/fponticelli/sui/master/bin/controls.html).
+## Installation
+SUI is available on haxelib (http://lib.haxe.org/p/sui/)
+
+To install, run:
+```haxelib install sui```
+
+##### Dependencies
+SUI dependents on _[thx.core](https://github.com/fponticelli/thx.core), [thx.promise](https://github.com/fponticelli/thx.promise), [thx.stream](https://github.com/fponticelli/thx.stream), [thx.stream.dom](https://github.com/fponticelli/thx.stream.dom), [dots](https://github.com/fponticelli/dots)_
 
 ## TODO
 
